@@ -1,0 +1,58 @@
+# v0 sandbox internal files
+__v0_runtime_loader.js
+__v0_devtools.tsx
+__v0_jsx-dev-runtime.ts
+.npmrc
+.snowflake/
+.v0-trash/
+.vercel/
+next.user-config.*
+.agents/
+.codex
+
+# Environment variables
+.env*
+!.env.example
+
+# Common ignores
+node_modules/
+.next/
+.DS_Store
+*:Zone.Identifier
+tsconfig.tsbuildinfo
+
+# Android / TWA (Bubblewrap)
+android-twa/
+.android-twa/
+.twa-build/
+.twa-new/
+.home/
+.gradle/
+
+# Android signing files (sensíveis)
+*.keystore
+*.jks
+*.p12
+
+# Android build artifacts
+*.aab
+*.apk
+*.apks
+*.idsig
+app-release-unsigned-aligned.apk
+manifest-checksum.txt
+store_icon.png
+
+# Android project files gerados por engano na raiz
+/build/
+/build.gradle
+/settings.gradle
+/gradle/
+/gradle.properties
+/gradlew
+/gradlew.bat
+
+# Arquivos Android gerados dentro de /app (conflitam com Next.js app/)
+/app/build/
+/app/build.gradle
+/app/src/

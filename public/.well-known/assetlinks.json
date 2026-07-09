@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "br.com.shalon.saude",
+      "sha256_cert_fingerprints": [
+        "83:2D:DA:1A:CD:5D:B4:B8:C6:77:20:CF:F5:B8:A2:B0:93:66:6A:F2:F3:09:44:6F:73:8C:F8:D4:5F:57:CE:AA"
+      ]
+    }
+  }
+]
