@@ -1,4 +1,4 @@
-const CACHE_NAME = 'whitelabel-pwa-v2'
+const CACHE_NAME = 'whitelabel-pwa-v5'
 const LOGIN_FALLBACK_URL = '/login'
 
 const PRECACHE_URLS = [
@@ -7,6 +7,7 @@ const PRECACHE_URLS = [
   '/vendedor/login',
   '/manifest.webmanifest',
   '/logo-nova-alianca.png',
+  '/logo-nova-alianca-azul.png',
   '/logo-horizontal.svg',
   '/apple-icon.png',
   '/icon.svg',

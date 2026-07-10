@@ -6,6 +6,8 @@ export type PublicBranding = {
   appTagline: string
 }
 
+export const DEFAULT_BRAND_LOGO_ON_LIGHT_URL = '/logo-nova-alianca-azul.png'
+
 export const DEFAULT_BRANDING: PublicBranding = {
   brandName: 'Nova Aliança',
   brandShortName: 'Nova Aliança',

@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { BrandLogo } from '@/components/brand-logo'
 import { usePublicBranding } from '@/hooks/use-public-branding'
+import { DEFAULT_BRAND_LOGO_ON_LIGHT_URL } from '@/lib/branding'
 import {
   BadgeCheck,
   Brain,
@@ -204,10 +205,11 @@ export default function Home() {
         <div className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-12">
           <Link href="/" className="shrink-0">
             <BrandLogo
-              width={180}
-              height={58}
+              logoUrl={scrolled ? DEFAULT_BRAND_LOGO_ON_LIGHT_URL : undefined}
+              width={500}
+              height={500}
               priority
-              className="h-12 w-auto"
+              className="h-[70px] w-[70px] object-contain sm:h-[76px] sm:w-[76px]"
             />
           </Link>
 
@@ -850,9 +852,9 @@ export default function Home() {
           <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
             <div className="md:col-span-1">
               <BrandLogo
-                width={160}
-                height={52}
-                className="h-10 w-auto brightness-0 invert"
+                width={500}
+                height={500}
+                className="h-20 w-20 object-contain brightness-0 invert"
               />
               <p className="mt-4 text-sm leading-relaxed text-slate-400">
                 Sistema de cadastro digital seguro para planos de saúde e telemedicina.

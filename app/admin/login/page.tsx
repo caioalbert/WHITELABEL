@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import Link from 'next/link'
 import { BrandLogo } from '@/components/brand-logo'
+import { DEFAULT_BRAND_LOGO_ON_LIGHT_URL } from '@/lib/branding'
 import { HeartPulse, ShieldCheck, Stethoscope, Users } from 'lucide-react'
 import { useOnlineStatus } from '@/hooks/use-online-status'
 import { trackPwaEvent } from '@/lib/pwa/analytics'
@@ -67,9 +68,10 @@ export default function AdminLogin() {
             <div className="flex items-center gap-4">
               <div className="rounded-2xl bg-white/95 px-4 py-3 shadow-lg">
                 <BrandLogo
-                  width={220}
-                  height={72}
-                  className="h-10 w-auto object-contain"
+                  logoUrl={DEFAULT_BRAND_LOGO_ON_LIGHT_URL}
+                  width={500}
+                  height={500}
+                  className="h-20 w-20 object-contain"
                 />
               </div>
             </div>
@@ -118,9 +120,10 @@ export default function AdminLogin() {
               <div className="mb-6 lg:hidden">
                 <div className="flex flex-wrap items-center gap-3">
                   <BrandLogo
-                    width={190}
-                    height={62}
-                    className="h-10 w-auto object-contain"
+                    logoUrl={DEFAULT_BRAND_LOGO_ON_LIGHT_URL}
+                    width={500}
+                    height={500}
+                    className="h-16 w-16 object-contain"
                   />
                 </div>
               </div>

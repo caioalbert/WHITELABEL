@@ -18,6 +18,7 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { BrandLogo } from '@/components/brand-logo'
+import { DEFAULT_BRAND_LOGO_ON_LIGHT_URL } from '@/lib/branding'
 import { clienteColors, clienteRadius } from '@/lib/cliente-ui'
 
 type Cadastro = {
@@ -171,7 +172,12 @@ export default function ClienteDashboard() {
         className="sticky top-0 z-30 flex items-center justify-between px-4 py-3 shadow-sm sm:px-6"
         style={{ backgroundColor: clienteColors.surface, borderBottom: `1px solid ${clienteColors.border}` }}
       >
-        <BrandLogo width={420} height={136} className="h-10 w-auto" />
+        <BrandLogo
+          logoUrl={DEFAULT_BRAND_LOGO_ON_LIGHT_URL}
+          width={500}
+          height={500}
+          className="h-16 w-16 object-contain"
+        />
         <div className="flex items-center gap-2">
           {/* Hamburger — só mobile */}
           <button

@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { BrandLogo } from '@/components/brand-logo'
 import { useOnlineStatus } from '@/hooks/use-online-status'
 import { usePublicBranding } from '@/hooks/use-public-branding'
+import { DEFAULT_BRAND_LOGO_ON_LIGHT_URL } from '@/lib/branding'
 import { trackPwaEvent } from '@/lib/pwa/analytics'
 import { clienteColors, clienteRadius } from '@/lib/cliente-ui'
 
@@ -131,9 +132,10 @@ function LoginForm() {
       >
         <div className="text-center">
           <BrandLogo
-            width={520}
-            height={169}
-            className="mx-auto h-16 w-auto"
+            logoUrl={DEFAULT_BRAND_LOGO_ON_LIGHT_URL}
+            width={500}
+            height={500}
+            className="mx-auto h-28 w-28 object-contain"
           />
           <p className="mt-3 text-sm" style={{ color: clienteColors.textMuted }}>
             {isEmpresa ? 'Acesso para empresas parceiras' : branding.appTagline}
