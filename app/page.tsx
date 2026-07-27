@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { BrandLogo } from '@/components/brand-logo'
 import { usePublicBranding } from '@/hooks/use-public-branding'
 import { DEFAULT_BRAND_LOGO_ON_LIGHT_URL } from '@/lib/branding'
+import { buildLarpSaudeWhatsappUrl, LARP_SAUDE } from '@/lib/laboratory-partners'
 import {
   BadgeCheck,
   Brain,
@@ -18,8 +19,10 @@ import {
   Fingerprint,
   HeartPulse,
   Lock,
+  MapPin,
   Menu,
   MessageCircle,
+  Microscope,
   MonitorSmartphone,
   Phone,
   ShieldCheck,
@@ -51,6 +54,14 @@ type AudienceBenefit = {
   label: string
   badge?: string
   highlight?: boolean
+}
+
+type AggregatedService = {
+  name: string
+  description: string
+  logo: 'pague-menos' | 'grupo-zelo' | 'larp-saude'
+  meta?: string
+  actionLabel?: string
 }
 
 const STATS = [
@@ -150,6 +161,26 @@ const AUDIENCE_BENEFITS: Record<Audience, AudienceBenefit[]> = {
   ],
 }
 
+const AGGREGATED_SERVICES: AggregatedService[] = [
+  {
+    name: 'Pague Menos',
+    description: 'Vantagens em farmácias parceiras para ampliar o cuidado no dia a dia.',
+    logo: 'pague-menos',
+  },
+  {
+    name: LARP_SAUDE.name,
+    description: LARP_SAUDE.description,
+    logo: 'larp-saude',
+    meta: LARP_SAUDE.coverage,
+    actionLabel: 'Solicitar desconto',
+  },
+  {
+    name: 'Grupo Zelo',
+    description: 'Assistência funeral com suporte especializado para a família.',
+    logo: 'grupo-zelo',
+  },
+]
+
 const colorMap: Record<string, { bg: string; icon: string; border: string }> = {
   teal:    { bg: 'bg-teal-50',    icon: 'bg-teal-100 text-teal-700',    border: 'border-teal-100' },
   sky:     { bg: 'bg-sky-50',     icon: 'bg-sky-100 text-sky-700',      border: 'border-sky-100' },
@@ -157,6 +188,72 @@ const colorMap: Record<string, { bg: string; icon: string; border: string }> = {
   emerald: { bg: 'bg-emerald-50', icon: 'bg-emerald-100 text-emerald-700', border: 'border-emerald-100' },
   rose:    { bg: 'bg-rose-50',    icon: 'bg-rose-100 text-rose-600',    border: 'border-rose-100' },
   violet:  { bg: 'bg-violet-50',  icon: 'bg-violet-100 text-violet-700', border: 'border-violet-100' },
+}
+
+function AggregatedServiceLogo({
+  logo,
+  name,
+}: {
+  logo: AggregatedService['logo']
+  name: string
+}) {
+  if (logo === 'larp-saude') {
+    return (
+      <div className="flex items-center justify-center gap-3" aria-label={`Logo ${name}`}>
+        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-600 text-white">
+          <Microscope className="h-7 w-7" strokeWidth={1.8} />
+        </span>
+        <span className="text-left">
+          <span className="block text-[24px] font-black leading-none tracking-normal text-emerald-800">
+            LARP
+          </span>
+          <span className="block text-sm font-extrabold uppercase tracking-normal text-emerald-600">
+            SAÚDE
+          </span>
+        </span>
+      </div>
+    )
+  }
+
+  if (logo === 'pague-menos') {
+    return (
+      <div className="flex items-center justify-center gap-3" aria-label={`Logo ${name}`}>
+        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md bg-red-600">
+          <span className="relative block h-7 w-7" aria-hidden="true">
+            <span className="absolute left-1/2 top-0 h-full w-2.5 -translate-x-1/2 rounded-sm bg-white" />
+            <span className="absolute left-0 top-1/2 h-2.5 w-full -translate-y-1/2 rounded-sm bg-white" />
+          </span>
+        </span>
+        <span className="text-left text-[26px] font-black italic leading-[0.9] tracking-normal text-[#294b9b]">
+          Pague<br />Menos
+        </span>
+      </div>
+    )
+  }
+
+  return (
+    <div className="flex items-end justify-center gap-2" aria-label={`Logo ${name}`}>
+      <span className="pb-2 text-sm font-extrabold uppercase tracking-normal text-[#0b4f84]">
+        Grupo
+      </span>
+      <span className="flex flex-col items-center text-[#0b4f84]">
+        <span className="text-[46px] font-black leading-none tracking-normal">ZELO</span>
+        <svg
+          viewBox="0 0 160 24"
+          className="mt-1 h-4 w-36"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M4 4C38 30 96 30 156 4"
+            stroke="currentColor"
+            strokeWidth="9"
+            strokeLinecap="round"
+          />
+        </svg>
+      </span>
+    </div>
+  )
 }
 
 export default function Home() {
@@ -168,6 +265,9 @@ export default function Home() {
   const branding = usePublicBranding()
   const formatCurrency = (value: number) =>
     value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+  const larpWhatsappUrl = buildLarpSaudeWhatsappUrl({
+    origin: `site da ${branding.brandShortName}`,
+  })
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20)
@@ -349,6 +449,32 @@ export default function Home() {
                 </div>
               </div>
 
+              {/* Laboratórios LARP */}
+              <div className="rounded-2xl border border-emerald-400/25 bg-emerald-400/10 p-5 backdrop-blur-sm">
+                <div className="flex items-start gap-4">
+                  <div className="rounded-xl bg-emerald-400/20 p-3 text-emerald-300">
+                    <Microscope className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-white">{LARP_SAUDE.name}</p>
+                    <p className="mt-0.5 text-sm text-emerald-100/90">{LARP_SAUDE.description}</p>
+                    <p className="mt-2 flex items-center gap-1.5 text-xs font-semibold text-emerald-200">
+                      <MapPin className="h-3.5 w-3.5" />
+                      {LARP_SAUDE.coverage}
+                    </p>
+                    <Button
+                      asChild
+                      className="mt-4 h-9 rounded-full bg-emerald-500 px-4 text-xs font-bold text-white hover:bg-emerald-400"
+                    >
+                      <a href={larpWhatsappUrl} target="_blank" rel="noopener noreferrer">
+                        <MessageCircle className="h-4 w-4" />
+                        Solicitar desconto
+                      </a>
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
               {/* Saúde Mental card */}
               <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm">
                 <div className="flex items-start gap-4">
@@ -418,7 +544,7 @@ export default function Home() {
       </div>
 
       {/*  PILL TABS  */}
-      <div className="mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12">
+      <div className="mx-auto w-full max-w-7xl px-5 pb-10 sm:px-8 sm:pb-12 lg:px-12">
         <div className="mx-auto mt-10 max-w-lg overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-md">
           <div className="flex">
             {([
@@ -500,6 +626,51 @@ export default function Home() {
                   </div>
                 )
               })}
+            </div>
+
+            <div className="mt-12">
+              <div className="mb-6 text-center">
+                <span className="inline-block rounded-full bg-teal-100 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-teal-700">
+                  Serviços agregados
+                </span>
+                <h3 className="mt-4 text-2xl font-extrabold text-gray-900 sm:text-3xl">
+                  Mais benefícios para completar sua proteção
+                </h3>
+              </div>
+
+              <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+                {AGGREGATED_SERVICES.map((service) => (
+                  <div
+                    key={service.name}
+                    className="flex min-h-40 flex-col gap-5 rounded-3xl border border-gray-100 bg-white p-6 shadow-md transition-all duration-200 hover:-translate-y-1 hover:shadow-xl sm:flex-row sm:items-center"
+                  >
+                    <div className="flex min-h-24 shrink-0 items-center justify-center rounded-2xl border border-gray-100 bg-gray-50 px-5 py-4 sm:w-60">
+                      <AggregatedServiceLogo logo={service.logo} name={service.name} />
+                    </div>
+                    <div className="text-center sm:text-left">
+                      <p className="text-lg font-extrabold text-gray-900">{service.name}</p>
+                      <p className="mt-2 text-sm leading-relaxed text-gray-600">{service.description}</p>
+                      {service.meta ? (
+                        <p className="mt-2 inline-flex items-center justify-center gap-1.5 text-xs font-bold uppercase tracking-wide text-emerald-700 sm:justify-start">
+                          <MapPin className="h-3.5 w-3.5" />
+                          {service.meta}
+                        </p>
+                      ) : null}
+                      {service.actionLabel ? (
+                        <Button
+                          asChild
+                          className="mt-4 rounded-full bg-emerald-600 px-5 text-sm font-bold text-white hover:bg-emerald-700"
+                        >
+                          <a href={larpWhatsappUrl} target="_blank" rel="noopener noreferrer">
+                            <MessageCircle className="h-4 w-4" />
+                            {service.actionLabel}
+                          </a>
+                        </Button>
+                      ) : null}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

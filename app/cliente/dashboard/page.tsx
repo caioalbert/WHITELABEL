@@ -9,7 +9,10 @@ import {
   CreditCard,
   Flower2,
   LogOut,
+  MapPin,
   Menu,
+  MessageCircle,
+  Microscope,
   PhoneCall,
   Stethoscope,
   Users,
@@ -20,6 +23,7 @@ import { Button } from '@/components/ui/button'
 import { BrandLogo } from '@/components/brand-logo'
 import { DEFAULT_BRAND_LOGO_ON_LIGHT_URL } from '@/lib/branding'
 import { clienteColors, clienteRadius } from '@/lib/cliente-ui'
+import { buildLarpSaudeWhatsappUrl, LARP_SAUDE } from '@/lib/laboratory-partners'
 
 type Cadastro = {
   id: string
@@ -108,6 +112,10 @@ export default function ClienteDashboard() {
 
   const isTitular = usuario?.tipo !== 'dependente'
   const dependentesCount = cadastro?.dependentes.length ?? 0
+  const larpWhatsappUrl = useMemo(() => buildLarpSaudeWhatsappUrl({
+    origin: 'acesso do cliente SHALOM Saúde',
+    customerName: usuario?.nome || cadastro?.nome,
+  }), [cadastro?.nome, usuario?.nome])
 
   // ── Serviços principais (sempre visíveis, em destaque)
   const services = useMemo(() => [
@@ -357,6 +365,56 @@ export default function ClienteDashboard() {
             Ligar
           </a>
         </div>
+
+        <section
+          className="mb-6 border p-5"
+          style={{
+            backgroundColor: clienteColors.surface,
+            borderColor: clienteColors.borderMint,
+            borderRadius: clienteRadius.lg,
+          }}
+        >
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-start gap-4">
+              <div
+                className="flex h-14 w-14 shrink-0 items-center justify-center"
+                style={{ backgroundColor: '#10B98118', borderRadius: clienteRadius.md }}
+              >
+                <Microscope className="h-7 w-7" style={{ color: '#059669' }} />
+              </div>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: clienteColors.textMuted }}>
+                  Parceria em laboratórios
+                </p>
+                <h2 className="mt-1 text-xl font-bold" style={{ color: clienteColors.text }}>
+                  {LARP_SAUDE.name}
+                </h2>
+                <p className="mt-2 text-sm leading-5" style={{ color: clienteColors.textMuted }}>
+                  {LARP_SAUDE.description}
+                </p>
+                <p className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold" style={{ color: clienteColors.success }}>
+                  <MapPin className="h-4 w-4" />
+                  {LARP_SAUDE.coverage}
+                </p>
+              </div>
+            </div>
+
+            <Button
+              asChild
+              className="w-full shrink-0 gap-2 sm:w-auto"
+              style={{
+                backgroundColor: '#25D366',
+                color: clienteColors.surface,
+                borderRadius: clienteRadius.full,
+              }}
+            >
+              <a href={larpWhatsappUrl} target="_blank" rel="noopener noreferrer">
+                <MessageCircle className="h-4 w-4" />
+                Solicitar desconto
+              </a>
+            </Button>
+          </div>
+        </section>
 
         {/* ── SERVIÇOS ── */}
         <p className="mb-3 text-xs font-semibold uppercase tracking-widest" style={{ color: clienteColors.textMuted }}>

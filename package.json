@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
+    "seed:demo": "node scripts/seed-demo.mjs",
     "android:build": "bash scripts/build-android-artifacts.sh"
   },
   "dependencies": {
