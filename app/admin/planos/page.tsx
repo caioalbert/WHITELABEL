@@ -327,10 +327,6 @@ export default function AdminPlanosPage() {
         throw new Error('Valor adicional por dependente inválido.')
       }
 
-      if (permiteDependentes && dependentesMinimos < 1) {
-        throw new Error('Quando o plano permite dependentes, o mínimo deve ser pelo menos 1.')
-      }
-
       const response = await fetch(`/api/admin/planos/${encodeURIComponent(planId)}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
