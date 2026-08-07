@@ -619,78 +619,62 @@ export default function AdminPlanosPage() {
             <p className="mt-4 text-sm text-gray-600">Nenhum plano cadastrado.</p>
           ) : (
             <>
-              <div className="mt-4 rounded-md bg-blue-50 border border-blue-200 p-3">
-                <p className="text-xs text-blue-700">
-                  💡 <strong>Dica:</strong> Role a tabela para a direita para ver as colunas de dependentes (Mínimo, Máximo, Valor Adicional) e o botão Salvar.
-                </p>
-              </div>
-              <div className="mt-4 overflow-x-auto">
-                <table className="min-w-full text-sm">
-                <thead>
-                  <tr className="border-b border-gray-200 text-left text-gray-600">
-                    <th className="py-2 pr-4">Código</th>
-                    <th className="py-2 pr-4">Nome</th>
-                    <th className="py-2 pr-4">Descrição</th>
-                    <th className="py-2 pr-4">Benefícios</th>
-                    <th className="py-2 pr-4">Valor por pessoa (R$)</th>
-                    <th className="py-2 pr-4">Permite Dependentes</th>
-                    <th className="py-2 pr-4">Mínimo</th>
-                    <th className="py-2 pr-4">Máximo</th>
-                    <th className="py-2 pr-4">Adicional por Excedente (R$)</th>
-                    <th className="py-2 pr-4">Ativo</th>
-                    <th className="py-2">Ações</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {sortedPlanos.map((plano) => {
-                    const editable = editablePlanos[plano.id] || {
-                      nome: plano.nome,
-                      descricao_publica: String(plano.descricao_publica || ''),
-                      beneficios_publicos: String(plano.beneficios_publicos || ''),
-                      valor: String(plano.valor),
-                      ativo: plano.ativo,
-                      permite_dependentes: Boolean(plano.permite_dependentes),
-                      dependentes_minimos: String(plano.dependentes_minimos ?? 0),
-                      max_dependentes: plano.max_dependentes === null ? '' : String(plano.max_dependentes),
-                      valor_dependente_adicional: String(plano.valor_dependente_adicional ?? 0),
-                    }
 
-                    const isSavingThisPlan = savingPlanId === plano.id
+              <div className="mt-4 space-y-4">
+                {sortedPlanos.map((plano) => {
+                  const editable = editablePlanos[plano.id] || {
+                    nome: plano.nome,
+                    descricao_publica: String(plano.descricao_publica || ''),
+                    beneficios_publicos: String(plano.beneficios_publicos || ''),
+                    valor: String(plano.valor),
+                    ativo: plano.ativo,
+                    permite_dependentes: Boolean(plano.permite_dependentes),
+                    dependentes_minimos: String(plano.dependentes_minimos ?? 0),
+                    max_dependentes: plano.max_dependentes === null ? '' : String(plano.max_dependentes),
+                    valor_dependente_adicional: String(plano.valor_dependente_adicional ?? 0),
+                  }
 
-                    return (
-                      <tr key={plano.id} className="border-b border-gray-100 align-top">
-                        <td className="py-2 pr-4 font-mono text-xs text-gray-700">{plano.codigo}</td>
-                        <td className="py-2 pr-4">
+                  const isSavingThisPlan = savingPlanId === plano.id
+
+                  return (
+                    <div key={plano.id} className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+                      {/* Cabeçalho do card */}
+                      <div className="mb-3 flex items-center justify-between">
+                        <span className="font-mono text-xs text-gray-500">{plano.codigo}</span>
+                        <div className="flex items-center gap-3">
+                          <label className="inline-flex items-center gap-1.5 text-sm text-gray-700">
+                            <input
+                              type="checkbox"
+                              checked={editable.ativo}
+                              onChange={(event) => updateEditablePlan(plano.id, { ativo: event.target.checked })}
+                              disabled={isSavingThisPlan}
+                            />
+                            Ativo
+                          </label>
+                          <Button
+                            size="sm"
+                            onClick={() => handleSavePlano(plano.id)}
+                            disabled={isSavingThisPlan || isSavingAll}
+                          >
+                            {isSavingThisPlan ? 'Salvando...' : 'Salvar'}
+                          </Button>
+                        </div>
+                      </div>
+
+                      {/* Campos principais */}
+                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                        <div className="space-y-1">
+                          <label className="text-xs font-medium text-gray-600">Nome</label>
                           <input
                             value={editable.nome}
                             onChange={(event) => updateEditablePlan(plano.id, { nome: event.target.value })}
-                            className="w-full min-w-[180px] rounded-md border border-gray-300 px-2 py-1.5"
+                            className="w-full rounded-md border border-gray-300 px-2 py-1.5 text-sm"
                             disabled={isSavingThisPlan}
                           />
-                        </td>
-                        <td className="py-2 pr-4">
-                          <textarea
-                            value={editable.descricao_publica}
-                            onChange={(event) =>
-                              updateEditablePlan(plano.id, { descricao_publica: event.target.value })
-                            }
-                            className="min-h-[72px] w-full min-w-[220px] rounded-md border border-gray-300 px-2 py-1.5"
-                            placeholder="Resumo comercial do plano"
-                            disabled={isSavingThisPlan}
-                          />
-                        </td>
-                        <td className="py-2 pr-4">
-                          <textarea
-                            value={editable.beneficios_publicos}
-                            onChange={(event) =>
-                              updateEditablePlan(plano.id, { beneficios_publicos: event.target.value })
-                            }
-                            className="min-h-[96px] w-full min-w-[260px] rounded-md border border-gray-300 px-2 py-1.5 font-mono text-xs"
-                            placeholder={'+ Telemedicina 24h\n+ Clube de descontos\n- Odontologia'}
-                            disabled={isSavingThisPlan}
-                          />
-                        </td>
-                        <td className="py-2 pr-4">
+                        </div>
+
+                        <div className="space-y-1">
+                          <label className="text-xs font-medium text-gray-600">Valor por pessoa (R$)</label>
                           <input
                             type="number"
                             min={MIN_CHARGE_VALUE}
@@ -699,143 +683,151 @@ export default function AdminPlanosPage() {
                             onChange={(event) => {
                               const newValor = event.target.value
                               const updates: Partial<EditablePlan> = { valor: newValor }
-                              // Auto-sync valor_dependente_adicional when in per-person mode
                               if (editable.permite_dependentes) {
                                 updates.valor_dependente_adicional = newValor
                               }
                               updateEditablePlan(plano.id, updates)
                             }}
-                            className="w-32 rounded-md border border-gray-300 px-2 py-1.5"
+                            className="w-full rounded-md border border-gray-300 px-2 py-1.5 text-sm"
                             disabled={isSavingThisPlan}
                           />
-                          {editable.permite_dependentes ? (
-                            <p className="mt-1 text-xs text-gray-500">
-                              Total: R$ {(
-                                Number(editable.valor) * (Number(editable.dependentes_minimos) + 1)
-                              ).toFixed(2).replace('.', ',')}
-                            </p>
-                          ) : (
-                            <p className="mt-1 text-xs text-gray-500">
-                              R$ {Number(editable.valor).toFixed(2).replace('.', ',')}
-                            </p>
-                          )}
-                        </td>
-                        <td className="py-2 pr-4">
-                          <label className="inline-flex items-center gap-2 text-sm text-gray-700">
-                            <input
-                              type="checkbox"
-                              checked={editable.permite_dependentes}
-                              onChange={(event) => {
-                                const checked = event.target.checked
-                                const updates: Partial<EditablePlan> = {
-                                  permite_dependentes: checked,
-                                }
-                                // Auto-ajustar mínimo para 1 quando marcar
-                                if (checked && Number(editable.dependentes_minimos) < 1) {
-                                  updates.dependentes_minimos = '1'
-                                }
-                                // Auto-sync valor_dependente_adicional para modo por pessoa
-                                if (checked) {
-                                  updates.valor_dependente_adicional = editable.valor
-                                }
-                                updateEditablePlan(plano.id, updates)
-                              }}
-                              disabled={isSavingThisPlan}
-                            />
-                            {editable.permite_dependentes ? 'Sim' : 'Não'}
-                          </label>
-                        </td>
-                        <td className="py-2 pr-4">
-                          <input
-                            type="number"
-                            min={0}
-                            step="1"
-                            value={editable.dependentes_minimos}
-                            onChange={(event) =>
-                              updateEditablePlan(plano.id, { dependentes_minimos: event.target.value })
-                            }
-                            className="w-24 rounded-md border border-gray-300 px-2 py-1.5"
-                            disabled={isSavingThisPlan}
-                          />
-                        </td>
-                        <td className="py-2 pr-4">
-                          <div className="space-y-1">
-                            <label className="inline-flex items-center gap-2 text-xs text-gray-600">
-                              <input
-                                type="checkbox"
-                                checked={editable.max_dependentes.trim() === ''}
-                                onChange={(event) => {
-                                  if (event.target.checked) {
-                                    updateEditablePlan(plano.id, { max_dependentes: '' })
-                                    return
-                                  }
+                          <p className="text-xs text-gray-500">
+                            {editable.permite_dependentes
+                              ? `Total: R$ ${(Number(editable.valor) * (Number(editable.dependentes_minimos) + 1)).toFixed(2).replace('.', ',')}`
+                              : `R$ ${Number(editable.valor).toFixed(2).replace('.', ',')}`}
+                          </p>
+                        </div>
 
-                                  updateEditablePlan(plano.id, {
-                                    max_dependentes: String(
-                                      Math.max(
-                                        Number(editable.dependentes_minimos || 0) || 0,
-                                        0
-                                      )
-                                    ),
-                                  })
-                                }}
+                        <div className="space-y-1">
+                          <label className="text-xs font-medium text-gray-600">Descrição</label>
+                          <textarea
+                            value={editable.descricao_publica}
+                            onChange={(event) =>
+                              updateEditablePlan(plano.id, { descricao_publica: event.target.value })
+                            }
+                            rows={2}
+                            className="w-full rounded-md border border-gray-300 px-2 py-1.5 text-sm"
+                            placeholder="Resumo comercial do plano"
+                            disabled={isSavingThisPlan}
+                          />
+                        </div>
+
+                        <div className="space-y-1 sm:col-span-2 lg:col-span-3">
+                          <label className="text-xs font-medium text-gray-600">
+                            Benefícios (um por linha, + incluído / - não incluído)
+                          </label>
+                          <textarea
+                            value={editable.beneficios_publicos}
+                            onChange={(event) =>
+                              updateEditablePlan(plano.id, { beneficios_publicos: event.target.value })
+                            }
+                            rows={4}
+                            className="w-full rounded-md border border-gray-300 px-2 py-1.5 font-mono text-xs"
+                            placeholder={'+ Telemedicina 24h\n+ Clube de descontos\n- Odontologia'}
+                            disabled={isSavingThisPlan}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Seção de dependentes */}
+                      <div className="mt-4 rounded-md border border-gray-100 bg-gray-50 p-3">
+                        <label className="inline-flex items-center gap-2 text-sm font-medium text-gray-700">
+                          <input
+                            type="checkbox"
+                            checked={editable.permite_dependentes}
+                            onChange={(event) => {
+                              const checked = event.target.checked
+                              const updates: Partial<EditablePlan> = { permite_dependentes: checked }
+                              if (checked && Number(editable.dependentes_minimos) < 1) {
+                                updates.dependentes_minimos = '1'
+                              }
+                              if (checked) {
+                                updates.valor_dependente_adicional = editable.valor
+                              }
+                              updateEditablePlan(plano.id, updates)
+                            }}
+                            disabled={isSavingThisPlan}
+                          />
+                          Permite dependentes
+                        </label>
+
+                        {editable.permite_dependentes && (
+                          <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-3">
+                            <div className="space-y-1">
+                              <label className="text-xs font-medium text-gray-600">Mínimo de dependentes</label>
+                              <input
+                                type="number"
+                                min={0}
+                                step="1"
+                                value={editable.dependentes_minimos}
+                                onChange={(event) =>
+                                  updateEditablePlan(plano.id, { dependentes_minimos: event.target.value })
+                                }
+                                className="w-full rounded-md border border-gray-300 px-2 py-1.5 text-sm"
                                 disabled={isSavingThisPlan}
                               />
-                              Sem limite
-                            </label>
-                            <input
-                              type="number"
-                              min={0}
-                              step="1"
-                              value={editable.max_dependentes}
-                              onChange={(event) =>
-                                updateEditablePlan(plano.id, { max_dependentes: event.target.value })
-                              }
-                              className="w-24 rounded-md border border-gray-300 px-2 py-1.5"
-                              placeholder="Sem limite"
-                              disabled={isSavingThisPlan || editable.max_dependentes.trim() === ''}
-                            />
+                            </div>
+
+                            <div className="space-y-1">
+                              <label className="text-xs font-medium text-gray-600">Máximo de dependentes</label>
+                              <label className="mb-1 inline-flex items-center gap-1.5 text-xs text-gray-500">
+                                <input
+                                  type="checkbox"
+                                  checked={editable.max_dependentes.trim() === ''}
+                                  onChange={(event) => {
+                                    if (event.target.checked) {
+                                      updateEditablePlan(plano.id, { max_dependentes: '' })
+                                      return
+                                    }
+                                    updateEditablePlan(plano.id, {
+                                      max_dependentes: String(
+                                        Math.max(Number(editable.dependentes_minimos || 0) || 0, 0)
+                                      ),
+                                    })
+                                  }}
+                                  disabled={isSavingThisPlan}
+                                />
+                                Sem limite
+                              </label>
+                              <input
+                                type="number"
+                                min={0}
+                                step="1"
+                                value={editable.max_dependentes}
+                                onChange={(event) =>
+                                  updateEditablePlan(plano.id, { max_dependentes: event.target.value })
+                                }
+                                className="w-full rounded-md border border-gray-300 px-2 py-1.5 text-sm"
+                                placeholder="Sem limite"
+                                disabled={isSavingThisPlan || editable.max_dependentes.trim() === ''}
+                              />
+                            </div>
+
+                            <div className="space-y-1">
+                              <label className="text-xs font-medium text-gray-600">
+                                Valor por excedente (R$)
+                              </label>
+                              <input
+                                type="number"
+                                min={0}
+                                step="0.01"
+                                value={editable.valor_dependente_adicional}
+                                onChange={(event) =>
+                                  updateEditablePlan(plano.id, {
+                                    valor_dependente_adicional: event.target.value,
+                                  })
+                                }
+                                className="w-full rounded-md border border-gray-300 px-2 py-1.5 text-sm"
+                                disabled={isSavingThisPlan}
+                              />
+                            </div>
                           </div>
-                        </td>
-                        <td className="py-2 pr-4">
-                          <input
-                            type="number"
-                            min={0}
-                            step="0.01"
-                            value={editable.valor_dependente_adicional}
-                            onChange={(event) =>
-                              updateEditablePlan(plano.id, { valor_dependente_adicional: event.target.value })
-                            }
-                            className="w-32 rounded-md border border-gray-300 px-2 py-1.5"
-                            disabled={isSavingThisPlan}
-                          />
-                        </td>
-                        <td className="py-2 pr-4">
-                          <label className="inline-flex items-center gap-2 text-sm text-gray-700">
-                            <input
-                              type="checkbox"
-                              checked={editable.ativo}
-                              onChange={(event) => updateEditablePlan(plano.id, { ativo: event.target.checked })}
-                              disabled={isSavingThisPlan}
-                            />
-                            {editable.ativo ? 'Sim' : 'Não'}
-                          </label>
-                        </td>
-                        <td className="py-2">
-                          <Button
-                            size="sm"
-                            onClick={() => handleSavePlano(plano.id)}
-                            disabled={isSavingThisPlan || isSavingAll}
-                          >
-                            {isSavingThisPlan ? 'Salvando...' : 'Salvar'}
-                          </Button>
-                        </td>
-                      </tr>
-                    )
-                  })}
-                </tbody>
-              </table>
-            </div>
+                        )}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
             </>
           )}
         </section>
