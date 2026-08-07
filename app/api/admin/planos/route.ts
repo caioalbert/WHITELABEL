@@ -227,12 +227,7 @@ export async function POST(request: NextRequest) {
           ? 0
           : parseAmountField(extraFromBody, 'valor adicional por dependente')
 
-      if (permiteDependentes && dependentesMinimos < 1) {
-        return NextResponse.json(
-          { error: 'Quando o plano permite dependentes, o mínimo deve ser pelo menos 1.' },
-          { status: 400 }
-        )
-      }
+
     } catch (parseError) {
       return NextResponse.json(
         {

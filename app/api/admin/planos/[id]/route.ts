@@ -295,12 +295,7 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
         nextValorDependenteAdicional = 0
       }
 
-      if (nextPermiteDependentes && nextDependentesMinimos < 1) {
-        return NextResponse.json(
-          { error: 'Quando o plano permite dependentes, o mínimo deve ser pelo menos 1.' },
-          { status: 400 }
-        )
-      }
+
     } catch (parseError) {
       return NextResponse.json(
         {

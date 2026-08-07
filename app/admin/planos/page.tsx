@@ -738,9 +738,6 @@ export default function AdminPlanosPage() {
                             onChange={(event) => {
                               const checked = event.target.checked
                               const updates: Partial<EditablePlan> = { permite_dependentes: checked }
-                              if (checked && Number(editable.dependentes_minimos) < 1) {
-                                updates.dependentes_minimos = '1'
-                              }
                               if (checked) {
                                 updates.valor_dependente_adicional = editable.valor
                               }
