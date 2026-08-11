@@ -172,7 +172,6 @@ const AGGREGATED_SERVICES: AggregatedService[] = [
     description: LARP_SAUDE.description,
     logo: 'larp-saude',
     meta: LARP_SAUDE.coverage,
-    actionLabel: 'Solicitar desconto',
   },
   {
     name: 'Grupo Zelo',
@@ -462,15 +461,7 @@ export default function Home() {
                       <MapPin className="h-3.5 w-3.5" />
                       {LARP_SAUDE.coverage}
                     </p>
-                    <Button
-                      asChild
-                      className="mt-4 h-9 rounded-full bg-emerald-500 px-4 text-xs font-bold text-white hover:bg-emerald-400"
-                    >
-                      <a href={larpWhatsappUrl} target="_blank" rel="noopener noreferrer">
-                        <MessageCircle className="h-4 w-4" />
-                        Solicitar desconto
-                      </a>
-                    </Button>
+
                   </div>
                 </div>
               </div>
