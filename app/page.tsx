@@ -181,12 +181,12 @@ const AGGREGATED_SERVICES: AggregatedService[] = [
 ]
 
 const colorMap: Record<string, { bg: string; icon: string; border: string }> = {
-  teal:    { bg: 'bg-teal-50',    icon: 'bg-teal-100 text-teal-700',    border: 'border-teal-100' },
-  sky:     { bg: 'bg-sky-50',     icon: 'bg-sky-100 text-sky-700',      border: 'border-sky-100' },
-  blue:    { bg: 'bg-blue-50',    icon: 'bg-blue-100 text-blue-700',    border: 'border-blue-100' },
+  teal: { bg: 'bg-teal-50', icon: 'bg-teal-100 text-teal-700', border: 'border-teal-100' },
+  sky: { bg: 'bg-sky-50', icon: 'bg-sky-100 text-sky-700', border: 'border-sky-100' },
+  blue: { bg: 'bg-blue-50', icon: 'bg-blue-100 text-blue-700', border: 'border-blue-100' },
   emerald: { bg: 'bg-emerald-50', icon: 'bg-emerald-100 text-emerald-700', border: 'border-emerald-100' },
-  rose:    { bg: 'bg-rose-50',    icon: 'bg-rose-100 text-rose-600',    border: 'border-rose-100' },
-  violet:  { bg: 'bg-violet-50',  icon: 'bg-violet-100 text-violet-700', border: 'border-violet-100' },
+  rose: { bg: 'bg-rose-50', icon: 'bg-rose-100 text-rose-600', border: 'border-rose-100' },
+  violet: { bg: 'bg-violet-50', icon: 'bg-violet-100 text-violet-700', border: 'border-violet-100' },
 }
 
 function AggregatedServiceLogo({
@@ -295,11 +295,10 @@ export default function Home() {
     <main className="min-h-screen overflow-x-hidden bg-white font-sans">
       {/*  HEADER  */}
       <header
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-          scrolled
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${scrolled
             ? 'border-b border-gray-100 bg-white/95 shadow-sm backdrop-blur-md'
             : 'bg-transparent'
-        }`}
+          }`}
       >
         <div className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-12">
           <Link href="/" className="shrink-0">
@@ -510,7 +509,7 @@ export default function Home() {
         {/* Bottom curve */}
         <div className="absolute bottom-0 left-0 right-0">
           <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-            <path d="M0 60L1440 60L1440 20C1200 60 960 0 720 20C480 40 240 0 0 20L0 60Z" fill="white"/>
+            <path d="M0 60L1440 60L1440 20C1200 60 960 0 720 20C480 40 240 0 0 20L0 60Z" fill="white" />
           </svg>
         </div>
       </section>
@@ -547,24 +546,20 @@ export default function Home() {
                 type="button"
                 aria-pressed={activeTab === tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex flex-1 items-center justify-center gap-3 px-6 py-4 transition-all duration-200 ${
-                  i > 0 ? 'border-l border-gray-200' : ''
-                } ${
-                  activeTab === tab.id
+                className={`flex flex-1 items-center justify-center gap-3 px-6 py-4 transition-all duration-200 ${i > 0 ? 'border-l border-gray-200' : ''
+                  } ${activeTab === tab.id
                     ? 'bg-teal-800'
                     : 'bg-white hover:bg-gray-50'
-                }`}
+                  }`}
               >
-                <tab.Icon className={`h-7 w-7 shrink-0 ${
-                  activeTab === tab.id ? 'text-white' : 'text-gray-700'
-                }`} />
+                <tab.Icon className={`h-7 w-7 shrink-0 ${activeTab === tab.id ? 'text-white' : 'text-gray-700'
+                  }`} />
                 <div className="text-left">
                   <p className={`text-xs ${activeTab === tab.id ? 'text-teal-200' : 'text-gray-400'}`}>
                     {tab.label}
                   </p>
-                  <p className={`text-lg font-extrabold leading-tight ${
-                    activeTab === tab.id ? 'text-white' : 'text-gray-900'
-                  }`}>
+                  <p className={`text-lg font-extrabold leading-tight ${activeTab === tab.id ? 'text-white' : 'text-gray-900'
+                    }`}>
                     {tab.sub}
                   </p>
                 </div>
@@ -597,21 +592,18 @@ export default function Home() {
                 return (
                   <div
                     key={item.label}
-                    className={`relative flex flex-col items-center rounded-3xl bg-white p-8 text-center shadow-md transition-all duration-200 hover:-translate-y-1 hover:shadow-xl ${
-                      item.highlight ? 'border-2 border-teal-100' : 'border border-gray-100'
-                    }`}
+                    className={`relative flex flex-col items-center rounded-3xl bg-white p-8 text-center shadow-md transition-all duration-200 hover:-translate-y-1 hover:shadow-xl ${item.highlight ? 'border-2 border-teal-100' : 'border border-gray-100'
+                      }`}
                   >
                     {item.badge && (
                       <span className="absolute right-4 top-4 rounded-full bg-teal-500 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-white">
                         {item.badge}
                       </span>
                     )}
-                    <div className={`mb-5 flex h-20 w-20 items-center justify-center rounded-full ${
-                      item.highlight ? 'bg-teal-50' : 'bg-gray-50'
-                    }`}>
-                      <item.Icon className={`h-10 w-10 ${
-                        item.highlight ? 'text-teal-700' : 'text-gray-800'
-                      }`} strokeWidth={1.5} />
+                    <div className={`mb-5 flex h-20 w-20 items-center justify-center rounded-full ${item.highlight ? 'bg-teal-50' : 'bg-gray-50'
+                      }`}>
+                      <item.Icon className={`h-10 w-10 ${item.highlight ? 'text-teal-700' : 'text-gray-800'
+                        }`} strokeWidth={1.5} />
                     </div>
                     <p className="text-sm font-semibold leading-snug text-gray-800">{itemLabel}</p>
                   </div>
@@ -742,7 +734,7 @@ export default function Home() {
 
           {isLoadingPlanos ? (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {[1,2,3].map(i => (
+              {[1, 2, 3].map(i => (
                 <div key={i} className="h-80 animate-pulse rounded-3xl bg-gray-100" />
               ))}
             </div>
@@ -758,15 +750,14 @@ export default function Home() {
                 return (
                   <div
                     key={plano.codigo}
-                    className={`group relative flex flex-col overflow-hidden rounded-3xl border transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl ${
-                      isHighlighted
+                    className={`group relative flex flex-col overflow-hidden rounded-3xl border transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl ${isHighlighted
                         ? 'border-teal-500 bg-gradient-to-b from-teal-700 to-teal-900 shadow-xl shadow-teal-900/20'
                         : 'border-gray-200 bg-white shadow-md'
-                    }`}
+                      }`}
                   >
                     {isHighlighted && (
                       <div className="bg-teal-500 py-2 text-center text-xs font-bold uppercase tracking-widest text-white">
-                         Mais popular
+                        Mais popular
                       </div>
                     )}
 
@@ -783,18 +774,31 @@ export default function Home() {
                       </div>
 
                       <div className="mb-6">
-                        <div className="flex items-baseline gap-1">
-                          <span className={`text-5xl font-extrabold ${isHighlighted ? 'text-white' : 'text-teal-700'}`}>
-                            {formatCurrency(plano.valor)}
-                          </span>
-                          <span className={`text-sm ${isHighlighted ? 'text-teal-200' : 'text-gray-500'}`}>
-                            {isPerLifeMode ? '/vida' : '/mês'}
-                          </span>
-                        </div>
-                        {isPerLifeMode && (
-                          <p className={`mt-1 text-xs ${isHighlighted ? 'text-teal-200' : 'text-gray-500'}`}>
-                            Valor por pessoa
-                          </p>
+                        {isEmpresaPlan ? (
+                          <div>
+                            <p className={`text-2xl font-extrabold ${isHighlighted ? 'text-white' : 'text-teal-700'}`}>
+                              Sob consulta
+                            </p>
+                            <p className={`mt-1 text-sm ${isHighlighted ? 'text-teal-200' : 'text-gray-500'}`}>
+                              Valor acordado conforme número de colaboradores
+                            </p>
+                          </div>
+                        ) : (
+                          <>
+                            <div className="flex items-baseline gap-1">
+                              <span className={`text-5xl font-extrabold ${isHighlighted ? 'text-white' : 'text-teal-700'}`}>
+                                {formatCurrency(plano.valor)}
+                              </span>
+                              <span className={`text-sm ${isHighlighted ? 'text-teal-200' : 'text-gray-500'}`}>
+                                {isPerLifeMode ? '/vida' : '/mês'}
+                              </span>
+                            </div>
+                            {isPerLifeMode && (
+                              <p className={`mt-1 text-xs ${isHighlighted ? 'text-teal-200' : 'text-gray-500'}`}>
+                                Valor por pessoa
+                              </p>
+                            )}
+                          </>
                         )}
                       </div>
 
@@ -834,15 +838,25 @@ export default function Home() {
                       )}
 
                       <div className="mt-auto">
-                        <Link href={isEmpresaPlan ? '/empresa/cadastro' : `/cadastro?plano=${plano.codigo}`}>
-                          <Button className={`w-full rounded-full py-6 text-base font-bold transition-all ${
-                            isHighlighted
-                              ? 'bg-white text-teal-700 hover:bg-gray-100'
-                              : 'bg-teal-700 text-white hover:bg-teal-800'
-                          }`}>
-                            Escolher plano
-                          </Button>
-                        </Link>
+                        {isEmpresaPlan ? (
+                          <a href="https://wa.me/5585986788183" target="_blank" rel="noopener noreferrer">
+                            <Button className={`w-full rounded-full py-6 text-base font-bold transition-all ${isHighlighted
+                                ? 'bg-white text-teal-700 hover:bg-gray-100'
+                                : 'bg-teal-700 text-white hover:bg-teal-800'
+                              }`}>
+                              Entre em contato
+                            </Button>
+                          </a>
+                        ) : (
+                          <Link href={`/cadastro?plano=${plano.codigo}`}>
+                            <Button className={`w-full rounded-full py-6 text-base font-bold transition-all ${isHighlighted
+                                ? 'bg-white text-teal-700 hover:bg-gray-100'
+                                : 'bg-teal-700 text-white hover:bg-teal-800'
+                              }`}>
+                              Escolher plano
+                            </Button>
+                          </Link>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -855,7 +869,7 @@ export default function Home() {
             <p className="text-sm text-gray-500">
               Dúvidas sobre qual plano escolher?{' '}
               <a
-                href="https://wa.me/5511900000000"
+                href="https://wa.me/5585986788183"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-semibold text-teal-700 hover:underline"
@@ -992,7 +1006,7 @@ export default function Home() {
                 </Button>
               </Link>
               <a
-                href="https://wa.me/5511900000000"
+                href="https://wa.me/5585986788183"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -1047,7 +1061,7 @@ export default function Home() {
               <ul className="space-y-3 text-sm text-slate-400">
                 <li>
                   <a
-                    href="https://wa.me/5511900000000"
+                    href="https://wa.me/5585986788183"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 transition-colors hover:text-white"
@@ -1076,7 +1090,7 @@ export default function Home() {
 
       {/*  WhatsApp FAB  */}
       <a
-        href="https://wa.me/5511900000000"
+        href="https://wa.me/5585986788183"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 shadow-lg shadow-green-900/30 transition-all hover:scale-110 hover:bg-green-400"
