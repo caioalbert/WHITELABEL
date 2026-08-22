@@ -28,10 +28,10 @@ function ReferralNotFoundPage({
   tipo,
   message,
 }: {
-  tipo: 'vendedor' | 'instituto'
+  tipo: 'vendedor' | 'parceiro'
   message: string | null
 }) {
-  const isInstituto = tipo === 'instituto'
+  const isParceiro = tipo === 'parceiro'
 
   return (
     <main className="min-h-screen w-full bg-gradient-to-br from-slate-100 via-blue-50 to-indigo-100 px-5 py-10">
@@ -43,12 +43,12 @@ function ReferralNotFoundPage({
 
           <p className="mt-8 text-sm font-bold uppercase text-red-600">404</p>
           <h1 className="mt-3 text-3xl font-bold text-slate-950 sm:text-4xl">
-            {isInstituto ? 'Instituto não encontrado' : 'Link de indicação não encontrado'}
+            {isParceiro ? 'Parceiro não encontrado' : 'Link de indicação não encontrado'}
           </h1>
 
           <p className="mx-auto mt-4 max-w-xl text-base leading-7 text-slate-600">
-            {isInstituto
-              ? 'Este link de cadastro aponta para um instituto que não existe mais ou está inativo.'
+            {isParceiro
+              ? 'Este link de cadastro aponta para um parceiro que não existe mais ou está inativo.'
               : 'Este link de cadastro não está disponível ou foi desativado.'}
           </p>
 
@@ -86,11 +86,11 @@ export default function CadastroPageClient({
     pagamento?: CadastroPagamento
   } | null>(null)
   const vendedorRef = initialVendedorRef.trim().toUpperCase()
-  const expectedConsultorTipo: 'vendedor' | 'instituto' = vendedorRef.startsWith('INSTITUTO-')
-    ? 'instituto'
+  const expectedConsultorTipo: 'vendedor' | 'parceiro' = vendedorRef.startsWith('PARCEIRO-')
+    ? 'parceiro'
     : 'vendedor'
   const [consultorNome, setConsultorNome] = useState<string | null>(null)
-  const [consultorTipo, setConsultorTipo] = useState<'vendedor' | 'instituto'>(expectedConsultorTipo)
+  const [consultorTipo, setConsultorTipo] = useState<'vendedor' | 'parceiro'>(expectedConsultorTipo)
   const [consultorStatusMessage, setConsultorStatusMessage] = useState<string | null>(null)
   const [isLoadingConsultor, setIsLoadingConsultor] = useState(Boolean(vendedorRef))
   const shouldValidateRef = Boolean(vendedorRef)
@@ -133,7 +133,7 @@ export default function CadastroPageClient({
         const tipo = String(payload?.tipo || 'vendedor')
         if (nome) {
           setConsultorNome(nome)
-          setConsultorTipo(tipo as 'vendedor' | 'instituto')
+          setConsultorTipo(tipo as 'vendedor' | 'parceiro')
           return
         }
 
@@ -184,10 +184,10 @@ export default function CadastroPageClient({
       <div className="mx-auto w-full">
         <section className="mb-8 w-full rounded-2xl border border-white/60 bg-white/70 px-6 py-8 shadow-sm backdrop-blur sm:px-8">
           <h1 className="text-3xl font-bold text-gray-900">
-            {consultorTipo === 'instituto' && consultorNome
-              ? `Cadastro Instituto ${consultorNome}`
-              : expectedConsultorTipo === 'instituto'
-                ? 'Cadastro Instituto'
+            {consultorTipo === 'parceiro' && consultorNome
+              ? `Cadastro Parceiro ${consultorNome}`
+              : expectedConsultorTipo === 'parceiro'
+                ? 'Cadastro Parceiro'
                 : `Cadastro ${branding.brandName}`}
           </h1>
           <p className="mt-2 text-gray-600">Preencha seus dados para adesão ao serviço</p>
@@ -200,10 +200,10 @@ export default function CadastroPageClient({
               <p className={`text-sm font-semibold ${
                 isInvalidRef ? 'text-red-900' : 'text-blue-900'
               }`}>
-                {expectedConsultorTipo === 'instituto' ? 'Parceiro' : 'Consultor'}:{' '}
+                {expectedConsultorTipo === 'parceiro' ? 'Parceiro' : 'Consultor'}:{' '}
                 {isLoadingConsultor ? 'Carregando...' : consultorNome || 'Não identificado'}
               </p>
-              {expectedConsultorTipo !== 'instituto' && (
+              {expectedConsultorTipo !== 'parceiro' && (
                 <p className={`text-xs ${isInvalidRef ? 'text-red-700' : 'text-blue-700'}`}>
                   Código de indicação: {vendedorRef}
                 </p>
@@ -234,7 +234,7 @@ export default function CadastroPageClient({
               onSuccess={handleSuccess}
               initialVendedorRef={vendedorRef}
               initialPlanoCode={initialPlanoCode}
-              isInstituto={consultorTipo === 'instituto'}
+              isParceiro={consultorTipo === 'parceiro'}
             />
           ) : null}
         </section>

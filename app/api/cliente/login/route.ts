@@ -14,6 +14,13 @@ import { CADASTRO_FLOW_COOKIE, createCadastroFlowToken } from '@/lib/supabase/ca
 import { NextRequest, NextResponse } from 'next/server'
 import { SignJWT } from 'jose'
 
+<<<<<<< HEAD
+=======
+const JWT_SECRET = new TextEncoder().encode(
+  process.env.JWT_SECRET || 'novaaliancasaude-secret-key-change-in-production'
+)
+
+>>>>>>> 4ec7d568ff894f9299b6cbe4302a3ba09d1a47bf
 type CadastroLoginRow = {
   id: string
   nome: string

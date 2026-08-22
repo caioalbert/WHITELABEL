@@ -133,7 +133,7 @@ export async function GET(request: NextRequest) {
     return new NextResponse(zipBuffer, {
       headers: {
         'Content-Type': 'application/zip',
-        'Content-Disposition': `attachment; filename="contratos-shalom-${date}.zip"`,
+        'Content-Disposition': `attachment; filename="contratos-novaalianca-${date}.zip"`,
       },
     })
   } catch (error) {

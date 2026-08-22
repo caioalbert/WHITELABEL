@@ -73,7 +73,7 @@ export function CadastrosListPDF({
   return (
     <Document>
       <Page size="A4" orientation="landscape" style={styles.page}>
-        <Text style={styles.title}>Lista de Clientes - SHALOM Saúde</Text>
+        <Text style={styles.title}>Lista de Clientes - novaalianca Saúde</Text>
         <Text style={styles.meta}>Gerado em: {generatedAt}</Text>
         <Text style={styles.meta}>Escopo: {scopeLabel}</Text>
         <Text style={styles.meta}>Filtros: {filtersSummary}</Text>

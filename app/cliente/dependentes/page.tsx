@@ -23,6 +23,7 @@ import {
 } from '@/components/ui/select'
 import { ClienteScreenHeader } from '@/components/cliente/screen-header'
 import { clienteColors, clienteCopy, clienteRadius, clienteSupport } from '@/lib/cliente-ui'
+import { ClienteNav } from '@/components/cliente/cliente-nav'
 
 type Dependente = {
   id: string
@@ -277,16 +278,8 @@ export default function ClienteDependentes() {
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: clienteColors.background }}>
+    <ClienteNav>
       <main className="mx-auto max-w-3xl px-4 py-6 sm:px-6">
-        <div className="mb-4 flex justify-end">
-          <Link href="/cliente/dashboard">
-            <Button variant="outline" style={{ borderRadius: clienteRadius.full, borderColor: clienteColors.border }}>
-              Voltar
-            </Button>
-          </Link>
-        </div>
-
         <ClienteScreenHeader
           title={clienteCopy.modules.dependentes.title}
           subtitle={clienteCopy.modules.dependentes.subtitle}
@@ -692,6 +685,6 @@ export default function ClienteDependentes() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
+    </ClienteNav>
   )
 }

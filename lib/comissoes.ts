@@ -309,11 +309,11 @@ export function buildComissaoResumo(
 }
 
 /**
- * Builds a commission summary for an instituto.
- * Instituto clients have sem_adesao=true so there is no adesão commission.
+ * Builds a commission summary for an parceiro.
+ * Parceiro clients have sem_adesao=true so there is no adesão commission.
  * This wraps buildComissaoResumo with percentualAdesao forced to 0.
  */
-export function buildInstitutoComissaoResumo(
+export function buildParceiroComissaoResumo(
   cadastros: CadastroComissaoBase[],
   pagamentos: PagamentoComissaoBase[],
   referenceDate: Date = new Date(),

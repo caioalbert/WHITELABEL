@@ -197,9 +197,9 @@ export async function POST(request: NextRequest) {
     const resend = new Resend(process.env.RESEND_API_KEY)
 
     const { error: emailError } = await resend.emails.send({
-      from: `SHALOM Saúde <${fromEmail}>`,
+      from: `novaalianca Saúde <${fromEmail}>`,
       to: cadastro.email,
-      subject: 'Seu Termo de Adesão - SHALOM Saúde',
+      subject: 'Seu Termo de Adesão - novaalianca Saúde',
       attachments: [
         {
           filename: attachmentFileName,
@@ -212,12 +212,12 @@ export async function POST(request: NextRequest) {
         <html>
         <body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
           <div style="background: linear-gradient(135deg, #1d4ed8, #4f46e5); padding: 30px; border-radius: 8px 8px 0 0; text-align: center;">
-            <h1 style="color: white; margin: 0; font-size: 24px;">SHALOM Saúde</h1>
+            <h1 style="color: white; margin: 0; font-size: 24px;">novaalianca Saúde</h1>
             <p style="color: #bfdbfe; margin: 8px 0 0 0;">Confirmação de Adesão</p>
           </div>
           <div style="background: #f8fafc; padding: 30px; border-radius: 0 0 8px 8px; border: 1px solid #e2e8f0; border-top: none;">
             <h2 style="color: #1e40af; margin-top: 0;">Olá, ${cadastro.nome}!</h2>
-            <p>Seu cadastro foi realizado com sucesso e o Termo de Adesão ao serviço SHALOM Saúde foi gerado.</p>
+            <p>Seu cadastro foi realizado com sucesso e o Termo de Adesão ao serviço novaalianca Saúde foi gerado.</p>
             <div style="background: white; border: 1px solid #e2e8f0; border-radius: 6px; padding: 20px; margin: 20px 0;">
               <h3 style="margin-top: 0; color: #374151; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em;">Dados do Cliente</h3>
               <table style="width: 100%; border-collapse: collapse;">
@@ -229,7 +229,7 @@ export async function POST(request: NextRequest) {
             </div>
             <p style="font-size: 13px; color: #6b7280;">Seu termo segue em anexo neste email em formato PDF.</p>
             <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;">
-            <p style="font-size: 12px; color: #9ca3af; margin: 0;">Este é um email automático do sistema SHALOM Saúde. Não responda a este email.</p>
+            <p style="font-size: 12px; color: #9ca3af; margin: 0;">Este é um email automático do sistema novaalianca Saúde. Não responda a este email.</p>
           </div>
         </body>
         </html>

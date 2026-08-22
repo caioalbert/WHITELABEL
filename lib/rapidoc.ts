@@ -6,7 +6,7 @@
  * Produção:     https://api.rapidoc.tech/tema/api
  *
  * Autenticação:
- *   - Header "Authorization: Bearer <JWT>"  → token JWT do cliente (SHALOM SAÚDE)
+ *   - Header "Authorization: Bearer <JWT>"  → token JWT do cliente (novaalianca SAÚDE)
  *   - Header "clientId: <UUID>"              → UUID do cliente no Rapidoc
  *
  * Fluxo de acesso do beneficiário:
@@ -120,7 +120,7 @@ export async function checkRapidocBeneficiary(
       return {
         ok:      false,
         reason:  'auth',
-        message: 'Token de acesso à Rapidoc inválido ou expirado. Contate o suporte SHALOM.',
+        message: 'Token de acesso à Rapidoc inválido ou expirado. Contate o suporte novaalianca.',
       }
     }
 
@@ -128,7 +128,7 @@ export async function checkRapidocBeneficiary(
       return {
         ok:      false,
         reason:  'not_found',
-        message: 'Seu CPF não está cadastrado na base da Rapidoc. Contate o suporte SHALOM para regularização.',
+        message: 'Seu CPF não está cadastrado na base da Rapidoc. Contate o suporte novaalianca para regularização.',
       }
     }
 
@@ -228,7 +228,7 @@ export async function resolveRapidocUrl(
     return {
       ok:      false,
       reason:  'no_config',
-      message: 'Integração com telemedicina não configurada. Contate o suporte SHALOM.',
+      message: 'Integração com telemedicina não configurada. Contate o suporte novaalianca.',
     }
   }
 

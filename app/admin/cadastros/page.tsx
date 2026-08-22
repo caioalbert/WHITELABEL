@@ -148,7 +148,7 @@ export default function AdminCadastrosPage() {
       const blob = await response.blob()
       const contentDisposition = response.headers.get('content-disposition')
       const filenameMatch = contentDisposition?.match(/filename="?([^"]+)"?/)
-      const filename = filenameMatch?.[1] || 'contratos-shalom.zip'
+      const filename = filenameMatch?.[1] || 'contratos-novaalianca.zip'
 
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')

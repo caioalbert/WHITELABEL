@@ -91,56 +91,6 @@ function parseAmountField(value: unknown, fieldLabel: string) {
   return Math.round((parsed + Number.EPSILON) * 100) / 100
 }
 
-async function syncBasePlanValueToBilling(
-  supabase: ReturnType<typeof createAdminClient>,
-  planCode: string,
-  planValue: number
-) {
-  if (planCode !== 'INDIVIDUAL' && planCode !== 'FAMILIAR') {
-    return
-  }
-
-  const { data: row, error } = await supabase
-    .from('cobranca_configuracoes')
-    .select(
-      'id, adesao_value, mensalidade_value, mensalidade_individual_value, mensalidade_familiar_value, default_plan_type'
-    )
-    .eq('id', true)
-    .maybeSingle()
-
-  if (error) {
-    throw error
-  }
-
-  if (!row) {
-    return
-  }
-
-  const currentDefaultPlanType = String(row.default_plan_type || 'INDIVIDUAL').trim().toUpperCase()
-
-  const nextIndividualValue =
-    planCode === 'INDIVIDUAL' ? planValue : Number(row.mensalidade_individual_value || row.mensalidade_value || row.adesao_value || 49.9)
-
-  const nextFamiliarValue =
-    planCode === 'FAMILIAR' ? planValue : Number(row.mensalidade_familiar_value || row.mensalidade_value || row.adesao_value || 79.9)
-
-  const defaultPlanValue = currentDefaultPlanType === 'FAMILIAR' ? nextFamiliarValue : nextIndividualValue
-
-  const { error: updateError } = await supabase
-    .from('cobranca_configuracoes')
-    .update({
-      mensalidade_individual_value: nextIndividualValue,
-      mensalidade_familiar_value: nextFamiliarValue,
-      mensalidade_value: defaultPlanValue,
-      adesao_value: defaultPlanValue,
-      updated_at: new Date().toISOString(),
-    })
-    .eq('id', true)
-
-  if (updateError) {
-    throw updateError
-  }
-}
 
 export async function PATCH(request: NextRequest, context: RouteContext) {
   const authResult = await requireAdminAuth(request)
@@ -348,10 +298,6 @@ export async function PATCH(request: NextRequest, context: RouteContext) {
 
     if (updateError) {
       throw updateError
-    }
-
-    if (hasValorField && valor !== undefined) {
-      await syncBasePlanValueToBilling(supabase, String(updatedPlan.codigo || ''), valor)
     }
 
     return NextResponse.json({

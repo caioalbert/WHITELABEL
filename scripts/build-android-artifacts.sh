@@ -43,7 +43,7 @@ if [[ ! -f "$MANIFEST_PATH" ]]; then
 
 Inicialize o projeto TWA primeiro, por exemplo:
   mkdir -p "$ROOT_DIR/android-twa"
-  bubblewrap init --manifest=https://shalon-saude.vercel.app/manifest.webmanifest --directory="$ROOT_DIR/android-twa"
+  bubblewrap init --manifest=https://novaaliancasaude.vercel.app/manifest.webmanifest --directory="$ROOT_DIR/android-twa"
 EOF
   exit 1
 fi

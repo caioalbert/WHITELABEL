@@ -17,10 +17,10 @@ export async function GET(request: NextRequest) {
 
     const supabase = createAdminClient()
 
-    // Fast-path: codes starting with INSTITUTO- are always institutos
-    const isInstitutoRef = ref.startsWith('INSTITUTO-')
+    // Fast-path: codes starting with PARCEIRO- are always parceiros
+    const isParceiroRef = ref.startsWith('PARCEIRO-')
 
-    if (!isInstitutoRef) {
+    if (!isParceiroRef) {
       // Try vendedor first
       const { data: vendedor, error } = await supabase
         .from('vendedores')
@@ -59,18 +59,18 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // Try instituto (either fast-path or vendedor not found)
-    const { data: instituto, error: institutoError } = await supabase
-      .from('institutos')
+    // Try parceiro (either fast-path or vendedor not found)
+    const { data: parceiro, error: parceiroError } = await supabase
+      .from('parceiros')
       .select('id, nome, codigo_indicacao, ativo')
       .eq('codigo_indicacao', ref)
       .maybeSingle()
 
-    if (institutoError) {
-      const details = `${institutoError.message || ''} ${institutoError.details || ''}`
-      if (/relation .*institutos|does not exist|42P01/i.test(details)) {
+    if (parceiroError) {
+      const details = `${parceiroError.message || ''} ${parceiroError.details || ''}`
+      if (/relation .*parceiros|does not exist|42P01/i.test(details)) {
         return NextResponse.json(
-          { error: 'Banco desatualizado. Execute scripts/015_add_institutos_module.sql no Supabase SQL Editor.' },
+          { error: 'Banco desatualizado. Execute scripts/015_add_parceiros_module.sql no Supabase SQL Editor.' },
           { status: 500 }
         )
       }
@@ -80,18 +80,18 @@ export async function GET(request: NextRequest) {
           { status: 503 }
         )
       }
-      console.error('Public instituto lookup error:', institutoError)
+      console.error('Public parceiro lookup error:', parceiroError)
       return NextResponse.json({ error: 'Erro ao consultar parceiro.' }, { status: 500 })
     }
 
-    if (instituto && instituto.ativo === true) {
+    if (parceiro && parceiro.ativo === true) {
       return NextResponse.json({
         success: true,
-        tipo: 'instituto',
+        tipo: 'parceiro',
         vendedor: {
-          id: instituto.id,
-          nome: instituto.nome,
-          codigoIndicacao: instituto.codigo_indicacao,
+          id: parceiro.id,
+          nome: parceiro.nome,
+          codigoIndicacao: parceiro.codigo_indicacao,
         },
       })
     }
