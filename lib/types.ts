@@ -24,14 +24,9 @@ export interface Cadastro {
   asaas_subscription_id?: string
   vendedor_id?: string
   vendedor_codigo?: string
-<<<<<<< HEAD
-  instituto_id?: string
-  instituto_codigo?: string
-  empresa_id?: string
-=======
   parceiro_id?: string
   parceiro_codigo?: string
->>>>>>> 4ec7d568ff894f9299b6cbe4302a3ba09d1a47bf
+  empresa_id?: string
   sem_adesao?: boolean
   tipo_plano?: 'INDIVIDUAL' | 'FAMILIAR' | string
   mensalidade_valor?: number

@@ -920,13 +920,6 @@ export async function POST(request: NextRequest) {
     const mensalidadeValor = calculatePlanChargeValue(selectedPlan, dependentes.length)
     const adesaoValue = mensalidadeValor
 
-<<<<<<< HEAD
-=======
-    const asaasMensalidadeDueDate = semAdesao
-      ? toIsoDate(new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)) // +30 days for parceiro clients
-      : toIsoDate(new Date()) // today for normal clients
-
->>>>>>> 4ec7d568ff894f9299b6cbe4302a3ba09d1a47bf
     let asaasCustomerId: string | null = null
     let asaasPaymentId: string | null = null
     let asaasPaymentInvoiceUrl: string | null = null
@@ -947,8 +940,7 @@ export async function POST(request: NextRequest) {
       })
       asaasCustomerId = asaasCustomer.id
 
-<<<<<<< HEAD
-      // Todo PF precisa confirmar um pagamento antes da ativação. Para institutos
+      // Todo PF precisa confirmar um pagamento antes da ativação. Para parceiros
       // sem taxa de adesão, esta cobrança representa a primeira mensalidade.
       if (adesaoValue < MIN_ASAAS_CHARGE_VALUE) {
         throw new Error(`Configuração de cobrança inválida. O valor mínimo permitido pelo Asaas é R$ ${MIN_ASAAS_CHARGE_VALUE.toFixed(2).replace('.', ',')}.`)
@@ -959,33 +951,13 @@ export async function POST(request: NextRequest) {
         dueDate: adesaoDueDate,
         billingType: adesaoBillingType,
         description: semAdesao
-          ? 'Primeira mensalidade SHALOM Saúde'
-          : 'Taxa de adesão SHALOM Saúde',
+          ? 'Primeira mensalidade novaalianca Saúde'
+          : 'Taxa de adesão novaalianca Saúde',
         externalReference: cadastroId,
       })
       asaasPaymentId = payment.id
       asaasPaymentInvoiceUrl = payment.invoiceUrl || null
       asaasPaymentBankSlipUrl = payment.bankSlipUrl || null
-=======
-      if (!semAdesao) {
-        // Normal flow: create adhesion payment
-        if (adesaoValue < MIN_ASAAS_CHARGE_VALUE) {
-          throw new Error(`Configuração de cobrança inválida. O valor mínimo permitido pelo Asaas é R$ ${MIN_ASAAS_CHARGE_VALUE.toFixed(2).replace('.', ',')}.`)
-        }
-        const payment = await createAsaasPayment({
-          customer: asaasCustomerId,
-          value: adesaoValue,
-          dueDate: adesaoDueDate,
-          billingType: adesaoBillingType,
-          description: 'Taxa de adesão novaalianca Saúde',
-          externalReference: cadastroId,
-        })
-        asaasPaymentId = payment.id
-        asaasPaymentInvoiceUrl = payment.invoiceUrl || null
-        asaasPaymentBankSlipUrl = payment.bankSlipUrl || null
-      }
-      // For parceiro clients (semAdesao=true): no adhesion payment, subscription will be created after admin activates
->>>>>>> 4ec7d568ff894f9299b6cbe4302a3ba09d1a47bf
     } catch (error) {
       await cleanupFailedAsaasRegistration({ asaasCustomerId, asaasPaymentId })
 

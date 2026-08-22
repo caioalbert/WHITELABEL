@@ -345,7 +345,6 @@ export async function GET(request: NextRequest) {
     }
     // -----------------------------------------------------------
 
-<<<<<<< HEAD
     if (audience === 'pf') {
       planos = planos.filter((plan) => !/EMPRESARIAL/i.test(`${plan.codigo} ${plan.nome}`))
       if (planos.length === 0) {
@@ -356,10 +355,7 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // These must be computed AFTER the instituto override so they reflect the final plan list
-=======
     // These must be computed AFTER the parceiro override so they reflect the final plan list
->>>>>>> 4ec7d568ff894f9299b6cbe4302a3ba09d1a47bf
     const allowedPlanTypes = planos.map((plan) => plan.codigo)
     const defaultPlanType = allowedPlanTypes[0] || settings.defaultPlanType
 

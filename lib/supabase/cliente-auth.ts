@@ -3,13 +3,6 @@ import { cookies } from 'next/headers'
 import { getJwtSecret } from '@/lib/auth-secret'
 import { createAdminClient } from '@/lib/supabase/admin'
 
-<<<<<<< HEAD
-=======
-const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || 'novaaliancasaude-secret-key-change-in-production'
-)
->>>>>>> 4ec7d568ff894f9299b6cbe4302a3ba09d1a47bf
-
 export type ClienteAuth = {
   clienteId: string
   cpf: string

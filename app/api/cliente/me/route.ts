@@ -1,11 +1,5 @@
-<<<<<<< HEAD
 import { requireActiveClienteAuth } from '@/lib/supabase/cliente-auth'
 import { createAdminClient } from '@/lib/supabase/admin'
-=======
-import { requireClienteAuth } from '@/lib/supabase/cliente-auth'
-import { createAdminClient } from '@/lib/supabase/admin'
-import { createClient } from '@/lib/supabase/server'
->>>>>>> 4ec7d568ff894f9299b6cbe4302a3ba09d1a47bf
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
@@ -73,7 +67,7 @@ type AllowedField = (typeof ALLOWED_FIELDS)[number]
 
 export async function PUT(request: NextRequest) {
   try {
-    const auth = await requireClienteAuth(request)
+    const auth = await requireActiveClienteAuth(request)
 
     // Somente titular pode editar o cadastro principal
     if (auth.tipo === 'dependente') {
