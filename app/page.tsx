@@ -136,7 +136,7 @@ const AUDIENCE_BENEFITS: Record<Audience, AudienceBenefit[]> = {
   cliente: [
     {
       Icon: Star,
-      label: 'Clube de vantagens SHALOM',
+      label: 'Clube de vantagens novaalianca',
       badge: 'Novidade',
       highlight: true,
     },
@@ -590,7 +590,7 @@ export default function Home() {
           <div className="mx-auto w-full max-w-7xl">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {AUDIENCE_BENEFITS[activeTab].map((item) => {
-                const itemLabel = item.label === 'Clube de vantagens SHALOM'
+                const itemLabel = item.label === 'Clube de vantagens novaalianca'
                   ? `Clube de vantagens ${branding.brandShortName}`
                   : item.label
 
@@ -1056,9 +1056,9 @@ export default function Home() {
                   </a>
                 </li>
                 <li>
-                  <a href="mailto:suporte@shalom.com.br" className="flex items-center gap-2 transition-colors hover:text-white">
+                  <a href="mailto:suporte@novaalianca.com.br" className="flex items-center gap-2 transition-colors hover:text-white">
                     <Phone className="h-4 w-4 text-teal-400" />
-                    suporte@shalom.com.br
+                    suporte@novaalianca.com.br
                   </a>
                 </li>
               </ul>

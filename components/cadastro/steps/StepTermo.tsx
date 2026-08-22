@@ -22,7 +22,7 @@ export function StepTermo({ data }: StepTermoProps) {
         <section className="space-y-3">
           <h3 className="text-lg font-semibold text-gray-800">1. CONTRATANTE</h3>
           <p className="text-gray-700">
-            <strong>SHALOM SAÚDE</strong>
+            <strong>novaalianca SAÚDE</strong>
           </p>
         </section>
 
@@ -81,7 +81,7 @@ export function StepTermo({ data }: StepTermoProps) {
         <section className="space-y-3">
           <h3 className="text-lg font-semibold text-gray-800">5. OBJETO DO CONTRATO</h3>
           <p className="text-gray-700 text-justify">
-            A SHALOM SAÚDE fornecerá ao ADERENTE acesso a planos de saúde e benefícios conforme
+            A novaalianca SAÚDE fornecerá ao ADERENTE acesso a planos de saúde e benefícios conforme
             as condições estabelecidas neste termo. O ADERENTE concorda em cumprir com as
             obrigações contratuais e regulamentações vigentes.
           </p>

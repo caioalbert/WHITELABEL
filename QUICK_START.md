@@ -1,4 +1,4 @@
-# Guia Rápido de Início - SHALOM Saúde
+# Guia Rápido de Início - novaalianca Saúde
 
 ## Começar em 5 Minutos
 

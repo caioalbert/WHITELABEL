@@ -24,7 +24,7 @@ interface StepPlanoProps {
   onSelectPlan: (codigo: string) => void
   onNext: () => void
   isLoading?: boolean
-  isInstituto?: boolean
+  isParceiro?: boolean
 }
 
 export function StepPlano({
@@ -33,7 +33,7 @@ export function StepPlano({
   onSelectPlan,
   onNext,
   isLoading = false,
-  isInstituto = false,
+  isParceiro = false,
 }: StepPlanoProps) {
   const selectedPlan = planos.find((p) => p.codigo === selectedPlanCode)
   const selectedPlanPerLifeMode = Boolean(
@@ -48,9 +48,9 @@ export function StepPlano({
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-bold text-gray-900">
-          {isInstituto ? 'Seu plano é:' : 'Escolha seu plano'}
+          {isParceiro ? 'Seu plano é:' : 'Escolha seu plano'}
         </h2>
-        {!isInstituto && (
+        {!isParceiro && (
           <p className="mt-2 text-sm text-gray-600">
             Selecione o plano que melhor atende suas necessidades
           </p>

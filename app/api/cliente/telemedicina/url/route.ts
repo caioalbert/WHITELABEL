@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
     if (!isRapidocAccessConfigured()) {
       return NextResponse.json({
         url:     null,
-        warning: 'Integração com telemedicina não configurada. Contate o suporte SHALOM.',
+        warning: 'Integração com telemedicina não configurada. Contate o suporte.',
       })
     }
 

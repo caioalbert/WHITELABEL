@@ -31,4 +31,4 @@ Para usar uma CDN/storage, use uma URL `https://...`.
 
 ## Observação
 
-Esta etapa troca a logo e nomes usados nas telas principais. Textos contratuais, PDFs, e-mails, cobranças e manifest PWA ainda podem conter textos SHALOM e devem ser revisados por cliente antes de publicar o whitelabel.
+Esta etapa troca a logo e nomes usados nas telas principais. Textos contratuais, PDFs, e-mails, cobranças e manifest PWA ainda podem conter textos novaalianca e devem ser revisados por cliente antes de publicar o whitelabel.

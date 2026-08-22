@@ -5,6 +5,7 @@ import { getAgeFromIsoDate, isValidCPF, isValidEmail } from '@/lib/utils'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
+import { FuncionarioExcelImport } from '@/components/cadastro/FuncionarioExcelImport'
 import { useEffect, useMemo, useState } from 'react'
 
 type PlanOption = {
@@ -163,6 +164,11 @@ export function StepDependentes({
 
   const selectedPlan = findPlanOptionByCode(availablePlans, tipo_plano) || availablePlans[0]
   const planPermiteDependentes = Boolean(selectedPlan?.permiteDependentes)
+  const selectedPlanSearchText = `${selectedPlan?.codigo || ''} ${selectedPlan?.nome || ''}`
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toUpperCase()
+  const isBusinessPlan = selectedPlanSearchText.includes('EMPRES')
   const dependentesMinimos = selectedPlan?.permiteDependentes
     ? Math.max(0, Number(selectedPlan.minDependentes || 0))
     : 0
@@ -215,6 +221,7 @@ export function StepDependentes({
       ...formData,
       nome: formData.nome.trim(),
       rg: formData.rg.trim(),
+      relacao: isBusinessPlan ? 'funcionário' : formData.relacao,
       email: formData.email.trim(),
       telefone_celular: formatPhone(formData.telefone_celular),
     }
@@ -298,6 +305,16 @@ export function StepDependentes({
     })
   }
 
+  const handleImportFuncionarios = (funcionarios: DependenteFormData[]) => {
+    const nextDependentes = [...dependentes, ...funcionarios]
+    setDependentes(nextDependentes)
+    onUpdate({
+      tipo_plano: selectedPlan?.codigo || tipo_plano,
+      tem_dependentes: planPermiteDependentes,
+      dependentes: nextDependentes,
+    })
+  }
+
   const handleEditDependente = (index: number) => {
     const dependente = dependentes[index]
     setFormData({
@@ -340,11 +357,12 @@ export function StepDependentes({
   }
 
   const formatPhone = (value: string) => {
-    const cleaned = value.replace(/\D/g, '')
-    return cleaned
-      .replace(/(\d{2})(\d)/, '($1) $2')
-      .replace(/(\d{5})(\d)/, '$1-$2')
-      .substring(0, 15)
+    const cleaned = value.replace(/\D/g, '').substring(0, 11)
+    if (cleaned.length <= 10) {
+      return cleaned.replace(/(\d{2})(\d)/, '($1) $2').replace(/(\d{4})(\d)/, '$1-$2')
+    }
+
+    return cleaned.replace(/(\d{2})(\d)/, '($1) $2').replace(/(\d{5})(\d)/, '$1-$2')
   }
 
   const highlightRequired = showValidation && planPermiteDependentes && dependentes.length === 0
@@ -444,8 +462,9 @@ export function StepDependentes({
 
       {planPermiteDependentes ? (
         <p className="text-xs text-gray-500">
-          Cada dependente deve ter email. Se for menor de idade, pode usar o mesmo email do titular.
-          {' '}Este plano exige mínimo de {dependentesMinimos + 1} pessoas (titular + dependentes).
+          Cada {isBusinessPlan ? 'funcionário' : 'dependente'} deve ter email.
+          {!isBusinessPlan ? ' Se for menor de idade, pode usar o mesmo email do titular.' : ''}
+          {' '}Este plano exige mínimo de {dependentesMinimos + 1} pessoas (titular + {isBusinessPlan ? 'funcionários' : 'dependentes'}).
           {dependentesLimit !== null && dependentesLimit > 0 ? ` Máximo de ${dependentesLimit + 1} pessoas.` : ' Sem limite máximo de pessoas.'}
           {selectedPlan && selectedPlan.valorDependenteAdicional > 0
             ? ` Acréscimo de ${formatCurrency(selectedPlan.valorDependenteAdicional)} por dependente acima do mínimo.`
@@ -455,9 +474,24 @@ export function StepDependentes({
 
       {planPermiteDependentes && (
         <div className="space-y-6 border-t pt-6">
+          {isBusinessPlan ? (
+            <FuncionarioExcelImport
+              funcionariosExistentes={dependentes}
+              emailTitular={data.email}
+              vagasDisponiveis={
+                dependentesLimit === null
+                  ? null
+                  : Math.max(0, dependentesLimit - dependentes.length)
+              }
+              onImport={handleImportFuncionarios}
+            />
+          ) : null}
+
           <div className="bg-blue-50 p-6 rounded-lg space-y-4">
             <h3 className="font-semibold text-gray-800">
-              {editingIndex !== null ? 'Editar Dependente' : 'Adicionar Dependente'}
+              {editingIndex !== null
+                ? `Editar ${isBusinessPlan ? 'Funcionário' : 'Dependente'}`
+                : `Adicionar ${isBusinessPlan ? 'Funcionário' : 'Dependente'}`}
             </h3>
 
             <div>
@@ -467,7 +501,7 @@ export function StepDependentes({
               <Input
                 id="dep_nome"
                 type="text"
-                placeholder="Nome do dependente"
+                placeholder={`Nome do ${isBusinessPlan ? 'funcionário' : 'dependente'}`}
                 value={formData.nome}
                 onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
                 className={`mt-2 ${
@@ -486,7 +520,7 @@ export function StepDependentes({
                 <Input
                   id="dep_rg"
                   type="text"
-                  placeholder="RG do dependente"
+                  placeholder={`RG do ${isBusinessPlan ? 'funcionário' : 'dependente'}`}
                   value={formData.rg}
                   onChange={(e) => setFormData({ ...formData, rg: e.target.value })}
                   className={`mt-2 ${
@@ -612,37 +646,54 @@ export function StepDependentes({
               </div>
             </div>
 
-            <div>
-              <Label htmlFor="dep_relacao" className="text-gray-700 font-medium">
-                Relação *
-              </Label>
-              <select
-                id="dep_relacao"
-                value={formData.relacao}
-                onChange={(e) => setFormData({ ...formData, relacao: e.target.value })}
-                className={`mt-2 w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                  highlightRequired && !formData.relacao
-                    ? 'border-red-400 focus:ring-red-500'
-                    : 'border-gray-300 focus:ring-blue-500'
-                }`}
-              >
-                <option value="">Selecione...</option>
-                <option value="cônjuge">Cônjuge</option>
-                <option value="filho">Filho(a)</option>
-                <option value="enteado">Enteado(a)</option>
-                <option value="outro">Outro</option>
-              </select>
-            </div>
+            {isBusinessPlan ? (
+              <div>
+                <Label htmlFor="dep_relacao_empresa" className="text-gray-700 font-medium">
+                  Relação
+                </Label>
+                <Input
+                  id="dep_relacao_empresa"
+                  value="Funcionário(a)"
+                  disabled
+                  className="mt-2 border-gray-300 bg-white"
+                />
+              </div>
+            ) : (
+              <div>
+                <Label htmlFor="dep_relacao" className="text-gray-700 font-medium">
+                  Relação *
+                </Label>
+                <select
+                  id="dep_relacao"
+                  value={formData.relacao}
+                  onChange={(e) => setFormData({ ...formData, relacao: e.target.value })}
+                  className={`mt-2 w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+                    highlightRequired && !formData.relacao
+                      ? 'border-red-400 focus:ring-red-500'
+                      : 'border-gray-300 focus:ring-blue-500'
+                  }`}
+                >
+                  <option value="">Selecione...</option>
+                  <option value="cônjuge">Cônjuge</option>
+                  <option value="filho">Filho(a)</option>
+                  <option value="enteado">Enteado(a)</option>
+                  <option value="outro">Outro</option>
+                </select>
+              </div>
+            )}
 
             <div className="flex gap-2">
               <Button
                 onClick={handleAddDependente}
                 className="bg-blue-600 hover:bg-blue-700"
                 disabled={
-                  (editingIndex === null && dependentesLimit !== null && dependentesLimit > 0 && dependentes.length >= dependentesLimit) ||
+                  (editingIndex === null &&
+                    dependentesLimit !== null &&
+                    dependentesLimit > 0 &&
+                    dependentes.length >= dependentesLimit) ||
                   !formData.nome ||
                   !formData.rg ||
-                  !formData.relacao ||
+                  (!isBusinessPlan && !formData.relacao) ||
                   !formData.email ||
                   !formData.telefone_celular ||
                   !formData.sexo
@@ -669,11 +720,13 @@ export function StepDependentes({
 
           {dependentes.length > 0 && (
             <div className="space-y-3">
-              <h3 className="font-semibold text-gray-800">Dependentes Adicionados</h3>
+              <h3 className="font-semibold text-gray-800">
+                {isBusinessPlan ? 'Funcionários adicionados' : 'Dependentes adicionados'}
+              </h3>
               {dependentes.map((dep, index) => (
                 <div
                   key={index}
-                  className="p-4 bg-gray-50 rounded-lg flex justify-between items-start"
+                  className="flex items-start justify-between rounded-lg bg-gray-50 p-4 [contain-intrinsic-size:0_150px] [content-visibility:auto]"
                 >
                   <div className="flex-1">
                     <p className="font-medium text-gray-800">{dep.nome}</p>

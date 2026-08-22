@@ -120,7 +120,7 @@ export function TermoAdesaoPDF({ data, dependentes, termoBodyText }: TermoAdesao
   return (
     <Document>
       <Page size="A4" style={styles.page} wrap>
-        <Text style={styles.title}>TERMO DE ADESÃO AO SERVIÇO SHALOM SAÚDE</Text>
+        <Text style={styles.title}>TERMO DE ADESÃO AO SERVIÇO novaalianca SAÚDE</Text>
 
         <Text style={styles.sectionTitle}>Responsável Financeiro</Text>
         <Text style={styles.row}>Nome: {data.nome || ''}</Text>
@@ -155,7 +155,7 @@ export function TermoAdesaoPDF({ data, dependentes, termoBodyText }: TermoAdesao
         )}
 
         <Text style={styles.paragraph}>
-          Pela adesão aos serviços da Shalom Saúde, o(a) CONTRATANTE pagará ao Prestador de Serviços o valor de R$ 19,90 (dezenove reais e noventa centavos), plano individual, sem taxa de adesão.
+          Pela adesão aos serviços da novaalianca Saúde, o(a) CONTRATANTE pagará ao Prestador de Serviços o valor de R$ 19,90 (dezenove reais e noventa centavos), plano individual, sem taxa de adesão.
         </Text>
         <Text style={styles.paragraph}>
           O pagamento pelos serviços contratados será realizado por meio de boleto bancário via e-mail do Responsável Financeiro, com vencimento todo dia 05 (cinco) do mês subsequente ao ato da adesão a este termo.

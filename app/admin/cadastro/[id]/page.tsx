@@ -102,6 +102,9 @@ export default function CadastroDetail() {
   const [pagamentos, setPagamentos] = useState<PagamentosData | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [isAtivando, setIsAtivando] = useState(false)
+  const [ativarError, setAtivarError] = useState<string | null>(null)
+  const [ativarMessage, setAtivarMessage] = useState<string | null>(null)
 
   useEffect(() => {
     fetchCadastro()
@@ -163,6 +166,28 @@ export default function CadastroDetail() {
       URL.revokeObjectURL(url)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Erro ao baixar PDF')
+    }
+  }
+
+  const handleAtivar = async () => {
+    if (!cadastro) return
+    setIsAtivando(true)
+    setAtivarError(null)
+    setAtivarMessage(null)
+    try {
+      const res = await fetch(`/api/admin/cadastro/${id}/ativar`, { method: 'POST' })
+      const json = await res.json()
+      if (!res.ok) {
+        setAtivarError(json.error || 'Erro ao ativar cadastro.')
+      } else {
+        setAtivarMessage(json.message || 'Cadastro ativado com sucesso.')
+        // Recarrega os dados para refletir o novo status
+        await fetchCadastro()
+      }
+    } catch {
+      setAtivarError('Erro de conexão ao ativar cadastro.')
+    } finally {
+      setIsAtivando(false)
     }
   }
 
@@ -413,7 +438,30 @@ export default function CadastroDetail() {
 
               {/* Pagamentos */}
               <div className="bg-white rounded-lg shadow p-6 space-y-4">
-                <h2 className="text-lg font-semibold text-gray-900">Pagamentos</h2>
+                <div className="flex items-center justify-between">
+                  <h2 className="text-lg font-semibold text-gray-900">Pagamentos</h2>
+                  {cadastro.status !== 'ATIVO' && (
+                    <button
+                      id="btn-ativar-manualmente"
+                      onClick={handleAtivar}
+                      disabled={isAtivando}
+                      className="inline-flex items-center gap-1.5 rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-green-700 disabled:opacity-60 disabled:cursor-not-allowed transition-colors"
+                    >
+                      {isAtivando ? '⏳ Ativando...' : '✅ Ativar manualmente'}
+                    </button>
+                  )}
+                </div>
+
+                {ativarMessage && (
+                  <div className="rounded-md bg-green-50 border border-green-200 px-4 py-2 text-sm text-green-700">
+                    {ativarMessage}
+                  </div>
+                )}
+                {ativarError && (
+                  <div className="rounded-md bg-red-50 border border-red-200 px-4 py-2 text-sm text-red-700">
+                    {ativarError}
+                  </div>
+                )}
 
                 {pagamentos === null ? (
                   <p className="text-sm text-gray-500">Carregando pagamentos...</p>

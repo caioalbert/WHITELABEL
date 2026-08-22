@@ -2,7 +2,7 @@ import { jwtVerify } from 'jose'
 import { cookies } from 'next/headers'
 
 const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || 'shalom-saude-secret-key-change-in-production'
+  process.env.JWT_SECRET || 'novaaliancasaude-secret-key-change-in-production'
 )
 
 export type ClienteAuth = {

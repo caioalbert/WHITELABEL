@@ -99,15 +99,15 @@ const IDS = {
 
 const ACCESS = {
   admin: {
-    email: 'admin@demo.shalomsaude.com.br',
+    email: 'admin@demo.novaaliancasaude.com.br',
     password: demoPassword,
   },
   vendedor: {
-    email: 'vendedor@demo.shalomsaude.com.br',
+    email: 'vendedor@demo.novaaliancasaude.com.br',
     password: demoPassword,
   },
   instituto: {
-    email: 'instituto@demo.shalomsaude.com.br',
+    email: 'instituto@demo.novaaliancasaude.com.br',
     password: demoPassword,
   },
 }
@@ -458,7 +458,7 @@ async function seedCadastros() {
     [
       {
         id: IDS.cadastroIndividual,
-        email: 'joao.silva@demo.shalomsaude.com.br',
+        email: 'joao.silva@demo.novaaliancasaude.com.br',
         nome: 'Joao Silva',
         cpf: '123.456.789-09',
         rg: '1234567',
@@ -495,7 +495,7 @@ async function seedCadastros() {
       },
       {
         id: IDS.cadastroFamiliar,
-        email: 'camila.rocha@demo.shalomsaude.com.br',
+        email: 'camila.rocha@demo.novaaliancasaude.com.br',
         nome: 'Camila Rocha',
         cpf: '987.654.321-00',
         rg: '7654321',
@@ -533,7 +533,7 @@ async function seedCadastros() {
       },
       {
         id: IDS.cadastroInstituto,
-        email: 'carlos.almeida@demo.shalomsaude.com.br',
+        email: 'carlos.almeida@demo.novaaliancasaude.com.br',
         nome: 'Carlos Almeida',
         cpf: '390.533.447-05',
         rg: '3322110',
@@ -569,7 +569,7 @@ async function seedCadastros() {
       },
       {
         id: IDS.cadastroPendente,
-        email: 'paula.martins@demo.shalomsaude.com.br',
+        email: 'paula.martins@demo.novaaliancasaude.com.br',
         nome: 'Paula Martins',
         cpf: '935.411.347-80',
         rg: '4567890',
@@ -620,7 +620,7 @@ async function seedDependentes() {
         cpf: '111.444.777-35',
         data_nascimento: '2014-02-10',
         relacao: 'Filho(a)',
-        email: 'pedro.rocha@demo.shalomsaude.com.br',
+        email: 'pedro.rocha@demo.novaaliancasaude.com.br',
         telefone_celular: '(85) 98888-2001',
         sexo: 'Masculino',
         created_at: daysAgo(45),
@@ -633,7 +633,7 @@ async function seedDependentes() {
         cpf: '529.982.247-25',
         data_nascimento: '2017-11-05',
         relacao: 'Filho(a)',
-        email: 'beatriz.rocha@demo.shalomsaude.com.br',
+        email: 'beatriz.rocha@demo.novaaliancasaude.com.br',
         telefone_celular: '(85) 98888-2002',
         sexo: 'Feminino',
         created_at: daysAgo(45),
@@ -646,7 +646,7 @@ async function seedDependentes() {
         cpf: '246.813.579-28',
         data_nascimento: '2016-08-19',
         relacao: 'Filho(a)',
-        email: 'rafaela.almeida@demo.shalomsaude.com.br',
+        email: 'rafaela.almeida@demo.novaaliancasaude.com.br',
         telefone_celular: '(85) 98888-2003',
         sexo: 'Feminino',
         created_at: daysAgo(14),
@@ -721,7 +721,7 @@ function printSummary() {
 }
 
 async function main() {
-  console.log('Populando banco demo do SHALOM_SAUDE_WHITELABEL...')
+  console.log('Populando banco demo do novaalianca_SAUDE_WHITELABEL...')
   await seedBillingSettings()
   await seedPlans()
   await seedVendedorAndInstitutoBase()

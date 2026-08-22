@@ -7,6 +7,7 @@ import { Info, Lock, ReceiptText } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { ClienteScreenHeader } from '@/components/cliente/screen-header'
 import { clienteColors, clienteCopy, clienteRadius } from '@/lib/cliente-ui'
+import { ClienteNav } from '@/components/cliente/cliente-nav'
 
 type Payment = {
   id: string
@@ -153,16 +154,8 @@ export default function ClientePagamentos() {
   }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: clienteColors.background }}>
+    <ClienteNav>
       <main className="mx-auto max-w-3xl px-4 py-6 sm:px-6">
-        <div className="mb-4 flex justify-end">
-          <Link href="/cliente/dashboard">
-            <Button variant="outline" style={{ borderRadius: clienteRadius.full, borderColor: clienteColors.border }}>
-              Voltar
-            </Button>
-          </Link>
-        </div>
-
         <ClienteScreenHeader
           title={clienteCopy.modules.pagamentos.title}
           subtitle={clienteCopy.modules.pagamentos.subtitle}
@@ -326,7 +319,7 @@ export default function ClientePagamentos() {
           )
         })()}
       </main>
-    </div>
+    </ClienteNav>
   )
 }
 

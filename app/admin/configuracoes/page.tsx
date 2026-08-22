@@ -9,33 +9,21 @@ import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger 
 const SETTINGS_ITEMS = [
   {
     title: 'Planos',
-    description: 'Liste os planos existentes, ajuste nome e valor e cadastre novos planos.',
+    description: 'Gerencie planos, formas de cobrança, comissões, identidade visual e configurações operacionais.',
     href: '/admin/planos',
     actionLabel: 'Gerenciar Planos',
   },
   {
-    title: 'Institutos/Parceiros',
-    description: 'Cadastre institutos e parceiros com links de venda e comissões configuráveis.',
-    href: '/admin/institutos',
-    actionLabel: 'Gerenciar Institutos',
+    title: 'Parceiros/Parceiros',
+    description: 'Cadastre parceiros e parceiros com links de venda e comissões configuráveis.',
+    href: '/admin/parceiros',
+    actionLabel: 'Gerenciar Parceiros',
   },
   {
     title: 'Termo de Adesão',
     description: 'Atualize o template usado na geração do PDF enviado aos clientes.',
     href: '/admin/termo-template',
     actionLabel: 'Gerenciar Termo',
-  },
-  {
-    title: 'Configurações de Cobrança',
-    description: 'Defina formas de cobrança da mensalidade, opção padrão e percentuais de comissão.',
-    href: '/admin/cobranca-configuracoes',
-    actionLabel: 'Gerenciar Cobrança',
-  },
-  {
-    title: 'Identidade Visual',
-    description: 'Troque nome da marca, nome curto e logo exibida nas telas do whitelabel.',
-    href: '/admin/cobranca-configuracoes#identidade-visual',
-    actionLabel: 'Trocar Logo',
   },
 ]
 

@@ -1,6 +1,6 @@
-# SHALOM Saúde - Sistema de Cadastro Digital
+# novaalianca Saúde - Sistema de Cadastro Digital
 
-Sistema completo de cadastro, adesão e gerenciamento de termos digitais para o SHALOM Saúde. Inclui formulário multi-step, geração de PDF dinâmico e painel administrativo.
+Sistema completo de cadastro, adesão e gerenciamento de termos digitais para o novaalianca Saúde. Inclui formulário multi-step, geração de PDF dinâmico e painel administrativo.
 
 ## Funcionalidades:
 
@@ -53,7 +53,7 @@ Sistema completo de cadastro, adesão e gerenciamento de termos digitais para o 
 
 ```bash
 git clone <repo-url>
-cd shalom-saude
+cd novaaliancasaude
 ```
 
 ### 2. Instalar dependências
@@ -225,13 +225,13 @@ npm i -g @bubblewrap/cli
 ```bash
 mkdir -p android-twa
 cd android-twa
-bubblewrap init --manifest=https://shalon-saude.vercel.app/manifest.webmanifest --directory=.
+bubblewrap init --manifest=https://novaaliancasaude.vercel.app/manifest.webmanifest --directory=.
 ```
 
 3. Durante o `init`, conferir:
-- `Domain`: `shalon-saude.vercel.app`
+- `Domain`: `novaaliancasaude.vercel.app`
 - `URL path`: `/login`
-- `Application ID` (package): use o ID definitivo da Play (ex.: `br.com.shalon.saude`)
+- `Application ID` (package): use o ID definitivo da Play (ex.: `br.com.novaalianca.saude`)
 - `Display mode`: `standalone`
 - `Signing key`: manter e guardar com segurança
 
@@ -292,7 +292,7 @@ keytool -list -v -keystore android.keystore -alias android
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "br.com.shalon.saude",
+      "package_name": "br.com.novaalianca.saude",
       "sha256_cert_fingerprints": ["SUA_SHA256_AQUI"]
     }
   }

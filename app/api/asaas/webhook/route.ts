@@ -436,7 +436,7 @@ export async function POST(request: NextRequest) {
             nextDueDate,
             cycle: 'MONTHLY',
             maxPayments: FIDELIDADE_MAX_PAYMENTS,
-            description: 'Mensalidade SHALOM Saúde',
+            description: 'Mensalidade novaalianca Saúde',
             externalReference: cadastro.id,
           })
 

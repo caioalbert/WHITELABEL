@@ -67,7 +67,7 @@ Only set `NEXT_PUBLIC_*` Rapidoc values if the browser truly needs to read them.
 1. Rotate any secret that has been shared or committed.
 2. Move real values from local files into Vercel environment variables.
 3. Create an isolated staging Supabase project before using staging with real tests.
-4. Delete mixed files such as `.env.shalom` after values are migrated.
+4. Delete mixed files such as `.env.novaalianca` after values are migrated.
 5. Ensure `.env.local` never points to production services during local development.
 
 ## Current project layout after organization
@@ -76,12 +76,12 @@ The active private env files are now:
 
 - `.env.local`: local development. Generated from the previous staging/sandbox file.
 - `.env.staging.local`: staging/preview template with real private values copied from the previous staging file where available.
-- `.env.production.local`: production local file generated from the previous mixed Shalom file.
+- `.env.production.local`: production local file generated from the previous mixed novaalianca file.
 
 The previous files were preserved for manual comparison:
 
 - `.env.stage.legacy`
-- `.env.shalom.legacy`
+- `.env.novaalianca.legacy`
 - `.env.backups/2026-06-19/`
 
 The reorganized active env files intentionally removed variables that are not read by the application code: `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `SUPABASE_JWT_SECRET`, and `ASAAS_API_KEY_sandbox`.

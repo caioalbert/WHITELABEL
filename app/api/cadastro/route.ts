@@ -508,8 +508,8 @@ export async function POST(request: NextRequest) {
     const supabase = await createClient()
     let vendedorId: string | null = null
     let vendedorCodigo: string | null = null
-    let institutoId: string | null = null
-    let institutoCodigo: string | null = null
+    let parceiroId: string | null = null
+    let parceiroCodigo: string | null = null
     let semAdesao = false
 
     if (vendedorRefValue) {
@@ -527,10 +527,10 @@ export async function POST(request: NextRequest) {
         )
       }
 
-      const isInstitutoRef = vendedorRefValue.startsWith('INSTITUTO-')
-      let shouldTryInstituto = isInstitutoRef
+      const isParceiroRef = vendedorRefValue.startsWith('PARCEIRO-')
+      let shouldTryParceiro = isParceiroRef
 
-      if (!isInstitutoRef) {
+      if (!isParceiroRef) {
         const { data: vendedor, error: vendedorError } = await supabaseAdmin
           .from('vendedores')
           .select('id, codigo_indicacao, ativo')
@@ -571,7 +571,7 @@ export async function POST(request: NextRequest) {
           vendedorId = vendedor.id
           vendedorCodigo = vendedor.codigo_indicacao
         } else if (!vendedor) {
-          shouldTryInstituto = true
+          shouldTryParceiro = true
         } else {
           return NextResponse.json(
             { error: 'Link de vendedor inválido ou inativo.' },
@@ -580,36 +580,36 @@ export async function POST(request: NextRequest) {
         }
       }
 
-      if (shouldTryInstituto && !vendedorId) {
-        const { data: instituto, error: institutoError } = await supabaseAdmin
-          .from('institutos')
+      if (shouldTryParceiro && !vendedorId) {
+        const { data: parceiro, error: parceiroError } = await supabaseAdmin
+          .from('parceiros')
           .select('id, codigo_indicacao, ativo, sem_adesao')
           .eq('codigo_indicacao', vendedorRefValue)
           .maybeSingle()
 
-        if (institutoError) {
-          const details = `${institutoError.message || ''} ${institutoError.details || ''}`
-          if (/relation .*institutos|does not exist|42P01/i.test(details)) {
+        if (parceiroError) {
+          const details = `${parceiroError.message || ''} ${parceiroError.details || ''}`
+          if (/relation .*parceiros|does not exist|42P01/i.test(details)) {
             return NextResponse.json(
               {
                 error:
-                  'Banco desatualizado. Execute scripts/015_add_institutos_module.sql no Supabase SQL Editor.',
+                  'Banco desatualizado. Execute scripts/015_add_parceiros_module.sql no Supabase SQL Editor.',
               },
               { status: 500 }
             )
           }
 
-          console.error('Instituto lookup error:', institutoError)
+          console.error('Parceiro lookup error:', parceiroError)
           return NextResponse.json(
             { error: 'Erro ao validar link de parceiro.' },
             { status: 500 }
           )
         }
 
-        if (instituto && instituto.ativo === true) {
-          institutoId = instituto.id
-          institutoCodigo = instituto.codigo_indicacao
-          semAdesao = instituto.sem_adesao !== false // use configured value, default true
+        if (parceiro && parceiro.ativo === true) {
+          parceiroId = parceiro.id
+          parceiroCodigo = parceiro.codigo_indicacao
+          semAdesao = parceiro.sem_adesao !== false // use configured value, default true
         } else {
           return NextResponse.json(
             { error: 'Link de indicação inválido ou inativo.' },
@@ -691,23 +691,23 @@ export async function POST(request: NextRequest) {
     const planOptions = await loadCadastroPlanOptions(billingSettings)
     const adesaoDueDate = toIsoDate(new Date())
 
-    // If via instituto, use instituto's own plans (instituto_planos) instead of global plans
-    if (institutoId) {
+    // If via parceiro, use parceiro's own plans (parceiro_planos) instead of global plans
+    if (parceiroId) {
       try {
         const supabaseAdmin = createAdminClient()
-        const { data: institutoPlanos, error: plErr } = await supabaseAdmin
-          .from('instituto_planos')
+        const { data: parceiroPlanos, error: plErr } = await supabaseAdmin
+          .from('parceiro_planos')
           .select('id, nome, descricao, valor, permite_dependentes, dependentes_minimos, max_dependentes, valor_dependente_adicional')
-          .eq('instituto_id', institutoId)
+          .eq('parceiro_id', parceiroId)
           .eq('ativo', true)
 
         if (plErr) {
           const details = `${plErr.message} ${plErr.details || ''}`
-          if (/relation.*instituto_planos|does not exist|42P01/i.test(details)) {
+          if (/relation.*parceiro_planos|does not exist|42P01/i.test(details)) {
             return NextResponse.json(
               {
                 error:
-                  'Banco desatualizado. Execute scripts/017_instituto_own_plans.sql no Supabase SQL Editor.',
+                  'Banco desatualizado. Execute scripts/017_parceiro_own_plans.sql no Supabase SQL Editor.',
               },
               { status: 500 }
             )
@@ -716,16 +716,16 @@ export async function POST(request: NextRequest) {
           throw plErr
         }
 
-        if (!institutoPlanos || institutoPlanos.length === 0) {
+        if (!parceiroPlanos || parceiroPlanos.length === 0) {
           return NextResponse.json(
-            { error: 'Nenhum plano ativo disponível para este instituto.' },
+            { error: 'Nenhum plano ativo disponível para este parceiro.' },
             { status: 400 }
           )
         }
 
-        // Replace global planOptions with instituto-specific ones. codigo = UUID of the plan.
+        // Replace global planOptions with parceiro-specific ones. codigo = UUID of the plan.
         planOptions.length = 0
-        for (const p of institutoPlanos) {
+        for (const p of parceiroPlanos) {
           planOptions.push({
             codigo: p.id,
             nome: String(p.nome || '').trim(),
@@ -738,11 +738,11 @@ export async function POST(request: NextRequest) {
         }
       } catch (err) {
         const details = err instanceof Error ? err.message : String(err)
-        if (/relation.*instituto_planos|does not exist|42P01/i.test(details)) {
+        if (/relation.*parceiro_planos|does not exist|42P01/i.test(details)) {
           return NextResponse.json(
             {
               error:
-                'Banco desatualizado. Execute scripts/017_instituto_own_plans.sql no Supabase SQL Editor.',
+                'Banco desatualizado. Execute scripts/017_parceiro_own_plans.sql no Supabase SQL Editor.',
             },
             { status: 500 }
           )
@@ -914,7 +914,7 @@ export async function POST(request: NextRequest) {
     const adesaoValue = mensalidadeValor
 
     const asaasMensalidadeDueDate = semAdesao
-      ? toIsoDate(new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)) // +30 days for instituto clients
+      ? toIsoDate(new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)) // +30 days for parceiro clients
       : toIsoDate(new Date()) // today for normal clients
 
     let asaasCustomerId: string | null = null
@@ -947,14 +947,14 @@ export async function POST(request: NextRequest) {
           value: adesaoValue,
           dueDate: adesaoDueDate,
           billingType: adesaoBillingType,
-          description: 'Taxa de adesão SHALOM Saúde',
+          description: 'Taxa de adesão novaalianca Saúde',
           externalReference: cadastroId,
         })
         asaasPaymentId = payment.id
         asaasPaymentInvoiceUrl = payment.invoiceUrl || null
         asaasPaymentBankSlipUrl = payment.bankSlipUrl || null
       }
-      // For instituto clients (semAdesao=true): no adhesion payment, subscription will be created after admin activates
+      // For parceiro clients (semAdesao=true): no adhesion payment, subscription will be created after admin activates
     } catch (error) {
       await cleanupFailedAsaasRegistration({ asaasCustomerId, asaasPaymentId })
 
@@ -999,8 +999,8 @@ export async function POST(request: NextRequest) {
           asaas_payment_id: asaasPaymentId,
           vendedor_id: vendedorId,
           vendedor_codigo: vendedorCodigo,
-          instituto_id: institutoId,
-          instituto_codigo: institutoCodigo,
+          parceiro_id: parceiroId,
+          parceiro_codigo: parceiroCodigo,
           sem_adesao: semAdesao,
           tipo_plano: tipoPlano,
           mensalidade_valor: mensalidadeValor,
@@ -1029,14 +1029,14 @@ export async function POST(request: NextRequest) {
       }
 
       if (
-        /column .*sexo|sexo .*column|telefone_celular|estado_civil|nome_conjuge|escolaridade|rg|asaas_customer_id|asaas_payment_id|asaas_subscription_id|status|adesao_pago_em|mensalidade_billing_type|tipo_plano|mensalidade_valor|vendedor_id|vendedor_codigo|instituto_id|instituto_codigo|sem_adesao/i.test(
+        /column .*sexo|sexo .*column|telefone_celular|estado_civil|nome_conjuge|escolaridade|rg|asaas_customer_id|asaas_payment_id|asaas_subscription_id|status|adesao_pago_em|mensalidade_billing_type|tipo_plano|mensalidade_valor|vendedor_id|vendedor_codigo|parceiro_id|parceiro_codigo|sem_adesao/i.test(
           details
         )
       ) {
         return NextResponse.json(
           {
             error:
-              'Banco desatualizado. Execute scripts/001_create_tables.sql, scripts/004_add_cadastro_pagamentos.sql, scripts/005_add_billing_settings_admin.sql, scripts/006_add_plan_type_pricing.sql, scripts/007_add_vendedores_module.sql e scripts/015_add_institutos_module.sql no Supabase SQL Editor.',
+              'Banco desatualizado. Execute scripts/001_create_tables.sql, scripts/004_add_cadastro_pagamentos.sql, scripts/005_add_billing_settings_admin.sql, scripts/006_add_plan_type_pricing.sql, scripts/007_add_vendedores_module.sql e scripts/015_add_parceiros_module.sql no Supabase SQL Editor.',
           },
           { status: 500 }
         )
@@ -1132,7 +1132,7 @@ export async function POST(request: NextRequest) {
       tipoPlanoEscolhido: tipoPlano,
       mensalidadeValor,
       mensalidadeBillingTypeEscolhida: mensalidadeBillingType,
-      tipoReferencia: institutoId ? 'instituto' : (vendedorId ? 'vendedor' : null),
+      tipoReferencia: parceiroId ? 'parceiro' : (vendedorId ? 'vendedor' : null),
       semAdesao,
       termoPdfPath,
       termoGerado: Boolean(termoPdfPath),

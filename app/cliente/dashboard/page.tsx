@@ -8,22 +8,18 @@ import {
   Brain,
   CreditCard,
   Flower2,
-  LogOut,
   MapPin,
-  Menu,
   MessageCircle,
   Microscope,
   PhoneCall,
   Stethoscope,
   Users,
   Video,
-  X,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { BrandLogo } from '@/components/brand-logo'
-import { DEFAULT_BRAND_LOGO_ON_LIGHT_URL } from '@/lib/branding'
 import { clienteColors, clienteRadius } from '@/lib/cliente-ui'
 import { buildLarpSaudeWhatsappUrl, LARP_SAUDE } from '@/lib/laboratory-partners'
+import { ClienteNav } from '@/components/cliente/cliente-nav'
 
 type Cadastro = {
   id: string
@@ -67,7 +63,6 @@ export default function ClienteDashboard() {
   const [usuario, setUsuario] = useState<UsuarioCliente | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
-  const [menuOpen, setMenuOpen] = useState(false)
   const [config, setConfig] = useState<ConfigPublica>(CONFIG_DEFAULTS)
 
   const fetchCadastro = useCallback(async () => {
@@ -102,10 +97,6 @@ export default function ClienteDashboard() {
     fetchConfig()
   }, [fetchCadastro, fetchConfig])
 
-  const handleLogout = async () => {
-    await fetch('/api/cliente/logout', { method: 'POST' })
-    router.push('/login')
-  }
 
   const formatCurrency = (v: number) =>
     v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
@@ -113,7 +104,7 @@ export default function ClienteDashboard() {
   const isTitular = usuario?.tipo !== 'dependente'
   const dependentesCount = cadastro?.dependentes.length ?? 0
   const larpWhatsappUrl = useMemo(() => buildLarpSaudeWhatsappUrl({
-    origin: 'acesso do cliente SHALOM Saúde',
+    origin: 'acesso do cliente novaalianca Saúde',
     customerName: usuario?.nome || cadastro?.nome,
   }), [cadastro?.nome, usuario?.nome])
 
@@ -173,155 +164,8 @@ export default function ClienteDashboard() {
   const hasDebt = String(cadastro.financeiro_status || '').trim().toUpperCase() === 'EM_ATRASO'
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: clienteColors.background }}>
-
-      {/* ── HEADER ── */}
-      <header
-        className="sticky top-0 z-30 flex items-center justify-between px-4 py-3 shadow-sm sm:px-6"
-        style={{ backgroundColor: clienteColors.surface, borderBottom: `1px solid ${clienteColors.border}` }}
-      >
-        <BrandLogo
-          logoUrl={DEFAULT_BRAND_LOGO_ON_LIGHT_URL}
-          width={500}
-          height={500}
-          className="h-16 w-16 object-contain"
-        />
-        <div className="flex items-center gap-2">
-          {/* Hamburger — só mobile */}
-          <button
-            onClick={() => setMenuOpen(true)}
-            className="flex h-10 w-10 items-center justify-center rounded-full transition md:hidden"
-            style={{ backgroundColor: `${clienteColors.primary}12` }}
-            aria-label="Abrir menu"
-          >
-            <Menu className="h-5 w-5" style={{ color: clienteColors.primary }} />
-          </button>
-          {/* Logout — desktop */}
-          <Button
-            variant="outline"
-            className="hidden items-center gap-2 md:flex"
-            onClick={handleLogout}
-            style={{ borderRadius: clienteRadius.full, borderColor: clienteColors.border }}
-          >
-            <LogOut className="h-4 w-4" />
-            Sair
-          </Button>
-        </div>
-      </header>
-
-      {/* ── DRAWER MOBILE ── */}
-      {menuOpen && (
-        <div className="fixed inset-0 z-50 md:hidden">
-          {/* Backdrop */}
-          <div
-            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
-            onClick={() => setMenuOpen(false)}
-          />
-          {/* Panel */}
-          <aside
-            className="absolute right-0 top-0 h-full w-80 max-w-[90vw] overflow-y-auto shadow-2xl"
-            style={{ backgroundColor: clienteColors.surface }}
-          >
-            <div className="flex items-center justify-between border-b px-5 py-4" style={{ borderColor: clienteColors.border }}>
-              <p className="font-bold text-base" style={{ color: clienteColors.text }}>Minha Conta</p>
-              <button onClick={() => setMenuOpen(false)} className="rounded-full p-1" aria-label="Fechar menu">
-                <X className="h-5 w-5" style={{ color: clienteColors.textMuted }} />
-              </button>
-            </div>
-
-            <div className="p-5 space-y-5">
-              {/* Informações do plano */}
-              <div>
-                <p className="mb-2 text-xs font-semibold uppercase tracking-widest" style={{ color: clienteColors.textMuted }}>
-                  Meu Plano
-                </p>
-                <div className="rounded-2xl border p-4 space-y-3 text-sm" style={{ borderColor: clienteColors.borderMint, backgroundColor: `${clienteColors.primary}08` }}>
-                  <div className="flex items-center justify-between">
-                    <span style={{ color: clienteColors.textMuted }}>Plano</span>
-                    <span className="font-semibold" style={{ color: clienteColors.text }}>{cadastro.tipo_plano}</span>
-                  </div>
-                  {isTitular && (
-                    <div className="flex items-center justify-between">
-                      <span style={{ color: clienteColors.textMuted }}>Mensalidade</span>
-                      <span className="font-semibold" style={{ color: clienteColors.text }}>{formatCurrency(cadastro.mensalidade_valor)}</span>
-                    </div>
-                  )}
-                  <div className="flex items-center justify-between">
-                    <span style={{ color: clienteColors.textMuted }}>Status</span>
-                    <span
-                      className="rounded-full px-2.5 py-0.5 text-xs font-semibold"
-                      style={{ backgroundColor: isActive ? '#D1FAE5' : '#FEF3C7', color: isActive ? clienteColors.success : clienteColors.warning }}
-                    >
-                      {cadastro.status}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Financeiro */}
-              {isTitular && (
-                <div>
-                  <p className="mb-2 text-xs font-semibold uppercase tracking-widest" style={{ color: clienteColors.textMuted }}>
-                    Financeiro
-                  </p>
-                  <Link href="/cliente/pagamentos" onClick={() => setMenuOpen(false)}>
-                    <div className="flex items-center gap-4 rounded-2xl border p-4 transition hover:opacity-80" style={{ borderColor: clienteColors.border }}>
-                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: '#2196F318' }}>
-                        <CreditCard className="h-5 w-5" style={{ color: '#2196F3' }} />
-                      </div>
-                      <div className="flex-1">
-                        <p className="font-semibold text-sm" style={{ color: clienteColors.text }}>
-                          Financeiro
-                        </p>
-                        <p className="text-xs mt-0.5" style={{ color: clienteColors.textMuted }}>
-                          Mensalidades e faturas
-                        </p>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-              )}
-
-              {/* Dependentes */}
-              {isTitular && (
-                <div>
-                  <p className="mb-2 text-xs font-semibold uppercase tracking-widest" style={{ color: clienteColors.textMuted }}>
-                    Dependentes
-                  </p>
-                  <Link href="/cliente/dependentes" onClick={() => setMenuOpen(false)}>
-                    <div className="flex items-center gap-4 rounded-2xl border p-4 transition hover:opacity-80" style={{ borderColor: clienteColors.border }}>
-                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: '#FF980018' }}>
-                        <Users className="h-5 w-5" style={{ color: '#FF9800' }} />
-                      </div>
-                      <div className="flex-1">
-                        <p className="font-semibold text-sm" style={{ color: clienteColors.text }}>
-                          Dependentes
-                        </p>
-                        <p className="text-xs mt-0.5" style={{ color: clienteColors.textMuted }}>
-                          {dependentesCount} cadastrado{dependentesCount !== 1 ? 's' : ''} no plano
-                        </p>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
-              )}
-
-              {/* Sair */}
-              <Button
-                variant="outline"
-                className="w-full gap-2"
-                onClick={handleLogout}
-                style={{ borderRadius: clienteRadius.full, borderColor: clienteColors.border }}
-              >
-                <LogOut className="h-4 w-4" />
-                Sair da conta
-              </Button>
-            </div>
-          </aside>
-        </div>
-      )}
-
-      <main className="mx-auto max-w-3xl px-4 py-6 sm:px-6">
+    <ClienteNav nomeCliente={usuario?.nome || cadastro.nome}>
+      <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6">
 
         {/* ── SAUDAÇÃO ── */}
         <div className="mb-5">
@@ -514,7 +358,7 @@ export default function ClienteDashboard() {
           )}
         </div>
 
-      </main>
-    </div>
+      </div>
+    </ClienteNav>
   )
 }

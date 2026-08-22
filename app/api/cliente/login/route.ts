@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { SignJWT } from 'jose'
 
 const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || 'shalom-saude-secret-key-change-in-production'
+  process.env.JWT_SECRET || 'novaaliancasaude-secret-key-change-in-production'
 )
 
 type CadastroLoginRow = {

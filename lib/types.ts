@@ -24,8 +24,8 @@ export interface Cadastro {
   asaas_subscription_id?: string
   vendedor_id?: string
   vendedor_codigo?: string
-  instituto_id?: string
-  instituto_codigo?: string
+  parceiro_id?: string
+  parceiro_codigo?: string
   sem_adesao?: boolean
   tipo_plano?: 'INDIVIDUAL' | 'FAMILIAR' | string
   mensalidade_valor?: number
@@ -103,7 +103,7 @@ export interface Vendedor {
   updated_at: string
 }
 
-export interface Instituto {
+export interface Parceiro {
   id: string
   nome: string
   email: string
@@ -116,9 +116,9 @@ export interface Instituto {
   updated_at: string
 }
 
-export interface InstitutoPlanoPreco {
+export interface ParceiroPlanoPreco {
   id: string
-  instituto_id: string
+  parceiro_id: string
   plano_id: string
   valor_por_pessoa: number
   created_at: string

@@ -193,19 +193,19 @@ export async function GET(request: NextRequest) {
     const settings = await getBillingSettings()
     let planos = await loadPublicPlanOptions(settings)
 
-    // --- Instituto/Vendedor ref: personalise plans and flags ---
-    let tipoRef: 'instituto' | 'vendedor' | null = null
+    // --- Parceiro/Vendedor ref: personalise plans and flags ---
+    let tipoRef: 'parceiro' | 'vendedor' | null = null
     let semAdesao = false
     let refNome: string | null = null
 
     if (ref) {
-      const isInstitutoRef = ref.startsWith('INSTITUTO-')
+      const isParceiroRef = ref.startsWith('PARCEIRO-')
 
       try {
         const supabase = createAdminClient()
 
-        // Fast-path: INSTITUTO- prefix means it can only be an instituto
-        if (!isInstitutoRef) {
+        // Fast-path: PARCEIRO- prefix means it can only be an parceiro
+        if (!isParceiroRef) {
           // Try vendedor first (codes without prefix are always vendedores)
           const { data: vendedor } = await supabase
             .from('vendedores')
@@ -220,21 +220,21 @@ export async function GET(request: NextRequest) {
         }
 
         if (!tipoRef) {
-          // Try instituto
-          const { data: instituto, error: institutoError } = await supabase
-            .from('institutos')
+          // Try parceiro
+          const { data: parceiro, error: parceiroError } = await supabase
+            .from('parceiros')
             .select('id, nome, ativo, sem_adesao')
             .eq('codigo_indicacao', ref)
             .maybeSingle()
 
-          if (institutoError) {
-            const details = `${institutoError.message || ''} ${institutoError.details || ''} ${institutoError.code || ''}`
+          if (parceiroError) {
+            const details = `${parceiroError.message || ''} ${parceiroError.details || ''} ${parceiroError.code || ''}`
 
-            if (/relation .*institutos|does not exist|42P01/i.test(details)) {
+            if (/relation .*parceiros|does not exist|42P01/i.test(details)) {
               return NextResponse.json(
                 {
                   error:
-                    'Banco desatualizado. Execute scripts/015_add_institutos_module.sql no Supabase SQL Editor.',
+                    'Banco desatualizado. Execute scripts/015_add_parceiros_module.sql no Supabase SQL Editor.',
                 },
                 { status: 500 }
               )
@@ -250,57 +250,57 @@ export async function GET(request: NextRequest) {
               )
             }
 
-            console.error('[cobranca-config] instituto lookup error:', institutoError)
+            console.error('[cobranca-config] parceiro lookup error:', parceiroError)
             return NextResponse.json(
-              { error: 'Erro ao validar link de instituto.' },
+              { error: 'Erro ao validar link de parceiro.' },
               { status: 500 }
             )
           }
 
-          if (isInstitutoRef && (!instituto || instituto.ativo !== true)) {
+          if (isParceiroRef && (!parceiro || parceiro.ativo !== true)) {
             return NextResponse.json(
-              { error: 'Link de instituto inválido ou inativo.' },
+              { error: 'Link de parceiro inválido ou inativo.' },
               { status: 404 }
             )
           }
 
-          if (instituto && instituto.ativo) {
-            tipoRef = 'instituto'
-            refNome = instituto.nome
-            semAdesao = instituto.sem_adesao === true
+          if (parceiro && parceiro.ativo) {
+            tipoRef = 'parceiro'
+            refNome = parceiro.nome
+            semAdesao = parceiro.sem_adesao === true
 
-            // Fetch instituto's OWN plans (replaces global plans entirely)
-            const { data: institutoPlanos, error: planosErr } = await supabase
-              .from('instituto_planos')
+            // Fetch parceiro's OWN plans (replaces global plans entirely)
+            const { data: parceiroPlanos, error: planosErr } = await supabase
+              .from('parceiro_planos')
               .select('id, nome, descricao, valor, permite_dependentes, dependentes_minimos, max_dependentes, valor_dependente_adicional, ordem')
-              .eq('instituto_id', instituto.id)
+              .eq('parceiro_id', parceiro.id)
               .eq('ativo', true)
               .order('ordem', { ascending: true })
               .order('created_at', { ascending: true })
 
             if (planosErr) {
               const details = `${planosErr.message || ''} ${planosErr.details || ''} ${planosErr.code || ''}`
-              if (/does not exist|42P01|relation.*instituto_planos/i.test(details)) {
+              if (/does not exist|42P01|relation.*parceiro_planos/i.test(details)) {
                 return NextResponse.json(
                   {
                     error:
-                      'Banco desatualizado. Execute scripts/017_instituto_own_plans.sql no Supabase SQL Editor.',
+                      'Banco desatualizado. Execute scripts/017_parceiro_own_plans.sql no Supabase SQL Editor.',
                   },
                   { status: 500 }
                 )
               }
 
-              console.error('[cobranca-config] instituto_planos query error:', planosErr.message, planosErr.details)
+              console.error('[cobranca-config] parceiro_planos query error:', planosErr.message, planosErr.details)
               return NextResponse.json(
-                { error: 'Erro ao carregar planos do instituto.' },
+                { error: 'Erro ao carregar planos do parceiro.' },
                 { status: 500 }
               )
             } else {
-              console.log(`[cobranca-config] instituto ${instituto.id} (${ref}) — ${institutoPlanos?.length ?? 0} planos encontrados`)
+              console.log(`[cobranca-config] parceiro ${parceiro.id} (${ref}) — ${parceiroPlanos?.length ?? 0} planos encontrados`)
             }
 
-            if (institutoPlanos && institutoPlanos.length > 0) {
-              planos = institutoPlanos.map((p) => ({
+            if (parceiroPlanos && parceiroPlanos.length > 0) {
+              planos = parceiroPlanos.map((p) => ({
                 codigo: p.id,
                 nome: String(p.nome || '').trim(),
                 descricao: String(p.descricao || '').trim(),
@@ -313,7 +313,7 @@ export async function GET(request: NextRequest) {
               }))
             } else {
               return NextResponse.json(
-                { error: 'Nenhum plano ativo disponível para este instituto.' },
+                { error: 'Nenhum plano ativo disponível para este parceiro.' },
                 { status: 404 }
               )
             }
@@ -322,7 +322,7 @@ export async function GET(request: NextRequest) {
       } catch (err) {
         console.error('[cobranca-config] ref lookup failed:', err)
 
-        if (isInstitutoRef) {
+        if (isParceiroRef) {
           const details = err instanceof Error ? err.message : String(err)
 
           if (/fetch failed|enotfound|getaddrinfo|network/i.test(details)) {
@@ -336,7 +336,7 @@ export async function GET(request: NextRequest) {
           }
 
           return NextResponse.json(
-            { error: 'Erro ao validar link de instituto.' },
+            { error: 'Erro ao validar link de parceiro.' },
             { status: 500 }
           )
         }
@@ -344,7 +344,7 @@ export async function GET(request: NextRequest) {
     }
     // -----------------------------------------------------------
 
-    // These must be computed AFTER the instituto override so they reflect the final plan list
+    // These must be computed AFTER the parceiro override so they reflect the final plan list
     const allowedPlanTypes = planos.map((plan) => plan.codigo)
     const defaultPlanType = allowedPlanTypes[0] || settings.defaultPlanType
 
@@ -390,7 +390,7 @@ export async function GET(request: NextRequest) {
       allowedBillingTypes: BILLING_TYPE_OPTIONS,
       allowedPlanTypes,
       source: settings.source,
-      // Instituto/vendedor info
+      // Parceiro/vendedor info
       tipoRef,
       refNome,
       semAdesao,
