@@ -324,6 +324,9 @@ export default function AdminDashboard() {
             <Link href="/admin/clientes">
               <Button variant="outline">Clientes</Button>
             </Link>
+            <Link href="/admin/empresas">
+              <Button variant="outline">Empresas</Button>
+            </Link>
             <Link href="/admin/vendedores">
               <Button variant="outline">Vendedores</Button>
             </Link>
@@ -357,6 +360,11 @@ export default function AdminDashboard() {
                   <SheetClose asChild>
                     <Button asChild variant="outline" className="w-full justify-start">
                       <Link href="/admin/clientes">Clientes</Link>
+                    </Button>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <Button asChild variant="outline" className="w-full justify-start">
+                      <Link href="/admin/empresas">Empresas</Link>
                     </Button>
                   </SheetClose>
                   <SheetClose asChild>

@@ -485,6 +485,9 @@ export default function AdminCadastrosPage() {
             <Link href="/admin/dashboard">
               <Button variant="outline">Dashboard</Button>
             </Link>
+            <Link href="/admin/empresas">
+              <Button variant="outline">Empresas</Button>
+            </Link>
             <Link href="/admin/configuracoes">
               <Button variant="outline">Configurações</Button>
             </Link>
@@ -515,6 +518,11 @@ export default function AdminCadastrosPage() {
                   <SheetClose asChild>
                     <Button asChild variant="outline" className="w-full justify-start">
                       <Link href="/admin/dashboard">Dashboard</Link>
+                    </Button>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <Button asChild variant="outline" className="w-full justify-start">
+                      <Link href="/admin/empresas">Empresas</Link>
                     </Button>
                   </SheetClose>
                   <SheetClose asChild>
