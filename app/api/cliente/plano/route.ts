@@ -1,12 +1,12 @@
-import { requireClienteAuth } from '@/lib/supabase/cliente-auth'
-import { createClient } from '@/lib/supabase/server'
+import { requireActiveClienteAuth } from '@/lib/supabase/cliente-auth'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
   try {
-    const auth = await requireClienteAuth(request)
+    const auth = await requireActiveClienteAuth(request)
 
-    const supabase = await createClient()
+    const supabase = createAdminClient()
     const { data: cadastro } = await supabase
       .from('cadastros')
       .select('tipo_plano')

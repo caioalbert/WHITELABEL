@@ -697,7 +697,7 @@ export default function Home() {
                 <h3 className="text-xl font-extrabold leading-tight text-gray-900">
                   Planos para<br />sua empresa
                 </h3>
-                <Link href="/cadastro">
+                <Link href="/empresa/cadastro">
                   <Button className="mt-4 rounded-full bg-teal-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-teal-500">
                     Faça seu plano <ChevronRight className="ml-1 h-4 w-4" />
                   </Button>
@@ -753,6 +753,7 @@ export default function Home() {
               {planos.map((plano, index) => {
                 const isPerLifeMode = plano.permiteDependentes && plano.valorDependenteAdicional > 0 && Math.abs(plano.valor - plano.valorDependenteAdicional) < 0.0001
                 const isHighlighted = index === Math.floor(planos.length / 2)
+                const isEmpresaPlan = /EMPRESARIAL/i.test(`${plano.codigo} ${plano.nome}`)
 
                 return (
                   <div
@@ -818,7 +819,7 @@ export default function Home() {
                         </ul>
                       )}
 
-                      {plano.permiteDependentes && (
+                      {plano.permiteDependentes && !isEmpresaPlan && (
                         <div className={`mb-6 rounded-2xl p-3 text-sm ${isHighlighted ? 'bg-white/10 text-teal-100' : 'bg-blue-50 text-blue-800'}`}>
                           <p className="font-semibold"> Permite dependentes</p>
                           {plano.maxDependentes !== null && (
@@ -833,7 +834,7 @@ export default function Home() {
                       )}
 
                       <div className="mt-auto">
-                        <Link href={`/cadastro?plano=${plano.codigo}`}>
+                        <Link href={isEmpresaPlan ? '/empresa/cadastro' : `/cadastro?plano=${plano.codigo}`}>
                           <Button className={`w-full rounded-full py-6 text-base font-bold transition-all ${
                             isHighlighted
                               ? 'bg-white text-teal-700 hover:bg-gray-100'

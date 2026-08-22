@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { isValidCPF } from '@/lib/utils'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ exists: false, valid: false })
     }
 
-    const supabase = await createClient()
+    const supabase = createAdminClient()
     const { data, error } = await supabase
       .from('cadastros')
       .select('id')

@@ -1,9 +1,8 @@
 import { jwtVerify } from 'jose'
 import { cookies } from 'next/headers'
+import { getJwtSecret } from '@/lib/auth-secret'
+import { createAdminClient } from '@/lib/supabase/admin'
 
-const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || 'shalom-saude-secret-key-change-in-production'
-)
 
 export type ClienteAuth = {
   clienteId: string
@@ -16,7 +15,7 @@ export type ClienteAuth = {
 
 async function authFromToken(token: string): Promise<ClienteAuth | null> {
   try {
-    const { payload } = await jwtVerify(token, JWT_SECRET)
+    const { payload } = await jwtVerify(token, getJwtSecret())
     const tipo = payload.tipo === 'dependente' ? 'dependente' : 'titular'
 
     return {
@@ -58,14 +57,28 @@ export async function getClienteAuthFromRequest(
   return getClienteAuth()
 }
 
-export async function requireClienteAuth(request?: Request): Promise<ClienteAuth> {
-  const auth = request
-    ? await getClienteAuthFromRequest(request)
-    : await getClienteAuth()
+export async function getActiveClienteAuth(request?: Request): Promise<ClienteAuth | null> {
+  try {
+    const auth = request
+      ? await getClienteAuthFromRequest(request)
+      : await getClienteAuth()
+    if (!auth) return null
 
-  if (!auth) {
-    throw new Error('Não autenticado')
+    const supabase = createAdminClient()
+    const { data } = await supabase
+      .from('cadastros')
+      .select('status')
+      .eq('id', auth.clienteId)
+      .maybeSingle()
+
+    return data?.status === 'ATIVO' ? auth : null
+  } catch {
+    return null
   }
+}
 
+export async function requireActiveClienteAuth(request?: Request): Promise<ClienteAuth> {
+  const auth = await getActiveClienteAuth(request)
+  if (!auth) throw new Error('Não autenticado')
   return auth
 }

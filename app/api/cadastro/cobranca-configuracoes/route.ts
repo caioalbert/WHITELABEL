@@ -189,6 +189,7 @@ async function loadPublicPlanOptions(settings: Awaited<ReturnType<typeof getBill
 export async function GET(request: NextRequest) {
   try {
     const ref = String(request.nextUrl.searchParams.get('ref') || '').trim().toUpperCase()
+    const audience = String(request.nextUrl.searchParams.get('audience') || '').trim().toLowerCase()
 
     const settings = await getBillingSettings()
     let planos = await loadPublicPlanOptions(settings)
@@ -343,6 +344,16 @@ export async function GET(request: NextRequest) {
       }
     }
     // -----------------------------------------------------------
+
+    if (audience === 'pf') {
+      planos = planos.filter((plan) => !/EMPRESARIAL/i.test(`${plan.codigo} ${plan.nome}`))
+      if (planos.length === 0) {
+        return NextResponse.json(
+          { error: 'Nenhum plano para pessoa física está disponível no momento.' },
+          { status: 404 }
+        )
+      }
+    }
 
     // These must be computed AFTER the instituto override so they reflect the final plan list
     const allowedPlanTypes = planos.map((plan) => plan.codigo)

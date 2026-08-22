@@ -1,11 +1,24 @@
-import { requireClienteAuth } from '@/lib/supabase/cliente-auth'
-import { createClient } from '@/lib/supabase/server'
+import { requireActiveClienteAuth } from '@/lib/supabase/cliente-auth'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { updateAsaasSubscriptionValue } from '@/lib/asaas'
 import { MIN_DEPENDENTES_FAMILIAR, VALOR_POR_VIDA_EXCEDENTE } from '@/lib/plan-pricing'
 import { NextRequest, NextResponse } from 'next/server'
 
+async function isEmpresaBeneficiary(
+  supabase: ReturnType<typeof createAdminClient>,
+  cadastroId: string
+) {
+  const { data, error } = await supabase
+    .from('cadastros')
+    .select('empresa_id')
+    .eq('id', cadastroId)
+    .maybeSingle()
+  if (error) throw error
+  return Boolean(data?.empresa_id)
+}
+
 async function recalculateAndUpdateSubscription(cadastroId: string) {
-  const supabase = await createClient()
+  const supabase = createAdminClient()
 
   const { data: cadastro } = await supabase
     .from('cadastros')
@@ -52,9 +65,10 @@ async function recalculateAndUpdateSubscription(cadastroId: string) {
 // GET - Listar dependentes
 export async function GET(request: NextRequest) {
   try {
-    const auth = await requireClienteAuth(request)
+    const auth = await requireActiveClienteAuth(request)
 
-    const supabase = await createClient()
+    const supabase = createAdminClient()
+    const empresaBeneficiary = await isEmpresaBeneficiary(supabase, auth.clienteId)
     const { data: dependentes, error } = await supabase
       .from('dependentes')
       .select('*')
@@ -71,7 +85,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       dependentes: dependentes || [],
-      canManage: auth.tipo === 'titular',
+      canManage: auth.tipo === 'titular' && !empresaBeneficiary,
     })
   } catch (error) {
     if (error instanceof Error && error.message === 'Não autenticado') {
@@ -92,7 +106,7 @@ export async function GET(request: NextRequest) {
 // POST - Adicionar dependente
 export async function POST(request: NextRequest) {
   try {
-    const auth = await requireClienteAuth(request)
+    const auth = await requireActiveClienteAuth(request)
 
     if (auth.tipo !== 'titular') {
       return NextResponse.json(
@@ -111,7 +125,13 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const supabase = await createClient()
+    const supabase = createAdminClient()
+    if (await isEmpresaBeneficiary(supabase, auth.clienteId)) {
+      return NextResponse.json(
+        { error: 'Funcionários de empresa não podem alterar a composição do plano empresarial.' },
+        { status: 403 }
+      )
+    }
 
     // Verificar CPF duplicado
     const cpfClean = cpf.replace(/\D/g, '')
@@ -233,7 +253,7 @@ export async function POST(request: NextRequest) {
 // PUT - Atualizar dependente
 export async function PUT(request: NextRequest) {
   try {
-    const auth = await requireClienteAuth(request)
+    const auth = await requireActiveClienteAuth(request)
 
     if (auth.tipo !== 'titular') {
       return NextResponse.json(
@@ -252,7 +272,13 @@ export async function PUT(request: NextRequest) {
       )
     }
 
-    const supabase = await createClient()
+    const supabase = createAdminClient()
+    if (await isEmpresaBeneficiary(supabase, auth.clienteId)) {
+      return NextResponse.json(
+        { error: 'Funcionários de empresa não podem alterar a composição do plano empresarial.' },
+        { status: 403 }
+      )
+    }
 
     // Verificar se o dependente pertence ao cliente
     const { data: existing } = await supabase
@@ -348,7 +374,7 @@ export async function PUT(request: NextRequest) {
 // DELETE - Remover dependente
 export async function DELETE(request: NextRequest) {
   try {
-    const auth = await requireClienteAuth(request)
+    const auth = await requireActiveClienteAuth(request)
     const { searchParams } = new URL(request.url)
     const id = searchParams.get('id')
 
@@ -366,7 +392,13 @@ export async function DELETE(request: NextRequest) {
       )
     }
 
-    const supabase = await createClient()
+    const supabase = createAdminClient()
+    if (await isEmpresaBeneficiary(supabase, auth.clienteId)) {
+      return NextResponse.json(
+        { error: 'Funcionários de empresa não podem alterar a composição do plano empresarial.' },
+        { status: 403 }
+      )
+    }
     const { error } = await supabase
       .from('dependentes')
       .delete()

@@ -1,5 +1,6 @@
 import { AsaasIntegrationError, getAsaasPayment, isAsaasPaidStatus } from '@/lib/asaas'
-import { createClient } from '@/lib/supabase/server'
+import { getCadastroFlowId } from '@/lib/supabase/cadastro-flow-auth'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { NextRequest, NextResponse } from 'next/server'
 
 const CONNECTIVITY_ERROR_REGEX =
@@ -11,15 +12,17 @@ function isConnectivityIssue(details: string) {
 
 export async function GET(request: NextRequest) {
   try {
-    const id = request.nextUrl.searchParams.get('id')?.trim()
-    if (!id) {
-      return NextResponse.json({ error: 'id é obrigatório.' }, { status: 400 })
+    const authorizedCadastroId = await getCadastroFlowId()
+    const requestedId = request.nextUrl.searchParams.get('id')?.trim()
+    const id = requestedId || authorizedCadastroId
+    if (!authorizedCadastroId || !id || authorizedCadastroId !== id) {
+      return NextResponse.json({ error: 'Não autorizado.' }, { status: 401 })
     }
 
-    const supabase = await createClient()
+    const supabase = createAdminClient()
     const { data, error } = await supabase
       .from('cadastros')
-      .select('id, status, asaas_payment_id, asaas_subscription_id, adesao_pago_em')
+      .select('id, nome, email, status, asaas_payment_id, asaas_subscription_id, adesao_pago_em')
       .eq('id', id)
       .maybeSingle()
 
@@ -55,12 +58,22 @@ export async function GET(request: NextRequest) {
 
     let asaasPaymentStatus: string | null = null
     let processingPayment = false
+    let pagamento = null
 
     if ((data.status || 'PENDENTE_PAGAMENTO') !== 'ATIVO' && data.asaas_payment_id) {
       try {
         const payment = await getAsaasPayment(String(data.asaas_payment_id))
         asaasPaymentStatus = payment.status || null
         processingPayment = isAsaasPaidStatus(payment.status)
+        pagamento = {
+          id: payment.id,
+          descricao: payment.description || 'Pagamento inicial',
+          valor: Number(payment.value || 0),
+          vencimento: String(payment.dueDate || ''),
+          billingType: payment.billingType,
+          invoiceUrl: payment.invoiceUrl || null,
+          bankSlipUrl: payment.bankSlipUrl || null,
+        }
       } catch (error) {
         // Não quebra o fluxo de status caso a consulta no Asaas falhe.
         if (!(error instanceof AsaasIntegrationError)) {
@@ -71,12 +84,15 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       id: data.id,
+      nome: data.nome,
+      email: data.email,
       status: data.status || 'PENDENTE_PAGAMENTO',
       asaasPaymentId: data.asaas_payment_id || null,
       asaasSubscriptionId: data.asaas_subscription_id || null,
       adesaoPagoEm: data.adesao_pago_em || null,
       asaasPaymentStatus,
       processingPayment,
+      pagamento,
     })
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error)

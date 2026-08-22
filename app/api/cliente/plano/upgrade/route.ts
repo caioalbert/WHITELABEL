@@ -1,12 +1,12 @@
-import { requireClienteAuth } from '@/lib/supabase/cliente-auth'
-import { createClient } from '@/lib/supabase/server'
+import { requireActiveClienteAuth } from '@/lib/supabase/cliente-auth'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { updateAsaasSubscriptionValue } from '@/lib/asaas'
 import { MIN_DEPENDENTES_FAMILIAR, VALOR_POR_VIDA_EXCEDENTE } from '@/lib/plan-pricing'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
   try {
-    const auth = await requireClienteAuth(request)
+    const auth = await requireActiveClienteAuth(request)
 
     if (auth.tipo !== 'titular') {
       return NextResponse.json(
@@ -25,12 +25,12 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const supabase = await createClient()
+    const supabase = createAdminClient()
 
     // Verificar plano atual
     const { data: cadastro, error: cadastroError } = await supabase
       .from('cadastros')
-      .select('tipo_plano, asaas_subscription_id, mensalidade_valor')
+      .select('empresa_id, tipo_plano, asaas_subscription_id, mensalidade_valor')
       .eq('id', auth.clienteId)
       .single()
 
@@ -38,6 +38,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: 'Cadastro não encontrado.' },
         { status: 404 }
+      )
+    }
+
+    if (cadastro.empresa_id) {
+      return NextResponse.json(
+        { error: 'O plano empresarial só pode ser alterado pela empresa.' },
+        { status: 403 }
       )
     }
 

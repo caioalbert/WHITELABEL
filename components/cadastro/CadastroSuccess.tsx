@@ -7,6 +7,7 @@ import Image from 'next/image'
 
 type CadastroPagamento = {
   id: string
+  descricao?: string
   valor: number
   vencimento: string
   billingType?: string
@@ -22,7 +23,7 @@ interface CadastroSuccessProps {
     email: string
     id: string
     status?: string
-    pagamento?: CadastroPagamento
+    pagamento?: CadastroPagamento | null
   }
 }
 
@@ -36,7 +37,7 @@ export function CadastroSuccess({ data }: CadastroSuccessProps) {
   const [lastCheckAt, setLastCheckAt] = useState<string | null>(null)
   const mountedRef = useRef(true)
 
-  const isPendingPayment = status === 'PENDENTE_PAGAMENTO' && Boolean(data.pagamento)
+  const isPendingPayment = status === 'PENDENTE_PAGAMENTO'
   const isCreditCardPayment = data.pagamento?.billingType === 'CREDIT_CARD'
   const paymentMethodLabel = isCreditCardPayment ? 'Cartão de Crédito' : 'BolePIX'
   const invoiceUrl = data.pagamento?.invoiceUrl || null
@@ -44,6 +45,7 @@ export function CadastroSuccess({ data }: CadastroSuccessProps) {
   const pixCopiaECola = String(data.pagamento?.pixCopiaECola || '').trim()
   const qrCodeBase64 = String(data.pagamento?.qrCodeBase64 || '').trim()
   const hasLegacyPixData = Boolean(pixCopiaECola && qrCodeBase64)
+  const paymentDescription = data.pagamento?.descricao || 'Adesão'
 
   const formatCurrency = (value: number) =>
     value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
@@ -164,13 +166,31 @@ export function CadastroSuccess({ data }: CadastroSuccessProps) {
     }
   }, [checkStatus, isPendingPayment, status])
 
+  if (isPendingPayment && !data.pagamento) {
+    return (
+      <main className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 flex items-center justify-center py-8 px-4">
+        <div className="w-full max-w-md rounded-xl bg-white p-8 shadow-xl">
+          <h1 className="text-2xl font-bold text-amber-800">Cadastro pendente</h1>
+          <p className="mt-3 text-sm text-gray-700">
+            O cadastro ainda não está ativo. A cobrança está sendo preparada ou temporariamente indisponível para consulta.
+          </p>
+          {statusMessage && <p className="mt-3 text-sm text-gray-600">{statusMessage}</p>}
+          <Button onClick={handleCheckStatus} disabled={isCheckingStatus || isAutoChecking} className="mt-5 w-full bg-gray-800 hover:bg-gray-900">
+            {isCheckingStatus || isAutoChecking ? 'Verificando...' : 'Verificar novamente'}
+          </Button>
+          <Link href="/" className="mt-3 block"><Button variant="outline" className="w-full">Voltar para início</Button></Link>
+        </div>
+      </main>
+    )
+  }
+
   if (isPendingPayment && data.pagamento) {
     return (
       <main className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 flex items-center justify-center py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-xl w-full">
           <div className="bg-white rounded-xl shadow-xl overflow-hidden">
             <div className="bg-gradient-to-r from-amber-500 to-orange-500 px-6 py-10 sm:px-8 text-center">
-              <h1 className="text-3xl font-bold text-white">Pagamento da Adesão</h1>
+              <h1 className="text-3xl font-bold text-white">Pagamento: {paymentDescription}</h1>
               <p className="text-amber-100 mt-2">Seu cadastro foi recebido e está pendente de pagamento</p>
             </div>
 
@@ -185,7 +205,7 @@ export function CadastroSuccess({ data }: CadastroSuccessProps) {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="rounded-lg border border-gray-200 p-3">
-                  <p className="text-xs text-gray-500">Valor da adesão</p>
+                  <p className="text-xs text-gray-500">Valor do pagamento inicial</p>
                   <p className="text-lg font-semibold text-gray-900">{formatCurrency(data.pagamento.valor)}</p>
                 </div>
                 <div className="rounded-lg border border-gray-200 p-3">
@@ -199,8 +219,8 @@ export function CadastroSuccess({ data }: CadastroSuccessProps) {
                 <p className="text-base font-semibold text-gray-900">{paymentMethodLabel}</p>
                 <p className="text-sm text-gray-700">
                   {isCreditCardPayment
-                    ? 'Pague a adesão com cartão na fatura. A assinatura mensal seguirá o mesmo método.'
-                    : 'Pague a fatura por boleto ou Pix (BolePIX). A assinatura mensal seguirá o mesmo método.'}
+                    ? 'Pague a cobrança inicial com cartão. A assinatura mensal seguirá o mesmo método.'
+                    : 'Pague a cobrança inicial por boleto ou Pix (BolePIX). A assinatura mensal seguirá o mesmo método.'}
                 </p>
 
                 <div className="flex flex-col gap-2">
@@ -234,7 +254,7 @@ export function CadastroSuccess({ data }: CadastroSuccessProps) {
                   <div className="flex justify-center">
                     <Image
                       src={`data:image/png;base64,${qrCodeBase64}`}
-                      alt="QR Code PIX da adesão"
+                      alt="QR Code PIX do pagamento inicial"
                       className="h-56 w-56 rounded-lg border border-gray-200"
                       width={224}
                       height={224}

@@ -121,12 +121,12 @@ export function CadastroForm({
   })
   const vendedorRef = initialVendedorRef.trim().toUpperCase()
 
-  // Pular step 0 se plano já foi selecionado
+  // Pular a escolha somente se o plano da URL estiver disponível para PF.
   useEffect(() => {
-    if (initialPlanoCode.trim()) {
+    if (initialPlanoCode.trim() && billingConfig && findPlanOptionByCode(billingConfig.planos, initialPlanoCode)) {
       setStep(1)
     }
-  }, [initialPlanoCode])
+  }, [billingConfig, initialPlanoCode])
 
   useEffect(() => {
     let active = true
@@ -134,7 +134,9 @@ export function CadastroForm({
 
     const fetchBillingConfig = async () => {
       try {
-        const refParam = vendedorRef ? `?ref=${encodeURIComponent(vendedorRef)}` : ''
+        const refParam = vendedorRef
+          ? `?audience=pf&ref=${encodeURIComponent(vendedorRef)}`
+          : '?audience=pf'
         const response = await fetch(`/api/cadastro/cobranca-configuracoes${refParam}`, {
           cache: 'no-store',
         })

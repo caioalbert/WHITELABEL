@@ -1,4 +1,5 @@
-import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
+import { requireAdminAuth } from '@/lib/supabase/admin-auth'
 import { getTermoBodyText } from '@/lib/termo-template'
 import { NextRequest, NextResponse } from 'next/server'
 import { renderToBuffer } from '@react-pdf/renderer'
@@ -25,6 +26,19 @@ async function streamToBuffer(stream: ReadableStream<Uint8Array>) {
 
 export async function POST(request: NextRequest) {
   try {
+    const internalToken = request.headers.get('x-internal-token')?.trim()
+    const expectedInternalToken = process.env.ASAAS_WEBHOOK_TOKEN?.trim()
+    const isInternal = Boolean(
+      expectedInternalToken && internalToken && internalToken === expectedInternalToken
+    )
+
+    if (!isInternal) {
+      const auth = await requireAdminAuth(request)
+      if (!auth.ok) {
+        return NextResponse.json({ error: auth.error }, { status: auth.status })
+      }
+    }
+
     const body = await request.json()
     const cadastroId = body?.cadastroId
 
@@ -35,7 +49,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const supabase = await createClient()
+    const supabase = createAdminClient()
 
     // Buscar cadastro
     const { data: cadastro, error: cadastroError } = await supabase

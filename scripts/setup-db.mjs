@@ -30,13 +30,19 @@ if (placeholderPatterns.some((pattern) => pattern.test(serviceRoleKey))) {
 const supabase = createClient(supabaseUrl, serviceRoleKey)
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
-const sqlPath = path.join(__dirname, '001_create_tables.sql')
-const setupSQL = fs.readFileSync(sqlPath, 'utf8')
+const sqlFiles = fs.readdirSync(__dirname)
+  .filter((name) => /^\d{3}_.+\.sql$/.test(name))
+  .sort()
+const sqlPaths = sqlFiles.map((name) => path.join(__dirname, name))
+const setupSQL = sqlPaths
+  .map((sqlPath) => `-- ${path.basename(sqlPath)}\n${fs.readFileSync(sqlPath, 'utf8')}`)
+  .join('\n\n')
 
 function printManualInstructions() {
   console.log('\nNão foi possível executar SQL automaticamente via API.')
-  console.log(`Execute manualmente o script: ${sqlPath}`)
-  console.log('No Supabase: SQL Editor -> cole o conteúdo -> Run.\n')
+  console.log('Execute manualmente, em ordem, os scripts:')
+  sqlPaths.forEach((sqlPath) => console.log(`- ${sqlPath}`))
+  console.log('No Supabase: SQL Editor -> cole o conteúdo de cada arquivo -> Run.\n')
 }
 
 async function setupDatabase() {
@@ -55,7 +61,7 @@ async function setupDatabase() {
       process.exit(1)
     }
 
-    console.log('Database setup completed successfully!')
+    console.log(`Database setup completed successfully (${sqlFiles.length} scripts)!`)
     process.exit(0)
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error)

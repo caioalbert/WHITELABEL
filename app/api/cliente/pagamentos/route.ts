@@ -1,21 +1,28 @@
-import { requireClienteAuth } from '@/lib/supabase/cliente-auth'
-import { createClient } from '@/lib/supabase/server'
+import { requireActiveClienteAuth } from '@/lib/supabase/cliente-auth'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { getAsaasPayment, listAsaasSubscriptionPayments } from '@/lib/asaas'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
   try {
-    const auth = await requireClienteAuth(request)
+    const auth = await requireActiveClienteAuth(request)
 
-    const supabase = await createClient()
+    const supabase = createAdminClient()
     const { data: cadastro, error } = await supabase
       .from('cadastros')
-      .select('asaas_subscription_id, asaas_payment_id, adesao_pago_em, mensalidade_valor')
+      .select('empresa_id, asaas_subscription_id, asaas_payment_id, adesao_pago_em, mensalidade_valor')
       .eq('id', auth.clienteId)
       .single()
 
     if (error || !cadastro) {
       return NextResponse.json({ error: 'Cadastro não encontrado.' }, { status: 404 })
+    }
+
+    if (cadastro.empresa_id) {
+      return NextResponse.json(
+        { error: 'O financeiro do plano empresarial é administrado pela empresa.' },
+        { status: 403 }
+      )
     }
 
     // Buscar adesão e mensalidades em paralelo

@@ -12,7 +12,7 @@ import {
 } from '@/lib/billing-settings'
 import { calculatePlanChargeBreakdown } from '@/lib/plan-pricing'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { createClient } from '@/lib/supabase/server'
+import { CADASTRO_FLOW_COOKIE, createCadastroFlowToken } from '@/lib/supabase/cadastro-flow-auth'
 import { getTermoBodyText } from '@/lib/termo-template'
 import { getAgeFromIsoDate, isValidCPF, isValidEmail } from '@/lib/utils'
 import { renderToBuffer } from '@react-pdf/renderer'
@@ -505,7 +505,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Inicializar Supabase
-    const supabase = await createClient()
+    const supabase = createAdminClient()
     let vendedorId: string | null = null
     let vendedorCodigo: string | null = null
     let institutoId: string | null = null
@@ -774,6 +774,13 @@ export async function POST(request: NextRequest) {
       throw new Error('Tipo de plano inválido.')
     }
 
+    if (/EMPRESARIAL/i.test(`${selectedPlan.codigo} ${selectedPlan.nome}`)) {
+      return NextResponse.json(
+        { error: 'O plano empresarial exige cadastro de PJ, orçamento e lista de funcionários.' },
+        { status: 409 }
+      )
+    }
+
     const tem_dependentes = selectedPlan.permiteDependentes
 
     if (!tem_dependentes && (temDependentesInformado || dependentesPayload.length > 0)) {
@@ -913,10 +920,6 @@ export async function POST(request: NextRequest) {
     const mensalidadeValor = calculatePlanChargeValue(selectedPlan, dependentes.length)
     const adesaoValue = mensalidadeValor
 
-    const asaasMensalidadeDueDate = semAdesao
-      ? toIsoDate(new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)) // +30 days for instituto clients
-      : toIsoDate(new Date()) // today for normal clients
-
     let asaasCustomerId: string | null = null
     let asaasPaymentId: string | null = null
     let asaasPaymentInvoiceUrl: string | null = null
@@ -937,24 +940,24 @@ export async function POST(request: NextRequest) {
       })
       asaasCustomerId = asaasCustomer.id
 
-      if (!semAdesao) {
-        // Normal flow: create adhesion payment
-        if (adesaoValue < MIN_ASAAS_CHARGE_VALUE) {
-          throw new Error(`Configuração de cobrança inválida. O valor mínimo permitido pelo Asaas é R$ ${MIN_ASAAS_CHARGE_VALUE.toFixed(2).replace('.', ',')}.`)
-        }
-        const payment = await createAsaasPayment({
-          customer: asaasCustomerId,
-          value: adesaoValue,
-          dueDate: adesaoDueDate,
-          billingType: adesaoBillingType,
-          description: 'Taxa de adesão SHALOM Saúde',
-          externalReference: cadastroId,
-        })
-        asaasPaymentId = payment.id
-        asaasPaymentInvoiceUrl = payment.invoiceUrl || null
-        asaasPaymentBankSlipUrl = payment.bankSlipUrl || null
+      // Todo PF precisa confirmar um pagamento antes da ativação. Para institutos
+      // sem taxa de adesão, esta cobrança representa a primeira mensalidade.
+      if (adesaoValue < MIN_ASAAS_CHARGE_VALUE) {
+        throw new Error(`Configuração de cobrança inválida. O valor mínimo permitido pelo Asaas é R$ ${MIN_ASAAS_CHARGE_VALUE.toFixed(2).replace('.', ',')}.`)
       }
-      // For instituto clients (semAdesao=true): no adhesion payment, subscription will be created after admin activates
+      const payment = await createAsaasPayment({
+        customer: asaasCustomerId,
+        value: adesaoValue,
+        dueDate: adesaoDueDate,
+        billingType: adesaoBillingType,
+        description: semAdesao
+          ? 'Primeira mensalidade SHALOM Saúde'
+          : 'Taxa de adesão SHALOM Saúde',
+        externalReference: cadastroId,
+      })
+      asaasPaymentId = payment.id
+      asaasPaymentInvoiceUrl = payment.invoiceUrl || null
+      asaasPaymentBankSlipUrl = payment.bankSlipUrl || null
     } catch (error) {
       await cleanupFailedAsaasRegistration({ asaasCustomerId, asaasPaymentId })
 
@@ -1115,7 +1118,7 @@ export async function POST(request: NextRequest) {
       dependentes: dependentesForTermo,
     })
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       success: true,
       id: cadastroData.id,
       nome: cadastroData.nome,
@@ -1123,8 +1126,9 @@ export async function POST(request: NextRequest) {
       status: cadastroData.status || 'PENDENTE_PAGAMENTO',
       pagamento: asaasPaymentId ? {
         id: asaasPaymentId,
-        valor: semAdesao ? mensalidadeValor : adesaoValue,
-        vencimento: semAdesao ? asaasMensalidadeDueDate : adesaoDueDate,
+        descricao: semAdesao ? 'Primeira mensalidade' : 'Adesão',
+        valor: adesaoValue,
+        vencimento: adesaoDueDate,
         billingType: adesaoBillingType,
         invoiceUrl: asaasPaymentInvoiceUrl,
         bankSlipUrl: asaasPaymentBankSlipUrl,
@@ -1137,6 +1141,15 @@ export async function POST(request: NextRequest) {
       termoPdfPath,
       termoGerado: Boolean(termoPdfPath),
     })
+    const flowToken = await createCadastroFlowToken(cadastroData.id)
+    response.cookies.set(CADASTRO_FLOW_COOKIE, flowToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24,
+      path: '/',
+    })
+    return response
   } catch (error) {
     if (error instanceof AsaasIntegrationError) {
       return NextResponse.json({ error: error.message }, { status: error.status })

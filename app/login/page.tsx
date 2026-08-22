@@ -101,7 +101,7 @@ function LoginForm() {
         return
       }
 
-      router.push('/cliente/dashboard')
+      router.push(data.nextPath || (isEmpresa ? '/empresa/dashboard' : '/cliente/dashboard'))
     } catch {
       if (!navigator.onLine) {
         trackPwaEvent('pwa_login_blocked_offline', { area: 'cliente' })
@@ -276,7 +276,7 @@ function LoginForm() {
             Acesso rápido
           </p>
           <p className="mt-0.5 text-xs" style={{ color: clienteColors.textMuted }}>
-            <Link href="/cadastro" className="underline">
+            <Link href={isEmpresa ? '/empresa/cadastro' : '/cadastro'} className="underline">
               Não tem cadastro? Cadastre-se aqui
             </Link>
             {' | '}

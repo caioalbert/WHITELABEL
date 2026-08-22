@@ -35,6 +35,13 @@ Sistema completo de cadastro, adesão e gerenciamento de termos digitais para o 
 - Configuração de cobrança via painel admin (adesão, mensalidade individual/familiar e opções de cobrança)
 - Regra de negócio aplicada: cada plano tem 1 valor único (adesão = mensalidade)
 
+✅ **Fluxos PF e PJ separados**
+- PF: cadastro → pagamento → acesso ao app
+- PJ: cadastro da empresa → solicitação de orçamento → lista de funcionários → pagamento → acesso ao app
+- Preço empresarial obtido do plano empresarial ativo e preservado no orçamento solicitado
+- Empresa e funcionários somente são ativados pelo webhook após confirmação real do Asaas
+- Rotas do app revalidam o status persistido, além de validar o JWT
+
 ## Stack Técnico
 
 - **Frontend**: Next.js 16, React 19, TypeScript
@@ -138,7 +145,29 @@ Se o banco já existia antes, execute também:
 -- scripts/010_add_planos_dependentes_rules.sql
 -- scripts/011_add_planos_publico_conteudo.sql
 -- scripts/012_apply_planos_regras_por_vida.sql
+-- ...demais migrações em ordem...
+-- scripts/022_add_pj_business_flow.sql
 ```
+
+O comando `node scripts/setup-db.mjs` aplica todos os scripts SQL numerados em ordem quando a RPC `exec_sql` está disponível. Sem essa RPC, execute os arquivos `scripts/001_...sql` até `scripts/022_...sql` manualmente, na ordem.
+
+### Fluxos de negócio
+
+#### Pessoa Física
+
+1. `POST /api/cadastro` grava o cadastro como `PENDENTE_PAGAMENTO` e cria a cobrança Asaas.
+2. A tela de conclusão consulta `/api/cadastro/status` usando uma sessão de fluxo vinculada ao cadastro.
+3. O webhook confirma a cobrança, cria a assinatura e grava `ATIVO`.
+4. Login e APIs de cliente somente aceitam cadastro `ATIVO`.
+
+#### Pessoa Jurídica
+
+1. `/empresa/cadastro` e `POST /api/empresa/cadastro` gravam `CADASTRO_CONCLUIDO`.
+2. `POST /api/empresa/orcamento` grava `ORCAMENTO_SOLICITADO` e preserva preço/mínimo do plano empresarial.
+3. `POST /api/empresa/funcionarios` valida e persiste a lista, então grava `LISTA_FUNCIONARIOS_ENVIADA`.
+4. `POST /api/empresa/pagamento` só aceita a etapa anterior e cria a cobrança vinculada à empresa/CNPJ, gravando `PENDENTE_PAGAMENTO`.
+5. O webhook cria a assinatura empresarial, provisiona os funcionários como beneficiários e somente então libera `ATIVO`.
+6. A empresa entra por CNPJ em `/login?tipo=empresa`; os funcionários provisionados entram por CPF.
 
 ### 5. Criar usuário admin (opcional)
 

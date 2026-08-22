@@ -2,13 +2,17 @@ import {
   formatCpfForDb,
   verifyCpfPrefix,
 } from '@/lib/cliente-login-verify'
-import { createClient } from '@/lib/supabase/server'
+import { getJwtSecret } from '@/lib/auth-secret'
+import { createAdminClient } from '@/lib/supabase/admin'
+import {
+  EMPRESA_APP_COOKIE,
+  EMPRESA_FLOW_COOKIE,
+  createEmpresaToken,
+} from '@/lib/supabase/empresa-auth'
+import { isValidCNPJ, normalizeCNPJ } from '@/lib/utils'
+import { CADASTRO_FLOW_COOKIE, createCadastroFlowToken } from '@/lib/supabase/cadastro-flow-auth'
 import { NextRequest, NextResponse } from 'next/server'
 import { SignJWT } from 'jose'
-
-const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || 'shalom-saude-secret-key-change-in-production'
-)
 
 type CadastroLoginRow = {
   id: string
@@ -40,7 +44,7 @@ type ClienteLoginResolveResult =
   | { ok: true; identity: ClienteLoginIdentity }
   | { ok: false; error: string; status: 401 | 409 }
 
-type SupabaseServerClient = Awaited<ReturnType<typeof createClient>>
+type SupabaseServerClient = ReturnType<typeof createAdminClient>
 
 const INVALID_CREDENTIALS_ERROR = 'CPF ou dígitos de confirmação incorretos.'
 
@@ -141,7 +145,54 @@ async function resolveClienteLogin(
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { cpf, cpf_prefix } = body
+    const { cpf, cpf_prefix, cnpj, cnpj_prefix } = body
+
+    if (cnpj !== undefined) {
+      const cnpjClean = normalizeCNPJ(String(cnpj || ''))
+      const prefixClean = String(cnpj_prefix || '').replace(/\D/g, '')
+
+      if (!isValidCNPJ(cnpjClean)) {
+        return NextResponse.json({ error: 'CNPJ inválido.' }, { status: 400 })
+      }
+      if (prefixClean.length !== 4 || cnpjClean.slice(0, 4) !== prefixClean) {
+        return NextResponse.json({ error: 'CNPJ ou dígitos de confirmação incorretos.' }, { status: 401 })
+      }
+
+      const supabase = createAdminClient()
+      const { data: empresa, error } = await supabase
+        .from('empresas')
+        .select('id, cnpj, razao_social, nome_fantasia, email, status')
+        .eq('cnpj', cnpjClean)
+        .maybeSingle()
+
+      if (error) throw error
+      if (!empresa) {
+        return NextResponse.json({ error: 'CNPJ ou dígitos de confirmação incorretos.' }, { status: 401 })
+      }
+
+      const isActive = empresa.status === 'ATIVO'
+      const purpose = isActive ? 'empresa-app' : 'empresa-flow'
+      const token = await createEmpresaToken(empresa, purpose)
+      const response = NextResponse.json({
+        success: true,
+        nextPath: isActive ? '/empresa/dashboard' : '/empresa/cadastro',
+        empresa: {
+          id: empresa.id,
+          nome: empresa.nome_fantasia || empresa.razao_social,
+          email: empresa.email,
+          status: empresa.status,
+        },
+      })
+      response.cookies.set(isActive ? EMPRESA_APP_COOKIE : EMPRESA_FLOW_COOKIE, token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 60 * 60 * (isActive ? 24 * 7 : 24),
+        path: '/',
+      })
+      response.cookies.delete(isActive ? EMPRESA_FLOW_COOKIE : EMPRESA_APP_COOKIE)
+      return response
+    }
 
     if (!cpf) {
       return NextResponse.json({ error: 'CPF é obrigatório.' }, { status: 400 })
@@ -177,7 +228,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const supabase = await createClient()
+    const supabase = createAdminClient()
     const loginResult = await resolveClienteLogin(supabase, cpfClean)
 
     if (!loginResult.ok) {
@@ -198,10 +249,20 @@ export async function POST(request: NextRequest) {
     }
 
     if (identity.cadastro.status !== 'ATIVO') {
-      return NextResponse.json(
-        { error: 'Cadastro ainda não está ativo. Aguarde a confirmação do pagamento.' },
-        { status: 403 }
-      )
+      const flowToken = await createCadastroFlowToken(identity.clienteId)
+      const pendingResponse = NextResponse.json({
+        success: true,
+        nextPath: '/cadastro/status',
+        status: identity.cadastro.status || 'PENDENTE_PAGAMENTO',
+      })
+      pendingResponse.cookies.set(CADASTRO_FLOW_COOKIE, flowToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 60 * 60 * 24,
+        path: '/',
+      })
+      return pendingResponse
     }
 
     const jwtPayload: Record<string, string> = {
@@ -225,10 +286,11 @@ export async function POST(request: NextRequest) {
       .setProtectedHeader({ alg: 'HS256' })
       .setIssuedAt()
       .setExpirationTime('7d')
-      .sign(JWT_SECRET)
+      .sign(getJwtSecret())
 
     const response = NextResponse.json({
       success: true,
+      nextPath: '/cliente/dashboard',
       token,
       cliente: {
         id: identity.clienteId,

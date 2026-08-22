@@ -13,6 +13,11 @@ import {
 } from '@/lib/billing-settings'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { syncCadastroToRapidoc } from '@/lib/rapidoc-sync'
+import {
+  EMPRESA_STATUSES,
+  getEmpresaExternalReference,
+  parseEmpresaExternalReference,
+} from '@/lib/empresa-flow'
 import { NextRequest, NextResponse } from 'next/server'
 
 const HANDLED_EVENTS = new Set(['PAYMENT_RECEIVED', 'PAYMENT_CONFIRMED'])
@@ -45,6 +50,23 @@ type CadastroWebhookRecord = {
   mensalidade_valor: number | null
   mensalidade_billing_type: string | null
   updated_at: string | null
+}
+
+type EmpresaWebhookRecord = {
+  id: string
+  status: string
+  asaas_customer_id: string | null
+  asaas_payment_id: string | null
+  asaas_subscription_id: string | null
+  tipo_plano: string
+  mensalidade_valor: number | null
+  mensalidade_billing_type: string | null
+  endereco: string | null
+  numero: string | null
+  bairro: string | null
+  cidade: string | null
+  estado: string | null
+  cep: string | null
 }
 
 function toIsoDate(date: Date) {
@@ -207,7 +229,10 @@ async function triggerTermoEmail(cadastroId: string, request: NextRequest) {
     try {
       const response = await fetch(`${appBaseUrl}/api/enviar-termo`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'x-internal-token': getRequiredEnvToken('ASAAS_WEBHOOK_TOKEN'),
+        },
         body: JSON.stringify({ cadastroId }),
         cache: 'no-store',
       })
@@ -230,6 +255,261 @@ async function triggerTermoEmail(cadastroId: string, request: NextRequest) {
   throw new Error(
     `Falha ao enviar termo após confirmação de pagamento para cadastro ${cadastroId}. ${lastErrorMessage}`
   )
+}
+
+async function findEmpresaByPaymentReference(
+  supabase: ReturnType<typeof createAdminClient>,
+  paymentId: string,
+  externalReference?: string
+) {
+  const byPayment = await supabase
+    .from('empresas')
+    .select('id, status, asaas_customer_id, asaas_payment_id, asaas_subscription_id, tipo_plano, mensalidade_valor, mensalidade_billing_type, endereco, numero, bairro, cidade, estado, cep')
+    .eq('asaas_payment_id', paymentId)
+    .maybeSingle<EmpresaWebhookRecord>()
+  if (byPayment.data || byPayment.error) return byPayment
+
+  const empresaId = parseEmpresaExternalReference(externalReference)
+  if (!empresaId) return byPayment
+
+  return supabase
+    .from('empresas')
+    .select('id, status, asaas_customer_id, asaas_payment_id, asaas_subscription_id, tipo_plano, mensalidade_valor, mensalidade_billing_type, endereco, numero, bairro, cidade, estado, cep')
+    .eq('id', empresaId)
+    .maybeSingle<EmpresaWebhookRecord>()
+}
+
+async function releaseEmpresaSubscriptionLock(
+  supabase: ReturnType<typeof createAdminClient>,
+  empresaId: string,
+  lockToken: string
+) {
+  await supabase
+    .from('empresas')
+    .update({ asaas_subscription_id: null })
+    .eq('id', empresaId)
+    .eq('asaas_subscription_id', lockToken)
+}
+
+async function provisionEmpresaFuncionarios(
+  supabase: ReturnType<typeof createAdminClient>,
+  empresa: EmpresaWebhookRecord,
+  activatedAt: string
+) {
+  const { data: funcionarios, error } = await supabase
+    .from('empresa_funcionarios')
+    .select('id, cadastro_id, nome, cpf, rg, email, telefone, data_nascimento, sexo')
+    .eq('empresa_id', empresa.id)
+  if (error) throw error
+  if (!funcionarios?.length) throw new Error('Empresa sem funcionários para provisionar.')
+
+  const cadastroIds: string[] = []
+  for (const funcionario of funcionarios) {
+    let cadastroId = funcionario.cadastro_id as string | null
+
+    if (!cadastroId) {
+      const { data: existing, error: existingError } = await supabase
+        .from('cadastros')
+        .select('id')
+        .eq('empresa_id', empresa.id)
+        .eq('cpf', funcionario.cpf)
+        .maybeSingle()
+      if (existingError) throw existingError
+
+      cadastroId = existing?.id || crypto.randomUUID()
+      if (!existing) {
+        const { error: insertError } = await supabase.from('cadastros').insert({
+          id: cadastroId,
+          empresa_id: empresa.id,
+          nome: funcionario.nome,
+          email: funcionario.email,
+          cpf: funcionario.cpf,
+          rg: funcionario.rg,
+          data_nascimento: funcionario.data_nascimento,
+          telefone: funcionario.telefone,
+          sexo: funcionario.sexo,
+          endereco: empresa.endereco,
+          numero: empresa.numero,
+          bairro: empresa.bairro,
+          cidade: empresa.cidade,
+          estado: empresa.estado,
+          cep: empresa.cep,
+          tem_dependentes: false,
+          status: EMPRESA_STATUSES.pagamento,
+          tipo_plano: empresa.tipo_plano,
+          mensalidade_billing_type: empresa.mensalidade_billing_type,
+        })
+        if (insertError) throw insertError
+      }
+
+      const { error: linkError } = await supabase
+        .from('empresa_funcionarios')
+        .update({ cadastro_id: cadastroId })
+        .eq('id', funcionario.id)
+        .eq('empresa_id', empresa.id)
+      if (linkError) throw linkError
+    }
+
+    if (!cadastroId) throw new Error('Não foi possível vincular o funcionário ao cadastro.')
+    cadastroIds.push(cadastroId)
+  }
+
+  const { error: activationError } = await supabase
+    .from('cadastros')
+    .update({ status: 'ATIVO', adesao_pago_em: activatedAt })
+    .eq('empresa_id', empresa.id)
+    .in('id', cadastroIds)
+  if (activationError) throw activationError
+
+  await Promise.all(cadastroIds.map((id) =>
+    syncCadastroToRapidoc(id).catch((syncError) => {
+      console.error('Webhook: falha ao sincronizar funcionário empresarial', {
+        empresaId: empresa.id,
+        cadastroId: id,
+        error: syncError,
+      })
+    })
+  ))
+
+  return cadastroIds.length
+}
+
+async function processEmpresaPayment(
+  supabase: ReturnType<typeof createAdminClient>,
+  empresa: EmpresaWebhookRecord,
+  paymentId: string
+) {
+  const asaasPayment = await getAsaasPayment(paymentId)
+  if (!isAsaasPaidStatus(asaasPayment.status)) {
+    return NextResponse.json({
+      received: true,
+      ignored: true,
+      reason: `Pagamento empresarial ainda não confirmado no Asaas (status: ${asaasPayment.status || 'desconhecido'}).`,
+    })
+  }
+
+  if (
+    empresa.asaas_customer_id &&
+    asaasPayment.customer &&
+    empresa.asaas_customer_id !== asaasPayment.customer
+  ) {
+    return NextResponse.json(
+      { error: 'Pagamento não corresponde à empresa esperada.' },
+      { status: 409 }
+    )
+  }
+
+  const activatedAt = new Date().toISOString()
+  const initialSubscriptionId = normalizeSubscriptionId(empresa.asaas_subscription_id)
+  if (empresa.status === EMPRESA_STATUSES.ativo) {
+    const provisioned = await provisionEmpresaFuncionarios(supabase, empresa, activatedAt)
+    return NextResponse.json({
+      received: true,
+      processed: true,
+      alreadyProcessed: true,
+      empresaId: empresa.id,
+      funcionariosAtivados: provisioned,
+    })
+  }
+
+  if (empresa.status !== EMPRESA_STATUSES.pagamento) {
+    return NextResponse.json(
+      { error: 'A empresa não concluiu as etapas anteriores ao pagamento.' },
+      { status: 409 }
+    )
+  }
+  if (!empresa.asaas_customer_id) {
+    return NextResponse.json({ error: 'Empresa sem cliente Asaas associado.' }, { status: 500 })
+  }
+
+  let subscriptionId = initialSubscriptionId
+  let lockToken: string | null = null
+  let createdNewSubscription = false
+
+  if (!subscriptionId || isSubscriptionLockToken(subscriptionId)) {
+    if (subscriptionId && !isSubscriptionLockStale(subscriptionId)) {
+      return NextResponse.json({ error: 'Ativação empresarial já está em processamento.' }, { status: 409 })
+    }
+
+    const newLock = createSubscriptionLockToken(paymentId)
+    let query = supabase
+      .from('empresas')
+      .update({ asaas_subscription_id: newLock })
+      .eq('id', empresa.id)
+      .eq('status', EMPRESA_STATUSES.pagamento)
+    query = subscriptionId
+      ? query.eq('asaas_subscription_id', subscriptionId)
+      : query.is('asaas_subscription_id', null)
+    const { data: locked, error: lockError } = await query.select('id').maybeSingle()
+    if (lockError) throw lockError
+    if (!locked) {
+      return NextResponse.json({ error: 'Ativação empresarial já está em processamento.' }, { status: 409 })
+    }
+    lockToken = newLock
+
+    const externalReference = getEmpresaExternalReference(empresa.id)
+    subscriptionId = await findAsaasSubscriptionByExternalReference(
+      externalReference,
+      empresa.asaas_customer_id
+    ) || ''
+
+    if (!subscriptionId) {
+      const value = Number(empresa.mensalidade_valor)
+      if (!Number.isFinite(value) || value < MIN_ASAAS_CHARGE_VALUE) {
+        await releaseEmpresaSubscriptionLock(supabase, empresa.id, newLock)
+        return NextResponse.json({ error: 'Valor empresarial inválido para assinatura.' }, { status: 500 })
+      }
+      const subscription = await createAsaasSubscription({
+        customer: empresa.asaas_customer_id,
+        billingType: empresa.mensalidade_billing_type === 'CREDIT_CARD' ? 'CREDIT_CARD' : 'BOLETO',
+        value,
+        nextDueDate: getNextMonthlyDueDate(),
+        cycle: 'MONTHLY',
+        maxPayments: FIDELIDADE_MAX_PAYMENTS,
+        description: 'Mensalidade empresarial Aliança Saúde',
+        externalReference,
+      })
+      subscriptionId = subscription.id
+      createdNewSubscription = true
+    }
+
+    const { data: activated, error: activationError } = await supabase
+      .from('empresas')
+      .update({
+        status: EMPRESA_STATUSES.ativo,
+        pagamento_confirmado_em: activatedAt,
+        asaas_subscription_id: subscriptionId,
+      })
+      .eq('id', empresa.id)
+      .eq('status', EMPRESA_STATUSES.pagamento)
+      .eq('asaas_subscription_id', newLock)
+      .select('id')
+      .maybeSingle()
+    if (activationError || !activated) {
+      if (createdNewSubscription) await cancelAsaasSubscription(subscriptionId).catch(() => undefined)
+      await releaseEmpresaSubscriptionLock(supabase, empresa.id, newLock)
+      throw activationError || new Error('Não foi possível ativar a empresa.')
+    }
+  } else {
+    const { error } = await supabase
+      .from('empresas')
+      .update({ status: EMPRESA_STATUSES.ativo, pagamento_confirmado_em: activatedAt })
+      .eq('id', empresa.id)
+      .eq('status', EMPRESA_STATUSES.pagamento)
+    if (error) throw error
+  }
+
+  const activeEmpresa = { ...empresa, status: EMPRESA_STATUSES.ativo, asaas_subscription_id: subscriptionId }
+  const provisioned = await provisionEmpresaFuncionarios(supabase, activeEmpresa, activatedAt)
+  return NextResponse.json({
+    received: true,
+    processed: true,
+    empresaId: empresa.id,
+    asaasPaymentId: paymentId,
+    asaasSubscriptionId: subscriptionId,
+    funcionariosAtivados: provisioned,
+    lockUsed: Boolean(lockToken),
+  })
 }
 
 export async function POST(request: NextRequest) {
@@ -256,6 +536,19 @@ export async function POST(request: NextRequest) {
 
     const paymentId = payload.payment.id
     const supabase = createAdminClient()
+
+    const empresaResult = await findEmpresaByPaymentReference(
+      supabase,
+      paymentId,
+      payload.payment.externalReference
+    )
+    if (empresaResult.error) {
+      console.error('Webhook: erro ao buscar empresa', empresaResult.error)
+      return NextResponse.json({ error: 'Erro ao buscar empresa local.' }, { status: 500 })
+    }
+    if (empresaResult.data) {
+      return processEmpresaPayment(supabase, empresaResult.data, paymentId)
+    }
 
     const cadastroResult = await fetchCadastroByPaymentReference(
       supabase,

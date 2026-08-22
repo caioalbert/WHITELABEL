@@ -9,6 +9,10 @@ export function normalizeCPF(value: string) {
   return value.replace(/\D/g, '')
 }
 
+export function normalizeCNPJ(value: string) {
+  return value.replace(/\D/g, '')
+}
+
 export function isValidCPF(value: string) {
   const cpf = normalizeCPF(value)
 
@@ -33,6 +37,32 @@ export function isValidCPF(value: string) {
   if (checkDigit === 10) checkDigit = 0
 
   return checkDigit === Number(cpf.charAt(10))
+}
+
+export function isValidCNPJ(value: string) {
+  const cnpj = normalizeCNPJ(value)
+
+  if (cnpj.length !== 14) return false
+  if (/^(\d)\1+$/.test(cnpj)) return false
+
+  const calculateDigit = (length: number) => {
+    let factor = length - 7
+    let sum = 0
+
+    for (let index = 0; index < length; index += 1) {
+      sum += Number(cnpj[index]) * factor
+      factor -= 1
+      if (factor < 2) factor = 9
+    }
+
+    const remainder = sum % 11
+    return remainder < 2 ? 0 : 11 - remainder
+  }
+
+  return (
+    calculateDigit(12) === Number(cnpj[12]) &&
+    calculateDigit(13) === Number(cnpj[13])
+  )
 }
 
 export function isValidEmail(value: string) {

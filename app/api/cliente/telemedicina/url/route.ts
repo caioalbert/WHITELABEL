@@ -1,12 +1,12 @@
-import { requireClienteAuth } from '@/lib/supabase/cliente-auth'
-import { createClient } from '@/lib/supabase/server'
+import { requireActiveClienteAuth } from '@/lib/supabase/cliente-auth'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { isRapidocAccessConfigured, resolveRapidocUrl } from '@/lib/rapidoc'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
   try {
-    const auth = await requireClienteAuth(request)
-    const supabase = await createClient()
+    const auth = await requireActiveClienteAuth(request)
+    const supabase = createAdminClient()
 
     const { data: cadastro, error } = await supabase
       .from('cadastros')

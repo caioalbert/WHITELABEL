@@ -27,6 +27,7 @@ import { buildLarpSaudeWhatsappUrl, LARP_SAUDE } from '@/lib/laboratory-partners
 
 type Cadastro = {
   id: string
+  empresa_id?: string | null
   nome: string
   email: string
   cpf: string
@@ -110,7 +111,7 @@ export default function ClienteDashboard() {
   const formatCurrency = (v: number) =>
     v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 
-  const isTitular = usuario?.tipo !== 'dependente'
+  const isTitular = usuario?.tipo !== 'dependente' && !cadastro?.empresa_id
   const dependentesCount = cadastro?.dependentes.length ?? 0
   const larpWhatsappUrl = useMemo(() => buildLarpSaudeWhatsappUrl({
     origin: 'acesso do cliente SHALOM Saúde',

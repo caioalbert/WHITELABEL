@@ -26,6 +26,7 @@ export interface Cadastro {
   vendedor_codigo?: string
   instituto_id?: string
   instituto_codigo?: string
+  empresa_id?: string
   sem_adesao?: boolean
   tipo_plano?: 'INDIVIDUAL' | 'FAMILIAR' | string
   mensalidade_valor?: number
@@ -36,6 +37,54 @@ export interface Cadastro {
   dependentes_sem_rg_count?: number
   dependentes_sem_email_count?: number
   financeiro_status?: 'EM_DIA' | 'EM_ATRASO' | 'ADESAO_NAO_CONCLUIDA' | string | null
+  created_at: string
+  updated_at: string
+}
+
+export type EmpresaStatus =
+  | 'CADASTRO_CONCLUIDO'
+  | 'ORCAMENTO_SOLICITADO'
+  | 'LISTA_FUNCIONARIOS_ENVIADA'
+  | 'PENDENTE_PAGAMENTO'
+  | 'ATIVO'
+
+export interface Empresa {
+  id: string
+  razao_social: string
+  nome_fantasia?: string | null
+  cnpj: string
+  email: string
+  telefone: string
+  responsavel_nome: string
+  status: EmpresaStatus
+  tipo_plano: string
+  quantidade_funcionarios?: number | null
+  minimo_funcionarios?: number | null
+  valor_por_funcionario?: number | null
+  mensalidade_valor?: number | null
+  mensalidade_billing_type?: string | null
+  asaas_customer_id?: string | null
+  asaas_payment_id?: string | null
+  asaas_subscription_id?: string | null
+  orcamento_solicitado_em?: string | null
+  lista_funcionarios_enviada_em?: string | null
+  pagamento_confirmado_em?: string | null
+  created_at: string
+  updated_at: string
+}
+
+export interface EmpresaFuncionario {
+  id: string
+  empresa_id: string
+  cadastro_id?: string | null
+  nome: string
+  cpf: string
+  rg?: string | null
+  email: string
+  telefone: string
+  data_nascimento: string
+  sexo?: string | null
+  cargo?: string | null
   created_at: string
   updated_at: string
 }

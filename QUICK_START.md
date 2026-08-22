@@ -23,9 +23,8 @@ Edite `.env.local` e adicione suas chaves:
 ### 3. Criar Banco de Dados
 
 1. Vá ao SQL Editor do Supabase
-2. Copie o conteúdo de `scripts/001_create_tables.sql`
-3. Execute no SQL Editor
-4. Se seu banco já existia antes, execute também `scripts/002_add_campos_cadastro.sql`
+2. Execute todos os arquivos SQL numerados de `scripts/001_create_tables.sql` até `scripts/022_add_pj_business_flow.sql`, em ordem
+3. Alternativamente, configure a RPC `exec_sql` e rode `node scripts/setup-db.mjs`
 5. ✅ Tabelas criadas!
 
 ### 4. Criar Usuário Admin (Opcional)
@@ -48,6 +47,8 @@ Acesse: http://localhost:3000
 
 - **Homepage**: http://localhost:3000
 - **Cadastro**: http://localhost:3000/cadastro
+- **Cadastro empresarial**: http://localhost:3000/empresa/cadastro
+- **Login empresarial**: http://localhost:3000/login?tipo=empresa
 - **Admin Login**: http://localhost:3000/admin/login
 - **Admin Dashboard**: http://localhost:3000/admin/dashboard
 
