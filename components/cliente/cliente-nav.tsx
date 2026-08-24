@@ -16,7 +16,10 @@ import {
 import { BrandLogo } from '@/components/brand-logo'
 import { DEFAULT_BRANDING, DEFAULT_BRAND_LOGO_ON_LIGHT_URL } from '@/lib/branding'
 import { clienteColors } from '@/lib/cliente-ui'
-import { canAccessClienteDependentes } from '@/lib/cliente-access'
+import {
+  canAccessClienteDependentes,
+  canAccessClienteFinanceiro,
+} from '@/lib/cliente-access'
 
 type NavItem = {
   label: string
@@ -110,7 +113,17 @@ export function ClienteNav({ nomeCliente, usuarioTipo = 'titular', appearance = 
         >
           Menu
         </p>
-        {NAV_ITEMS.filter((item) => item.href !== '/cliente/dependentes' || canAccessClienteDependentes(usuarioTipo)).map((item) => (
+        {NAV_ITEMS.filter((item) => {
+          if (item.href === '/cliente/dependentes') {
+            return canAccessClienteDependentes(usuarioTipo)
+          }
+
+          if (item.href === '/cliente/pagamentos') {
+            return canAccessClienteFinanceiro(usuarioTipo)
+          }
+
+          return true
+        }).map((item) => (
           <NavLink
             key={item.href}
             item={item}

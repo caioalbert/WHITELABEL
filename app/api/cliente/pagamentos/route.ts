@@ -2,10 +2,18 @@ import { requireActiveClienteAuth } from '@/lib/supabase/cliente-auth'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getAsaasPayment, listAsaasSubscriptionPayments } from '@/lib/asaas'
 import { NextRequest, NextResponse } from 'next/server'
+import { canAccessClienteFinanceiro } from '@/lib/cliente-access'
 
 export async function GET(request: NextRequest) {
   try {
     const auth = await requireActiveClienteAuth(request)
+
+    if (!canAccessClienteFinanceiro(auth.tipo)) {
+      return NextResponse.json(
+        { error: 'Acesso exclusivo do titular.' },
+        { status: 403 }
+      )
+    }
 
     const supabase = createAdminClient()
     const { data: cadastro, error } = await supabase

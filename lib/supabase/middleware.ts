@@ -1,7 +1,22 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { requireAdminAuth } from '@/lib/supabase/admin-auth'
+import { isProtectedAdminPage } from '@/lib/supabase/admin-route-access'
 
 export async function updateSession(request: NextRequest) {
+  if (isProtectedAdminPage(request.nextUrl.pathname)) {
+    const authResult = await requireAdminAuth(request)
+
+    if (!authResult.ok) {
+      const loginUrl = request.nextUrl.clone()
+      loginUrl.pathname = '/admin/login'
+      loginUrl.search = ''
+      return NextResponse.redirect(loginUrl)
+    }
+
+    return NextResponse.next({ request })
+  }
+
   let supabaseResponse = NextResponse.next({
     request,
   })
