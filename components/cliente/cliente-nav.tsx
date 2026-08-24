@@ -178,7 +178,7 @@ export function ClienteNav({ nomeCliente, usuarioTipo = 'titular', appearance = 
       <div className="flex min-w-0 flex-1 flex-col">
         {/* Top bar mobile */}
         <header
-          className="sticky top-0 z-30 flex items-center justify-between px-4 py-3 shadow-sm md:hidden"
+          className={`sticky top-0 z-30 flex items-center justify-between px-4 md:hidden ${dark ? 'py-2' : 'py-3 shadow-sm'}`}
           style={{
             backgroundColor: surfaceBackground,
             borderBottom: `1px solid ${borderColor}`,

@@ -45,7 +45,7 @@ const CONFIG_DEFAULTS: ConfigPublica = {
   telefoneEmergencia: '(85) 3000-0000',
 }
 
-const serviceButtonClassName = 'flex min-h-20 w-full items-center rounded-full bg-white px-5 py-3 text-[#0B1E36] shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B1E36]'
+const serviceButtonClassName = 'flex h-[clamp(2.75rem,8.5svh,3.5rem)] min-h-0 w-full shrink-0 items-center rounded-full bg-white px-4 text-[#0B1E36] shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B1E36]'
 
 type PartnerName = 'rapidoc' | 'larp' | 'pague-menos' | 'zelo'
 
@@ -107,10 +107,10 @@ function PartnerLogo({ partner }: { partner: PartnerName }) {
 function ServiceContent({ partner, title, subtitle }: { partner: PartnerName; title: string; subtitle?: string }) {
   return (
     <>
-      <span className="flex w-24 shrink-0 items-center justify-center border-r border-slate-200 pr-4">
+      <span className="flex w-22 shrink-0 items-center justify-center border-r border-slate-200 pr-3">
         <PartnerLogo partner={partner} />
       </span>
-      <span className="min-w-0 pl-4 text-left">
+      <span className="min-w-0 pl-3 text-left">
         <span className="block text-sm font-bold leading-tight">{title}</span>
         {subtitle ? <span className="mt-1 block text-xs font-medium text-slate-500">{subtitle}</span> : null}
       </span>
@@ -194,23 +194,23 @@ export default function ClienteDashboard() {
 
   return (
     <ClienteNav nomeCliente={usuario?.nome || cadastro.nome} usuarioTipo={usuario?.tipo} appearance="midnight">
-      <div className="mx-auto w-[90%] max-w-md pb-28 pt-3 sm:pt-5">
+      <div className="mx-auto flex h-[calc(100svh-57px)] w-[90%] max-w-md flex-col overflow-hidden pb-[calc(clamp(4rem,11svh,4.75rem)+env(safe-area-inset-bottom))] pt-1 md:h-auto md:min-h-screen md:pb-28 md:pt-5">
 
-        <div className="flex h-32 items-center justify-center overflow-hidden">
+        <div className="flex h-[clamp(4rem,18svh,9rem)] shrink-0 items-center justify-center">
           <BrandLogo
             logoUrl="/logo-nova-alianca.png"
             width={500}
             height={500}
             priority
-            className="h-60 w-60 object-contain"
+            className="h-full max-h-full w-auto max-w-full object-contain"
           />
         </div>
 
         {/* ── SAUDAÇÃO ── */}
-        <header className="mb-6 mt-2">
-          <h1 className="text-3xl font-bold tracking-tight text-white">Olá, {greeting}</h1>
+        <header className="mb-[clamp(0.375rem,1.3svh,0.75rem)] shrink-0">
+          <h1 className="text-[clamp(1.25rem,3.8svh,1.5rem)] font-bold tracking-tight text-white">Olá, {greeting}</h1>
           {usuario?.tipo === 'dependente' && (
-            <span className="mt-3 inline-flex rounded-full border border-white/35 bg-white/10 px-3 py-1 text-xs font-semibold text-white">
+            <span className="mt-1.5 inline-flex rounded-full border border-white/35 bg-white/10 px-3 py-0.5 text-xs font-semibold text-white">
               Dependente
             </span>
           )}
@@ -218,16 +218,16 @@ export default function ClienteDashboard() {
 
         {/* ── ALERTA DÍVIDA ── */}
         {hasDebt && isTitular && (
-          <div className="mb-5 flex items-start gap-2 text-amber-200">
-            <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" />
-            <p className="text-sm leading-5">
+          <div className="mb-2 flex shrink-0 items-start gap-2 text-amber-200">
+            <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+            <p className="text-xs leading-4">
               Você possui pagamentos em atraso.{' '}
               <Link href="/cliente/pagamentos" className="font-bold underline">Ver financeiro →</Link>
             </p>
           </div>
         )}
 
-        <section aria-label="Serviços" className="flex flex-col gap-3" role="list">
+        <section aria-label="Serviços" className="flex flex-col gap-[clamp(0.375rem,1.2svh,0.75rem)]" role="list">
           <Link href="/cliente/telemedicina" className={serviceButtonClassName} role="listitem">
             <ServiceContent partner="rapidoc" title="Telemedicina" subtitle="Atendimento 24H" />
           </Link>
@@ -255,7 +255,7 @@ export default function ClienteDashboard() {
 
       <a
         href={`tel:${config.telefoneEmergencia.replace(/\D/g, '')}`}
-        className="fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] left-1/2 z-20 flex min-h-14 w-[90%] max-w-md -translate-x-1/2 items-center justify-center gap-3 rounded-full bg-white px-5 py-3 font-semibold text-[#0B1E36] shadow-2xl shadow-black/30 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-300 md:left-[calc(50%+7rem)]"
+        className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] left-1/2 z-20 flex h-[clamp(2.75rem,8.5svh,3.5rem)] w-[90%] max-w-md -translate-x-1/2 items-center justify-center gap-3 rounded-full bg-white px-5 font-semibold text-[#0B1E36] shadow-2xl shadow-black/30 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-300 md:left-[calc(50%+7rem)]"
       >
         <PhoneCall className="h-5 w-5 shrink-0 text-red-600" aria-hidden="true" />
         <span>Emergência {config.telefoneEmergencia}</span>
