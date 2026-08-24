@@ -3,7 +3,6 @@
 import { useCallback, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import * as XLSX from "xlsx"
 import {
   ArrowLeft, ArrowRight, Building2, Check, DollarSign,
   FileSpreadsheet, Loader2, Users, X,
@@ -11,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { parseFuncionariosExcel, FUNCIONARIOS_EXCEL_HEADERS } from "@/lib/funcionarios-excel"
 import type { DependenteFormData } from "@/lib/types"
+import { downloadXlsx, readSpreadsheetMatrix } from "@/lib/spreadsheet"
 
 type Step = "empresa" | "comercial" | "funcionarios" | "revisao"
 
@@ -60,15 +60,16 @@ function currencyFmt(v: string) {
 function parseCurrency(v: string) {
   return parseFloat(v.replace(/\./g,"").replace(",",".")) || 0
 }
-function genModeloExcel() {
-  const wb = XLSX.utils.book_new()
-  const ws = XLSX.utils.aoa_to_sheet([
-    FUNCIONARIOS_EXCEL_HEADERS as unknown as string[],
-    ["Maria Silva","1234567","123.456.789-09","01/01/1990","maria@email.com","(85) 99999-1234","Feminino"],
-    ["João Santos","7654321","987.654.321-00","15/06/1985","joao@email.com","(85) 98888-5678","Masculino"],
-  ])
-  XLSX.utils.book_append_sheet(wb,ws,"Funcionários")
-  XLSX.writeFile(wb,"modelo-funcionarios.xlsx")
+async function genModeloExcel() {
+  await downloadXlsx("modelo-funcionarios.xlsx", [{
+    name: "Funcionários",
+    rows: [
+      Array.from(FUNCIONARIOS_EXCEL_HEADERS),
+      ["Maria Silva","1234567","123.456.789-09","01/01/1990","maria@email.com","(85) 99999-1234","Feminino"],
+      ["João Santos","7654321","987.654.321-00","15/06/1985","joao@email.com","(85) 98888-5678","Masculino"],
+    ],
+    columnWidths: [32, 18, 16, 22, 32, 22, 16],
+  }])
 }
 
 function Field({label,required,children}:{label:string;required?:boolean;children:React.ReactNode}) {
@@ -141,16 +142,13 @@ function StepIndicator({current}:{current:Step}) {
     setFileName(file.name)
     setFuncErrors([]); setFuncGenericErrors([]); setFuncionarios([])
     try {
-      const buffer = await file.arrayBuffer()
-      const wb = XLSX.read(buffer,{type:"array",cellDates:true})
-      const ws = wb.Sheets[wb.SheetNames[0]]
-      const matrix = XLSX.utils.sheet_to_json<unknown[]>(ws,{header:1,raw:false,defval:""})
-      const result = parseFuncionariosExcel(matrix as unknown[][], {})
+      const matrix = await readSpreadsheetMatrix(file)
+      const result = parseFuncionariosExcel(matrix, {})
       setFuncionarios(result.funcionarios)
       setFuncErrors(result.erros)
       setFuncGenericErrors(result.errosGerais)
     } catch {
-      setFuncGenericErrors(["Erro ao ler o arquivo. Verifique se é um arquivo Excel ou CSV válido."])
+      setFuncGenericErrors(["Erro ao ler o arquivo. Verifique se é um arquivo XLSX ou CSV válido."])
     }
     if (fileRef.current) fileRef.current.value=""
   }, [])
@@ -317,7 +315,18 @@ function StepIndicator({current}:{current:Step}) {
           <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
             <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
               <div><h2 className="text-xl font-bold text-gray-900">Importar Funcionários</h2><p className="mt-1 text-sm text-gray-500">Faça upload de uma planilha Excel (.xlsx, .xls) ou CSV</p></div>
-              <Button variant="outline" size="sm" onClick={genModeloExcel} className="gap-2 shrink-0"><FileSpreadsheet className="h-4 w-4"/>Baixar modelo</Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  void genModeloExcel().catch(() =>
+                    setGlobalError("Não foi possível gerar o modelo de funcionários.")
+                  )
+                }}
+                className="gap-2 shrink-0"
+              >
+                <FileSpreadsheet className="h-4 w-4"/>Baixar modelo
+              </Button>
             </div>
             <div className="mb-5 rounded-lg bg-sky-50 border border-sky-100 p-4">
               <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-sky-700">Colunas esperadas</p>

@@ -1,6 +1,7 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
+import { getParceiroId } from '@/lib/supabase/auth-roles'
 
 export async function POST(request: NextRequest) {
   try {
@@ -34,11 +35,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Credenciais inválidas' }, { status: 401 })
     }
 
-    if (data.user?.user_metadata?.is_parceiro !== true) {
-      return NextResponse.json({ error: 'Acesso restrito a parceiros' }, { status: 403 })
-    }
-
-    const parceiroId = String(data.user.user_metadata?.parceiro_id || '').trim()
+    const parceiroId = getParceiroId(data.user)
     if (!parceiroId) {
       return NextResponse.json({ error: 'Usuário sem vínculo de parceiro' }, { status: 403 })
     }
@@ -48,6 +45,7 @@ export async function POST(request: NextRequest) {
       .from('parceiros')
       .select('id, nome, email, codigo_indicacao, ativo, comissao_percentual_mensalidade, comissao_mensalidades_max')
       .eq('id', parceiroId)
+      .eq('auth_user_id', data.user.id)
       .maybeSingle()
 
     if (parceiroError) {

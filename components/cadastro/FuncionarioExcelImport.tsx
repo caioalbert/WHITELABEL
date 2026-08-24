@@ -9,6 +9,7 @@ import {
   type FuncionarioExcelRowError,
 } from '@/lib/funcionarios-excel'
 import type { DependenteFormData } from '@/lib/types'
+import { downloadXlsx, readSpreadsheetMatrix } from '@/lib/spreadsheet'
 import { AlertCircle, CheckCircle2, Download, FileSpreadsheet, Loader2, Upload } from 'lucide-react'
 import { useRef, useState, type ChangeEvent } from 'react'
 
@@ -48,49 +49,30 @@ export function FuncionarioExcelImport({
     setFeedback(null)
 
     try {
-      const XLSX = await import('xlsx')
-      const workbook = XLSX.utils.book_new()
-      const employeeSheet = XLSX.utils.aoa_to_sheet([Array.from(FUNCIONARIOS_EXCEL_HEADERS)])
-      employeeSheet['!cols'] = [
-        { wch: 32 },
-        { wch: 18 },
-        { wch: 16 },
-        { wch: 22 },
-        { wch: 32 },
-        { wch: 22 },
-        { wch: 16 },
-      ]
-
-      const instructionsSheet = XLSX.utils.aoa_to_sheet([
-        ['Campo', 'Obrigatório', 'Orientação', 'Exemplo'],
-        ['Nome completo', 'Sim', 'Nome e sobrenome do funcionário', 'Maria da Silva'],
-        ['RG', 'Sim', 'Pode conter letras, números e pontuação', '12.345.678-9'],
-        [
-          'CPF',
-          'Não',
-          '11 dígitos; formate a coluna como texto para preservar zeros à esquerda',
-          '',
-        ],
-        ['Data de nascimento', 'Não', 'Use data do Excel ou o formato DD/MM/AAAA', '20/05/1990'],
-        ['E-mail', 'Sim', 'Use um e-mail único para cada funcionário', 'maria@empresa.com'],
-        [
-          'Telefone celular',
-          'Sim',
-          'Informe DDD e telefone, com 10 ou 11 dígitos',
-          '(11) 99999-9999',
-        ],
-        ['Sexo', 'Sim', 'Valores aceitos: Feminino, Masculino ou Outro', 'Feminino'],
-        [],
-        ['Limite por arquivo', MAX_FUNCIONARIOS_EXCEL],
-        ['Observação', 'Não altere os nomes das colunas da aba Funcionários.'],
+      await downloadXlsx('modelo-importacao-funcionarios.xlsx', [
+        {
+          name: 'Funcionários',
+          rows: [Array.from(FUNCIONARIOS_EXCEL_HEADERS)],
+          columnWidths: [32, 18, 16, 22, 32, 22, 16],
+        },
+        {
+          name: 'Instruções',
+          rows: [
+            ['Campo', 'Obrigatório', 'Orientação', 'Exemplo'],
+            ['Nome completo', 'Sim', 'Nome e sobrenome do funcionário', 'Maria da Silva'],
+            ['RG', 'Sim', 'Pode conter letras, números e pontuação', '12.345.678-9'],
+            ['CPF', 'Não', '11 dígitos; formate a coluna como texto para preservar zeros à esquerda', ''],
+            ['Data de nascimento', 'Não', 'Use data do Excel ou o formato DD/MM/AAAA', '20/05/1990'],
+            ['E-mail', 'Sim', 'Use um e-mail único para cada funcionário', 'maria@empresa.com'],
+            ['Telefone celular', 'Sim', 'Informe DDD e telefone, com 10 ou 11 dígitos', '(11) 99999-9999'],
+            ['Sexo', 'Sim', 'Valores aceitos: Feminino, Masculino ou Outro', 'Feminino'],
+            [],
+            ['Limite por arquivo', MAX_FUNCIONARIOS_EXCEL],
+            ['Observação', 'Não altere os nomes das colunas da aba Funcionários.'],
+          ],
+          columnWidths: [24, 14, 62, 28],
+        },
       ])
-      instructionsSheet['!cols'] = [{ wch: 24 }, { wch: 14 }, { wch: 62 }, { wch: 28 }]
-
-      XLSX.utils.book_append_sheet(workbook, employeeSheet, 'Funcionários')
-      XLSX.utils.book_append_sheet(workbook, instructionsSheet, 'Instruções')
-      XLSX.writeFile(workbook, 'modelo-importacao-funcionarios.xlsx', {
-        compression: true,
-      })
     } catch (error) {
       console.error('Erro ao gerar modelo de funcionários:', error)
       setFeedback({
@@ -130,29 +112,7 @@ export function FuncionarioExcelImport({
     setIsProcessing(true)
 
     try {
-      const XLSX = await import('xlsx')
-      const workbook = XLSX.read(await file.arrayBuffer(), {
-        type: 'array',
-        cellDates: true,
-      })
-      const firstSheetName =
-        workbook.SheetNames.find((sheetName) =>
-          sheetName
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .toLowerCase()
-            .includes('funcion')
-        ) || workbook.SheetNames[0]
-
-      if (!firstSheetName) {
-        throw new Error('A planilha não possui nenhuma aba.')
-      }
-
-      const matrix = XLSX.utils.sheet_to_json<unknown[]>(workbook.Sheets[firstSheetName], {
-        header: 1,
-        defval: '',
-        raw: true,
-      })
+      const matrix = await readSpreadsheetMatrix(file)
       const result = parseFuncionariosExcel(matrix, {
         existentes: funcionariosExistentes,
         emailTitular,

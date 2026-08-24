@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
+import { hasAdminRole } from '@/lib/supabase/auth-roles'
 
 export async function POST(request: NextRequest) {
   try {
@@ -44,8 +45,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Verificar se o usuário é admin (usando metadata do Supabase)
-    const isAdmin = data.user?.user_metadata?.is_admin === true
+    const isAdmin = hasAdminRole(data.user)
 
     if (!isAdmin) {
       return NextResponse.json(

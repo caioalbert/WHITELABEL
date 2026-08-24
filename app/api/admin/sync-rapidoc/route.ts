@@ -1,20 +1,19 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import { syncCadastroToRapidoc } from '@/lib/rapidoc-sync'
 import { NextRequest, NextResponse } from 'next/server'
+import { requireAdminAuth } from '@/lib/supabase/admin-auth'
+import { hasValidCronAuthorization } from '@/lib/rapidoc-sync-auth'
 
-/**
- * Rota para sincronização em lote retroativa de clientes ativos com a Rapidoc.
- * Idealmente, deve ser protegida (ex: x-api-key) se exposta publicamente,
- * mas aqui assumimos uso via painel admin ou script restrito.
- */
 export async function POST(request: NextRequest) {
   try {
     const authHeader = request.headers.get('authorization')
-    const CRON_SECRET = process.env.CRON_SECRET
+    const hasCronAccess = hasValidCronAuthorization(authHeader, process.env.CRON_SECRET)
 
-    // Se houver CRON_SECRET configurado, exigir autenticação Bearer
-    if (CRON_SECRET && authHeader !== `Bearer ${CRON_SECRET}`) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    if (!hasCronAccess) {
+      const adminAuth = await requireAdminAuth(request)
+      if (!adminAuth.ok) {
+        return NextResponse.json({ error: adminAuth.error }, { status: adminAuth.status })
+      }
     }
 
     const supabase = createAdminClient()

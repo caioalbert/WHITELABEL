@@ -159,7 +159,8 @@ export async function POST(request: NextRequest) {
       email,
       password: senha,
       email_confirm: true,
-      user_metadata: {
+      app_metadata: {
+        role: 'vendedor',
         is_vendedor: true,
         vendedor_id: vendedorId,
       },

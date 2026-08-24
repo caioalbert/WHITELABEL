@@ -30,6 +30,7 @@ Do not reuse the production Supabase service role in staging. Staging should hav
 | `SUPABASE_SERVICE_ROLE_KEY` | server secret | Highly sensitive. Never expose to the browser. |
 | `JWT_SECRET` | server secret | Required for client portal JWTs. Must be long and unique per environment. |
 | `CRON_SECRET` | server secret | Required by admin Rapidoc sync route. |
+| `ADMIN_AUTH_EMAILS` | migration-only secret | Comma-separated allowlist used only by `npm run auth:migrate`; do not configure in the browser. |
 | `BLOB_READ_WRITE_TOKEN` | server secret | Required when storing termo templates in Vercel Blob. |
 | `ASAAS_API_BASE_URL` | server | Sandbox: `https://api-sandbox.asaas.com/v3`; production: `https://api.asaas.com/v3`. |
 | `ASAAS_API_KEY` | server secret | Environment-specific Asaas key. |

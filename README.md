@@ -171,13 +171,16 @@ O comando `node scripts/setup-db.mjs` aplica todos os scripts SQL numerados em o
 
 ### 5. Criar usuário admin (opcional)
 
-Para acessar o painel administrativo, crie um usuário com `is_admin: true` no Supabase:
+Para acessar o painel administrativo, crie o usuário no Supabase e atribua o perfil pelo script seguro:
 
 1. Vá para Authentication → Users
 2. Clique em "Add user"
 3. Email: `admin@example.com` e senha
-4. Após criar, clique no usuário e edite "User metadata"
-5. Adicione: `{ "is_admin": true }`
+4. Execute uma simulação: `ADMIN_AUTH_EMAILS=admin@example.com npm run auth:migrate`
+5. Revise a lista e aplique: `ADMIN_AUTH_EMAILS=admin@example.com npm run auth:migrate -- --apply`
+
+O perfil é armazenado em `app_metadata`, que não pode ser alterado pelo próprio usuário. Nunca use
+`user_metadata` para autorização.
 
 ### 6. Iniciar servidor de desenvolvimento
 
@@ -395,7 +398,7 @@ keytool -list -v -keystore android.keystore -alias android
 
 1. Admin faz login em `/admin/login`
 2. Credenciais são validadas contra Supabase Auth
-3. Verifica se `is_admin: true` nos user_metadata
+3. Verifica se `role: "admin"` e `is_admin: true` estão em `app_metadata`
 4. Token de sessão é armazenado em cookie
 5. Admin acessa `/admin/dashboard` e lista cadastros
 6. Clica em "Ver Detalhes" para visualizar cadastro específico

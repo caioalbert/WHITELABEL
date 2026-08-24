@@ -175,7 +175,8 @@ export async function POST(request: NextRequest) {
       email,
       password: senha,
       email_confirm: true,
-      user_metadata: {
+      app_metadata: {
+        role: 'parceiro',
         is_parceiro: true,
         parceiro_id: parceiroId,
       },

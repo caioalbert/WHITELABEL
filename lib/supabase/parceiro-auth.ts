@@ -1,6 +1,7 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import { NextRequest } from 'next/server'
 import type { User } from '@supabase/supabase-js'
+import { getParceiroId } from '@/lib/supabase/auth-roles'
 
 type ParceiroAuthSuccess = {
   ok: true
@@ -50,15 +51,7 @@ export async function requireParceiroAuth(request: NextRequest): Promise<Parceir
       }
     }
 
-    if (data.user.user_metadata?.is_parceiro !== true) {
-      return {
-        ok: false,
-        status: 403,
-        error: 'Acesso restrito a parceiros',
-      }
-    }
-
-    const parceiroId = String(data.user.user_metadata?.parceiro_id || '').trim()
+    const parceiroId = getParceiroId(data.user)
     if (!parceiroId) {
       return {
         ok: false,
@@ -71,6 +64,7 @@ export async function requireParceiroAuth(request: NextRequest): Promise<Parceir
       .from('parceiros')
       .select('id, ativo')
       .eq('id', parceiroId)
+      .eq('auth_user_id', data.user.id)
       .maybeSingle()
 
     if (parceiroError) {

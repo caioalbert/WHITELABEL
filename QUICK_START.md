@@ -105,7 +105,7 @@ Acesse: http://localhost:3000
 → Verificar se tabelas foram criadas no Supabase
 
 **Login falhando?**
-→ Verificar se é_admin está em user_metadata
+→ Verificar se `role: admin` e `is_admin: true` estão em `app_metadata`
 
 ## Suporte
 

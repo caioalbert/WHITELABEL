@@ -1,6 +1,7 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import { NextRequest } from 'next/server'
 import type { User } from '@supabase/supabase-js'
+import { getVendedorId } from '@/lib/supabase/auth-roles'
 
 type SellerAuthSuccess = {
   ok: true
@@ -50,15 +51,7 @@ export async function requireSellerAuth(request: NextRequest): Promise<SellerAut
       }
     }
 
-    if (data.user.user_metadata?.is_vendedor !== true) {
-      return {
-        ok: false,
-        status: 403,
-        error: 'Acesso restrito a vendedores',
-      }
-    }
-
-    const vendedorId = String(data.user.user_metadata?.vendedor_id || '').trim()
+    const vendedorId = getVendedorId(data.user)
     if (!vendedorId) {
       return {
         ok: false,
@@ -71,6 +64,7 @@ export async function requireSellerAuth(request: NextRequest): Promise<SellerAut
       .from('vendedores')
       .select('id, ativo')
       .eq('id', vendedorId)
+      .eq('auth_user_id', data.user.id)
       .maybeSingle()
 
     if (vendedorError) {

@@ -1,6 +1,7 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
+import { getVendedorId } from '@/lib/supabase/auth-roles'
 
 export async function POST(request: NextRequest) {
   try {
@@ -34,11 +35,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Credenciais inválidas' }, { status: 401 })
     }
 
-    if (data.user?.user_metadata?.is_vendedor !== true) {
-      return NextResponse.json({ error: 'Acesso restrito a vendedores' }, { status: 403 })
-    }
-
-    const vendedorId = String(data.user.user_metadata?.vendedor_id || '').trim()
+    const vendedorId = getVendedorId(data.user)
     if (!vendedorId) {
       return NextResponse.json({ error: 'Usuário sem vínculo de vendedor' }, { status: 403 })
     }
@@ -48,6 +45,7 @@ export async function POST(request: NextRequest) {
       .from('vendedores')
       .select('id, nome, email, codigo_indicacao, ativo')
       .eq('id', vendedorId)
+      .eq('auth_user_id', data.user.id)
       .maybeSingle()
 
     if (vendedorError) {

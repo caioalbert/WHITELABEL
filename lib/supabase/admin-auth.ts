@@ -1,6 +1,7 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import type { User } from '@supabase/supabase-js'
 import { NextRequest } from 'next/server'
+import { hasAdminRole } from '@/lib/supabase/auth-roles'
 
 type AdminAuthSuccess = {
   ok: true
@@ -49,7 +50,7 @@ export async function requireAdminAuth(request: NextRequest): Promise<AdminAuthR
       }
     }
 
-    if (data.user.user_metadata?.is_admin !== true) {
+    if (!hasAdminRole(data.user)) {
       return {
         ok: false,
         status: 403,

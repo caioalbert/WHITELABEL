@@ -19,8 +19,11 @@ import {
   parseEmpresaExternalReference,
 } from '@/lib/empresa-flow'
 import { NextRequest, NextResponse } from 'next/server'
+import {
+  getAsaasWebhookToken,
+  isHandledAsaasWebhookEvent,
+} from '@/lib/asaas-webhook-security'
 
-const HANDLED_EVENTS = new Set(['PAYMENT_RECEIVED', 'PAYMENT_CONFIRMED'])
 const SUBSCRIPTION_LOCK_PREFIX = 'LOCK:'
 const SUBSCRIPTION_LOCK_TTL_MS = 10 * 60 * 1000
 const FIDELIDADE_MAX_PAYMENTS = 12
@@ -77,21 +80,6 @@ function getAppBaseUrl(request: NextRequest) {
   const envUrl = process.env.NEXT_PUBLIC_APP_URL?.trim()
   if (envUrl) return envUrl.replace(/\/$/, '')
   return request.nextUrl.origin
-}
-
-function getWebhookTokenFromRequest(request: NextRequest) {
-  const accessTokenHeader = request.headers.get('asaas-access-token')?.trim()
-  if (accessTokenHeader) return accessTokenHeader
-
-  const alternateHeader = request.headers.get('x-asaas-access-token')?.trim()
-  if (alternateHeader) return alternateHeader
-
-  const auth = request.headers.get('authorization')?.trim()
-  if (auth?.toLowerCase().startsWith('bearer ')) {
-    return auth.slice(7).trim()
-  }
-
-  return ''
 }
 
 function getRequiredEnvToken(name: string) {
@@ -515,7 +503,7 @@ async function processEmpresaPayment(
 export async function POST(request: NextRequest) {
   try {
     const expectedToken = getRequiredEnvToken('ASAAS_WEBHOOK_TOKEN')
-    const providedToken = getWebhookTokenFromRequest(request)
+    const providedToken = getAsaasWebhookToken(request.headers)
 
     if (!providedToken || providedToken !== expectedToken) {
       return NextResponse.json({ error: 'Webhook token inválido.' }, { status: 401 })
@@ -526,7 +514,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Payload inválido.' }, { status: 400 })
     }
 
-    if (!HANDLED_EVENTS.has(payload.event)) {
+    if (!isHandledAsaasWebhookEvent(payload.event)) {
       return NextResponse.json({
         received: true,
         ignored: true,

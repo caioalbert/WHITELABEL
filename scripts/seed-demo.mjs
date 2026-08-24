@@ -182,13 +182,14 @@ async function findAuthUserByEmail(email) {
   return users.find((user) => String(user.email || '').trim().toLowerCase() === normalized) || null
 }
 
-async function ensureAuthUser({ email, password, userMetadata }) {
+async function ensureAuthUser({ email, password, userMetadata = {}, appMetadata }) {
   const existing = await findAuthUserByEmail(email)
 
   if (existing) {
     const { data, error } = await supabase.auth.admin.updateUserById(existing.id, {
       password,
       user_metadata: userMetadata,
+      app_metadata: appMetadata,
     })
 
     if (error) {
@@ -204,6 +205,7 @@ async function ensureAuthUser({ email, password, userMetadata }) {
     password,
     email_confirm: true,
     user_metadata: userMetadata,
+    app_metadata: appMetadata,
   })
 
   if (error) {
@@ -346,20 +348,21 @@ async function seedAuthUsersAndLinks() {
     email: ACCESS.admin.email,
     password: ACCESS.admin.password,
     userMetadata: {
-      is_admin: true,
-      role: 'admin',
       name: 'Admin Demo',
     },
+    appMetadata: { is_admin: true, role: 'admin' },
   })
 
   const vendedorUser = await ensureAuthUser({
     email: ACCESS.vendedor.email,
     password: ACCESS.vendedor.password,
     userMetadata: {
+      name: 'Mariana Costa',
+    },
+    appMetadata: {
       is_vendedor: true,
       vendedor_id: IDS.vendedor,
       role: 'vendedor',
-      name: 'Mariana Costa',
     },
   })
 
@@ -367,10 +370,12 @@ async function seedAuthUsersAndLinks() {
     email: ACCESS.instituto.email,
     password: ACCESS.instituto.password,
     userMetadata: {
-      is_instituto: true,
-      instituto_id: IDS.instituto,
-      role: 'instituto',
       name: 'Instituto Vida em Acao',
+    },
+    appMetadata: {
+      is_parceiro: true,
+      parceiro_id: IDS.instituto,
+      role: 'parceiro',
     },
   })
 
