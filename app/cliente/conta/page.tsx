@@ -24,6 +24,21 @@ type CadastroForm = {
   cpf: string // readonly
 }
 
+type DependenteConta = {
+  nome: string
+  cpf: string
+  email?: string | null
+  telefone?: string | null
+  data_nascimento?: string | null
+  relacao?: string | null
+  sexo?: string | null
+}
+
+type PlanoResumo = {
+  nome: string
+  status: string
+}
+
 const ESTADOS = [
   'AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS',
   'MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC',
@@ -50,6 +65,12 @@ function formatTelefone(tel: string) {
   return clean.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3').trim().replace(/-$/, '')
 }
 
+function formatDate(date?: string | null) {
+  if (!date) return 'Não informado'
+  const [year, month, day] = date.slice(0, 10).split('-')
+  return year && month && day ? `${day}/${month}/${year}` : date
+}
+
 export default function ClienteConta() {
   const router = useRouter()
   const [form, setForm] = useState<CadastroForm>({
@@ -62,6 +83,8 @@ export default function ClienteConta() {
   const [successMessage, setSuccessMessage] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
   const [isDependente, setIsDependente] = useState(false)
+  const [dependente, setDependente] = useState<DependenteConta | null>(null)
+  const [plano, setPlano] = useState<PlanoResumo | null>(null)
 
   const fetchData = useCallback(async () => {
     try {
@@ -72,12 +95,15 @@ export default function ClienteConta() {
 
       const c = data.cadastro
       const u = data.usuario
+      const usuarioIsDependente = u?.tipo === 'dependente'
       setNomeCliente(u?.nome || c?.nome || '')
-      setIsDependente(u?.tipo === 'dependente')
+      setIsDependente(usuarioIsDependente)
+      setDependente(usuarioIsDependente ? u : null)
+      setPlano({ nome: c?.tipo_plano || 'Plano do titular', status: c?.status || 'ATIVO' })
       setForm({
-        nome: c.nome || '',
-        email: c.email || '',
-        telefone: c.telefone || '',
+        nome: usuarioIsDependente ? u?.nome || '' : c.nome || '',
+        email: usuarioIsDependente ? u?.email || '' : c.email || '',
+        telefone: usuarioIsDependente ? u?.telefone || '' : c.telefone || '',
         endereco: c.endereco || '',
         numero: c.numero || '',
         complemento: c.complemento || '',
@@ -85,7 +111,7 @@ export default function ClienteConta() {
         cidade: c.cidade || '',
         estado: c.estado || '',
         cep: c.cep || '',
-        cpf: c.cpf || '',
+        cpf: usuarioIsDependente ? u?.cpf || '' : c.cpf || '',
       })
     } catch {
       // ignore
@@ -148,21 +174,74 @@ export default function ClienteConta() {
   }
 
   return (
-    <ClienteNav nomeCliente={nomeCliente}>
+    <ClienteNav nomeCliente={nomeCliente} usuarioTipo={isDependente ? 'dependente' : 'titular'}>
       <div className="mx-auto max-w-2xl px-4 py-6 sm:px-6">
         <ClienteScreenHeader
           title="Minha Conta"
-          subtitle="Atualize seus dados pessoais e de contato"
+          subtitle={isDependente ? 'Consulte seus dados e as informações do plano' : 'Atualize seus dados pessoais e de contato'}
         />
 
         {isDependente ? (
-          <div
-            className="flex flex-col items-center gap-4 rounded-2xl border p-8 text-center"
-            style={{ backgroundColor: clienteColors.surface, borderColor: clienteColors.border }}
-          >
-            <Lock className="h-10 w-10" style={{ color: clienteColors.border }} />
-            <p className="font-semibold" style={{ color: clienteColors.text }}>
-              Apenas o titular pode editar os dados do cadastro.
+          <div className="space-y-4">
+            <section
+              className="rounded-2xl border p-5"
+              style={{ backgroundColor: `${clienteColors.primary}08`, borderColor: clienteColors.borderMint }}
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: clienteColors.textMuted }}>
+                    Meu plano
+                  </p>
+                  <h2 className="mt-1 text-lg font-bold" style={{ color: clienteColors.text }}>
+                    {plano?.nome || 'Plano do titular'}
+                  </h2>
+                  <p className="mt-1 text-sm" style={{ color: clienteColors.textMuted }}>
+                    Você está vinculado como dependente deste plano.
+                  </p>
+                </div>
+                <span
+                  className="rounded-full px-3 py-1 text-xs font-semibold"
+                  style={{ backgroundColor: '#D1FAE5', color: clienteColors.success }}
+                >
+                  {plano?.status || 'ATIVO'}
+                </span>
+              </div>
+            </section>
+
+            <section
+              className="rounded-2xl border p-5"
+              style={{ backgroundColor: clienteColors.surface, borderColor: clienteColors.border }}
+            >
+              <div className="mb-4 flex items-center justify-between gap-3">
+                <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: clienteColors.textMuted }}>
+                  Meus dados
+                </p>
+                <span className="inline-flex items-center gap-1 text-xs" style={{ color: clienteColors.textMuted }}>
+                  <Lock className="h-3.5 w-3.5" />
+                  Somente leitura
+                </span>
+              </div>
+
+              <dl className="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2">
+                {[
+                  ['Nome completo', dependente?.nome || 'Não informado'],
+                  ['CPF', formatCPF(dependente?.cpf || '') || 'Não informado'],
+                  ['Data de nascimento', formatDate(dependente?.data_nascimento)],
+                  ['Relação', dependente?.relacao || 'Não informado'],
+                  ['E-mail', dependente?.email || 'Não informado'],
+                  ['Telefone', dependente?.telefone ? formatTelefone(dependente.telefone) : 'Não informado'],
+                  ['Sexo', dependente?.sexo || 'Não informado'],
+                ].map(([label, value]) => (
+                  <div key={label}>
+                    <dt className="text-xs font-medium" style={{ color: clienteColors.textMuted }}>{label}</dt>
+                    <dd className="mt-1 break-words text-sm font-semibold" style={{ color: clienteColors.text }}>{value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </section>
+
+            <p className="px-1 text-xs leading-5" style={{ color: clienteColors.textMuted }}>
+              Para corrigir algum dado, solicite a alteração ao titular do plano ou entre em contato com o suporte.
             </p>
           </div>
         ) : (

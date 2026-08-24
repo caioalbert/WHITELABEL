@@ -135,11 +135,11 @@ export default function ClienteDashboard() {
   const hasDebt = String(cadastro.financeiro_status || '').trim().toUpperCase() === 'EM_ATRASO'
 
   return (
-    <ClienteNav nomeCliente={usuario?.nome || cadastro.nome}>
-      <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6">
+    <ClienteNav nomeCliente={usuario?.nome || cadastro.nome} usuarioTipo={usuario?.tipo}>
+      <div className="mx-auto max-w-3xl px-4 py-4 sm:px-6 sm:py-6">
 
         {/* ── SAUDAÇÃO ── */}
-        <div className="mb-5">
+        <div className="mb-3 sm:mb-5">
           <p className="text-2xl font-bold" style={{ color: clienteColors.text }}>
             Olá, {greeting} 👋
           </p>
@@ -165,7 +165,7 @@ export default function ClienteDashboard() {
         )}
 
         <div
-          className="mb-6 flex items-center justify-between gap-3 rounded-2xl p-4"
+          className="mb-4 flex items-center justify-between gap-3 rounded-2xl p-3 sm:mb-6 sm:p-4"
           style={{ backgroundColor: clienteColors.danger }}
         >
           <div>
@@ -183,11 +183,11 @@ export default function ClienteDashboard() {
 
         {/* ── BENEFÍCIOS E PARCEIROS ── */}
         <section aria-labelledby="beneficios-title">
-          <div className="mb-3">
+          <div className="mb-2 sm:mb-3">
             <p id="beneficios-title" className="text-xs font-semibold uppercase tracking-widest" style={{ color: clienteColors.textMuted }}>
               Seus benefícios
             </p>
-            <p className="mt-1 text-sm" style={{ color: clienteColors.textMuted }}>
+            <p className="mt-1 hidden text-sm sm:block" style={{ color: clienteColors.textMuted }}>
               Acesse os serviços incluídos no seu plano.
             </p>
           </div>
@@ -195,31 +195,31 @@ export default function ClienteDashboard() {
           {/* 1. Rapidoc — serviço principal */}
           <Link
             href="/cliente/telemedicina"
-            className="group mb-3 block overflow-hidden rounded-3xl p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:p-6"
+            className="group mb-3 block overflow-hidden rounded-2xl p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:rounded-3xl sm:p-5"
             style={{
               background: `linear-gradient(135deg, ${clienteColors.primaryDark} 0%, ${clienteColors.primaryLight} 58%, ${clienteColors.accent} 100%)`,
               color: clienteColors.surface,
             }}
           >
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/15 ring-1 ring-white/20">
-                <Video className="h-7 w-7" />
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/15 ring-1 ring-white/20 sm:h-12 sm:w-12">
+                <Video className="h-6 w-6" />
               </div>
               <span className="rounded-full bg-white px-3 py-1 text-[11px] font-bold uppercase tracking-wide" style={{ color: clienteColors.primary }}>
                 Serviço principal
               </span>
             </div>
 
-            <div className="mt-5 max-w-xl">
+            <div className="mt-3 max-w-xl sm:mt-4">
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/75">Telemedicina 24h</p>
-              <h2 className="mt-1 text-2xl font-bold sm:text-3xl">Rapidoc</h2>
-              <p className="mt-2 text-sm leading-6 text-white/85 sm:text-base">
+              <h2 className="mt-0.5 text-xl font-bold sm:text-2xl">Rapidoc</h2>
+              <p className="mt-1 text-sm leading-5 text-white/85 sm:mt-2 sm:leading-6">
                 Atendimento médico por vídeo, com acesso rápido a profissionais de saúde onde você estiver.
               </p>
             </div>
 
-            <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
-              <div className="flex flex-wrap gap-2 text-xs font-medium text-white/90">
+            <div className="mt-3 flex flex-wrap items-center justify-between gap-2 sm:mt-4">
+              <div className="hidden flex-wrap gap-2 text-xs font-medium text-white/90 sm:flex">
                 <span className="rounded-full bg-white/10 px-3 py-1.5">Atendimento 24h</span>
                 <span className="rounded-full bg-white/10 px-3 py-1.5">Receita digital</span>
               </div>
@@ -230,26 +230,26 @@ export default function ClienteDashboard() {
             </div>
           </Link>
 
-          <div className="grid gap-3 md:grid-cols-3">
+          <div className="grid grid-cols-3 gap-2 sm:gap-3">
             {/* 2. Larp Saúde */}
             <a
               href={larpWhatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex min-h-52 flex-col rounded-2xl border p-5 transition hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+              className="group flex min-w-0 flex-col rounded-2xl border p-3 transition hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:p-4"
               style={{ backgroundColor: clienteColors.surface, borderColor: clienteColors.borderMint }}
             >
               <div className="flex items-start justify-between gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-50">
-                  <Microscope className="h-6 w-6 text-emerald-600" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 sm:h-11 sm:w-11">
+                  <Microscope className="h-5 w-5 text-emerald-600" />
                 </div>
-                <MessageCircle className="h-5 w-5 text-emerald-500" />
+                <MessageCircle className="hidden h-4 w-4 text-emerald-500 sm:block" />
               </div>
-              <div className="mt-4 flex-1">
-                <h3 className="font-bold" style={{ color: clienteColors.text }}>{LARP_SAUDE.name}</h3>
-                <p className="mt-1 text-sm leading-5" style={{ color: clienteColors.textMuted }}>{LARP_SAUDE.description}</p>
+              <div className="mt-3 flex-1 sm:mt-4">
+                <h3 className="text-sm font-bold leading-tight" style={{ color: clienteColors.text }}>{LARP_SAUDE.name}</h3>
+                <p className="mt-1 hidden text-xs leading-4 sm:block" style={{ color: clienteColors.textMuted }}>{LARP_SAUDE.description}</p>
               </div>
-              <p className="mt-4 flex items-center gap-1.5 text-xs font-semibold text-emerald-700">
+              <p className="mt-2 flex items-center gap-1 text-[10px] font-semibold leading-tight text-emerald-700 sm:mt-3 sm:text-xs">
                 <MapPin className="h-3.5 w-3.5" />
                 {LARP_SAUDE.coverage}
               </p>
@@ -257,36 +257,36 @@ export default function ClienteDashboard() {
 
             {/* 3. Pague Menos */}
             <article
-              className="flex min-h-52 flex-col rounded-2xl border p-5"
+              className="flex min-w-0 flex-col rounded-2xl border p-3 sm:p-4"
               style={{ backgroundColor: clienteColors.surface, borderColor: '#FDE68A' }}
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-50">
-                <Pill className="h-6 w-6 text-amber-600" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 sm:h-11 sm:w-11">
+                <Pill className="h-5 w-5 text-amber-600" />
               </div>
-              <div className="mt-4 flex-1">
-                <h3 className="font-bold" style={{ color: clienteColors.text }}>Pague Menos</h3>
-                <p className="mt-1 text-sm leading-5" style={{ color: clienteColors.textMuted }}>
+              <div className="mt-3 flex-1 sm:mt-4">
+                <h3 className="text-sm font-bold leading-tight" style={{ color: clienteColors.text }}>Pague Menos</h3>
+                <p className="mt-1 hidden text-xs leading-4 sm:block" style={{ color: clienteColors.textMuted }}>
                   Benefícios e descontos em medicamentos nas farmácias parceiras.
                 </p>
               </div>
-              <p className="mt-4 text-xs font-semibold text-amber-700">Economia para o dia a dia</p>
+              <p className="mt-2 text-[10px] font-semibold leading-tight text-amber-700 sm:mt-3 sm:text-xs">Economia no dia a dia</p>
             </article>
 
             {/* 4. Zelo */}
             <article
-              className="flex min-h-52 flex-col rounded-2xl border p-5"
+              className="flex min-w-0 flex-col rounded-2xl border p-3 sm:p-4"
               style={{ backgroundColor: clienteColors.surface, borderColor: '#E7E5E4' }}
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-stone-100">
-                <Flower2 className="h-6 w-6" style={{ color: clienteColors.funeral }} />
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-stone-100 sm:h-11 sm:w-11">
+                <Flower2 className="h-5 w-5" style={{ color: clienteColors.funeral }} />
               </div>
-              <div className="mt-4 flex-1">
-                <h3 className="font-bold" style={{ color: clienteColors.text }}>Zelo</h3>
-                <p className="mt-1 text-sm leading-5" style={{ color: clienteColors.textMuted }}>
+              <div className="mt-3 flex-1 sm:mt-4">
+                <h3 className="text-sm font-bold leading-tight" style={{ color: clienteColors.text }}>Zelo</h3>
+                <p className="mt-1 hidden text-xs leading-4 sm:block" style={{ color: clienteColors.textMuted }}>
                   Assistência funeral e suporte especializado para sua família.
                 </p>
               </div>
-              <p className="mt-4 text-xs font-semibold" style={{ color: clienteColors.funeral }}>Proteção e acolhimento</p>
+              <p className="mt-2 text-[10px] font-semibold leading-tight sm:mt-3 sm:text-xs" style={{ color: clienteColors.funeral }}>Proteção familiar</p>
             </article>
           </div>
         </section>

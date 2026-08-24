@@ -2,19 +2,38 @@ import { requireActiveClienteAuth } from '@/lib/supabase/cliente-auth'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { NextRequest, NextResponse } from 'next/server'
 
+type CadastroClienteRecord = {
+  id: string
+  status: string
+  tipo_plano: string
+  empresa_id?: string | null
+  nome?: string | null
+  email?: string | null
+  telefone?: string | null
+  data_nascimento?: string | null
+  sexo?: string | null
+  [key: string]: unknown
+}
+
 export async function GET(request: NextRequest) {
   try {
     const auth = await requireActiveClienteAuth(request)
 
     const supabase = createAdminClient()
-    const { data: cadastro, error } = await supabase
-      .from('cadastros')
-      .select(`
-        *,
-        dependentes (*)
-      `)
-      .eq('id', auth.clienteId)
-      .single()
+    const cadastroResult = auth.tipo === 'dependente'
+      ? await supabase
+          .from('cadastros')
+          .select('id, status, tipo_plano, empresa_id')
+          .eq('id', auth.clienteId)
+          .single()
+      : await supabase
+          .from('cadastros')
+          .select('*, dependentes (*)')
+          .eq('id', auth.clienteId)
+          .single()
+
+    const cadastro = cadastroResult.data as CadastroClienteRecord | null
+    const error = cadastroResult.error
 
     if (error || !cadastro) {
       return NextResponse.json(
@@ -23,16 +42,64 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    return NextResponse.json({
-      cadastro,
-      usuario: {
-        id: auth.dependenteId || auth.clienteId,
+    let usuario = {
+      id: auth.clienteId,
+      cadastroId: auth.clienteId,
+      tipo: auth.tipo,
+      nome: auth.nome,
+      email: auth.email || cadastro.email || null,
+      cpf: auth.cpf,
+      telefone: cadastro.telefone || null,
+      data_nascimento: cadastro.data_nascimento || null,
+      relacao: null as string | null,
+      sexo: cadastro.sexo || null,
+    }
+
+    if (auth.tipo === 'dependente') {
+      if (!auth.dependenteId) {
+        return NextResponse.json({ error: 'Dependente não identificado.' }, { status: 404 })
+      }
+
+      const { data: dependente, error: dependenteError } = await supabase
+        .from('dependentes')
+        .select('id, nome, cpf, email, telefone_celular, data_nascimento, relacao, sexo')
+        .eq('id', auth.dependenteId)
+        .eq('cadastro_id', auth.clienteId)
+        .single()
+
+      if (dependenteError || !dependente) {
+        return NextResponse.json({ error: 'Dependente não encontrado.' }, { status: 404 })
+      }
+
+      usuario = {
+        id: dependente.id,
         cadastroId: auth.clienteId,
-        tipo: auth.tipo,
-        nome: auth.nome,
-        email: auth.email || cadastro.email || null,
-        cpf: auth.cpf,
-      },
+        tipo: 'dependente',
+        nome: dependente.nome,
+        email: dependente.email || null,
+        cpf: dependente.cpf,
+        telefone: dependente.telefone_celular || null,
+        data_nascimento: dependente.data_nascimento || null,
+        relacao: dependente.relacao || null,
+        sexo: dependente.sexo || null,
+      }
+
+    }
+
+    const cadastroResposta = auth.tipo === 'dependente'
+      ? {
+          id: cadastro.id,
+          nome: usuario.nome,
+          status: cadastro.status,
+          tipo_plano: cadastro.tipo_plano,
+          empresa_id: cadastro.empresa_id || null,
+          dependentes: [],
+        }
+      : cadastro
+
+    return NextResponse.json({
+      cadastro: cadastroResposta,
+      usuario,
     })
   } catch (error) {
     if (error instanceof Error && error.message === 'Não autenticado') {

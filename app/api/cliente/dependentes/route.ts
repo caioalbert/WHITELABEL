@@ -3,6 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { updateAsaasSubscriptionValue } from '@/lib/asaas'
 import { MIN_DEPENDENTES_FAMILIAR, VALOR_POR_VIDA_EXCEDENTE } from '@/lib/plan-pricing'
 import { NextRequest, NextResponse } from 'next/server'
+import { canAccessClienteDependentes } from '@/lib/cliente-access'
 
 async function isEmpresaBeneficiary(
   supabase: ReturnType<typeof createAdminClient>,
@@ -66,6 +67,13 @@ async function recalculateAndUpdateSubscription(cadastroId: string) {
 export async function GET(request: NextRequest) {
   try {
     const auth = await requireActiveClienteAuth(request)
+
+    if (!canAccessClienteDependentes(auth.tipo)) {
+      return NextResponse.json(
+        { error: 'Acesso exclusivo do titular.' },
+        { status: 403 }
+      )
+    }
 
     const supabase = createAdminClient()
     const empresaBeneficiary = await isEmpresaBeneficiary(supabase, auth.clienteId)

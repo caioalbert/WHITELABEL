@@ -8,6 +8,7 @@ import {
   parseEmpresaExternalReference,
 } from '../lib/empresa-flow'
 import { calculatePlanChargeBreakdown } from '../lib/plan-pricing'
+import { canAccessClienteDependentes } from '../lib/cliente-access'
 
 describe('cadastro e cobrança', () => {
   it('calcula plano por vida respeitando o mínimo contratado', () => {
@@ -30,6 +31,12 @@ describe('cadastro e cobrança', () => {
 })
 
 describe('ativação e acesso PF/PJ', () => {
+  it('restringe a gestão de dependentes ao titular', () => {
+    expect(canAccessClienteDependentes('titular')).toBe(true)
+    expect(canAccessClienteDependentes('dependente')).toBe(false)
+    expect(canAccessClienteDependentes(null)).toBe(false)
+  })
+
   it('valida o segundo fator do cliente pelo prefixo do CPF', () => {
     expect(verifyCpfPrefix({ cpf: '123.456.789-09' }, '1234')).toBe(true)
     expect(verifyCpfPrefix({ cpf: '123.456.789-09' }, '9999')).toBe(false)
