@@ -14,7 +14,7 @@ import {
   ChevronRight,
 } from 'lucide-react'
 import { BrandLogo } from '@/components/brand-logo'
-import { DEFAULT_BRAND_LOGO_ON_LIGHT_URL } from '@/lib/branding'
+import { DEFAULT_BRANDING, DEFAULT_BRAND_LOGO_ON_LIGHT_URL } from '@/lib/branding'
 import { clienteColors } from '@/lib/cliente-ui'
 import { canAccessClienteDependentes } from '@/lib/cliente-access'
 
@@ -31,7 +31,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'Dependentes', href: '/cliente/dependentes', icon: Users },
 ]
 
-function NavLink({ item, active, onClick }: { item: NavItem; active: boolean; onClick?: () => void }) {
+function NavLink({ item, active, dark, onClick }: { item: NavItem; active: boolean; dark: boolean; onClick?: () => void }) {
   const Icon = item.icon
   return (
     <Link
@@ -39,8 +39,8 @@ function NavLink({ item, active, onClick }: { item: NavItem; active: boolean; on
       onClick={onClick}
       className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all"
       style={{
-        backgroundColor: active ? `${clienteColors.primary}14` : 'transparent',
-        color: active ? clienteColors.primary : clienteColors.textMuted,
+        backgroundColor: active ? (dark ? '#FFFFFF1A' : `${clienteColors.primary}14`) : 'transparent',
+        color: dark ? (active ? '#FFFFFF' : '#CBD5E1') : (active ? clienteColors.primary : clienteColors.textMuted),
       }}
     >
       <Icon className="h-5 w-5 shrink-0" />
@@ -53,13 +53,21 @@ function NavLink({ item, active, onClick }: { item: NavItem; active: boolean; on
 type ClienteNavProps = {
   nomeCliente?: string
   usuarioTipo?: 'titular' | 'dependente'
+  appearance?: 'default' | 'midnight'
   children: React.ReactNode
 }
 
-export function ClienteNav({ nomeCliente, usuarioTipo = 'titular', children }: ClienteNavProps) {
+export function ClienteNav({ nomeCliente, usuarioTipo = 'titular', appearance = 'default', children }: ClienteNavProps) {
   const pathname = usePathname()
   const router = useRouter()
   const [sheetOpen, setSheetOpen] = useState(false)
+  const dark = appearance === 'midnight'
+  const shellBackground = dark ? '#0B1E36' : clienteColors.background
+  const surfaceBackground = dark ? '#0B1E36' : clienteColors.surface
+  const borderColor = dark ? '#FFFFFF1A' : clienteColors.border
+  const primaryTextColor = dark ? '#FFFFFF' : clienteColors.text
+  const mutedTextColor = dark ? '#CBD5E1' : clienteColors.textMuted
+  const logoUrl = dark ? DEFAULT_BRANDING.brandLogoUrl : DEFAULT_BRAND_LOGO_ON_LIGHT_URL
 
   const handleLogout = async () => {
     setSheetOpen(false)
@@ -72,20 +80,22 @@ export function ClienteNav({ nomeCliente, usuarioTipo = 'titular', children }: C
       {/* Logo */}
       <div
         className="flex items-center gap-3 border-b px-4 py-4"
-        style={{ borderColor: clienteColors.borderMint }}
+        style={{ borderColor }}
       >
-        <BrandLogo
-          logoUrl={DEFAULT_BRAND_LOGO_ON_LIGHT_URL}
-          width={200}
-          height={200}
-          className="h-10 w-10 object-contain"
-        />
+        {!dark && (
+          <BrandLogo
+            logoUrl={logoUrl}
+            width={200}
+            height={200}
+            className="h-10 w-10 object-contain"
+          />
+        )}
         {nomeCliente && (
           <div className="min-w-0">
-            <p className="truncate text-sm font-semibold" style={{ color: clienteColors.text }}>
+            <p className="truncate text-sm font-semibold" style={{ color: primaryTextColor }}>
               {nomeCliente.split(' ')[0]}
             </p>
-            <p className="text-xs" style={{ color: clienteColors.textMuted }}>
+            <p className="text-xs" style={{ color: mutedTextColor }}>
               Área do cliente
             </p>
           </div>
@@ -96,7 +106,7 @@ export function ClienteNav({ nomeCliente, usuarioTipo = 'titular', children }: C
       <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
         <p
           className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-widest"
-          style={{ color: clienteColors.textMuted }}
+          style={{ color: mutedTextColor }}
         >
           Menu
         </p>
@@ -105,13 +115,14 @@ export function ClienteNav({ nomeCliente, usuarioTipo = 'titular', children }: C
             key={item.href}
             item={item}
             active={pathname === item.href}
+            dark={dark}
             onClick={onClickItem}
           />
         ))}
       </nav>
 
       {/* Logout */}
-      <div className="border-t px-3 py-4" style={{ borderColor: clienteColors.border }}>
+      <div className="border-t px-3 py-4" style={{ borderColor }}>
         <button
           onClick={handleLogout}
           className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all hover:opacity-80"
@@ -125,13 +136,13 @@ export function ClienteNav({ nomeCliente, usuarioTipo = 'titular', children }: C
   )
 
   return (
-    <div className="flex min-h-screen" style={{ backgroundColor: clienteColors.background }}>
+    <div className="flex min-h-screen" style={{ backgroundColor: shellBackground }}>
       {/* ── SIDEBAR desktop (md+) ── */}
       <aside
         className="hidden md:flex md:w-56 md:flex-col md:shrink-0 sticky top-0 h-screen overflow-y-auto border-r"
         style={{
-          backgroundColor: clienteColors.surface,
-          borderColor: clienteColors.border,
+          backgroundColor: surfaceBackground,
+          borderColor,
         }}
       >
         {sidebarContent()}
@@ -148,15 +159,15 @@ export function ClienteNav({ nomeCliente, usuarioTipo = 'titular', children }: C
           {/* Drawer */}
           <div
             className="fixed inset-y-0 left-0 z-50 w-64 shadow-2xl md:hidden"
-            style={{ backgroundColor: clienteColors.surface }}
+            style={{ backgroundColor: surfaceBackground }}
           >
             <button
               onClick={() => setSheetOpen(false)}
               className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full"
-              style={{ backgroundColor: `${clienteColors.border}80` }}
+              style={{ backgroundColor: dark ? '#FFFFFF1A' : `${clienteColors.border}80` }}
               aria-label="Fechar menu"
             >
-              <X className="h-4 w-4" style={{ color: clienteColors.text }} />
+              <X className="h-4 w-4" style={{ color: primaryTextColor }} />
             </button>
             {sidebarContent(() => setSheetOpen(false))}
           </div>
@@ -169,25 +180,27 @@ export function ClienteNav({ nomeCliente, usuarioTipo = 'titular', children }: C
         <header
           className="sticky top-0 z-30 flex items-center justify-between px-4 py-3 shadow-sm md:hidden"
           style={{
-            backgroundColor: clienteColors.surface,
-            borderBottom: `1px solid ${clienteColors.border}`,
+            backgroundColor: surfaceBackground,
+            borderBottom: `1px solid ${borderColor}`,
           }}
         >
           <button
             onClick={() => setSheetOpen(true)}
             className="flex h-10 w-10 items-center justify-center rounded-full transition"
-            style={{ backgroundColor: `${clienteColors.primary}12` }}
+            style={{ backgroundColor: dark ? '#FFFFFF1A' : `${clienteColors.primary}12` }}
             aria-label="Abrir menu"
           >
-            <Menu className="h-5 w-5" style={{ color: clienteColors.primary }} />
+            <Menu className="h-5 w-5" style={{ color: dark ? '#FFFFFF' : clienteColors.primary }} />
           </button>
 
-          <BrandLogo
-            logoUrl={DEFAULT_BRAND_LOGO_ON_LIGHT_URL}
-            width={200}
-            height={200}
-            className="h-10 w-10 object-contain"
-          />
+          {!dark && (
+            <BrandLogo
+              logoUrl={logoUrl}
+              width={200}
+              height={200}
+              className="h-10 w-10 object-contain"
+            />
+          )}
 
           {/* Placeholder to balance flex */}
           <div className="h-10 w-10" />

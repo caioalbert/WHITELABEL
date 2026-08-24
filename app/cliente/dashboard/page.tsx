@@ -5,17 +5,11 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
   AlertTriangle,
-  CreditCard,
-  Flower2,
   Microscope,
   PhoneCall,
-  Pill,
-  Users,
-  Video,
 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { clienteColors, clienteRadius } from '@/lib/cliente-ui'
-import { buildLarpSaudeWhatsappUrl, LARP_SAUDE } from '@/lib/laboratory-partners'
+import { BrandLogo } from '@/components/brand-logo'
+import { buildLarpSaudeWhatsappUrl } from '@/lib/laboratory-partners'
 import { ClienteNav } from '@/components/cliente/cliente-nav'
 
 type Cadastro = {
@@ -45,14 +39,83 @@ type UsuarioCliente = {
 
 type ConfigPublica = {
   telefoneEmergencia: string
-  whatsappUrl: string
-  appTagline: string
 }
 
 const CONFIG_DEFAULTS: ConfigPublica = {
   telefoneEmergencia: '(85) 3000-0000',
-  whatsappUrl: 'https://wa.me/5585991452514',
-  appTagline: 'Sua saude completa e segura',
+}
+
+const serviceButtonClassName = 'flex min-h-20 w-full items-center rounded-full bg-white px-5 py-3 text-[#0B1E36] shadow-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B1E36]'
+
+type PartnerName = 'rapidoc' | 'larp' | 'pague-menos' | 'zelo'
+
+const RAPIDOC_MARK_CELLS = [false, true, false, true, true, true, false, true, false]
+
+function PartnerLogo({ partner }: { partner: PartnerName }) {
+  if (partner === 'rapidoc') {
+    return (
+      <span className="flex items-center gap-1.5" role="img" aria-label="Rapidoc">
+        <span className="grid h-8 w-8 shrink-0 grid-cols-3 gap-0.5" aria-hidden="true">
+          {RAPIDOC_MARK_CELLS.map((visible, index) => (
+            <span key={index} className={visible ? 'rounded-[2px] bg-sky-500' : ''} />
+          ))}
+        </span>
+        <span className="text-[13px] font-black tracking-tight text-sky-700">rapidoc</span>
+      </span>
+    )
+  }
+
+  if (partner === 'larp') {
+    return (
+      <span className="flex items-center gap-1.5" role="img" aria-label="Larp Saúde">
+        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-600 text-white" aria-hidden="true">
+          <Microscope className="h-4.5 w-4.5" strokeWidth={2} />
+        </span>
+        <span className="text-left leading-none">
+          <span className="block text-[13px] font-black text-emerald-800">LARP</span>
+          <span className="block text-[8px] font-extrabold text-emerald-600">SAÚDE</span>
+        </span>
+      </span>
+    )
+  }
+
+  if (partner === 'pague-menos') {
+    return (
+      <span className="flex items-center gap-1.5" role="img" aria-label="Pague Menos">
+        <span className="relative flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-red-600" aria-hidden="true">
+          <span className="absolute h-5 w-2 rounded-sm bg-white" />
+          <span className="absolute h-2 w-5 rounded-sm bg-white" />
+        </span>
+        <span className="text-left text-[12px] font-black italic leading-[0.85] text-[#294B9B]">
+          Pague<br />Menos
+        </span>
+      </span>
+    )
+  }
+
+  return (
+    <span className="flex flex-col items-center text-[#0B4F84]" role="img" aria-label="Grupo Zelo">
+      <span className="text-[8px] font-extrabold uppercase leading-none">Grupo</span>
+      <span className="text-[17px] font-black leading-none">ZELO</span>
+      <svg viewBox="0 0 80 12" className="mt-0.5 h-2 w-14" fill="none" aria-hidden="true">
+        <path d="M2 2C20 13 48 13 78 2" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
+      </svg>
+    </span>
+  )
+}
+
+function ServiceContent({ partner, title, subtitle }: { partner: PartnerName; title: string; subtitle?: string }) {
+  return (
+    <>
+      <span className="flex w-24 shrink-0 items-center justify-center border-r border-slate-200 pr-4">
+        <PartnerLogo partner={partner} />
+      </span>
+      <span className="min-w-0 pl-4 text-left">
+        <span className="block text-sm font-bold leading-tight">{title}</span>
+        {subtitle ? <span className="mt-1 block text-xs font-medium text-slate-500">{subtitle}</span> : null}
+      </span>
+    </>
+  )
 }
 
 export default function ClienteDashboard() {
@@ -95,12 +158,7 @@ export default function ClienteDashboard() {
     fetchConfig()
   }, [fetchCadastro, fetchConfig])
 
-
-  const formatCurrency = (v: number) =>
-    v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
-
   const isTitular = usuario?.tipo !== 'dependente' && !cadastro?.empresa_id
-  const dependentesCount = cadastro?.dependentes.length ?? 0
   const larpWhatsappUrl = useMemo(() => buildLarpSaudeWhatsappUrl({
     origin: 'acesso do cliente novaalianca Saúde',
     customerName: usuario?.nome || cadastro?.nome,
@@ -108,184 +166,100 @@ export default function ClienteDashboard() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: clienteColors.background }}>
-        <p style={{ color: clienteColors.textMuted }}>Carregando...</p>
+      <div className="flex min-h-screen items-center justify-center bg-[#0B1E36]">
+        <p className="text-white/70">Carregando...</p>
       </div>
     )
   }
 
   if (error || !cadastro) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4" style={{ backgroundColor: clienteColors.background }}>
-        <div className="w-full max-w-md border p-6" style={{ backgroundColor: clienteColors.surface, borderColor: '#FECACA', borderRadius: clienteRadius.lg }}>
-          <p className="mb-4" style={{ color: clienteColors.danger }}>{error || 'Erro ao carregar dados'}</p>
-          <Button onClick={() => router.push('/login')} style={{ backgroundColor: clienteColors.primary, color: clienteColors.surface, borderRadius: clienteRadius.full }}>
+      <div className="flex min-h-screen items-center justify-center bg-[#0B1E36] p-4 text-center">
+        <div className="w-full max-w-md">
+          <p className="mb-5 text-red-200">{error || 'Erro ao carregar dados'}</p>
+          <button
+            type="button"
+            onClick={() => router.push('/login')}
+            className="rounded-full bg-white px-6 py-3 font-semibold text-[#0B1E36]"
+          >
             Voltar ao login
-          </Button>
+          </button>
         </div>
       </div>
     )
   }
 
-  const greeting = (usuario?.nome || cadastro.nome).split(' ')[0]
-  const isActive = cadastro.status === 'ATIVO'
+  const greeting = (usuario?.nome || cadastro.nome).split(' ')[0].toLocaleUpperCase('pt-BR')
   const hasDebt = String(cadastro.financeiro_status || '').trim().toUpperCase() === 'EM_ATRASO'
 
   return (
-    <ClienteNav nomeCliente={usuario?.nome || cadastro.nome} usuarioTipo={usuario?.tipo}>
-      <div className="mx-auto max-w-3xl px-4 py-4 sm:px-6 sm:py-6">
+    <ClienteNav nomeCliente={usuario?.nome || cadastro.nome} usuarioTipo={usuario?.tipo} appearance="midnight">
+      <div className="mx-auto w-[90%] max-w-md pb-28 pt-3 sm:pt-5">
+
+        <div className="flex h-32 items-center justify-center overflow-hidden">
+          <BrandLogo
+            logoUrl="/logo-nova-alianca.png"
+            width={500}
+            height={500}
+            priority
+            className="h-60 w-60 object-contain"
+          />
+        </div>
 
         {/* ── SAUDAÇÃO ── */}
-        <div className="mb-3 sm:mb-5">
-          <p className="text-2xl font-bold" style={{ color: clienteColors.text }}>
-            Olá, {greeting} 👋
-          </p>
+        <header className="mb-6 mt-2">
+          <h1 className="text-3xl font-bold tracking-tight text-white">Olá, {greeting}</h1>
           {usuario?.tipo === 'dependente' && (
-            <span className="mt-1 inline-block rounded-full px-3 py-1 text-xs font-semibold" style={{ backgroundColor: '#DBEAFE', color: '#2563EB' }}>
+            <span className="mt-3 inline-flex rounded-full border border-white/35 bg-white/10 px-3 py-1 text-xs font-semibold text-white">
               Dependente
             </span>
           )}
-          <p className="mt-1 text-sm" style={{ color: clienteColors.textMuted }}>
-            {config.appTagline}
-          </p>
-        </div>
+        </header>
 
         {/* ── ALERTA DÍVIDA ── */}
         {hasDebt && isTitular && (
-          <div className="mb-4 flex items-start gap-2 rounded-2xl border p-4" style={{ backgroundColor: clienteColors.amberBg, borderColor: '#FDE68A' }}>
-            <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" style={{ color: clienteColors.amber }} />
-            <p className="text-sm leading-5" style={{ color: clienteColors.amber }}>
+          <div className="mb-5 flex items-start gap-2 text-amber-200">
+            <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" />
+            <p className="text-sm leading-5">
               Você possui pagamentos em atraso.{' '}
               <Link href="/cliente/pagamentos" className="font-bold underline">Ver financeiro →</Link>
             </p>
           </div>
         )}
 
-        {/* ── SERVIÇOS AGREGADOS ── */}
-        <section
-          aria-labelledby="servicos-agregados-title"
-          className="rounded-[1.75rem] bg-[#082F49] p-4 text-white shadow-xl shadow-sky-950/10 sm:p-5"
-        >
-          <p
-            id="servicos-agregados-title"
-            className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-white/65"
-          >
-            Serviços agregados
-          </p>
-
-          <div className="grid grid-cols-2 gap-2.5 lg:grid-cols-4 lg:gap-3">
-            <Link
-              href="/cliente/telemedicina"
-              className="flex min-h-20 items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-3 font-semibold text-white transition hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
-            >
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10">
-                <Video className="h-5 w-5" aria-hidden="true" />
-              </span>
-              <span className="text-sm leading-tight">Telemedicina 24H</span>
-            </Link>
-
-            <a
-              href={larpWhatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex min-h-20 items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-3 font-semibold text-white transition hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
-            >
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10">
-                <Microscope className="h-5 w-5" aria-hidden="true" />
-              </span>
-              <span className="text-sm leading-tight">Exames laboratoriais</span>
-              <span className="sr-only"> com {LARP_SAUDE.name}</span>
-            </a>
-
-            <div className="flex min-h-20 items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-3 font-semibold text-white">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10">
-                <Pill className="h-5 w-5" aria-hidden="true" />
-              </span>
-              <span className="text-sm leading-tight">Descontos em farmácias</span>
-            </div>
-
-            <div className="flex min-h-20 items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-3 font-semibold text-white">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10">
-                <Flower2 className="h-5 w-5" aria-hidden="true" />
-              </span>
-              <span className="text-sm leading-tight">Assistência funeral</span>
-            </div>
-          </div>
+        <section aria-label="Serviços" className="flex flex-col gap-3" role="list">
+          <Link href="/cliente/telemedicina" className={serviceButtonClassName} role="listitem">
+            <ServiceContent partner="rapidoc" title="Telemedicina" subtitle="Atendimento 24H" />
+          </Link>
 
           <a
-            href={`tel:${config.telefoneEmergencia.replace(/\D/g, '')}`}
-            className="mt-3 flex min-h-14 items-center justify-between gap-3 rounded-full border border-red-400/60 bg-white/5 px-4 py-2.5 text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-300"
+            href={larpWhatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={serviceButtonClassName}
+            role="listitem"
           >
-            <span className="flex items-center gap-3">
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-red-500/15 text-red-300">
-                <PhoneCall className="h-4 w-4" aria-hidden="true" />
-              </span>
-              <span className="text-sm font-semibold">Emergência</span>
-            </span>
-            <span className="text-sm font-bold text-white/85">{config.telefoneEmergencia}</span>
+            <ServiceContent partner="larp" title="Exames laboratoriais" subtitle="10% de desconto" />
           </a>
-        </section>
 
-        {/* ── DESKTOP: Plano + Financeiro + Dependentes (visível apenas md+) ── */}
-        <div className="mt-8 hidden md:block space-y-4">
-          <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: clienteColors.textMuted }}>
-            Minha Conta
-          </p>
-
-          {/* Plano */}
-          <div className="rounded-2xl border p-5" style={{ backgroundColor: clienteColors.surface, borderColor: clienteColors.border }}>
-            <div className="mb-3 flex items-center justify-between">
-              <h2 className="font-semibold text-base" style={{ color: clienteColors.text }}>Meu Plano</h2>
-              <span
-                className="rounded-full px-3 py-1 text-xs font-semibold"
-                style={{ backgroundColor: isActive ? '#D1FAE5' : '#FEF3C7', color: isActive ? clienteColors.success : clienteColors.warning }}
-              >
-                {cadastro.status}
-              </span>
-            </div>
-            <div className={`grid ${isTitular ? 'grid-cols-2' : 'grid-cols-1'} gap-4 text-sm`}>
-              <div>
-                <p style={{ color: clienteColors.textMuted }}>Plano</p>
-                <p className="mt-1 font-semibold" style={{ color: clienteColors.text }}>{cadastro.tipo_plano}</p>
-              </div>
-              {isTitular && (
-                <div>
-                  <p style={{ color: clienteColors.textMuted }}>Mensalidade</p>
-                  <p className="mt-1 font-semibold" style={{ color: clienteColors.text }}>{formatCurrency(cadastro.mensalidade_valor)}</p>
-                </div>
-              )}
-            </div>
+          <div className={`${serviceButtonClassName} cursor-default`} role="listitem">
+            <ServiceContent partner="pague-menos" title="Desconto em medicamentos" />
           </div>
 
-          {isTitular && (
-            <div className="grid grid-cols-2 gap-3">
-              <Link href="/cliente/pagamentos">
-                <div className="flex items-center gap-4 rounded-2xl border p-4 transition hover:opacity-80" style={{ backgroundColor: clienteColors.surface, borderColor: clienteColors.border }}>
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: '#2196F318' }}>
-                    <CreditCard className="h-5 w-5" style={{ color: '#2196F3' }} />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-sm" style={{ color: clienteColors.text }}>Financeiro</p>
-                    <p className="text-xs mt-0.5" style={{ color: clienteColors.textMuted }}>Mensalidades e faturas</p>
-                  </div>
-                </div>
-              </Link>
-              <Link href="/cliente/dependentes">
-                <div className="flex items-center gap-4 rounded-2xl border p-4 transition hover:opacity-80" style={{ backgroundColor: clienteColors.surface, borderColor: clienteColors.border }}>
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: '#FF980018' }}>
-                    <Users className="h-5 w-5" style={{ color: '#FF9800' }} />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-sm" style={{ color: clienteColors.text }}>Dependentes</p>
-                    <p className="text-xs mt-0.5" style={{ color: clienteColors.textMuted }}>{dependentesCount} cadastrado{dependentesCount !== 1 ? 's' : ''}</p>
-                  </div>
-                </div>
-              </Link>
-            </div>
-          )}
-        </div>
+          <div className={`${serviceButtonClassName} cursor-default`} role="listitem">
+            <ServiceContent partner="zelo" title="Plano funerário" />
+          </div>
+        </section>
 
       </div>
+
+      <a
+        href={`tel:${config.telefoneEmergencia.replace(/\D/g, '')}`}
+        className="fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] left-1/2 z-20 flex min-h-14 w-[90%] max-w-md -translate-x-1/2 items-center justify-center gap-3 rounded-full bg-white px-5 py-3 font-semibold text-[#0B1E36] shadow-2xl shadow-black/30 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-300 md:left-[calc(50%+7rem)]"
+      >
+        <PhoneCall className="h-5 w-5 shrink-0 text-red-600" aria-hidden="true" />
+        <span>Emergência {config.telefoneEmergencia}</span>
+      </a>
     </ClienteNav>
   )
 }
