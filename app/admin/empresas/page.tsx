@@ -35,7 +35,8 @@ export default function AdminEmpresasPage() {
       const res = await fetch("/api/admin/empresas")
       if (!res.ok) {
         if (res.status === 401) { router.push("/admin/login"); return }
-        throw new Error("Erro ao carregar empresas")
+        const payload = await res.json().catch(() => null) as { error?: string } | null
+        throw new Error(payload?.error || "Erro ao carregar empresas")
       }
       const data = await res.json()
       setEmpresas(data.empresas || [])

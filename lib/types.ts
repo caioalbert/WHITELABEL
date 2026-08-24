@@ -62,6 +62,8 @@ export interface Empresa {
   minimo_funcionarios?: number | null
   valor_por_funcionario?: number | null
   mensalidade_valor?: number | null
+  sem_adesao?: boolean
+  valor_adesao?: number | null
   mensalidade_billing_type?: string | null
   asaas_customer_id?: string | null
   asaas_payment_id?: string | null

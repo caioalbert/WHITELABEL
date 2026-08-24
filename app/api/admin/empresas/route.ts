@@ -11,6 +11,17 @@ function num(value: unknown): number | null {
   return Number.isFinite(n) ? n : null
 }
 
+const EMPRESA_LIST_FIELDS =
+  "id, razao_social, nome_fantasia, cnpj, email, telefone, responsavel_nome, status, tipo_plano, quantidade_funcionarios, valor_por_funcionario, mensalidade_valor, sem_adesao, created_at, updated_at"
+const EMPRESA_LEGACY_LIST_FIELDS =
+  "id, razao_social, nome_fantasia, cnpj, email, telefone, responsavel_nome, status, tipo_plano, quantidade_funcionarios, valor_por_funcionario, mensalidade_valor, created_at, updated_at"
+
+function isMissingEmpresaCommercialTerms(error: unknown) {
+  const candidate = error as { code?: string; message?: string; details?: string } | null
+  const details = `${candidate?.code || ""} ${candidate?.message || ""} ${candidate?.details || ""}`
+  return /42703|empresas\.(sem_adesao|valor_adesao).*does not exist/i.test(details)
+}
+
 // ─── GET: lista todas as empresas ─────────────────────────────────────────────
 export async function GET(request: NextRequest) {
   try {
@@ -19,10 +30,20 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: authResult.error }, { status: authResult.status })
     }
     const supabase = createAdminClient()
-    const { data, error } = await supabase
+    let { data, error } = await supabase
       .from("empresas")
-      .select("id, razao_social, nome_fantasia, cnpj, email, telefone, responsavel_nome, status, tipo_plano, quantidade_funcionarios, valor_por_funcionario, mensalidade_valor, sem_adesao, created_at, updated_at")
+      .select(EMPRESA_LIST_FIELDS)
       .order("created_at", { ascending: false })
+
+    if (error && isMissingEmpresaCommercialTerms(error)) {
+      const legacyResult = await supabase
+        .from("empresas")
+        .select(EMPRESA_LEGACY_LIST_FIELDS)
+        .order("created_at", { ascending: false })
+      data = legacyResult.data?.map((empresa) => ({ ...empresa, sem_adesao: true })) ?? null
+      error = legacyResult.error
+    }
+
     if (error) throw error
     return NextResponse.json({ success: true, empresas: data || [] })
   } catch (error) {
@@ -160,6 +181,12 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: true, empresa: novaEmpresa, totalFuncionarios: funcionarios.length })
   } catch (error) {
     console.error("Erro ao cadastrar empresa (admin):", error)
+    if (isMissingEmpresaCommercialTerms(error)) {
+      return NextResponse.json(
+        { error: "Banco desatualizado. Execute scripts/023_add_empresa_commercial_terms.sql." },
+        { status: 409 }
+      )
+    }
     return NextResponse.json({ error: "Erro ao cadastrar empresa." }, { status: 500 })
   }
 }
