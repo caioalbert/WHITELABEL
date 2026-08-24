@@ -102,7 +102,9 @@ Edite `.env.local` com:
 
 #### Rapidoc
 - `RAPIDOC_ACCESS_URL` - URL SSO/portal usada pelo endpoint `/api/cliente/telemedicina/url`. Aceita placeholders como `{nome}`, `{email}`, `{cpf_digits}`, `{telefone_digits}` e `{data_nascimento}`.
-- `RAPIDOC_API_BASE_URL` - Base da API Rapidoc para fallback e acesso direto. Produção: `https://api.rapidoc.tech/tema/api`.
+- `RAPIDOC_API_BASE_URL` - Base da API Rapidoc; o cliente acrescenta `/api`. Produção: `https://api.rapidoc.tech/tema`.
+- `RAPIDOC_SERVICE_TYPE` - Cobertura usada na sincronização (`GS` por padrão).
+- `RAPIDOC_INCLUDE_HOLDER` - Envia o CPF do titular no campo `holder`; mantenha `false` quando o contrato não aceitar grupos familiares.
 - `NEXT_PUBLIC_RAPIDOC_API_BASE_URL` - Base pública equivalente usada no cliente.
 - `RAPIDOC_FALLBACK_URL` - URL de fallback server-side quando a URL de acesso não estiver configurada.
 - `NEXT_PUBLIC_RAPIDOC_FALLBACK_URL` - URL pública usada no cliente como fallback.

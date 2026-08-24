@@ -1,3 +1,5 @@
+import { isRapidocAuthenticationFailure } from './rapidoc-config'
+
 /**
  * Integração com a API TEMA da Rapidoc Telemedicina.
  *
@@ -115,7 +117,7 @@ export async function checkRapidocBeneficiary(
 
     const data = await res.json().catch(() => ({}))
 
-    if (res.status === 401 || res.status === 403 || (data?.success === false && data?.message?.includes('token'))) {
+    if (isRapidocAuthenticationFailure(res.status, data?.message)) {
       console.error('[Rapidoc] Erro de autenticação:', { status: res.status, message: data?.message })
       return {
         ok:      false,
@@ -124,7 +126,7 @@ export async function checkRapidocBeneficiary(
       }
     }
 
-    if (res.status === 404 || (data?.success === false && !data?.message?.includes('token'))) {
+    if (res.status === 404 || data?.success === false) {
       return {
         ok:      false,
         reason:  'not_found',
@@ -181,7 +183,7 @@ async function getRequestAppointmentUrl(
 
     const data = await res.json().catch(() => ({}))
 
-    if (res.status === 401 || res.status === 403) {
+    if (isRapidocAuthenticationFailure(res.status, data?.message)) {
       return { ok: false, reason: 'auth', message: 'Token Rapidoc inválido ao gerar link de acesso.' }
     }
 
@@ -303,12 +305,12 @@ export async function addBeneficiariesToRapidoc(
       data = { raw: textResponse }
     }
 
-    if (res.status === 401 || res.status === 403) {
+    if (isRapidocAuthenticationFailure(res.status, data?.message)) {
       return { ok: false, reason: 'auth', message: 'Token de acesso à Rapidoc inválido ao tentar cadastrar.' }
     }
 
     // Retornos 200, 201 e 202 normalmente indicam sucesso na importação.
-    if (!res.ok) {
+    if (!res.ok || data?.success === false) {
       console.error('[Rapidoc API] Erro ao cadastrar beneficiário:', res.status, data)
       return {
         ok: false,

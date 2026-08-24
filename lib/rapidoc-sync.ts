@@ -1,5 +1,6 @@
 import { createAdminClient } from './supabase/admin'
 import { RapidocBeneficiaryPayload, addBeneficiariesToRapidoc } from './rapidoc'
+import { getRapidocSyncServiceType, shouldLinkRapidocHolder } from './rapidoc-config'
 
 function sanitizeDigits(value?: string | null) {
   return String(value || '').replace(/\D/g, '')
@@ -20,6 +21,8 @@ function formatDate(date: string | Date | null) {
  */
 export async function syncCadastroToRapidoc(cadastroId: string) {
   const supabase = createAdminClient()
+  const serviceType = getRapidocSyncServiceType()
+  const includeHolder = shouldLinkRapidocHolder()
 
   // 1. Buscar Cadastro
   const { data: cadastro, error: cadastroError } = await supabase
@@ -57,7 +60,7 @@ export async function syncCadastroToRapidoc(cadastroId: string) {
     city: cadastro.cidade || 'Não informado',
     state: cadastro.estado || 'NI',
     paymentType: 'S',
-    serviceType: 'GP', // Premium + Psicologia, conforme solicitado
+    serviceType,
   })
 
   // 2. Buscar Dependentes
@@ -81,8 +84,8 @@ export async function syncCadastroToRapidoc(cadastroId: string) {
           city: cadastro.cidade || 'Não informado',
           state: cadastro.estado || 'NI',
           paymentType: 'S',
-          serviceType: 'GP',
-          holder: titularCpf, // Vincula ao titular
+          serviceType,
+          ...(includeHolder ? { holder: titularCpf } : {}),
         })
       } else {
         console.warn(`[Sync Rapidoc] Dependente ${dep.nome} (id: ${dep.id}) sem CPF válido, não exportado.`)

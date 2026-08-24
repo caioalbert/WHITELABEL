@@ -40,6 +40,8 @@ Do not reuse the production Supabase service role in staging. Staging should hav
 | `RAPIDOC_API_BASE_URL` | server | Sandbox or production Rapidoc API base. |
 | `RAPIDOC_CLIENT_ID` | server secret | Rapidoc client id. |
 | `RAPIDOC_JWT_TOKEN` | server secret | Rapidoc bearer token. |
+| `RAPIDOC_SERVICE_TYPE` | server | Service coverage used during sync. Defaults to `GS`. |
+| `RAPIDOC_INCLUDE_HOLDER` | server | Whether dependents are linked through Rapidoc's `holder` field. Defaults to `false`. |
 | `RAPIDOC_ACCESS_URL` | server | Optional template URL override. |
 | `RAPIDOC_FALLBACK_URL` | server | Fallback URL when Rapidoc API is unavailable. |
 
