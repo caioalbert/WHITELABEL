@@ -5,11 +5,8 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
   AlertTriangle,
-  ArrowRight,
   CreditCard,
   Flower2,
-  MapPin,
-  MessageCircle,
   Microscope,
   PhoneCall,
   Pill,
@@ -164,131 +161,69 @@ export default function ClienteDashboard() {
           </div>
         )}
 
-        <div
-          className="mb-4 flex items-center justify-between gap-3 rounded-2xl p-3 sm:mb-6 sm:p-4"
-          style={{ backgroundColor: clienteColors.danger }}
+        {/* ── SERVIÇOS AGREGADOS ── */}
+        <section
+          aria-labelledby="servicos-agregados-title"
+          className="rounded-[1.75rem] bg-[#082F49] p-4 text-white shadow-xl shadow-sky-950/10 sm:p-5"
         >
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-white/80">Emergência</p>
-            <p className="text-lg font-bold text-white">{config.telefoneEmergencia}</p>
-          </div>
-          <a
-            href={`tel:${config.telefoneEmergencia.replace(/\D/g, '')}`}
-            className="flex shrink-0 items-center gap-2 rounded-full border border-white/40 px-4 py-2 text-sm font-semibold text-white"
+          <p
+            id="servicos-agregados-title"
+            className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-white/65"
           >
-            <PhoneCall className="h-4 w-4" />
-            Ligar
-          </a>
-        </div>
+            Serviços agregados
+          </p>
 
-        {/* ── BENEFÍCIOS E PARCEIROS ── */}
-        <section aria-labelledby="beneficios-title">
-          <div className="mb-2 sm:mb-3">
-            <p id="beneficios-title" className="text-xs font-semibold uppercase tracking-widest" style={{ color: clienteColors.textMuted }}>
-              Seus benefícios
-            </p>
-            <p className="mt-1 hidden text-sm sm:block" style={{ color: clienteColors.textMuted }}>
-              Acesse os serviços incluídos no seu plano.
-            </p>
-          </div>
-
-          {/* 1. Rapidoc — serviço principal */}
-          <Link
-            href="/cliente/telemedicina"
-            className="group mb-3 block overflow-hidden rounded-2xl p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:rounded-3xl sm:p-5"
-            style={{
-              background: `linear-gradient(135deg, ${clienteColors.primaryDark} 0%, ${clienteColors.primaryLight} 58%, ${clienteColors.accent} 100%)`,
-              color: clienteColors.surface,
-            }}
-          >
-            <div className="flex items-start justify-between gap-3">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/15 ring-1 ring-white/20 sm:h-12 sm:w-12">
-                <Video className="h-6 w-6" />
-              </div>
-              <span className="rounded-full bg-white px-3 py-1 text-[11px] font-bold uppercase tracking-wide" style={{ color: clienteColors.primary }}>
-                Serviço principal
+          <div className="grid grid-cols-2 gap-2.5 lg:grid-cols-4 lg:gap-3">
+            <Link
+              href="/cliente/telemedicina"
+              className="flex min-h-20 items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-3 font-semibold text-white transition hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+            >
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10">
+                <Video className="h-5 w-5" aria-hidden="true" />
               </span>
-            </div>
+              <span className="text-sm leading-tight">Telemedicina 24H</span>
+            </Link>
 
-            <div className="mt-3 max-w-xl sm:mt-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-white/75">Telemedicina 24h</p>
-              <h2 className="mt-0.5 text-xl font-bold sm:text-2xl">Rapidoc</h2>
-              <p className="mt-1 text-sm leading-5 text-white/85 sm:mt-2 sm:leading-6">
-                Atendimento médico por vídeo, com acesso rápido a profissionais de saúde onde você estiver.
-              </p>
-            </div>
-
-            <div className="mt-3 flex flex-wrap items-center justify-between gap-2 sm:mt-4">
-              <div className="hidden flex-wrap gap-2 text-xs font-medium text-white/90 sm:flex">
-                <span className="rounded-full bg-white/10 px-3 py-1.5">Atendimento 24h</span>
-                <span className="rounded-full bg-white/10 px-3 py-1.5">Receita digital</span>
-              </div>
-              <span className="inline-flex items-center gap-2 text-sm font-bold">
-                Acessar Rapidoc
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </span>
-            </div>
-          </Link>
-
-          <div className="grid grid-cols-3 gap-2 sm:gap-3">
-            {/* 2. Larp Saúde */}
             <a
               href={larpWhatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex min-w-0 flex-col rounded-2xl border p-3 transition hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:p-4"
-              style={{ backgroundColor: clienteColors.surface, borderColor: clienteColors.borderMint }}
+              className="flex min-h-20 items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-3 font-semibold text-white transition hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
             >
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 sm:h-11 sm:w-11">
-                  <Microscope className="h-5 w-5 text-emerald-600" />
-                </div>
-                <MessageCircle className="hidden h-4 w-4 text-emerald-500 sm:block" />
-              </div>
-              <div className="mt-3 flex-1 sm:mt-4">
-                <h3 className="text-sm font-bold leading-tight" style={{ color: clienteColors.text }}>{LARP_SAUDE.name}</h3>
-                <p className="mt-1 hidden text-xs leading-4 sm:block" style={{ color: clienteColors.textMuted }}>{LARP_SAUDE.description}</p>
-              </div>
-              <p className="mt-2 flex items-center gap-1 text-[10px] font-semibold leading-tight text-emerald-700 sm:mt-3 sm:text-xs">
-                <MapPin className="h-3.5 w-3.5" />
-                {LARP_SAUDE.coverage}
-              </p>
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10">
+                <Microscope className="h-5 w-5" aria-hidden="true" />
+              </span>
+              <span className="text-sm leading-tight">Exames laboratoriais</span>
+              <span className="sr-only"> com {LARP_SAUDE.name}</span>
             </a>
 
-            {/* 3. Pague Menos */}
-            <article
-              className="flex min-w-0 flex-col rounded-2xl border p-3 sm:p-4"
-              style={{ backgroundColor: clienteColors.surface, borderColor: '#FDE68A' }}
-            >
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 sm:h-11 sm:w-11">
-                <Pill className="h-5 w-5 text-amber-600" />
-              </div>
-              <div className="mt-3 flex-1 sm:mt-4">
-                <h3 className="text-sm font-bold leading-tight" style={{ color: clienteColors.text }}>Pague Menos</h3>
-                <p className="mt-1 hidden text-xs leading-4 sm:block" style={{ color: clienteColors.textMuted }}>
-                  Benefícios e descontos em medicamentos nas farmácias parceiras.
-                </p>
-              </div>
-              <p className="mt-2 text-[10px] font-semibold leading-tight text-amber-700 sm:mt-3 sm:text-xs">Economia no dia a dia</p>
-            </article>
+            <div className="flex min-h-20 items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-3 font-semibold text-white">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10">
+                <Pill className="h-5 w-5" aria-hidden="true" />
+              </span>
+              <span className="text-sm leading-tight">Descontos em farmácias</span>
+            </div>
 
-            {/* 4. Zelo */}
-            <article
-              className="flex min-w-0 flex-col rounded-2xl border p-3 sm:p-4"
-              style={{ backgroundColor: clienteColors.surface, borderColor: '#E7E5E4' }}
-            >
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-stone-100 sm:h-11 sm:w-11">
-                <Flower2 className="h-5 w-5" style={{ color: clienteColors.funeral }} />
-              </div>
-              <div className="mt-3 flex-1 sm:mt-4">
-                <h3 className="text-sm font-bold leading-tight" style={{ color: clienteColors.text }}>Zelo</h3>
-                <p className="mt-1 hidden text-xs leading-4 sm:block" style={{ color: clienteColors.textMuted }}>
-                  Assistência funeral e suporte especializado para sua família.
-                </p>
-              </div>
-              <p className="mt-2 text-[10px] font-semibold leading-tight sm:mt-3 sm:text-xs" style={{ color: clienteColors.funeral }}>Proteção familiar</p>
-            </article>
+            <div className="flex min-h-20 items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-3 font-semibold text-white">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10">
+                <Flower2 className="h-5 w-5" aria-hidden="true" />
+              </span>
+              <span className="text-sm leading-tight">Assistência funeral</span>
+            </div>
           </div>
+
+          <a
+            href={`tel:${config.telefoneEmergencia.replace(/\D/g, '')}`}
+            className="mt-3 flex min-h-14 items-center justify-between gap-3 rounded-full border border-red-400/60 bg-white/5 px-4 py-2.5 text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-300"
+          >
+            <span className="flex items-center gap-3">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-red-500/15 text-red-300">
+                <PhoneCall className="h-4 w-4" aria-hidden="true" />
+              </span>
+              <span className="text-sm font-semibold">Emergência</span>
+            </span>
+            <span className="text-sm font-bold text-white/85">{config.telefoneEmergencia}</span>
+          </a>
         </section>
 
         {/* ── DESKTOP: Plano + Financeiro + Dependentes (visível apenas md+) ── */}
