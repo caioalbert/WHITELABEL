@@ -14,7 +14,15 @@ const geistMono = Geist_Mono({
   preload: false,
 })
 
+const configuredAppUrl = process.env.NEXT_PUBLIC_APP_URL
+const appUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : configuredAppUrl && !configuredAppUrl.includes('localhost')
+    ? configuredAppUrl
+    : 'https://novaaliancasaude.vercel.app'
+
 export const metadata: Metadata = {
+  metadataBase: new URL(appUrl),
   title: 'Nova Aliança - Cadastro e Adesão',
   description: 'Sistema de cadastro e adesão ao serviço Nova Aliança com termo digital',
   generator: 'v0.app',
@@ -27,22 +35,32 @@ export const metadata: Metadata = {
   other: {
     'apple-mobile-web-app-capable': 'yes',
   },
-  icons: {
-    icon: [
+  openGraph: {
+    type: 'website',
+    locale: 'pt_BR',
+    url: '/',
+    siteName: 'Nova Aliança Saúde',
+    title: 'Nova Aliança - Cadastro e Adesão',
+    description: 'Sistema de cadastro e adesão ao serviço Nova Aliança com termo digital',
+    images: [
       {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
+        url: '/nova-alianca-social.png',
+        width: 1200,
+        height: 630,
+        alt: 'Nova Aliança Saúde',
       },
     ],
-    apple: '/apple-icon.png',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Nova Aliança - Cadastro e Adesão',
+    description: 'Sistema de cadastro e adesão ao serviço Nova Aliança com termo digital',
+    images: ['/nova-alianca-social.png'],
+  },
+  icons: {
+    icon: [{ url: '/nova-alianca-icon-32.png', type: 'image/png', sizes: '32x32' }],
+    shortcut: '/nova-alianca-icon-32.png',
+    apple: [{ url: '/nova-alianca-apple-icon.png', type: 'image/png', sizes: '180x180' }],
   },
 }
 

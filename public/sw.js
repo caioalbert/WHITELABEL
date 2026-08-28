@@ -1,4 +1,4 @@
-const CACHE_NAME = 'whitelabel-pwa-v5'
+const CACHE_NAME = 'whitelabel-pwa-v6'
 const LOGIN_FALLBACK_URL = '/login'
 
 const PRECACHE_URLS = [
@@ -8,11 +8,11 @@ const PRECACHE_URLS = [
   '/manifest.webmanifest',
   '/logo-nova-alianca.png',
   '/logo-nova-alianca-azul.png',
-  '/logo-horizontal.svg',
-  '/apple-icon.png',
-  '/icon.svg',
-  '/icon-light-32x32.png',
-  '/icon-dark-32x32.png'
+  '/nova-alianca-icon-32.png',
+  '/nova-alianca-icon-192.png',
+  '/nova-alianca-icon-512.png',
+  '/nova-alianca-apple-icon.png',
+  '/nova-alianca-social.png'
 ]
 
 self.addEventListener('install', (event) => {
