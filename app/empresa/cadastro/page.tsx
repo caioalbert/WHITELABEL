@@ -153,7 +153,7 @@ export default function EmpresaCadastroPage() {
           <div className="mb-7">
             <p className="text-sm font-bold uppercase tracking-widest text-teal-700">Pessoa Jurídica</p>
             <h1 className="mt-1 text-3xl font-bold text-gray-900">Adesão empresarial</h1>
-            <p className="mt-2 text-gray-600">Cadastro → Orçamento → Funcionários → Pagamento → App</p>
+            <p className="mt-2 text-gray-600">Cadastro → Orçamento → Colaboradores → Pagamento → App</p>
             <div className="mt-5 h-2 overflow-hidden rounded-full bg-gray-100">
               <div className="h-full bg-teal-600 transition-all" style={{ width: `${((step + 1) / 6) * 100}%` }} />
             </div>
@@ -204,13 +204,13 @@ export default function EmpresaCadastroPage() {
             <div className="space-y-6">
               <div>
                 <h2 className="text-2xl font-bold">Orçamento solicitado</h2>
-                <p className="mt-2 text-gray-600">{flow.orcamento.nome}: {money(flow.orcamento.valorPorFuncionario)} por funcionário. Mínimo de {flow.orcamento.minFuncionarios} funcionários.</p>
+                <p className="mt-2 text-gray-600">{flow.orcamento.nome}: {money(flow.orcamento.valorPorFuncionario)} por colaborador. Mínimo de {flow.orcamento.minFuncionarios} colaboradores.</p>
               </div>
               <div className="space-y-4">
                 {employees.map((employee, index) => (
                   <div key={index} className="rounded-xl border border-gray-200 p-4">
                     <div className="mb-3 flex items-center justify-between">
-                      <h3 className="font-semibold">Funcionário {index + 1}</h3>
+                      <h3 className="font-semibold">Colaborador {index + 1}</h3>
                       {employees.length > flow.orcamento.minFuncionarios && (
                         <button type="button" className="text-sm text-red-600" onClick={() => setEmployees(employees.filter((_, itemIndex) => itemIndex !== index))}>Remover</button>
                       )}
@@ -228,10 +228,10 @@ export default function EmpresaCadastroPage() {
                 ))}
               </div>
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <Button type="button" variant="outline" onClick={() => setEmployees([...employees, { ...EMPTY_EMPLOYEE }])}>Adicionar funcionário</Button>
+                <Button type="button" variant="outline" onClick={() => setEmployees([...employees, { ...EMPTY_EMPLOYEE }])}>Adicionar colaborador</Button>
                 <p className="font-semibold">Total mensal: {money(totalPreview)}</p>
                 <Button disabled={isSubmitting} onClick={() => run(() => api('/api/empresa/funcionarios', { funcionarios: employees }))} className="bg-teal-700 hover:bg-teal-800">
-                  {isSubmitting ? 'Enviando...' : 'Enviar lista de funcionários'}
+                  {isSubmitting ? 'Enviando...' : 'Enviar lista de colaboradores'}
                 </Button>
               </div>
             </div>
@@ -239,8 +239,8 @@ export default function EmpresaCadastroPage() {
 
           {flow?.empresa.status === 'LISTA_FUNCIONARIOS_ENVIADA' && (
             <div className="space-y-5">
-              <h2 className="text-2xl font-bold">Lista de funcionários enviada</h2>
-              <p className="text-gray-600">{flow.empresa.quantidade_funcionarios} funcionários · mensalidade de {money(Number(flow.empresa.mensalidade_valor || 0))}.</p>
+              <h2 className="text-2xl font-bold">Lista de colaboradores enviada</h2>
+              <p className="text-gray-600">{flow.empresa.quantidade_funcionarios} colaboradores · mensalidade de {money(Number(flow.empresa.mensalidade_valor || 0))}.</p>
               <label className="block max-w-sm space-y-2 text-sm font-medium">
                 <span>Forma de pagamento</span>
                 <select value={billingType} onChange={(e) => setBillingType(e.target.value as 'BOLETO' | 'CREDIT_CARD')} className="h-11 w-full rounded-md border border-gray-300 px-3">
@@ -257,7 +257,7 @@ export default function EmpresaCadastroPage() {
           {flow?.empresa.status === 'PENDENTE_PAGAMENTO' && (
             <div className="space-y-5">
               <h2 className="text-2xl font-bold">Pagamento pendente</h2>
-              <p className="text-gray-600">O acesso da empresa e dos funcionários será liberado somente após a confirmação do Asaas.</p>
+              <p className="text-gray-600">O acesso da empresa e dos colaboradores será liberado somente após a confirmação do Asaas.</p>
               {flow.pagamento && <p className="text-lg font-semibold">Valor: {money(Number(flow.pagamento.valor || flow.empresa.mensalidade_valor || 0))}</p>}
               <div className="flex flex-wrap gap-3">
                 {flow.pagamento?.invoiceUrl && <Button asChild className="bg-teal-700 hover:bg-teal-800"><a href={flow.pagamento.invoiceUrl} target="_blank" rel="noreferrer">Abrir cobrança</a></Button>}

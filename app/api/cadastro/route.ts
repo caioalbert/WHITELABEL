@@ -776,7 +776,7 @@ export async function POST(request: NextRequest) {
 
     if (/EMPRESARIAL/i.test(`${selectedPlan.codigo} ${selectedPlan.nome}`)) {
       return NextResponse.json(
-        { error: 'O plano empresarial exige cadastro de PJ, orçamento e lista de funcionários.' },
+        { error: 'O plano empresarial exige cadastro de PJ, orçamento e lista de colaboradores.' },
         { status: 409 }
       )
     }

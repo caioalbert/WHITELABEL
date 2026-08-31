@@ -289,7 +289,7 @@ async function provisionEmpresaFuncionarios(
     .select('id, cadastro_id, nome, cpf, rg, email, telefone, data_nascimento, sexo')
     .eq('empresa_id', empresa.id)
   if (error) throw error
-  if (!funcionarios?.length) throw new Error('Empresa sem funcionários para provisionar.')
+  if (!funcionarios?.length) throw new Error('Empresa sem colaboradores para provisionar.')
 
   const cadastroIds: string[] = []
   for (const funcionario of funcionarios) {
@@ -338,7 +338,7 @@ async function provisionEmpresaFuncionarios(
       if (linkError) throw linkError
     }
 
-    if (!cadastroId) throw new Error('Não foi possível vincular o funcionário ao cadastro.')
+    if (!cadastroId) throw new Error('Não foi possível vincular o colaborador ao cadastro.')
     cadastroIds.push(cadastroId)
   }
 
@@ -351,7 +351,7 @@ async function provisionEmpresaFuncionarios(
 
   await Promise.all(cadastroIds.map((id) =>
     syncCadastroToRapidoc(id).catch((syncError) => {
-      console.error('Webhook: falha ao sincronizar funcionário empresarial', {
+      console.error('Webhook: falha ao sincronizar colaborador empresarial', {
         empresaId: empresa.id,
         cadastroId: id,
         error: syncError,

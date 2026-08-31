@@ -47,10 +47,12 @@ const COLUMN_ALIASES: Record<FuncionarioColumn, string[]> = {
     'funcionario',
     'funcionário',
     'colaborador',
+    'colaboradora',
     'nome do funcionario',
+    'nome do colaborador',
   ],
   rg: ['rg', 'identidade', 'registro geral'],
-  cpf: ['cpf', 'cpf opcional', 'cpf do funcionario'],
+  cpf: ['cpf', 'cpf opcional', 'cpf do funcionario', 'cpf do colaborador'],
   data_nascimento: [
     'data de nascimento',
     'data nascimento',
@@ -253,13 +255,13 @@ export function parseFuncionariosExcel(
   result.totalLinhas = dataRows.length
 
   if (dataRows.length === 0) {
-    result.errosGerais.push('A planilha não possui funcionários para importar.')
+    result.errosGerais.push('A planilha não possui colaboradores para importar.')
     return result
   }
 
   if (dataRows.length > MAX_FUNCIONARIOS_EXCEL) {
     result.errosGerais.push(
-      `A planilha possui ${dataRows.length} linhas. Importe no máximo ${MAX_FUNCIONARIOS_EXCEL} funcionários por arquivo.`
+      `A planilha possui ${dataRows.length} linhas. Importe no máximo ${MAX_FUNCIONARIOS_EXCEL} colaboradores por arquivo.`
     )
     return result
   }
@@ -308,7 +310,7 @@ export function parseFuncionariosExcel(
     if (email && emailTitular && email === emailTitular) {
       const age = getAgeFromIsoDate(dataNascimento)
       if (age === null || age >= 18) {
-        mensagens.push('funcionário adulto deve ter e-mail diferente do titular')
+        mensagens.push('colaborador adulto deve ter e-mail diferente do titular')
       }
     }
 
@@ -333,7 +335,7 @@ export function parseFuncionariosExcel(
       rg,
       cpf,
       data_nascimento: dataNascimento,
-      relacao: 'funcionário',
+      relacao: 'colaborador',
       email,
       telefone_celular: telefone,
       sexo,

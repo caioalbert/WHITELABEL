@@ -221,7 +221,7 @@ export function StepDependentes({
       ...formData,
       nome: formData.nome.trim(),
       rg: formData.rg.trim(),
-      relacao: isBusinessPlan ? 'funcionário' : formData.relacao,
+      relacao: isBusinessPlan ? 'colaborador' : formData.relacao,
       email: formData.email.trim(),
       telefone_celular: formatPhone(formData.telefone_celular),
     }
@@ -462,9 +462,9 @@ export function StepDependentes({
 
       {planPermiteDependentes ? (
         <p className="text-xs text-gray-500">
-          Cada {isBusinessPlan ? 'funcionário' : 'dependente'} deve ter email.
+          Cada {isBusinessPlan ? 'colaborador' : 'dependente'} deve ter email.
           {!isBusinessPlan ? ' Se for menor de idade, pode usar o mesmo email do titular.' : ''}
-          {' '}Este plano exige mínimo de {dependentesMinimos + 1} pessoas (titular + {isBusinessPlan ? 'funcionários' : 'dependentes'}).
+          {' '}Este plano exige mínimo de {dependentesMinimos + 1} pessoas (titular + {isBusinessPlan ? 'colaboradores' : 'dependentes'}).
           {dependentesLimit !== null && dependentesLimit > 0 ? ` Máximo de ${dependentesLimit + 1} pessoas.` : ' Sem limite máximo de pessoas.'}
           {selectedPlan && selectedPlan.valorDependenteAdicional > 0
             ? ` Acréscimo de ${formatCurrency(selectedPlan.valorDependenteAdicional)} por dependente acima do mínimo.`
@@ -490,8 +490,8 @@ export function StepDependentes({
           <div className="bg-blue-50 p-6 rounded-lg space-y-4">
             <h3 className="font-semibold text-gray-800">
               {editingIndex !== null
-                ? `Editar ${isBusinessPlan ? 'Funcionário' : 'Dependente'}`
-                : `Adicionar ${isBusinessPlan ? 'Funcionário' : 'Dependente'}`}
+                ? `Editar ${isBusinessPlan ? 'Colaborador' : 'Dependente'}`
+                : `Adicionar ${isBusinessPlan ? 'Colaborador' : 'Dependente'}`}
             </h3>
 
             <div>
@@ -501,7 +501,7 @@ export function StepDependentes({
               <Input
                 id="dep_nome"
                 type="text"
-                placeholder={`Nome do ${isBusinessPlan ? 'funcionário' : 'dependente'}`}
+                placeholder={`Nome do ${isBusinessPlan ? 'colaborador' : 'dependente'}`}
                 value={formData.nome}
                 onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
                 className={`mt-2 ${
@@ -520,7 +520,7 @@ export function StepDependentes({
                 <Input
                   id="dep_rg"
                   type="text"
-                  placeholder={`RG do ${isBusinessPlan ? 'funcionário' : 'dependente'}`}
+                  placeholder={`RG do ${isBusinessPlan ? 'colaborador' : 'dependente'}`}
                   value={formData.rg}
                   onChange={(e) => setFormData({ ...formData, rg: e.target.value })}
                   className={`mt-2 ${
@@ -653,7 +653,7 @@ export function StepDependentes({
                 </Label>
                 <Input
                   id="dep_relacao_empresa"
-                  value="Funcionário(a)"
+                  value="Colaborador(a)"
                   disabled
                   className="mt-2 border-gray-300 bg-white"
                 />
@@ -721,7 +721,7 @@ export function StepDependentes({
           {dependentes.length > 0 && (
             <div className="space-y-3">
               <h3 className="font-semibold text-gray-800">
-                {isBusinessPlan ? 'Funcionários adicionados' : 'Dependentes adicionados'}
+                {isBusinessPlan ? 'Colaboradores adicionados' : 'Dependentes adicionados'}
               </h3>
               {dependentes.map((dep, index) => (
                 <div

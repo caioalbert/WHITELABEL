@@ -49,9 +49,9 @@ export function FuncionarioExcelImport({
     setFeedback(null)
 
     try {
-      await downloadXlsx('modelo-importacao-funcionarios.xlsx', [
+      await downloadXlsx('modelo-importacao-colaboradores.xlsx', [
         {
-          name: 'Funcionários',
+          name: 'Colaboradores',
           rows: [Array.from(FUNCIONARIOS_EXCEL_HEADERS)],
           columnWidths: [32, 18, 16, 22, 32, 22, 16],
         },
@@ -59,22 +59,22 @@ export function FuncionarioExcelImport({
           name: 'Instruções',
           rows: [
             ['Campo', 'Obrigatório', 'Orientação', 'Exemplo'],
-            ['Nome completo', 'Sim', 'Nome e sobrenome do funcionário', 'Maria da Silva'],
+            ['Nome completo', 'Sim', 'Nome e sobrenome do colaborador', 'Maria da Silva'],
             ['RG', 'Sim', 'Pode conter letras, números e pontuação', '12.345.678-9'],
             ['CPF', 'Não', '11 dígitos; formate a coluna como texto para preservar zeros à esquerda', ''],
             ['Data de nascimento', 'Não', 'Use data do Excel ou o formato DD/MM/AAAA', '20/05/1990'],
-            ['E-mail', 'Sim', 'Use um e-mail único para cada funcionário', 'maria@empresa.com'],
+            ['E-mail', 'Sim', 'Use um e-mail único para cada colaborador', 'maria@empresa.com'],
             ['Telefone celular', 'Sim', 'Informe DDD e telefone, com 10 ou 11 dígitos', '(11) 99999-9999'],
             ['Sexo', 'Sim', 'Valores aceitos: Feminino, Masculino ou Outro', 'Feminino'],
             [],
             ['Limite por arquivo', MAX_FUNCIONARIOS_EXCEL],
-            ['Observação', 'Não altere os nomes das colunas da aba Funcionários.'],
+            ['Observação', 'Não altere os nomes das colunas da aba Colaboradores.'],
           ],
           columnWidths: [24, 14, 62, 28],
         },
       ])
     } catch (error) {
-      console.error('Erro ao gerar modelo de funcionários:', error)
+      console.error('Erro ao gerar modelo de colaboradores:', error)
       setFeedback({
         kind: 'error',
         title: 'Não foi possível gerar o modelo',
@@ -137,8 +137,8 @@ export function FuncionarioExcelImport({
           kind: result.funcionarios.length > 0 ? 'warning' : 'error',
           title:
             result.funcionarios.length > 0
-              ? `${result.funcionarios.length} funcionário(s) importado(s)`
-              : 'Nenhum funcionário foi importado',
+              ? `${result.funcionarios.length} colaborador(es) importado(s)`
+              : 'Nenhum colaborador foi importado',
           description: getErrorDescription(result.erros),
           errors: result.erros,
         })
@@ -148,10 +148,10 @@ export function FuncionarioExcelImport({
       setFeedback({
         kind: 'success',
         title: 'Importação concluída',
-        description: `${result.funcionarios.length} funcionário(s) adicionado(s) ao cadastro. Revise a lista antes de continuar.`,
+        description: `${result.funcionarios.length} colaborador(es) adicionado(s) ao cadastro. Revise a lista antes de continuar.`,
       })
     } catch (error) {
-      console.error('Erro ao importar funcionários:', error)
+      console.error('Erro ao importar colaboradores:', error)
       setFeedback({
         kind: 'error',
         title: 'Não foi possível ler o arquivo',
@@ -176,9 +176,9 @@ export function FuncionarioExcelImport({
           <FileSpreadsheet className="h-5 w-5" />
         </div>
         <div>
-          <h3 className="font-semibold text-gray-900">Importar funcionários por Excel</h3>
+          <h3 className="font-semibold text-gray-900">Importar colaboradores por Excel</h3>
           <p className="mt-1 text-sm text-gray-600">
-            Baixe o modelo, preencha uma linha por funcionário e selecione o arquivo pronto. O
+            Baixe o modelo, preencha uma linha por colaborador e selecione o arquivo pronto. O
             arquivo é lido somente no seu navegador.
           </p>
         </div>
@@ -209,12 +209,12 @@ export function FuncionarioExcelImport({
           accept=".xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
           onChange={handleFileChange}
           className="sr-only"
-          aria-label="Selecionar planilha de funcionários"
+          aria-label="Selecionar planilha de colaboradores"
         />
       </div>
 
       <p className="text-xs text-gray-600">
-        Formatos aceitos: .xlsx e .xls, até 5 MB e {MAX_FUNCIONARIOS_EXCEL} funcionários por
+        Formatos aceitos: .xlsx e .xls, até 5 MB e {MAX_FUNCIONARIOS_EXCEL} colaboradores por
         arquivo.
       </p>
 
@@ -223,7 +223,7 @@ export function FuncionarioExcelImport({
           <AlertCircle />
           <AlertTitle>Limite do plano atingido</AlertTitle>
           <AlertDescription>
-            Remova uma pessoa da lista para importar outro funcionário.
+            Remova uma pessoa da lista para importar outro colaborador.
           </AlertDescription>
         </Alert>
       ) : null}

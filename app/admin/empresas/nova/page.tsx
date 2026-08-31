@@ -17,7 +17,7 @@ type Step = "empresa" | "comercial" | "funcionarios" | "revisao"
 const STEPS: { id: Step; label: string; icon: React.ElementType }[] = [
   { id: "empresa",       label: "Dados da Empresa",    icon: Building2 },
   { id: "comercial",    label: "Condições Comerciais", icon: DollarSign },
-  { id: "funcionarios", label: "Funcionários",          icon: Users },
+  { id: "funcionarios", label: "Colaboradores",          icon: Users },
   { id: "revisao",      label: "Revisão",              icon: Check },
 ]
 
@@ -61,8 +61,8 @@ function parseCurrency(v: string) {
   return parseFloat(v.replace(/\./g,"").replace(",",".")) || 0
 }
 async function genModeloExcel() {
-  await downloadXlsx("modelo-funcionarios.xlsx", [{
-    name: "Funcionários",
+  await downloadXlsx("modelo-colaboradores.xlsx", [{
+    name: "Colaboradores",
     rows: [
       Array.from(FUNCIONARIOS_EXCEL_HEADERS),
       ["Maria Silva","1234567","123.456.789-09","01/01/1990","maria@email.com","(85) 99999-1234","Feminino"],
@@ -168,7 +168,7 @@ function StepIndicator({current}:{current:Step}) {
   }
   const validateFuncionarios = () => {
     if (funcGenericErrors.length>0) return funcGenericErrors[0]
-    if (funcionarios.length===0) return "Importe a planilha de funcionários."
+    if (funcionarios.length===0) return "Importe a planilha de colaboradores."
     if (funcErrors.length>0) return "Corrija os erros na planilha antes de continuar."
     return null
   }
@@ -218,7 +218,7 @@ function StepIndicator({current}:{current:Step}) {
             <Check className="h-8 w-8 text-emerald-600"/>
           </div>
           <h1 className="text-2xl font-bold text-gray-900">Empresa cadastrada!</h1>
-          <p className="mt-2 text-gray-600"><strong>{empresa.razao_social}</strong> foi cadastrada com <strong>{funcionarios.length}</strong> funcionário(s) e status <strong>Ativo</strong>.</p>
+          <p className="mt-2 text-gray-600"><strong>{empresa.razao_social}</strong> foi cadastrada com <strong>{funcionarios.length}</strong> colaborador(es) e status <strong>Ativo</strong>.</p>
           <div className="mt-6 flex flex-col gap-3">
             <Link href="/admin/empresas"><Button className="w-full bg-teal-700 hover:bg-teal-800">Ver lista de empresas</Button></Link>
             <Button variant="outline" className="w-full" onClick={()=>{setSuccess(false);setStep("empresa");setEmpresa(EMPTY_EMPRESA);setComercial({cobrar_adesao:false,valor_adesao:"",valor_mensal:""});setFuncionarios([]);setFuncErrors([]);setFuncGenericErrors([]);setFileName(null)}}>
@@ -314,13 +314,13 @@ function StepIndicator({current}:{current:Step}) {
         {step==="funcionarios" && (
           <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
             <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-              <div><h2 className="text-xl font-bold text-gray-900">Importar Funcionários</h2><p className="mt-1 text-sm text-gray-500">Faça upload de uma planilha Excel (.xlsx, .xls) ou CSV</p></div>
+              <div><h2 className="text-xl font-bold text-gray-900">Importar Colaboradores</h2><p className="mt-1 text-sm text-gray-500">Faça upload de uma planilha Excel (.xlsx, .xls) ou CSV</p></div>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => {
                   void genModeloExcel().catch(() =>
-                    setGlobalError("Não foi possível gerar o modelo de funcionários.")
+                    setGlobalError("Não foi possível gerar o modelo de colaboradores.")
                   )
                 }}
                 className="gap-2 shrink-0"
@@ -335,7 +335,7 @@ function StepIndicator({current}:{current:Step}) {
             <label htmlFor="excel-upload" className="group flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 p-8 text-center transition-all hover:border-teal-500 hover:bg-teal-50">
               <FileSpreadsheet className="mb-3 h-10 w-10 text-gray-400 group-hover:text-teal-500"/>
               <p className="font-semibold text-gray-700">Clique para selecionar o arquivo</p>
-              <p className="mt-1 text-sm text-gray-500">.xlsx, .xls ou .csv — até 1.000 funcionários</p>
+              <p className="mt-1 text-sm text-gray-500">.xlsx, .xls ou .csv — até 1.000 colaboradores</p>
               {fileName && <p className="mt-3 rounded-full bg-teal-100 px-3 py-1 text-sm font-medium text-teal-700">{fileName}</p>}
               <input id="excel-upload" ref={fileRef} type="file" accept=".xlsx,.xls,.csv" onChange={handleFileChange} className="sr-only"/>
             </label>
@@ -349,7 +349,7 @@ function StepIndicator({current}:{current:Step}) {
             {funcionarios.length>0 && (
               <div className="mt-5">
                 <div className="mb-3 flex items-center justify-between">
-                  <p className="font-semibold text-gray-900"><span className="text-emerald-700">{funcionarios.length}</span> funcionário(s) válido(s)</p>
+                  <p className="font-semibold text-gray-900"><span className="text-emerald-700">{funcionarios.length}</span> colaborador(es) válido(s)</p>
                   {funcErrors.length>0 && <span className="text-sm text-amber-700">{funcErrors.length} ignorado(s)</span>}
                 </div>
                 <div className="max-h-72 overflow-auto rounded-lg border border-gray-200">
@@ -399,7 +399,7 @@ function StepIndicator({current}:{current:Step}) {
               </div>
             </div>
             <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-              <h3 className="mb-4 flex items-center gap-2 font-bold text-gray-900"><Users className="h-5 w-5 text-teal-600"/>Funcionários</h3>
+              <h3 className="mb-4 flex items-center gap-2 font-bold text-gray-900"><Users className="h-5 w-5 text-teal-600"/>Colaboradores</h3>
               <div className="flex items-center gap-6 text-sm">
                 <div><p className="text-gray-500">Total</p><p className="text-3xl font-bold text-gray-900">{funcionarios.length}</p></div>
                 {funcErrors.length>0&&<div><p className="text-gray-500">Ignorados</p><p className="text-2xl font-bold text-amber-600">{funcErrors.length}</p></div>}
@@ -407,7 +407,7 @@ function StepIndicator({current}:{current:Step}) {
             </div>
             <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800">
               <p className="font-semibold">A empresa será criada com status <strong>ATIVO</strong>.</p>
-              <p className="mt-0.5 text-emerald-700">Os funcionários serão inseridos diretamente sem nenhuma etapa adicional.</p>
+              <p className="mt-0.5 text-emerald-700">Os colaboradores serão inseridos diretamente sem nenhuma etapa adicional.</p>
             </div>
           </div>
         )}

@@ -114,7 +114,7 @@ export default function AdminEmpresasPage() {
             </p>
           </div>
           <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
-            <p className="text-sm text-gray-600">Total de Funcionários</p>
+            <p className="text-sm text-gray-600">Total de Colaboradores</p>
             <p className="mt-1 text-2xl font-bold text-teal-700">
               {empresas.reduce((acc, e) => acc + (e.quantidade_funcionarios || 0), 0)}
             </p>
@@ -175,7 +175,7 @@ export default function AdminEmpresasPage() {
                     <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-700">Empresa</th>
                     <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-700">CNPJ</th>
                     <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-700">Responsável</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-700">Funcionários</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-700">Colaboradores</th>
                     <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-700">Mensalidade</th>
                     <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-700">Status</th>
                     <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-700">Cadastro</th>

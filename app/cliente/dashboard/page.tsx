@@ -231,7 +231,7 @@ export default function ClienteDashboard() {
             className={serviceButtonClassName}
             role="listitem"
           >
-            <ServiceContent partner="larp" title="Exames laboratoriais" subtitle="10% de desconto" />
+            <ServiceContent partner="larp" title="Exames laboratoriais" subtitle="Preços especiais" />
           </a>
 
           <div className={`${serviceButtonClassName} cursor-default`} role="listitem">

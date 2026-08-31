@@ -27,7 +27,7 @@ export function empresaNextStep(status: EmpresaStatus) {
     case EMPRESA_STATUSES.cadastro:
       return 'ORCAMENTO'
     case EMPRESA_STATUSES.orcamento:
-      return 'FUNCIONARIOS'
+      return 'COLABORADORES'
     case EMPRESA_STATUSES.lista:
       return 'PAGAMENTO'
     case EMPRESA_STATUSES.pagamento:

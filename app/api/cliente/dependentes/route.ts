@@ -136,7 +136,7 @@ export async function POST(request: NextRequest) {
     const supabase = createAdminClient()
     if (await isEmpresaBeneficiary(supabase, auth.clienteId)) {
       return NextResponse.json(
-        { error: 'Funcionários de empresa não podem alterar a composição do plano empresarial.' },
+        { error: 'Colaboradores de empresa não podem alterar a composição do plano empresarial.' },
         { status: 403 }
       )
     }
@@ -283,7 +283,7 @@ export async function PUT(request: NextRequest) {
     const supabase = createAdminClient()
     if (await isEmpresaBeneficiary(supabase, auth.clienteId)) {
       return NextResponse.json(
-        { error: 'Funcionários de empresa não podem alterar a composição do plano empresarial.' },
+        { error: 'Colaboradores de empresa não podem alterar a composição do plano empresarial.' },
         { status: 403 }
       )
     }
@@ -403,7 +403,7 @@ export async function DELETE(request: NextRequest) {
     const supabase = createAdminClient()
     if (await isEmpresaBeneficiary(supabase, auth.clienteId)) {
       return NextResponse.json(
-        { error: 'Funcionários de empresa não podem alterar a composição do plano empresarial.' },
+        { error: 'Colaboradores de empresa não podem alterar a composição do plano empresarial.' },
         { status: 403 }
       )
     }

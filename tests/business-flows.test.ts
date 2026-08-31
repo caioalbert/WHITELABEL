@@ -53,7 +53,7 @@ describe('ativação e acesso PF/PJ', () => {
 
   it('mantém a sequência do fluxo empresarial até ativação', () => {
     expect(empresaNextStep(EMPRESA_STATUSES.cadastro)).toBe('ORCAMENTO')
-    expect(empresaNextStep(EMPRESA_STATUSES.orcamento)).toBe('FUNCIONARIOS')
+    expect(empresaNextStep(EMPRESA_STATUSES.orcamento)).toBe('COLABORADORES')
     expect(empresaNextStep(EMPRESA_STATUSES.lista)).toBe('PAGAMENTO')
     expect(empresaNextStep(EMPRESA_STATUSES.pagamento)).toBe('AGUARDAR_PAGAMENTO')
     expect(empresaNextStep(EMPRESA_STATUSES.ativo)).toBe('APP')

@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
     if (claimError) throw claimError
     if (!empresa) {
       return NextResponse.json(
-        { error: 'O pagamento só pode ser gerado após o envio da lista de funcionários.' },
+        { error: 'O pagamento só pode ser gerado após o envio da lista de colaboradores.' },
         { status: 409 }
       )
     }

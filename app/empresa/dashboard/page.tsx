@@ -48,13 +48,13 @@ export default async function EmpresaDashboardPage() {
 
         <section className="grid gap-4 sm:grid-cols-3">
           <div className="rounded-2xl bg-white p-5 shadow-sm"><p className="text-sm text-gray-500">Status</p><p className="mt-1 text-xl font-bold text-emerald-700">Ativo</p></div>
-          <div className="rounded-2xl bg-white p-5 shadow-sm"><p className="text-sm text-gray-500">Funcionários</p><p className="mt-1 text-xl font-bold">{empresa.quantidade_funcionarios}</p></div>
+          <div className="rounded-2xl bg-white p-5 shadow-sm"><p className="text-sm text-gray-500">Colaboradores</p><p className="mt-1 text-xl font-bold">{empresa.quantidade_funcionarios}</p></div>
           <div className="rounded-2xl bg-white p-5 shadow-sm"><p className="text-sm text-gray-500">Mensalidade</p><p className="mt-1 text-xl font-bold">{money}</p></div>
         </section>
 
         <section className="rounded-2xl bg-white p-6 shadow-sm">
-          <h1 className="text-2xl font-bold text-gray-900">Funcionários com acesso ao app</h1>
-          <p className="mt-1 text-sm text-gray-500">Cada funcionário provisionado pode entrar como cliente usando CPF.</p>
+          <h1 className="text-2xl font-bold text-gray-900">Colaboradores com acesso ao app</h1>
+          <p className="mt-1 text-sm text-gray-500">Cada colaborador provisionado pode entrar como cliente usando CPF.</p>
           <div className="mt-5 overflow-x-auto">
             <table className="w-full min-w-[650px] text-left text-sm">
               <thead><tr className="border-b text-gray-500"><th className="py-3">Nome</th><th>CPF</th><th>Email</th><th>Cargo</th><th>Acesso</th></tr></thead>

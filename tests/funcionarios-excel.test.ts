@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { FUNCIONARIOS_EXCEL_HEADERS, parseFuncionariosExcel } from '../lib/funcionarios-excel'
 import { parseCsvMatrix } from '../lib/spreadsheet'
 
-describe('importação de funcionários', () => {
+describe('importação de colaboradores', () => {
   it('interpreta CSV com aspas, vírgulas e quebra de linha', () => {
     expect(parseCsvMatrix('Nome,E-mail\r\n"Silva, Maria",maria@example.com')).toEqual([
       ['Nome', 'E-mail'],
@@ -22,6 +22,7 @@ describe('importação de funcionários', () => {
       email: 'maria@example.com',
       data_nascimento: '1990-05-20',
       telefone_celular: '(11) 99999-1234',
+      relacao: 'colaborador',
     })
   })
 

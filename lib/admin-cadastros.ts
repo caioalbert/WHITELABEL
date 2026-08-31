@@ -19,6 +19,7 @@ export async function listCadastrosWithIndicadores(
   const { data: cadastros, error } = await supabase
     .from('cadastros')
     .select('*')
+    .is('empresa_id', null)
     .order('created_at', { ascending: false })
 
   if (error) {

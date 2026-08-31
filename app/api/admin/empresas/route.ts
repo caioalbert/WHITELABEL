@@ -101,7 +101,7 @@ export async function POST(request: NextRequest) {
     // Funcionários
     const rawFuncionarios = Array.isArray(body.funcionarios) ? body.funcionarios : []
     if (rawFuncionarios.length === 0) {
-      return NextResponse.json({ error: "A lista de funcionários não pode estar vazia." }, { status: 400 })
+      return NextResponse.json({ error: "A lista de colaboradores não pode estar vazia." }, { status: 400 })
     }
 
     const funcionarios = rawFuncionarios.map((raw) => {
@@ -122,7 +122,7 @@ export async function POST(request: NextRequest) {
     const invalidFunc = funcionarios.find((f) => !f.nome || !f.email || !isValidEmail(f.email))
     if (invalidFunc) {
       return NextResponse.json(
-        { error: "Dados inválidos para o funcionário " + (invalidFunc.nome || "sem nome") + ". Verifique nome e email." },
+        { error: "Dados inválidos para o colaborador " + (invalidFunc.nome || "sem nome") + ". Verifique nome e email." },
         { status: 400 }
       )
     }

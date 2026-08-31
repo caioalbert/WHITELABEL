@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
     const auth = await requireEmpresaFlowAuth()
     const body = (await request.json().catch(() => null)) as { funcionarios?: unknown[] } | null
     if (!Array.isArray(body?.funcionarios)) {
-      return NextResponse.json({ error: 'A lista de funcionários é obrigatória.' }, { status: 400 })
+      return NextResponse.json({ error: 'A lista de colaboradores é obrigatória.' }, { status: 400 })
     }
 
     const funcionarios = body.funcionarios.map((raw) => {
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
     )
     if (invalid) {
       return NextResponse.json(
-        { error: `Dados inválidos ou incompletos para o funcionário ${invalid.nome || 'sem nome'}.` },
+        { error: `Dados inválidos ou incompletos para o colaborador ${invalid.nome || 'sem nome'}.` },
         { status: 400 }
       )
     }
@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
     }
     if (funcionarios.length < minFuncionarios) {
       return NextResponse.json(
-        { error: `O orçamento exige ao menos ${minFuncionarios} funcionários.` },
+        { error: `O orçamento exige ao menos ${minFuncionarios} colaboradores.` },
         { status: 400 }
       )
     }
@@ -134,7 +134,7 @@ export async function POST(request: NextRequest) {
     if (error instanceof Error && error.message === 'Não autenticado') {
       return NextResponse.json({ error: 'Não autenticado.' }, { status: 401 })
     }
-    console.error('Erro ao enviar lista de funcionários:', error)
-    return NextResponse.json({ error: 'Erro ao enviar lista de funcionários.' }, { status: 500 })
+    console.error('Erro ao enviar lista de colaboradores:', error)
+    return NextResponse.json({ error: 'Erro ao enviar lista de colaboradores.' }, { status: 500 })
   }
 }
