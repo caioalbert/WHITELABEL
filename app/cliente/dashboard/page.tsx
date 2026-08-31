@@ -5,10 +5,10 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
   AlertTriangle,
-  Microscope,
   PhoneCall,
 } from 'lucide-react'
 import { BrandLogo } from '@/components/brand-logo'
+import { LarpLogo } from '@/components/larp-logo'
 import { buildLarpSaudeWhatsappUrl } from '@/lib/laboratory-partners'
 import { ClienteNav } from '@/components/cliente/cliente-nav'
 
@@ -67,15 +67,7 @@ function PartnerLogo({ partner }: { partner: PartnerName }) {
 
   if (partner === 'larp') {
     return (
-      <span className="flex items-center gap-1.5" role="img" aria-label="Larp Saúde">
-        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-600 text-white" aria-hidden="true">
-          <Microscope className="h-4.5 w-4.5" strokeWidth={2} />
-        </span>
-        <span className="text-left leading-none">
-          <span className="block text-[13px] font-black text-emerald-800">LARP</span>
-          <span className="block text-[8px] font-extrabold text-emerald-600">SAÚDE</span>
-        </span>
-      </span>
+      <LarpLogo className="h-9 w-22" />
     )
   }
 

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { BrandLogo } from '@/components/brand-logo'
+import { LarpLogo } from '@/components/larp-logo'
 import { usePublicBranding } from '@/hooks/use-public-branding'
 import { DEFAULT_BRAND_LOGO_ON_LIGHT_URL } from '@/lib/branding'
 import { buildLarpSaudeWhatsappUrl, LARP_SAUDE } from '@/lib/laboratory-partners'
@@ -198,19 +199,7 @@ function AggregatedServiceLogo({
 }) {
   if (logo === 'larp-saude') {
     return (
-      <div className="flex items-center justify-center gap-3" aria-label={`Logo ${name}`}>
-        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-600 text-white">
-          <Microscope className="h-7 w-7" strokeWidth={1.8} />
-        </span>
-        <span className="text-left">
-          <span className="block text-[24px] font-black leading-none tracking-normal text-emerald-800">
-            LARP
-          </span>
-          <span className="block text-sm font-extrabold uppercase tracking-normal text-emerald-600">
-            SAÚDE
-          </span>
-        </span>
-      </div>
+      <LarpLogo className="h-20 w-56" alt={`Logo ${name}`} />
     )
   }
 
