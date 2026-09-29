@@ -4,7 +4,7 @@ type SearchParamsValue = string | string[] | undefined
 type SearchParamsRecord = Record<string, SearchParamsValue>
 
 type CadastroPageProps = {
-  searchParams?: SearchParamsRecord | Promise<SearchParamsRecord>
+  searchParams?: Promise<SearchParamsRecord>
 }
 
 function toSingleValue(value: SearchParamsValue) {
