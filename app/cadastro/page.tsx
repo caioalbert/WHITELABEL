@@ -4,7 +4,7 @@ type SearchParamsValue = string | string[] | undefined
 type SearchParamsRecord = Record<string, SearchParamsValue>
 
 type CadastroPageProps = {
-  searchParams?: SearchParamsRecord | Promise<SearchParamsRecord>
+  searchParams?: Promise<SearchParamsRecord>
 }
 
 function toSingleValue(value: SearchParamsValue) {
@@ -16,7 +16,7 @@ function toSingleValue(value: SearchParamsValue) {
 }
 
 export default async function CadastroPage({ searchParams }: CadastroPageProps) {
-  const resolvedSearchParams = await Promise.resolve(searchParams || {})
+  const resolvedSearchParams: SearchParamsRecord = (await searchParams) ?? {}
   const vendedorRef = toSingleValue(resolvedSearchParams.ref).trim().toUpperCase()
   const planoCode = toSingleValue(resolvedSearchParams.plano).trim()
 
