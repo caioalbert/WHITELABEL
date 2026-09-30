@@ -9,6 +9,7 @@ import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger 
 import { Empresa } from "@/lib/types"
 
 const STATUS_LABELS: Record<string, { label: string; className: string }> = {
+  INATIVO: { label: "Inativo", className: "bg-gray-100 text-gray-700" },
   ATIVO:                       { label: "Ativo",               className: "bg-emerald-100 text-emerald-700" },
   CADASTRO_CONCLUIDO:          { label: "Cadastro",            className: "bg-sky-100 text-sky-700" },
   ORCAMENTO_SOLICITADO:        { label: "Orçamento",           className: "bg-amber-100 text-amber-700" },
@@ -188,7 +189,7 @@ export default function AdminEmpresasPage() {
                     return (
                       <tr key={empresa.id} className="border-b border-gray-200 hover:bg-gray-50">
                         <td className="px-6 py-4">
-                          <p className="font-medium text-gray-900">{empresa.razao_social}</p>
+                          <Link href={`/admin/empresas/${empresa.id}`} className="font-medium text-teal-700 underline-offset-4 hover:underline">{empresa.razao_social}</Link>
                           {empresa.nome_fantasia && (
                             <p className="text-xs text-gray-500">{empresa.nome_fantasia}</p>
                           )}

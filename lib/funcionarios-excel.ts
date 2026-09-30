@@ -258,7 +258,7 @@ export function parseFuncionariosExcel(
   const dataRows = matrix
     .slice(headerIndex + 1)
     .map((row, index) => ({ row: row || [], line: headerIndex + index + 2 }))
-    .filter(({ row }) => row.some((cell) => cellText(cell)))
+    .filter(({ row }) => Array.from(columnIndexes.values()).some((index) => cellText(row[index])))
 
   result.totalLinhas = dataRows.length
 

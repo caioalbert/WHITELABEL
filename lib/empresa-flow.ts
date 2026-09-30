@@ -6,6 +6,7 @@ export const EMPRESA_STATUSES = {
   lista: 'LISTA_FUNCIONARIOS_ENVIADA',
   pagamento: 'PENDENTE_PAGAMENTO',
   ativo: 'ATIVO',
+  inativo: 'INATIVO',
 } as const
 
 export type EmpresaStatus = (typeof EMPRESA_STATUSES)[keyof typeof EMPRESA_STATUSES]
@@ -16,6 +17,7 @@ export const EMPRESA_STATUS_ORDER: EmpresaStatus[] = [
   EMPRESA_STATUSES.lista,
   EMPRESA_STATUSES.pagamento,
   EMPRESA_STATUSES.ativo,
+  EMPRESA_STATUSES.inativo,
 ]
 
 export function isEmpresaStatus(value: unknown): value is EmpresaStatus {
@@ -34,6 +36,8 @@ export function empresaNextStep(status: EmpresaStatus) {
       return 'AGUARDAR_PAGAMENTO'
     case EMPRESA_STATUSES.ativo:
       return 'APP'
+    case EMPRESA_STATUSES.inativo:
+      return 'INATIVO'
   }
 }
 

@@ -1,4 +1,6 @@
-﻿"use client"
+"use client"
+
+import { downloadFuncionariosTemplate } from '@/lib/funcionarios-template'
 
 import { BillingScheduleFields } from "@/components/cadastro/BillingScheduleFields"
 import { billingToday, parseBillingSchedule, type BillingSchedule } from "@/lib/billing-schedule"
@@ -12,7 +14,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { parseFuncionariosExcel, FUNCIONARIOS_EXCEL_HEADERS } from "@/lib/funcionarios-excel"
 import type { DependenteFormData } from "@/lib/types"
-import { downloadXlsx, readSpreadsheetMatrix, SpreadsheetSelectionError } from "@/lib/spreadsheet"
+import { readSpreadsheetMatrix, SpreadsheetSelectionError } from "@/lib/spreadsheet"
 
 type Step = "empresa" | "comercial" | "funcionarios" | "revisao"
 
@@ -63,17 +65,7 @@ function currencyFmt(v: string) {
 function parseCurrency(v: string) {
   return parseFloat(v.replace(/\./g,"").replace(",",".")) || 0
 }
-async function genModeloExcel() {
-  await downloadXlsx("modelo-colaboradores.xlsx", [{
-    name: "Colaboradores",
-    rows: [
-      Array.from(FUNCIONARIOS_EXCEL_HEADERS),
-      ["Maria Silva","1234567","123.456.789-09","01/01/1990","maria@email.com","(85) 99999-1234","Feminino"],
-      ["João Santos","7654321","987.654.321-00","15/06/1985","joao@email.com","(85) 98888-5678","Masculino"],
-    ],
-    columnWidths: [32, 18, 16, 22, 32, 22, 16],
-  }])
-}
+async function genModeloExcel() { await downloadFuncionariosTemplate() }
 
 function Field({label,required,children}:{label:string;required?:boolean;children:React.ReactNode}) {
   return (
@@ -108,7 +100,7 @@ function StepIndicator({current}:{current:Step}) {
     </div>
   )
 }
-﻿export default function AdminNovaEmpresaPage() {
+export default function AdminNovaEmpresaPage() {
   const router = useRouter()
   const fileRef = useRef<HTMLInputElement>(null)
   const [step, setStep] = useState<Step>("empresa")

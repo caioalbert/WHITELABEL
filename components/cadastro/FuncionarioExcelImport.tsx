@@ -3,13 +3,13 @@
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import {
-  FUNCIONARIOS_EXCEL_HEADERS,
   MAX_FUNCIONARIOS_EXCEL,
   parseFuncionariosExcel,
   type FuncionarioExcelRowError,
 } from '@/lib/funcionarios-excel'
 import type { DependenteFormData } from '@/lib/types'
-import { downloadXlsx, readSpreadsheetMatrix } from '@/lib/spreadsheet'
+import { downloadFuncionariosTemplate } from '@/lib/funcionarios-template'
+import { readSpreadsheetMatrix } from '@/lib/spreadsheet'
 import { AlertCircle, CheckCircle2, Download, FileSpreadsheet, Loader2, Upload } from 'lucide-react'
 import { useRef, useState, type ChangeEvent } from 'react'
 
@@ -49,30 +49,7 @@ export function FuncionarioExcelImport({
     setFeedback(null)
 
     try {
-      await downloadXlsx('modelo-importacao-colaboradores.xlsx', [
-        {
-          name: 'Colaboradores',
-          rows: [Array.from(FUNCIONARIOS_EXCEL_HEADERS)],
-          columnWidths: [32, 18, 16, 22, 32, 22, 16],
-        },
-        {
-          name: 'Instruções',
-          rows: [
-            ['Campo', 'Obrigatório', 'Orientação', 'Exemplo'],
-            ['Nome completo', 'Sim', 'Nome e sobrenome do colaborador', 'Maria da Silva'],
-            ['RG', 'Sim', 'Pode conter letras, números e pontuação', '12.345.678-9'],
-            ['CPF', 'Não', '11 dígitos; formate a coluna como texto para preservar zeros à esquerda', ''],
-            ['Data de nascimento', 'Não', 'Use data do Excel ou o formato DD/MM/AAAA', '20/05/1990'],
-            ['E-mail', 'Sim', 'Use um e-mail único para cada colaborador', 'maria@empresa.com'],
-            ['Telefone celular', 'Sim', 'Informe DDD e telefone, com 10 ou 11 dígitos', '(11) 99999-9999'],
-            ['Sexo', 'Sim', 'Valores aceitos: Feminino, Masculino ou Outro', 'Feminino'],
-            [],
-            ['Limite por arquivo', MAX_FUNCIONARIOS_EXCEL],
-            ['Observação', 'Não altere os nomes das colunas da aba Colaboradores.'],
-          ],
-          columnWidths: [24, 14, 62, 28],
-        },
-      ])
+      await downloadFuncionariosTemplate()
     } catch (error) {
       console.error('Erro ao gerar modelo de colaboradores:', error)
       setFeedback({

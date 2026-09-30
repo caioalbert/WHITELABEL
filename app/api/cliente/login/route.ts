@@ -170,6 +170,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: 'CNPJ ou dígitos de confirmação incorretos.' }, { status: 401 })
       }
 
+      if (empresa.status === 'INATIVO') return NextResponse.json({ error: 'Empresa inativa. Entre em contato com o suporte.' }, { status: 403 })
       const isActive = empresa.status === 'ATIVO'
       const purpose = isActive ? 'empresa-app' : 'empresa-flow'
       const token = await createEmpresaToken(empresa, purpose)
@@ -265,6 +266,14 @@ export async function POST(request: NextRequest) {
       return pendingResponse
     }
 
+    const enterpriseDb = createAdminClient()
+    const { data: membership, error: membershipError } = await enterpriseDb.from('cadastros').select('empresa_id').eq('id', identity.clienteId).maybeSingle()
+    if (membershipError || !membership) throw membershipError || new Error('Cadastro não encontrado.')
+    if (membership.empresa_id) {
+      const { data: company, error: companyError } = await enterpriseDb.from('empresas').select('status').eq('id', membership.empresa_id).maybeSingle()
+      if (companyError) throw companyError
+      if (company?.status !== 'ATIVO') return NextResponse.json({ error: 'Empresa sem acesso ativo. Entre em contato com o suporte.' }, { status: 403 })
+    }
     const jwtPayload: Record<string, string> = {
       clienteId: identity.clienteId,
       cpf: identity.cpf,

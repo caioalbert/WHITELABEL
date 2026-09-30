@@ -49,6 +49,7 @@ export type EmpresaStatus =
   | 'LISTA_FUNCIONARIOS_ENVIADA'
   | 'PENDENTE_PAGAMENTO'
   | 'ATIVO'
+  | 'INATIVO'
 
 export interface Empresa extends Partial<BillingSchedule> {
   id: string
