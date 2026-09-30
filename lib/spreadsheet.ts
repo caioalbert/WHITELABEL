@@ -5,6 +5,8 @@ type WorksheetInput = {
 }
 
 export function parseCsvMatrix(text: string) {
+  const firstLine = text.split(/\r?\n/, 1)[0] || ''
+  const delimiter = firstLine.includes('\t') && !firstLine.includes(',') ? '\t' : ','
   const rows: string[][] = []
   let row: string[] = []
   let cell = ''
@@ -19,7 +21,7 @@ export function parseCsvMatrix(text: string) {
       index += 1
     } else if (char === '"') {
       quoted = !quoted
-    } else if (char === ',' && !quoted) {
+    } else if (char === delimiter && !quoted) {
       row.push(cell)
       cell = ''
     } else if ((char === '\n' || char === '\r') && !quoted) {
