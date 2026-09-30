@@ -38,6 +38,7 @@ type ImportOptions = {
   existentes?: DependenteFormData[]
   emailTitular?: string
   vagasDisponiveis?: number | null
+  permitirEmailCompartilhado?: boolean
 }
 
 const COLUMN_ALIASES: Record<FuncionarioColumn, string[]> = {
@@ -305,7 +306,9 @@ export function parseFuncionariosExcel(
 
     const cpfDigits = normalizeCPF(cpf)
     if (cpfDigits && existingCpfs.has(cpfDigits)) mensagens.push('CPF já adicionado')
-    if (email && existingEmails.has(email)) mensagens.push('e-mail já adicionado')
+    if (email && existingEmails.has(email) && !options.permitirEmailCompartilhado) {
+      mensagens.push('e-mail já adicionado')
+    }
 
     if (email && emailTitular && email === emailTitular) {
       const age = getAgeFromIsoDate(dataNascimento)

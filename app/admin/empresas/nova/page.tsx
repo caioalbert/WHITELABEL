@@ -143,7 +143,7 @@ function StepIndicator({current}:{current:Step}) {
     setFuncErrors([]); setFuncGenericErrors([]); setFuncionarios([])
     try {
       const matrix = await readSpreadsheetMatrix(file)
-      const result = parseFuncionariosExcel(matrix, {})
+      const result = parseFuncionariosExcel(matrix, { permitirEmailCompartilhado: true })
       setFuncionarios(result.funcionarios)
       setFuncErrors(result.erros)
       setFuncGenericErrors(result.errosGerais)

@@ -41,14 +41,19 @@ export function parseCsvMatrix(text: string) {
   return rows
 }
 
+export function selectSpreadsheetSheetName(sheetNames: string[]) {
+  const normalizedName = (name: string) => name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim()
+  return sheetNames.find((name) => normalizedName(name).includes('funcion'))
+    || sheetNames.find((name) => /^(rapdoc|rapidoc)$/.test(normalizedName(name)))
+    || sheetNames[0]
+}
+
 export async function readSpreadsheetMatrix(file: File) {
   if (file.name.toLowerCase().endsWith('.csv')) return parseCsvMatrix(await file.text())
 
   const XLSX = await import('xlsx')
   const workbook = XLSX.read(await file.arrayBuffer(), { type: 'array', cellDates: true })
-  const sheetName = workbook.SheetNames.find((name) =>
-    name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().includes('funcion')
-  ) || workbook.SheetNames[0]
+  const sheetName = selectSpreadsheetSheetName(workbook.SheetNames)
 
   if (!sheetName) throw new Error('A planilha não possui nenhuma aba.')
   return XLSX.utils.sheet_to_json<unknown[]>(workbook.Sheets[sheetName], {
