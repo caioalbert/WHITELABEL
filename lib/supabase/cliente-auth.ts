@@ -66,11 +66,16 @@ export async function getActiveClienteAuth(request?: Request): Promise<ClienteAu
     const supabase = createAdminClient()
     const { data } = await supabase
       .from('cadastros')
-      .select('status')
+      .select('status, empresa_id')
       .eq('id', auth.clienteId)
       .maybeSingle()
 
-    return data?.status === 'ATIVO' ? auth : null
+    if (data?.status !== 'ATIVO') return null
+    if (data.empresa_id) {
+      const { data: empresa, error } = await supabase.from('empresas').select('status').eq('id', data.empresa_id).maybeSingle()
+      if (error || empresa?.status !== 'ATIVO') return null
+    }
+    return auth
   } catch {
     return null
   }

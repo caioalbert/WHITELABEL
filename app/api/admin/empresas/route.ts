@@ -4,7 +4,7 @@ import { AsaasIntegrationError, createAsaasCustomer, createAsaasPayment, cancelA
 import { getEmpresaExternalReference } from "@/lib/empresa-flow"
 import { requireAdminAuth } from "@/lib/supabase/admin-auth"
 import { createAdminClient } from "@/lib/supabase/admin"
-import { isValidCNPJ, isValidEmail, normalizeCNPJ } from "@/lib/utils"
+import { isValidCNPJ, isValidCPF, isValidEmail, normalizeCNPJ } from "@/lib/utils"
 import { NextRequest, NextResponse } from "next/server"
 
 function text(value: unknown): string {
@@ -139,6 +139,13 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    if (funcionarios.some(f => f.cpf && !isValidCPF(f.cpf))) {
+      return NextResponse.json({ error: "CPF inválido na lista de colaboradores." }, { status: 400 })
+    }
+    const cpfList = funcionarios.map(f => f.cpf).filter(Boolean)
+    if (new Set(cpfList).size !== cpfList.length) {
+      return NextResponse.json({ error: "CPF repetido na lista de colaboradores." }, { status: 400 })
+    }
     const supabase = createAdminClient()
 
     // Verificar duplicidade
