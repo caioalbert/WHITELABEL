@@ -10,7 +10,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { parseFuncionariosExcel, FUNCIONARIOS_EXCEL_HEADERS } from "@/lib/funcionarios-excel"
 import type { DependenteFormData } from "@/lib/types"
-import { downloadXlsx, readSpreadsheetMatrix } from "@/lib/spreadsheet"
+import { downloadXlsx, readSpreadsheetMatrix, SpreadsheetSelectionError } from "@/lib/spreadsheet"
 
 type Step = "empresa" | "comercial" | "funcionarios" | "revisao"
 
@@ -143,12 +143,14 @@ function StepIndicator({current}:{current:Step}) {
     setFuncErrors([]); setFuncGenericErrors([]); setFuncionarios([])
     try {
       const matrix = await readSpreadsheetMatrix(file)
-      const result = parseFuncionariosExcel(matrix, {})
+      const result = parseFuncionariosExcel(matrix, { permitirEmailCompartilhado: true })
       setFuncionarios(result.funcionarios)
       setFuncErrors(result.erros)
       setFuncGenericErrors(result.errosGerais)
-    } catch {
-      setFuncGenericErrors(["Erro ao ler o arquivo. Verifique se é um arquivo XLSX ou CSV válido."])
+    } catch (error) {
+      setFuncGenericErrors([error instanceof SpreadsheetSelectionError
+        ? error.message
+        : "Erro ao ler o arquivo. Verifique se é um arquivo XLSX ou CSV válido."])
     }
     if (fileRef.current) fileRef.current.value=""
   }, [])

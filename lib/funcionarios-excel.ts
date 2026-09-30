@@ -38,6 +38,7 @@ type ImportOptions = {
   existentes?: DependenteFormData[]
   emailTitular?: string
   vagasDisponiveis?: number | null
+  permitirEmailCompartilhado?: boolean
 }
 
 const COLUMN_ALIASES: Record<FuncionarioColumn, string[]> = {
@@ -221,6 +222,13 @@ function duplicateKey(value: string) {
   return value.trim().toLowerCase()
 }
 
+export function hasFuncionarioSpreadsheetColumns(matrix: unknown[][]) {
+  const headerIndex = findHeaderRow(matrix)
+  if (headerIndex < 0) return false
+  const columns = mapColumnIndexes(matrix[headerIndex] || [])
+  return REQUIRED_COLUMNS.every((column) => columns.has(column))
+}
+
 export function parseFuncionariosExcel(
   matrix: unknown[][],
   options: ImportOptions = {}
@@ -305,7 +313,9 @@ export function parseFuncionariosExcel(
 
     const cpfDigits = normalizeCPF(cpf)
     if (cpfDigits && existingCpfs.has(cpfDigits)) mensagens.push('CPF já adicionado')
-    if (email && existingEmails.has(email)) mensagens.push('e-mail já adicionado')
+    if (email && existingEmails.has(email) && !options.permitirEmailCompartilhado) {
+      mensagens.push('e-mail já adicionado')
+    }
 
     if (email && emailTitular && email === emailTitular) {
       const age = getAgeFromIsoDate(dataNascimento)
