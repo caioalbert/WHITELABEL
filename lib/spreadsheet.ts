@@ -43,16 +43,18 @@ export function parseCsvMatrix(text: string) {
   return rows
 }
 
+export class SpreadsheetSelectionError extends Error {}
+
 export function selectSpreadsheetMatrix(sheets: Array<{ name: string; rows: unknown[][] }>) {
-  if (sheets.length === 0) throw new Error('A planilha não possui nenhuma aba.')
+  if (sheets.length === 0) throw new SpreadsheetSelectionError('A planilha não possui nenhuma aba.')
   if (sheets.length === 1) return sheets[0].rows
 
   const matchingSheets = sheets.filter((sheet) => hasFuncionarioSpreadsheetColumns(sheet.rows))
   if (matchingSheets.length === 0) {
-    throw new Error('Nenhuma aba contém as colunas obrigatórias do modelo de colaboradores.')
+    throw new SpreadsheetSelectionError('Nenhuma aba contém as colunas obrigatórias do modelo de colaboradores.')
   }
   if (matchingSheets.length > 1) {
-    throw new Error('Mais de uma aba contém as colunas do modelo. Envie um arquivo com apenas a aba de colaboradores que deseja importar.')
+    throw new SpreadsheetSelectionError('Mais de uma aba contém as colunas do modelo. Envie um arquivo com apenas a aba de colaboradores que deseja importar.')
   }
   return matchingSheets[0].rows
 }
