@@ -1,5 +1,7 @@
 'use client'
 
+import { BillingScheduleFields } from "@/components/cadastro/BillingScheduleFields"
+import { billingToday, type BillingSchedule } from "@/lib/billing-schedule"
 import { BrandLogo } from '@/components/brand-logo'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -83,6 +85,7 @@ export default function EmpresaCadastroPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
+  const [schedule, setSchedule] = useState<BillingSchedule>({ primeira_parcela_vencimento: billingToday(), dia_vencimento: 0, parcelas_mesmo_dia: true, contrato_meses: 12 })
   const [billingType, setBillingType] = useState<'BOLETO' | 'CREDIT_CARD'>('BOLETO')
   const [employees, setEmployees] = useState<Employee[]>([{ ...EMPTY_EMPLOYEE }])
   const [company, setCompany] = useState({
@@ -248,7 +251,8 @@ export default function EmpresaCadastroPage() {
                   <option value="CREDIT_CARD">Cartão de crédito</option>
                 </select>
               </label>
-              <Button disabled={isSubmitting} onClick={() => run(() => api('/api/empresa/pagamento', { billingType }))} className="bg-teal-700 hover:bg-teal-800">
+              <BillingScheduleFields value={schedule} onChange={(value) => setSchedule((prev) => ({ ...prev, ...value }))} />
+              <Button disabled={isSubmitting} onClick={() => run(() => api('/api/empresa/pagamento', { billingType, ...schedule }))} className="bg-teal-700 hover:bg-teal-800">
                 {isSubmitting ? 'Gerando...' : 'Gerar cobrança'}
               </Button>
             </div>

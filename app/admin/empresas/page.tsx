@@ -177,6 +177,7 @@ export default function AdminEmpresasPage() {
                     <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-700">Responsável</th>
                     <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-700">Colaboradores</th>
                     <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-700">Mensalidade</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-700">Condições de pagamento</th>
                     <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-700">Status</th>
                     <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-700">Cadastro</th>
                   </tr>
@@ -202,6 +203,13 @@ export default function AdminEmpresasPage() {
                         </td>
                         <td className="px-6 py-4 text-sm font-semibold text-teal-700">
                           {formatCurrency(empresa.mensalidade_valor)}
+                        </td>
+                        <td className="px-6 py-4 text-sm text-gray-600">
+                          {empresa.primeira_parcela_vencimento ? <>
+                            <p>1ª parcela: {empresa.primeira_parcela_vencimento.split('-').reverse().join('/')}</p>
+                            <p>{empresa.contrato_meses} parcela(s) no total</p>
+                            {(empresa.contrato_meses ?? 0) > 1 && <p>Demais: dia {empresa.dia_vencimento}</p>}
+                          </> : 'Condições anteriores'}
                         </td>
                         <td className="px-6 py-4">
                           <span className={"inline-flex items-center rounded px-2 py-1 text-xs font-medium " + status.className}>

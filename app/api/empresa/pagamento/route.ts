@@ -1,3 +1,4 @@
+import { parseBillingSchedule } from '@/lib/billing-schedule'
 import {
   AsaasIntegrationError,
   cancelAsaasPayment,
@@ -19,10 +20,6 @@ function normalizeBillingType(value: unknown): BillingType | null {
   return null
 }
 
-function dueDate() {
-  return new Date().toISOString().slice(0, 10)
-}
-
 async function rollbackAsaas(customerId: string | null, paymentId: string | null) {
   if (paymentId) await cancelAsaasPayment(paymentId).catch(() => undefined)
   if (customerId) await deleteAsaasCustomer(customerId).catch(() => undefined)
@@ -36,6 +33,10 @@ export async function POST(request: NextRequest) {
   try {
     const auth = await requireEmpresaFlowAuth()
     const body = (await request.json().catch(() => null)) as Record<string, unknown> | null
+    let schedule
+    try { schedule = parseBillingSchedule({ ...body, contrato_meses: 12 }) } catch (error) {
+      return NextResponse.json({ error: (error as Error).message }, { status: 400 })
+    }
     const billingType = normalizeBillingType(body?.billingType)
     if (!billingType) {
       return NextResponse.json({ error: 'Forma de pagamento inválida.' }, { status: 400 })
@@ -46,6 +47,7 @@ export async function POST(request: NextRequest) {
       .from('empresas')
       .update({
         status: EMPRESA_STATUSES.pagamento,
+        ...schedule,
         mensalidade_billing_type: billingType,
       })
       .eq('id', auth.empresaId)
@@ -93,9 +95,9 @@ export async function POST(request: NextRequest) {
     const payment = await createAsaasPayment({
       customer: customerId,
       value,
-      dueDate: dueDate(),
+      dueDate: schedule.primeira_parcela_vencimento,
       billingType,
-      description: `Adesão empresarial Aliança Saúde - ${empresa.razao_social}`,
+      description: `Primeira parcela empresarial Aliança Saúde - ${empresa.razao_social}`,
       externalReference,
     })
     paymentId = payment.id
@@ -114,7 +116,7 @@ export async function POST(request: NextRequest) {
       pagamento: {
         id: payment.id,
         valor: payment.value || value,
-        vencimento: payment.dueDate || dueDate(),
+        vencimento: payment.dueDate || schedule.primeira_parcela_vencimento,
         billingType: payment.billingType || billingType,
         invoiceUrl: payment.invoiceUrl || null,
         bankSlipUrl: payment.bankSlipUrl || null,

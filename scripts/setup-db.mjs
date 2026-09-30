@@ -34,6 +34,10 @@ const sqlFiles = fs.readdirSync(__dirname)
   .filter((name) => /^\d{3}_.+\.sql$/.test(name))
   .sort()
 const sqlPaths = sqlFiles.map((name) => path.join(__dirname, name))
+const migrationsDir = path.join(__dirname, '..', 'supabase', 'migrations')
+if (fs.existsSync(migrationsDir)) {
+  sqlPaths.push(...fs.readdirSync(migrationsDir).filter((name) => name.endsWith('.sql')).sort().map((name) => path.join(migrationsDir, name)))
+}
 const setupSQL = sqlPaths
   .map((sqlPath) => `-- ${path.basename(sqlPath)}\n${fs.readFileSync(sqlPath, 'utf8')}`)
   .join('\n\n')
@@ -61,7 +65,7 @@ async function setupDatabase() {
       process.exit(1)
     }
 
-    console.log(`Database setup completed successfully (${sqlFiles.length} scripts)!`)
+    console.log(`Database setup completed successfully (${sqlPaths.length} scripts)!`)
     process.exit(0)
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error)
