@@ -56,3 +56,7 @@ store_icon.png
 /app/build/
 /app/build.gradle
 /app/src/
+
+# Supabase CLI local cache
+supabase/.temp/
+.vercel

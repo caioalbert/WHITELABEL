@@ -1,4 +1,6 @@
-export interface Cadastro {
+import type { BillingSchedule } from './billing-schedule'
+
+export interface Cadastro extends Partial<BillingSchedule> {
   id: string
   email: string
   nome: string
@@ -48,7 +50,7 @@ export type EmpresaStatus =
   | 'PENDENTE_PAGAMENTO'
   | 'ATIVO'
 
-export interface Empresa {
+export interface Empresa extends Partial<BillingSchedule> {
   id: string
   razao_social: string
   nome_fantasia?: string | null
@@ -105,7 +107,7 @@ export interface Dependente {
   created_at: string
 }
 
-export interface CadastroFormData {
+export interface CadastroFormData extends BillingSchedule {
   // Dados pessoais
   nome: string
   cpf: string

@@ -1,3 +1,4 @@
+import { recurringBillingTerms, billingToday, type BillingSchedule } from '@/lib/billing-schedule'
 import {
   AsaasIntegrationError,
   cancelAsaasSubscription,
@@ -26,10 +27,9 @@ import {
 
 const SUBSCRIPTION_LOCK_PREFIX = 'LOCK:'
 const SUBSCRIPTION_LOCK_TTL_MS = 10 * 60 * 1000
-const FIDELIDADE_MAX_PAYMENTS = 12
 
 const CADASTRO_SELECT_FIELDS =
-  'id, status, asaas_customer_id, asaas_payment_id, asaas_subscription_id, tipo_plano, mensalidade_valor, mensalidade_billing_type, updated_at'
+  'id, status, asaas_customer_id, asaas_payment_id, asaas_subscription_id, tipo_plano, mensalidade_valor, mensalidade_billing_type, primeira_parcela_vencimento, dia_vencimento, parcelas_mesmo_dia, contrato_meses, updated_at'
 
 type AsaasWebhookPayment = {
   id?: string
@@ -43,7 +43,7 @@ type AsaasWebhookPayload = {
   payment?: AsaasWebhookPayment
 }
 
-type CadastroWebhookRecord = {
+type CadastroWebhookRecord = Partial<BillingSchedule> & {
   id: string
   status: string | null
   asaas_customer_id: string | null
@@ -55,7 +55,7 @@ type CadastroWebhookRecord = {
   updated_at: string | null
 }
 
-type EmpresaWebhookRecord = {
+type EmpresaWebhookRecord = Partial<BillingSchedule> & {
   id: string
   status: string
   asaas_customer_id: string | null
@@ -70,10 +70,6 @@ type EmpresaWebhookRecord = {
   cidade: string | null
   estado: string | null
   cep: string | null
-}
-
-function toIsoDate(date: Date) {
-  return date.toISOString().slice(0, 10)
 }
 
 function getAppBaseUrl(request: NextRequest) {
@@ -95,18 +91,12 @@ function getRequiredEnvToken(name: string) {
   return token
 }
 
-function getNextMonthlyDueDate(baseDate: Date = new Date()) {
-  const next = new Date(baseDate)
-  next.setMonth(next.getMonth() + 1)
-  return toIsoDate(next)
-}
-
 function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
 function isSchemaIssue(details: string) {
-  return /asaas_payment_id|asaas_subscription_id|status|adesao_pago_em|mensalidade_billing_type|tipo_plano|mensalidade_valor|updated_at/i.test(
+  return /primeira_parcela_vencimento|dia_vencimento|contrato_meses|parcelas_mesmo_dia|asaas_payment_id|asaas_subscription_id|status|adesao_pago_em|mensalidade_billing_type|tipo_plano|mensalidade_valor|updated_at/i.test(
     details
   )
 }
@@ -252,7 +242,7 @@ async function findEmpresaByPaymentReference(
 ) {
   const byPayment = await supabase
     .from('empresas')
-    .select('id, status, asaas_customer_id, asaas_payment_id, asaas_subscription_id, tipo_plano, mensalidade_valor, mensalidade_billing_type, endereco, numero, bairro, cidade, estado, cep')
+    .select('id, status, asaas_customer_id, asaas_payment_id, asaas_subscription_id, tipo_plano, mensalidade_valor, mensalidade_billing_type, primeira_parcela_vencimento, dia_vencimento, parcelas_mesmo_dia, contrato_meses, endereco, numero, bairro, cidade, estado, cep')
     .eq('asaas_payment_id', paymentId)
     .maybeSingle<EmpresaWebhookRecord>()
   if (byPayment.data || byPayment.error) return byPayment
@@ -262,7 +252,7 @@ async function findEmpresaByPaymentReference(
 
   return supabase
     .from('empresas')
-    .select('id, status, asaas_customer_id, asaas_payment_id, asaas_subscription_id, tipo_plano, mensalidade_valor, mensalidade_billing_type, endereco, numero, bairro, cidade, estado, cep')
+    .select('id, status, asaas_customer_id, asaas_payment_id, asaas_subscription_id, tipo_plano, mensalidade_valor, mensalidade_billing_type, primeira_parcela_vencimento, dia_vencimento, parcelas_mesmo_dia, contrato_meses, endereco, numero, bairro, cidade, estado, cep')
     .eq('id', empresaId)
     .maybeSingle<EmpresaWebhookRecord>()
 }
@@ -410,11 +400,12 @@ async function processEmpresaPayment(
     return NextResponse.json({ error: 'Empresa sem cliente Asaas associado.' }, { status: 500 })
   }
 
+  const recurring = recurringBillingTerms(empresa, billingToday())
   let subscriptionId = initialSubscriptionId
   let lockToken: string | null = null
   let createdNewSubscription = false
 
-  if (!subscriptionId || isSubscriptionLockToken(subscriptionId)) {
+  if (recurring.maxPayments > 0 && (!subscriptionId || isSubscriptionLockToken(subscriptionId))) {
     if (subscriptionId && !isSubscriptionLockStale(subscriptionId)) {
       return NextResponse.json({ error: 'Ativação empresarial já está em processamento.' }, { status: 409 })
     }
@@ -451,11 +442,14 @@ async function processEmpresaPayment(
         customer: empresa.asaas_customer_id,
         billingType: empresa.mensalidade_billing_type === 'CREDIT_CARD' ? 'CREDIT_CARD' : 'BOLETO',
         value,
-        nextDueDate: getNextMonthlyDueDate(),
+        nextDueDate: recurring.nextDueDate!,
         cycle: 'MONTHLY',
-        maxPayments: FIDELIDADE_MAX_PAYMENTS,
+        maxPayments: recurring.maxPayments,
         description: 'Mensalidade empresarial Aliança Saúde',
         externalReference,
+      }).catch(async (error) => {
+        await releaseEmpresaSubscriptionLock(supabase, empresa.id, newLock)
+        throw error
       })
       subscriptionId = subscription.id
       createdNewSubscription = true
@@ -466,7 +460,7 @@ async function processEmpresaPayment(
       .update({
         status: EMPRESA_STATUSES.ativo,
         pagamento_confirmado_em: activatedAt,
-        asaas_subscription_id: subscriptionId,
+        asaas_subscription_id: subscriptionId || null,
       })
       .eq('id', empresa.id)
       .eq('status', EMPRESA_STATUSES.pagamento)
@@ -535,7 +529,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Erro ao buscar empresa local.' }, { status: 500 })
     }
     if (empresaResult.data) {
-      return processEmpresaPayment(supabase, empresaResult.data, paymentId)
+      return await processEmpresaPayment(supabase, empresaResult.data, paymentId)
     }
 
     const cadastroResult = await fetchCadastroByPaymentReference(
@@ -550,7 +544,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(
           {
             error:
-              'Banco desatualizado. Execute scripts/001_create_tables.sql, scripts/004_add_cadastro_pagamentos.sql, scripts/005_add_billing_settings_admin.sql e scripts/006_add_plan_type_pricing.sql.',
+              'Banco desatualizado. Execute scripts/001_create_tables.sql, scripts/004_add_cadastro_pagamentos.sql, scripts/005_add_billing_settings_admin.sql scripts/006_add_plan_type_pricing.sql e supabase/migrations/.',
           },
           { status: 500 }
         )
@@ -570,7 +564,7 @@ export async function POST(request: NextRequest) {
     }
 
     const initialSubscriptionId = normalizeSubscriptionId(cadastro.asaas_subscription_id)
-    if (cadastro.status === 'ATIVO' && initialSubscriptionId && !isSubscriptionLockToken(initialSubscriptionId)) {
+    if (cadastro.status === 'ATIVO' && ((initialSubscriptionId && !isSubscriptionLockToken(initialSubscriptionId)) || cadastro.contrato_meses === 1)) {
       return NextResponse.json({
         received: true,
         processed: true,
@@ -599,11 +593,12 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    const recurring = recurringBillingTerms(cadastro, billingToday())
     let lockToken: string | null = null
     let subscriptionId = normalizeSubscriptionId(cadastro.asaas_subscription_id)
     let createdNewSubscription = false
 
-    if (!subscriptionId || isSubscriptionLockToken(subscriptionId)) {
+    if (recurring.maxPayments > 0 && (!subscriptionId || isSubscriptionLockToken(subscriptionId))) {
       if (!cadastro.asaas_customer_id) {
         return NextResponse.json(
           { error: 'Cliente sem asaas_customer_id. Não é possível criar assinatura.' },
@@ -707,7 +702,7 @@ export async function POST(request: NextRequest) {
       if (alreadyExistingSubscriptionId) {
         subscriptionId = alreadyExistingSubscriptionId
       } else {
-        const nextDueDate = getNextMonthlyDueDate()
+        const nextDueDate = recurring.nextDueDate!
 
         try {
           const subscription = await createAsaasSubscription({
@@ -716,7 +711,7 @@ export async function POST(request: NextRequest) {
             value: mensalidadeValue,
             nextDueDate,
             cycle: 'MONTHLY',
-            maxPayments: FIDELIDADE_MAX_PAYMENTS,
+            maxPayments: recurring.maxPayments,
             description: 'Mensalidade novaalianca Saúde',
             externalReference: cadastro.id,
           })
@@ -735,7 +730,7 @@ export async function POST(request: NextRequest) {
         .update({
           status: 'ATIVO',
           adesao_pago_em: nowIso,
-          asaas_subscription_id: subscriptionId,
+          asaas_subscription_id: subscriptionId || null,
         })
         .eq('id', cadastro.id)
         .eq('asaas_subscription_id', newLockToken)
@@ -767,7 +762,7 @@ export async function POST(request: NextRequest) {
         .update({
           status: 'ATIVO',
           adesao_pago_em: nowIso,
-          asaas_subscription_id: subscriptionId,
+          asaas_subscription_id: subscriptionId || null,
         })
         .eq('id', cadastro.id)
 

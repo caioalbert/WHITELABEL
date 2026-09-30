@@ -202,7 +202,7 @@ export default function AdminCadastrosPage() {
 
   const handleResendTerm = async (cadastro: Cadastro) => {
     if (String(cadastro.status || '').toUpperCase() !== 'ATIVO') {
-      setError('Termo disponível somente após confirmação do pagamento da adesão.')
+      setError('Termo disponível somente após confirmação do pagamento da primeira parcela.')
       return
     }
 

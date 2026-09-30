@@ -1,3 +1,4 @@
+import { subsequentInstallments } from '@/lib/billing-schedule'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { requireAdminAuth } from '@/lib/supabase/admin-auth'
 import { getAsaasPayment, getAsaasSubscription, listAsaasSubscriptionPayments } from '@/lib/asaas'
@@ -20,7 +21,7 @@ export async function GET(request: NextRequest, context: RouteContext) {
     const supabase = createAdminClient()
     const { data: cadastro, error } = await supabase
       .from('cadastros')
-      .select('asaas_payment_id, asaas_subscription_id, adesao_pago_em, mensalidade_valor, tipo_plano')
+      .select('asaas_payment_id, asaas_subscription_id, adesao_pago_em, primeira_parcela_vencimento, dia_vencimento, parcelas_mesmo_dia, contrato_meses, mensalidade_valor, tipo_plano')
       .eq('id', id)
       .single()
 
@@ -42,6 +43,8 @@ export async function GET(request: NextRequest, context: RouteContext) {
 
     return NextResponse.json({
       adesao,
+      contrato_meses: cadastro.contrato_meses ?? 12,
+      parcelas_previstas: subsequentInstallments(cadastro, adesao?.dueDate || cadastro.adesao_pago_em),
       mensalidades,
       assinatura,
       adesao_pago_em: cadastro.adesao_pago_em,

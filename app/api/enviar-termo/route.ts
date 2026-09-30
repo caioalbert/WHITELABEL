@@ -92,7 +92,7 @@ export async function POST(request: NextRequest) {
 
     if (cadastro.status && cadastro.status !== 'ATIVO') {
       return NextResponse.json(
-        { error: 'Termo disponível somente após confirmação do pagamento da adesão.' },
+        { error: 'Termo disponível somente após confirmação do pagamento da primeira parcela.' },
         { status: 409 }
       )
     }

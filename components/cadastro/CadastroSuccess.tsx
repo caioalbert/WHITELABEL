@@ -45,7 +45,7 @@ export function CadastroSuccess({ data }: CadastroSuccessProps) {
   const pixCopiaECola = String(data.pagamento?.pixCopiaECola || '').trim()
   const qrCodeBase64 = String(data.pagamento?.qrCodeBase64 || '').trim()
   const hasLegacyPixData = Boolean(pixCopiaECola && qrCodeBase64)
-  const paymentDescription = data.pagamento?.descricao || 'Adesão'
+  const paymentDescription = data.pagamento?.descricao || 'Primeira parcela'
 
   const formatCurrency = (value: number) =>
     value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
