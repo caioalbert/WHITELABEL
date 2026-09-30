@@ -1,6 +1,6 @@
 import {describe, expect, it} from 'vitest'
 import {parseFuncionariosExcel} from '../lib/funcionarios-excel'
-import {selectSpreadsheetSheetName, readSpreadsheetMatrix} from '../lib/spreadsheet'
+import {selectSpreadsheetMatrix, readSpreadsheetMatrix} from '../lib/spreadsheet'
 import * as XLSX from 'xlsx'
 
 const headers=['NOME','RG','CPF','NASCIMENTO','EMAIL','TELEFONE','SEXO']
@@ -32,20 +32,27 @@ describe('contato compartilhado na importação administrativa empresarial',()=>
   })
 })
 
-describe('seleção da aba de colaboradores',()=>{
-  it('seleciona RAPDOC quando a primeira aba é outro cadastro',()=>{
-    expect(selectSpreadsheetSheetName(['Planilha Full Lifeprix','RAPDOC'])).toBe('RAPDOC')
-    expect(selectSpreadsheetSheetName(['Outros','Rapidoc'])).toBe('Rapidoc')
+describe('seleção da aba pelas colunas do modelo',()=>{
+  it('ignora nomes e encontra as colunas mesmo fora da primeira aba',()=>{
+    const data=[['Título'],[],headers,row('52998224725')]
+    expect(selectSpreadsheetMatrix([{name:'Funcionários',rows:[['Observações']]},{name:'Qualquer nome',rows:data}])).toBe(data)
   })
-  it('preserva a prioridade da aba Funcionários e a compatibilidade com aba única',()=>{
-    expect(selectSpreadsheetSheetName(['RAPDOC','Funcionários'])).toBe('Funcionários')
-    expect(selectSpreadsheetSheetName(['Única'])).toBe('Única')
-    expect(selectSpreadsheetSheetName([])).toBeUndefined()
+  it('preserva a ordem das colunas e os erros detalhados em arquivos com uma aba',()=>{
+    const data=[['Coluna inválida'],['valor']]
+    expect(selectSpreadsheetMatrix([{name:'Qualquer nome',rows:data}])).toBe(data)
+    expect(()=>selectSpreadsheetMatrix([])).toThrow('nenhuma aba')
   })
-  it('lê os dados da aba correta em um arquivo XLSX com duas abas',async()=>{
+  it('avisa quando há mais de uma aba compatível em vez de escolher pelo nome',()=>{
+    expect(()=>selectSpreadsheetMatrix([{name:'Funcionários',rows:[headers]},{name:'RAPDOC',rows:[headers]}])).toThrow('Mais de uma aba')
+  })
+  it('avisa quando nenhuma aba contém as colunas obrigatórias',()=>{
+    expect(()=>selectSpreadsheetMatrix([{name:'Funcionários',rows:[['Nome']]},{name:'Outra',rows:[]}])).toThrow('Nenhuma aba')
+  })
+  it('lê um XLSX de nome arbitrário com as colunas do modelo em outra ordem',async()=>{
     const wb=XLSX.utils.book_new()
-    XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([headers,row('52998224725','')]),'Planilha Full Lifeprix')
-    XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([headers,row('52998224725'),row('11144477735')]),'RAPDOC')
+    XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([['Observações'],['Cadastro empresarial']]),'Funcionários')
+    const data=[headers,row('52998224725'),row('11144477735')].map(row=>[...row].reverse())
+    XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(data),'Importação Setembro')
     const buffer=XLSX.write(wb,{type:'buffer',bookType:'xlsx'})
     const matrix=await readSpreadsheetMatrix(new File([buffer],'empresa.xlsx'))
     const result=parseFuncionariosExcel(matrix,{permitirEmailCompartilhado:true})

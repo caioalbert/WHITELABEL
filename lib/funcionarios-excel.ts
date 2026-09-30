@@ -222,6 +222,13 @@ function duplicateKey(value: string) {
   return value.trim().toLowerCase()
 }
 
+export function hasFuncionarioSpreadsheetColumns(matrix: unknown[][]) {
+  const headerIndex = findHeaderRow(matrix)
+  if (headerIndex < 0) return false
+  const columns = mapColumnIndexes(matrix[headerIndex] || [])
+  return REQUIRED_COLUMNS.every((column) => columns.has(column))
+}
+
 export function parseFuncionariosExcel(
   matrix: unknown[][],
   options: ImportOptions = {}

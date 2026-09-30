@@ -1,3 +1,5 @@
+import { hasFuncionarioSpreadsheetColumns } from './funcionarios-excel'
+
 type WorksheetInput = {
   name: string
   rows: unknown[][]
@@ -41,11 +43,18 @@ export function parseCsvMatrix(text: string) {
   return rows
 }
 
-export function selectSpreadsheetSheetName(sheetNames: string[]) {
-  const normalizedName = (name: string) => name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim()
-  return sheetNames.find((name) => normalizedName(name).includes('funcion'))
-    || sheetNames.find((name) => /^(rapdoc|rapidoc)$/.test(normalizedName(name)))
-    || sheetNames[0]
+export function selectSpreadsheetMatrix(sheets: Array<{ name: string; rows: unknown[][] }>) {
+  if (sheets.length === 0) throw new Error('A planilha não possui nenhuma aba.')
+  if (sheets.length === 1) return sheets[0].rows
+
+  const matchingSheets = sheets.filter((sheet) => hasFuncionarioSpreadsheetColumns(sheet.rows))
+  if (matchingSheets.length === 0) {
+    throw new Error('Nenhuma aba contém as colunas obrigatórias do modelo de colaboradores.')
+  }
+  if (matchingSheets.length > 1) {
+    throw new Error('Mais de uma aba contém as colunas do modelo. Envie um arquivo com apenas a aba de colaboradores que deseja importar.')
+  }
+  return matchingSheets[0].rows
 }
 
 export async function readSpreadsheetMatrix(file: File) {
@@ -53,14 +62,14 @@ export async function readSpreadsheetMatrix(file: File) {
 
   const XLSX = await import('xlsx')
   const workbook = XLSX.read(await file.arrayBuffer(), { type: 'array', cellDates: true })
-  const sheetName = selectSpreadsheetSheetName(workbook.SheetNames)
-
-  if (!sheetName) throw new Error('A planilha não possui nenhuma aba.')
-  return XLSX.utils.sheet_to_json<unknown[]>(workbook.Sheets[sheetName], {
-    header: 1,
-    defval: '',
-    raw: true,
-  })
+  return selectSpreadsheetMatrix(workbook.SheetNames.map((name) => ({
+    name,
+    rows: XLSX.utils.sheet_to_json<unknown[]>(workbook.Sheets[name], {
+      header: 1,
+      defval: '',
+      raw: true,
+    }),
+  })))
 }
 
 export async function downloadXlsx(fileName: string, sheets: WorksheetInput[]) {
