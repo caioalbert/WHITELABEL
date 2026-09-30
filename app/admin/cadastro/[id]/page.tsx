@@ -23,6 +23,8 @@ type AsaasPaymentInfo = {
 }
 
 type PagamentosData = {
+  contrato_meses: number
+  parcelas_previstas: { index: number; dueDate: string }[]
   adesao: AsaasPaymentInfo | null
   mensalidades: AsaasPaymentInfo[]
   assinatura: { id: string; status?: string; value?: number; nextDueDate?: string; billingType?: string } | null
@@ -467,14 +469,14 @@ export default function CadastroDetail() {
                   <p className="text-sm text-gray-500">Carregando pagamentos...</p>
                 ) : (
                   <>
-                    {/* Adesão */}
+                    {/* Primeira parcela */}
                     <div>
-                      <p className="text-xs text-gray-600 uppercase font-medium mb-2">Adesão</p>
+                      <p className="text-xs text-gray-600 uppercase font-medium mb-2">Primeira parcela</p>
                       {pagamentos.adesao ? (
-                        <PaymentRow payment={pagamentos.adesao} label="Pagamento de Adesão" />
+                        <PaymentRow payment={pagamentos.adesao} label="Primeira parcela" />
                       ) : pagamentos.adesao_pago_em ? (
                         <div className="border border-gray-200 rounded p-3">
-                          <p className="text-sm font-medium text-gray-900">Pagamento de Adesão</p>
+                          <p className="text-sm font-medium text-gray-900">Primeira parcela</p>
                           <p className="text-xs text-gray-500">
                             Pago em: {formatDate(pagamentos.adesao_pago_em)}
                           </p>
@@ -483,7 +485,7 @@ export default function CadastroDetail() {
                           </span>
                         </div>
                       ) : (
-                        <p className="text-sm text-gray-400">Nenhum pagamento de adesão encontrado.</p>
+                        <p className="text-sm text-gray-400">Nenhum pagamento da primeira parcela encontrado.</p>
                       )}
                     </div>
 
@@ -514,35 +516,16 @@ export default function CadastroDetail() {
                           )
                         }
 
-                        // Usa nextDueDate da assinatura ou calcula a partir da data de adesão
-                        const baseDate = pagamentos.assinatura?.nextDueDate
-                          ?? (pagamentos.adesao_pago_em
-                            ? (() => {
-                                // Extrai só YYYY-MM-DD para evitar problemas de timezone
-                                const [y, m, day] = pagamentos.adesao_pago_em!.slice(0, 10).split('-').map(Number)
-                                const nextMonth = m === 12 ? 1 : m + 1
-                                const nextYear = m === 12 ? y + 1 : y
-                                return `${nextYear}-${String(nextMonth).padStart(2, '0')}-${String(day).padStart(2, '0')}`
-                              })()
-                            : null)
                         const valor = pagamentos.assinatura?.value ?? pagamentos.mensalidade_valor
-
-                        if (baseDate && valor != null) {
+                        const parcelas = pagamentos.parcelas_previstas || []
+                        if (parcelas.length > 0 && valor != null) {
                           const hoje = new Date().toISOString().slice(0, 10)
-                          const [by, bm, bd] = baseDate.split('-').map(Number)
-                          const parcelas = Array.from({ length: 12 }, (_, i) => {
-                            const totalMonths = bm - 1 + i
-                            const year = by + Math.floor(totalMonths / 12)
-                            const month = (totalMonths % 12) + 1
-                            const dueDate = `${year}-${String(month).padStart(2, '0')}-${String(bd).padStart(2, '0')}`
-                            return { index: i + 1, dueDate }
-                          })
                           return (
                             <div className="space-y-2">
                               {parcelas.map(({ index, dueDate }) => (
                                 <div key={index} className="flex flex-wrap items-center justify-between gap-3 border border-gray-200 rounded p-3">
                                   <div className="min-w-0">
-                                    <p className="text-sm font-medium text-gray-900">Mensalidade {index}/12</p>
+                                    <p className="text-sm font-medium text-gray-900">Parcela {index}/{pagamentos.contrato_meses}</p>
                                     <p className="text-xs text-gray-500">Vencimento: {formatDate(dueDate)}</p>
                                   </div>
                                   <div className="flex items-center gap-3">

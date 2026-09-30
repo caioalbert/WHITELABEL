@@ -49,6 +49,8 @@ function formatDate(date?: string) {
 
 export default function ClientePagamentos() {
   const router = useRouter()
+  const [schedule, setSchedule] = useState<{ index: number; dueDate: string }[]>([])
+  const [contractMonths, setContractMonths] = useState(12)
   const [payments, setPayments] = useState<Payment[]>([])
   const [adesao, setAdesao] = useState<Payment | null>(null)
   const [adesaoPagoEm, setAdesaoPagoEm] = useState<string | null>(null)
@@ -78,6 +80,8 @@ export default function ClientePagamentos() {
         return
       }
 
+      setSchedule(data.parcelas_previstas || [])
+      setContractMonths(data.contrato_meses ?? 12)
       setAdesao(data.adesao || null)
       setAdesaoPagoEm(data.adesao_pago_em || null)
       setMensalidadeValor(data.mensalidade_valor ?? null)
@@ -161,7 +165,7 @@ export default function ClientePagamentos() {
               Nenhum pagamento encontrado
             </h2>
             <p className="mt-2 text-sm leading-6" style={{ color: clienteColors.textMuted }}>
-              Seus pagamentos aparecerão aqui após confirmação do pagamento de adesão.
+              Seus pagamentos aparecerão aqui após confirmação do pagamento da primeira parcela.
             </p>
           </div>
         ) : null}
@@ -172,10 +176,10 @@ export default function ClientePagamentos() {
               className="mb-2 text-xs font-semibold uppercase tracking-[0.08em]"
               style={{ color: clienteColors.textMuted }}
             >
-              Adesão
+              Primeira parcela
             </p>
             {adesao ? (
-              <PaymentCard payment={{ ...adesao, description: 'Pagamento de Adesão' }} />
+              <PaymentCard payment={{ ...adesao, description: 'Primeira parcela' }} />
             ) : (
               <div
                 className="border p-4"
@@ -189,7 +193,7 @@ export default function ClientePagamentos() {
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <p className="text-sm font-semibold" style={{ color: clienteColors.text }}>Pagamento de Adesão</p>
+                    <p className="text-sm font-semibold" style={{ color: clienteColors.text }}>Primeira parcela</p>
                     <p className="mt-0.5 text-xs" style={{ color: clienteColors.textMuted }}>
                       Pago em: {formatDate(adesaoPagoEm!)}
                     </p>
@@ -228,21 +232,9 @@ export default function ClientePagamentos() {
             )
           }
 
-          // Projeção das 12 parcelas a partir da data de adesão
-          const base = adesaoPagoEm
-          if (!base) return null
-          const [y, m, day] = base.slice(0, 10).split('-').map(Number)
-          const nm = m === 12 ? 1 : m + 1
-          const ny = m === 12 ? y + 1 : y
-          const baseDate = `${ny}-${String(nm).padStart(2, '0')}-${String(day).padStart(2, '0')}`
-          const [by, bm, bd] = baseDate.split('-').map(Number)
+          const parcelas = schedule
+          if (!parcelas.length) return null
           const hoje = new Date().toISOString().slice(0, 10)
-          const parcelas = Array.from({ length: 12 }, (_, i) => {
-            const total = bm - 1 + i
-            const yr = by + Math.floor(total / 12)
-            const mo = (total % 12) + 1
-            return { index: i + 1, dueDate: `${yr}-${String(mo).padStart(2, '0')}-${String(bd).padStart(2, '0')}` }
-          })
 
           return (
             <section>
@@ -262,7 +254,7 @@ export default function ClientePagamentos() {
                   >
                     <div className="flex items-center justify-between gap-3">
                       <div>
-                        <p className="text-sm font-semibold" style={{ color: clienteColors.text }}>Mensalidade {index}/12</p>
+                        <p className="text-sm font-semibold" style={{ color: clienteColors.text }}>Parcela {index}/{contractMonths}</p>
                         <p className="mt-0.5 text-xs" style={{ color: clienteColors.textMuted }}>Vencimento: {formatDate(dueDate)}</p>
                       </div>
                       <div className="flex items-center gap-3">

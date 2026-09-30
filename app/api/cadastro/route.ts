@@ -1,3 +1,4 @@
+import { parseBillingSchedule } from '@/lib/billing-schedule'
 import {
   AsaasIntegrationError,
   cancelAsaasPayment,
@@ -31,10 +32,6 @@ function isConnectivityIssue(details: string) {
 
 function onlyDigits(value: string) {
   return value.replace(/\D/g, '')
-}
-
-function toIsoDate(date: Date) {
-  return date.toISOString().slice(0, 10)
 }
 
 function sanitizeFileName(value: string) {
@@ -314,6 +311,12 @@ async function generateAndPersistCadastroTermoPdf(params: {
   try {
     const termoBodyText = await getTermoBodyText()
     const cadastroForTermo = {
+      mensalidade_valor: Number(cadastro.mensalidade_valor),
+      tipo_plano: String(cadastro.tipo_plano || ''),
+      primeira_parcela_vencimento: String(cadastro.primeira_parcela_vencimento || ''),
+      dia_vencimento: Number(cadastro.dia_vencimento),
+      contrato_meses: Number(cadastro.contrato_meses),
+      mensalidade_billing_type: String(cadastro.mensalidade_billing_type || ''),
       nome: String(cadastro.nome || ''),
       cpf: String(cadastro.cpf || ''),
       rg: String(cadastro.rg || ''),
@@ -390,6 +393,18 @@ async function generateAndPersistCadastroTermoPdf(params: {
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData()
+
+    let schedule
+    try {
+      schedule = parseBillingSchedule({
+        primeira_parcela_vencimento: formData.get('primeira_parcela_vencimento'),
+        parcelas_mesmo_dia: formData.get('parcelas_mesmo_dia') === 'true' ? true : formData.get('parcelas_mesmo_dia') === 'false' ? false : undefined,
+        dia_vencimento: formData.get('dia_vencimento'),
+        contrato_meses: 12,
+      })
+    } catch (error) {
+      return NextResponse.json({ error: (error as Error).message }, { status: 400 })
+    }
 
     // Extrair dados do formulário
     const nome = formData.get('nome') as string
@@ -593,7 +608,7 @@ export async function POST(request: NextRequest) {
             return NextResponse.json(
               {
                 error:
-                  'Banco desatualizado. Execute scripts/015_add_parceiros_module.sql no Supabase SQL Editor.',
+                  'Banco desatualizado. Execute as migrações em supabase/migrations/ no Supabase SQL Editor.',
               },
               { status: 500 }
             )
@@ -689,7 +704,7 @@ export async function POST(request: NextRequest) {
 
     const billingSettings = await getBillingSettings()
     const planOptions = await loadCadastroPlanOptions(billingSettings)
-    const adesaoDueDate = toIsoDate(new Date())
+    const adesaoDueDate = schedule.primeira_parcela_vencimento
 
     // If via parceiro, use parceiro's own plans (parceiro_planos) instead of global plans
     if (parceiroId) {
@@ -940,8 +955,7 @@ export async function POST(request: NextRequest) {
       })
       asaasCustomerId = asaasCustomer.id
 
-      // Todo PF precisa confirmar um pagamento antes da ativação. Para parceiros
-      // sem taxa de adesão, esta cobrança representa a primeira mensalidade.
+      // A primeira parcela está incluída no prazo total do contrato.
       if (adesaoValue < MIN_ASAAS_CHARGE_VALUE) {
         throw new Error(`Configuração de cobrança inválida. O valor mínimo permitido pelo Asaas é R$ ${MIN_ASAAS_CHARGE_VALUE.toFixed(2).replace('.', ',')}.`)
       }
@@ -950,9 +964,7 @@ export async function POST(request: NextRequest) {
         value: adesaoValue,
         dueDate: adesaoDueDate,
         billingType: adesaoBillingType,
-        description: semAdesao
-          ? 'Primeira mensalidade novaalianca Saúde'
-          : 'Taxa de adesão novaalianca Saúde',
+        description: 'Primeira parcela novaalianca Saúde',
         externalReference: cadastroId,
       })
       asaasPaymentId = payment.id
@@ -979,6 +991,7 @@ export async function POST(request: NextRequest) {
       .insert([
         {
           id: cadastroId,
+          ...schedule,
           nome: nomeValue,
           email: emailValue,
           cpf: cpfValue,
@@ -1032,14 +1045,14 @@ export async function POST(request: NextRequest) {
       }
 
       if (
-        /column .*sexo|sexo .*column|telefone_celular|estado_civil|nome_conjuge|escolaridade|rg|asaas_customer_id|asaas_payment_id|asaas_subscription_id|status|adesao_pago_em|mensalidade_billing_type|tipo_plano|mensalidade_valor|vendedor_id|vendedor_codigo|parceiro_id|parceiro_codigo|sem_adesao/i.test(
+        /primeira_parcela_vencimento|dia_vencimento|parcelas_mesmo_dia|contrato_meses|column .*sexo|sexo .*column|telefone_celular|estado_civil|nome_conjuge|escolaridade|rg|asaas_customer_id|asaas_payment_id|asaas_subscription_id|status|adesao_pago_em|mensalidade_billing_type|tipo_plano|mensalidade_valor|vendedor_id|vendedor_codigo|parceiro_id|parceiro_codigo|sem_adesao/i.test(
           details
         )
       ) {
         return NextResponse.json(
           {
             error:
-              'Banco desatualizado. Execute scripts/001_create_tables.sql, scripts/004_add_cadastro_pagamentos.sql, scripts/005_add_billing_settings_admin.sql, scripts/006_add_plan_type_pricing.sql, scripts/007_add_vendedores_module.sql e scripts/015_add_parceiros_module.sql no Supabase SQL Editor.',
+              'Banco desatualizado. Execute scripts/001_create_tables.sql, scripts/004_add_cadastro_pagamentos.sql, scripts/005_add_billing_settings_admin.sql, scripts/006_add_plan_type_pricing.sql, scripts/007_add_vendedores_module.sql e as migrações em supabase/migrations/ no Supabase SQL Editor.',
           },
           { status: 500 }
         )
@@ -1126,7 +1139,7 @@ export async function POST(request: NextRequest) {
       status: cadastroData.status || 'PENDENTE_PAGAMENTO',
       pagamento: asaasPaymentId ? {
         id: asaasPaymentId,
-        descricao: semAdesao ? 'Primeira mensalidade' : 'Adesão',
+        descricao: 'Primeira parcela',
         valor: adesaoValue,
         vencimento: adesaoDueDate,
         billingType: adesaoBillingType,
