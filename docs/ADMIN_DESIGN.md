@@ -21,8 +21,8 @@ O resumo mantém todas as métricas existentes, priorizando clientes, adimplênc
 ## Validação local
 
 - Build de produção com webpack: concluído.
-- TypeScript e lint: sem erros; nove avisos anteriores permanecem.
-- 89 testes existentes passaram, incluindo importação de funcionários e condições comerciais.
+- TypeScript e lint: sem erros; oito avisos anteriores permanecem.
+- 112 testes passaram, incluindo importação de funcionários e condições comerciais.
 - Interface real do Next.js verificada em 1440 × 1000 e 390 × 844, com APIs e autenticação de teste.
 - Busca rápida, retorno do foco ao fechar, filtros e CNPJ formatado.
 - Detalhes da empresa, dependentes e cancelamento da confirmação de inativação.
@@ -30,4 +30,4 @@ O resumo mantém todas as métricas existentes, priorizando clientes, adimplênc
 - Navegação móvel fecha ao selecionar uma página.
 - Clientes, planos, parceiros, vendedores, contratos e login.
 
-Os testes de interface usam dados fictícios, sem envio de e-mails ou mudanças em produção. As rotas de API, autenticação e regras financeiras não foram alteradas.
+Os testes de interface usam dados fictícios, sem envio de e-mails ou mudanças em produção. As regras financeiras foram preservadas. A sessão administrativa e os controles de segurança foram corrigidos; detalhes em [ADMIN_SESSION.md](ADMIN_SESSION.md).

@@ -1,84 +1,32 @@
-import { createClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
 import { hasAdminRole } from '@/lib/supabase/auth-roles'
+import { applyAdminCookies, clearAdminCookies, createAdminSessionClient, hasAllowedAdminOrigin, privateAdminResponse, setAdminWindow, signAdminWindow } from '@/lib/supabase/admin-session'
 
 export async function POST(request: NextRequest) {
+  const json = (body: object, status = 200) => privateAdminResponse(NextResponse.json(body, { status }))
+  if (!hasAllowedAdminOrigin(request)) return json({ error: 'Origem da solicitação não autorizada.' }, 403)
   try {
     const { email, password } = await request.json()
-
-    if (!email || !password) {
-      return NextResponse.json(
-        { error: 'Email e senha são obrigatórios' },
-        { status: 400 }
-      )
+    if (typeof email !== 'string' || typeof password !== 'string' || !email.trim() || !password || email.length > 254 || password.length > 1000) {
+      return json({ error: 'Informe um email e uma senha válidos.' }, 400)
     }
-
-    // Para esta implementação, vamos usar Supabase Auth
-    // O usuário admin precisa estar criado no Supabase
-    const supabase = await createClient()
-
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
-
+    const { client, pendingCookies } = createAdminSessionClient(request)
+    const { data, error } = await client.auth.signInWithPassword({ email: email.trim(), password })
     if (error) {
-      const errorMessage = `${error.message || ''} ${error.status || ''}`
-      const isConnectivityError =
-        error.status === 0 ||
-        /fetch failed|enotfound|getaddrinfo|network/i.test(errorMessage)
-
-      if (isConnectivityError) {
-        return NextResponse.json(
-          {
-            error:
-              'Falha ao conectar no Supabase. Verifique NEXT_PUBLIC_SUPABASE_URL e as chaves no arquivo .env/.env.local.',
-          },
-          { status: 503 }
-        )
-      }
-
-      console.error('Auth error:', error)
-      return NextResponse.json(
-        { error: 'Credenciais inválidas' },
-        { status: 401 }
-      )
+      const unavailable = (error.status ?? 0) >= 500 || error.status === 0 || /fetch failed|enotfound|getaddrinfo|network|timeout/i.test(error.message || '')
+      return json({ error: unavailable ? 'Não foi possível entrar no momento. Tente novamente.' : 'Credenciais inválidas' }, unavailable ? 503 : 401)
     }
-
-    const isAdmin = hasAdminRole(data.user)
-
-    if (!isAdmin) {
-      return NextResponse.json(
-        { error: 'Acesso restrito a administradores' },
-        { status: 403 }
-      )
+    if (!data.user || !data.session) return json({ error: 'Credenciais inválidas' }, 401)
+    if (!hasAdminRole(data.user)) {
+      await client.auth.signOut({ scope: 'local' })
+      return clearAdminCookies(request, json({ error: 'Acesso restrito a administradores' }, 403))
     }
-
-    // Retornar token de sessão
-    const response = NextResponse.json({
-      success: true,
-      user: {
-        id: data.user.id,
-        email: data.user.email,
-      },
-    })
-
-    // Definir cookie de sessão
-    if (data.session) {
-      response.cookies.set('supabase-auth-token', data.session.access_token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        maxAge: data.session.expires_in,
-      })
-    }
-
+    const window = await signAdminWindow(data.user.id)
+    const response = applyAdminCookies(json({ success: true, user: { id: data.user.id, email: data.user.email } }), pendingCookies)
+    setAdminWindow(response, window.token)
+    response.cookies.set('supabase-auth-token', '', { path: '/', maxAge: 0, httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'lax' })
     return response
-  } catch (error) {
-    console.error('Login error:', error)
-    return NextResponse.json(
-      { error: 'Erro ao fazer login' },
-      { status: 500 }
-    )
+  } catch {
+    return json({ error: 'Não foi possível entrar no momento. Tente novamente.' }, 500)
   }
 }

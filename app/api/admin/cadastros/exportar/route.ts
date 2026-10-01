@@ -1,3 +1,4 @@
+import { escapeCsvCell } from '@/lib/csv-export'
 import { listCadastrosWithIndicadores, type CadastroComIndicadores } from '@/lib/admin-cadastros'
 import { getMissingCadastroFields } from '@/lib/cadastro-completeness'
 import { createAdminClient } from '@/lib/supabase/admin'
@@ -131,12 +132,6 @@ function filterCadastros(
   })
 }
 
-function escapeCsv(value: string) {
-  if (/[;"\n\r]/.test(value)) {
-    return `"${value.replace(/"/g, '""')}"`
-  }
-  return value
-}
 
 function buildCsvContent(rows: ExportRow[]) {
   const headers = [
@@ -171,7 +166,7 @@ function buildCsvContent(rows: ExportRow[]) {
         row.cidade,
         row.estado,
       ]
-        .map((item) => escapeCsv(item || ''))
+        .map((item) => escapeCsvCell(item || ''))
         .join(';')
     )
   }
@@ -241,7 +236,7 @@ function buildPartnerCsvContent(cadastros: CadastroComIndicadores[]) {
         inativadoEm,
         plano,
       ]
-        .map((item) => escapeCsv(item || ''))
+        .map((item) => escapeCsvCell(item || ''))
         .join(';')
     )
   }
