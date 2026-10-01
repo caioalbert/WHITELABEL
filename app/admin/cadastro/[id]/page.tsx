@@ -1,12 +1,11 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useRouter, useParams } from 'next/navigation'
-import { Menu } from 'lucide-react'
+import { AdminPageHeader } from '@/components/admin/page-header'
+
 import { Button } from '@/components/ui/button'
 import { Cadastro, Dependente } from '@/lib/types'
-import Link from 'next/link'
-import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
+import { useParams, useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 type AsaasPaymentInfo = {
   id: string
@@ -196,13 +195,7 @@ export default function CadastroDetail() {
   if (isLoading) {
     return (
       <main className="min-h-screen bg-gray-50">
-        <header className="bg-white border-b border-gray-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <Link href="/admin/clientes">
-              <Button variant="outline">← Voltar</Button>
-            </Link>
-          </div>
-        </header>
+        <AdminPageHeader title={cadastro?.nome || 'Detalhes do cliente'} description="Dados pessoais, dependentes e contrato." backHref="/admin/cadastros"><Button onClick={downloadPDF} disabled={!cadastro}>Baixar termo</Button></AdminPageHeader>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <p className="text-gray-600">Carregando dados...</p>
         </div>
@@ -213,13 +206,7 @@ export default function CadastroDetail() {
   if (error || !cadastro) {
     return (
       <main className="min-h-screen bg-gray-50">
-        <header className="bg-white border-b border-gray-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <Link href="/admin/clientes">
-              <Button variant="outline">← Voltar</Button>
-            </Link>
-          </div>
-        </header>
+        <AdminPageHeader title={cadastro?.nome || 'Detalhes do cliente'} description="Dados pessoais, dependentes e contrato." backHref="/admin/cadastros"><Button onClick={downloadPDF} disabled={!cadastro}>Baixar termo</Button></AdminPageHeader>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="bg-red-50 border border-red-200 rounded-lg p-4">
             <p className="text-red-700 font-medium">{error || 'Cliente não encontrado'}</p>
@@ -232,52 +219,7 @@ export default function CadastroDetail() {
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between gap-3">
-          <div className="min-w-0">
-            <h1 className="truncate text-lg font-bold text-gray-900 sm:text-2xl">{cadastro.nome}</h1>
-            <p className="text-xs text-gray-600 sm:text-sm">Detalhes do cliente</p>
-          </div>
-
-          <div className="hidden items-center gap-2 lg:flex">
-            <Link href="/admin/clientes">
-              <Button variant="outline" size="sm">
-                ← Voltar
-              </Button>
-            </Link>
-            <Button onClick={downloadPDF} className="bg-blue-600 hover:bg-blue-700">
-              📥 Baixar Termo
-            </Button>
-          </div>
-
-          <div className="lg:hidden">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon" aria-label="Abrir menu">
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right">
-                <SheetHeader>
-                  <SheetTitle>Menu Cliente</SheetTitle>
-                </SheetHeader>
-                <div className="flex flex-col gap-2 px-4 pb-4">
-                  <SheetClose asChild>
-                    <Button asChild variant="outline" className="w-full justify-start">
-                      <Link href="/admin/clientes">Voltar</Link>
-                    </Button>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Button onClick={downloadPDF} className="w-full justify-start bg-blue-600 hover:bg-blue-700">
-                      Baixar Termo
-                    </Button>
-                  </SheetClose>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </div>
-      </header>
+      <AdminPageHeader title={cadastro?.nome || 'Detalhes do cliente'} description="Dados pessoais, dependentes e contrato." backHref="/admin/cadastros"><Button onClick={downloadPDF} disabled={!cadastro}>Baixar termo</Button></AdminPageHeader>
 
       {/* Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

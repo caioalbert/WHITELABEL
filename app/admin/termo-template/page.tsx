@@ -1,11 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { Menu } from 'lucide-react'
+import { AdminPageHeader } from '@/components/admin/page-header'
+
 import { Button } from '@/components/ui/button'
-import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 
 export default function AdminTermoTemplatePage() {
   const router = useRouter()
@@ -42,15 +41,6 @@ export default function AdminTermoTemplatePage() {
       )
     } finally {
       setIsLoadingInfo(false)
-    }
-  }
-
-  const handleLogout = async () => {
-    try {
-      await fetch('/api/admin/logout', { method: 'POST' })
-      router.push('/admin/login')
-    } catch (err) {
-      console.error('Logout error:', err)
     }
   }
 
@@ -127,57 +117,7 @@ export default function AdminTermoTemplatePage() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      <header className="sticky top-0 z-50 border-b border-gray-200 bg-white">
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
-          <div className="min-w-0">
-            <h1 className="truncate text-xl font-bold text-gray-900 sm:text-2xl">Atualizar Termo de Adesão</h1>
-            <p className="text-xs text-gray-600 sm:text-sm">Gerencie o template de texto usado no PDF</p>
-          </div>
-          <div className="hidden items-center gap-2 lg:flex">
-            <Link href="/admin/dashboard">
-              <Button variant="outline">Voltar ao Dashboard</Button>
-            </Link>
-            <Link href="/admin/configuracoes">
-              <Button variant="outline">Configurações</Button>
-            </Link>
-            <Button onClick={handleLogout} variant="outline">
-              Sair
-            </Button>
-          </div>
-
-          <div className="lg:hidden">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon" aria-label="Abrir menu">
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right">
-                <SheetHeader>
-                  <SheetTitle>Menu Termo</SheetTitle>
-                </SheetHeader>
-                <div className="flex flex-col gap-2 px-4 pb-4">
-                  <SheetClose asChild>
-                    <Button asChild variant="outline" className="w-full justify-start">
-                      <Link href="/admin/dashboard">Voltar ao Dashboard</Link>
-                    </Button>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Button asChild variant="outline" className="w-full justify-start">
-                      <Link href="/admin/configuracoes">Configurações</Link>
-                    </Button>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Button onClick={handleLogout} variant="outline" className="w-full justify-start">
-                      Sair
-                    </Button>
-                  </SheetClose>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </div>
-      </header>
+      <AdminPageHeader title="Termos e contratos" description="Texto utilizado nos documentos dos clientes."></AdminPageHeader>
 
       <div className="mx-auto w-full max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="space-y-4 rounded-lg bg-white p-6 shadow">

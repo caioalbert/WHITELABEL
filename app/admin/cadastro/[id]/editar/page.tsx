@@ -1,13 +1,12 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
-import { useParams, useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { ArrowLeft, Menu, Save } from 'lucide-react'
+import { AdminPageHeader } from '@/components/admin/page-header'
+
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
+import { useParams, useRouter } from 'next/navigation'
+import { useEffect, useMemo, useState } from 'react'
 
 const ESCOLARIDADE_OPTIONS = [
   'Ensino Fundamental - Incompleto',
@@ -230,59 +229,7 @@ export default function AdminCadastroEditPage() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      <header className="sticky top-0 z-50 border-b border-gray-200 bg-white">
-        <div className="mx-auto flex w-full max-w-4xl items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
-          <h1 className="truncate text-lg font-bold text-gray-900 sm:text-xl">Editar Cliente</h1>
-
-          <div className="hidden items-center gap-2 lg:flex">
-            <Link href="/admin/clientes">
-              <Button variant="outline" className="gap-2">
-                <ArrowLeft className="h-4 w-4" />
-                Voltar
-              </Button>
-            </Link>
-            <Button onClick={handleSubmit} disabled={isSaving || !requiredFieldsFilled} className="gap-2">
-              <Save className="h-4 w-4" />
-              {isSaving ? 'Salvando...' : 'Salvar'}
-            </Button>
-          </div>
-
-          <div className="lg:hidden">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon" aria-label="Abrir menu">
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right">
-                <SheetHeader>
-                  <SheetTitle>Menu Edição</SheetTitle>
-                </SheetHeader>
-                <div className="flex flex-col gap-2 px-4 pb-4">
-                  <SheetClose asChild>
-                    <Button asChild variant="outline" className="w-full justify-start gap-2">
-                      <Link href="/admin/clientes">
-                        <ArrowLeft className="h-4 w-4" />
-                        Voltar
-                      </Link>
-                    </Button>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Button
-                      onClick={handleSubmit}
-                      disabled={isSaving || !requiredFieldsFilled}
-                      className="w-full justify-start gap-2"
-                    >
-                      <Save className="h-4 w-4" />
-                      {isSaving ? 'Salvando...' : 'Salvar'}
-                    </Button>
-                  </SheetClose>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </div>
-      </header>
+      <AdminPageHeader title="Editar cliente" description="Atualize os dados do titular e seus dependentes." backHref="/admin/cadastros"><Button onClick={handleSubmit} disabled={isSaving || !requiredFieldsFilled}>{isSaving ? "Salvando…" : "Salvar alterações"}</Button></AdminPageHeader>
 
       <div className="mx-auto w-full max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
         {error && (

@@ -1,12 +1,13 @@
-"use client"
+'use client'
 
-import { useCallback, useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
-import Link from "next/link"
-import { Building2, Plus, RefreshCw, Menu } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
-import { Empresa } from "@/lib/types"
+import { AdminPageHeader } from '@/components/admin/page-header'
+
+import { Button } from '@/components/ui/button'
+import { Empresa } from '@/lib/types'
+import { Building2, Plus, RefreshCw } from 'lucide-react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useCallback, useEffect, useState } from 'react'
 
 const STATUS_LABELS: Record<string, { label: string; className: string }> = {
   INATIVO: { label: "Inativo", className: "bg-gray-100 text-gray-700" },
@@ -28,6 +29,7 @@ export default function AdminEmpresasPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [search, setSearch] = useState("")
+  const [statusFilter, setStatusFilter] = useState("TODAS")
 
   const fetchEmpresas = useCallback(async () => {
     try {
@@ -50,56 +52,17 @@ export default function AdminEmpresasPage() {
 
   useEffect(() => { fetchEmpresas() }, [fetchEmpresas])
 
-  const handleLogout = async () => {
-    await fetch("/api/admin/logout", { method: "POST" })
-    router.push("/admin/login")
-  }
-
   const filtered = empresas.filter((e) => {
-    const q = search.toLowerCase()
-    return !q || e.razao_social?.toLowerCase().includes(q) || e.cnpj?.includes(q) || e.email?.toLowerCase().includes(q)
+    const q = search.trim().toLowerCase()
+    const digits = q.replace(/\D/g, '')
+    const matchesSearch = !q || e.razao_social?.toLowerCase().includes(q) || e.nome_fantasia?.toLowerCase().includes(q) || e.email?.toLowerCase().includes(q) || (digits.length > 0 && e.cnpj?.replace(/\D/g, '').includes(digits))
+    const matchesStatus = statusFilter === "TODAS" || (statusFilter === "PENDENTES" ? !["ATIVO", "INATIVO"].includes(e.status) : e.status === statusFilter)
+    return matchesSearch && matchesStatus
   })
 
   return (
     <main className="min-h-screen bg-gray-50">
-      <header className="sticky top-0 z-50 border-b border-gray-200 bg-white">
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
-          <div className="min-w-0">
-            <h1 className="truncate text-xl font-bold text-gray-900 sm:text-2xl">Empresas</h1>
-            <p className="text-xs text-gray-600 sm:text-sm">Gestão de empresas conveniadas</p>
-          </div>
-          <div className="hidden flex-wrap items-center justify-end gap-2 lg:flex">
-            <Link href="/admin/dashboard"><Button variant="outline">Dashboard</Button></Link>
-            <Link href="/admin/cadastros"><Button variant="outline">Clientes</Button></Link>
-            <Link href="/admin/empresas/nova">
-              <Button className="gap-2 bg-teal-700 hover:bg-teal-800">
-                <Plus className="h-4 w-4" /> Nova Empresa
-              </Button>
-            </Link>
-            <Button onClick={handleLogout} variant="outline">Sair</Button>
-          </div>
-          <div className="lg:hidden">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon" aria-label="Abrir menu"><Menu className="h-5 w-5" /></Button>
-              </SheetTrigger>
-              <SheetContent side="right">
-                <SheetHeader><SheetTitle>Menu</SheetTitle></SheetHeader>
-                <div className="flex flex-col gap-2 px-4 pb-4">
-                  <SheetClose asChild><Button asChild variant="outline" className="w-full justify-start"><Link href="/admin/dashboard">Dashboard</Link></Button></SheetClose>
-                  <SheetClose asChild><Button asChild variant="outline" className="w-full justify-start"><Link href="/admin/cadastros">Clientes</Link></Button></SheetClose>
-                  <SheetClose asChild>
-                    <Button asChild className="w-full justify-start gap-2 bg-teal-700 hover:bg-teal-800">
-                      <Link href="/admin/empresas/nova"><Plus className="h-4 w-4" /> Nova Empresa</Link>
-                    </Button>
-                  </SheetClose>
-                  <SheetClose asChild><Button onClick={handleLogout} variant="outline" className="w-full justify-start">Sair</Button></SheetClose>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </div>
-      </header>
+      <AdminPageHeader title="Empresas" description="Convênios, colaboradores e condições comerciais."></AdminPageHeader>
 
       <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {/* Stats */}
@@ -116,7 +79,7 @@ export default function AdminEmpresasPage() {
           </div>
           <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
             <p className="text-sm text-gray-600">Total de Colaboradores</p>
-            <p className="mt-1 text-2xl font-bold text-teal-700">
+            <p className="mt-1 text-2xl font-bold text-blue-700">
               {empresas.reduce((acc, e) => acc + (e.quantidade_funcionarios || 0), 0)}
             </p>
           </div>
@@ -125,24 +88,28 @@ export default function AdminEmpresasPage() {
         {/* Busca + botão */}
         <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <input
-            type="text"
+            type="search"
+            aria-label="Buscar empresas"
             placeholder="Buscar por razão social, CNPJ ou email..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full max-w-md rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-teal-600"
+            className="w-full max-w-md rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
           />
           <div className="flex gap-2">
             <Button onClick={fetchEmpresas} variant="outline" className="gap-2">
               <RefreshCw className="h-4 w-4" /> Atualizar
             </Button>
             <Link href="/admin/empresas/nova">
-              <Button className="gap-2 bg-teal-700 hover:bg-teal-800">
+              <Button className="gap-2 bg-blue-600 hover:bg-blue-700">
                 <Plus className="h-4 w-4" /> Nova Empresa
               </Button>
             </Link>
           </div>
         </div>
 
+        <div className="admin-status-filters" role="group" aria-label="Filtrar empresas por situação">
+          {[['TODAS', 'Todas'], ['ATIVO', 'Ativas'], ['PENDENTES', 'Pendentes'], ['INATIVO', 'Inativas']].map(([value, label]) => <button key={value} type="button" aria-pressed={statusFilter === value} onClick={() => setStatusFilter(value)}>{label}</button>)}
+        </div>
         {error && (
           <div className="mb-6 rounded-lg border border-red-200 bg-red-50 p-4">
             <p className="font-medium text-red-700">{error}</p>
@@ -161,7 +128,7 @@ export default function AdminEmpresasPage() {
             </p>
             {empresas.length === 0 && (
               <Link href="/admin/empresas/nova">
-                <Button className="mt-4 gap-2 bg-teal-700 hover:bg-teal-800">
+                <Button className="mt-4 gap-2 bg-blue-600 hover:bg-blue-700">
                   <Plus className="h-4 w-4" /> Cadastrar primeira empresa
                 </Button>
               </Link>
@@ -170,7 +137,7 @@ export default function AdminEmpresasPage() {
         ) : (
           <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
             <div className="overflow-x-auto">
-              <table className="w-full">
+              <table className="admin-company-table w-full">
                 <thead className="border-b border-gray-200 bg-gray-50">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium uppercase text-gray-700">Empresa</th>
@@ -189,20 +156,20 @@ export default function AdminEmpresasPage() {
                     return (
                       <tr key={empresa.id} className="border-b border-gray-200 hover:bg-gray-50">
                         <td className="px-6 py-4">
-                          <Link href={`/admin/empresas/${empresa.id}`} className="font-medium text-teal-700 underline-offset-4 hover:underline">{empresa.razao_social}</Link>
+                          <Link href={`/admin/empresas/${empresa.id}`} className="font-medium text-blue-700 underline-offset-4 hover:underline">{empresa.razao_social}</Link>
                           {empresa.nome_fantasia && (
                             <p className="text-xs text-gray-500">{empresa.nome_fantasia}</p>
                           )}
                           <p className="text-xs text-gray-500">{empresa.email}</p>
                         </td>
                         <td className="px-6 py-4 font-mono text-sm text-gray-700">
-                          {empresa.cnpj.replace(/^(d{2})(d{3})(d{3})(d{4})(d{2})$/, "$1.$2.$3/$4-$5")}
+                          {empresa.cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, "$1.$2.$3/$4-$5")}
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-700">{empresa.responsavel_nome}</td>
                         <td className="px-6 py-4 text-center text-sm font-semibold text-gray-900">
                           {empresa.quantidade_funcionarios ?? "—"}
                         </td>
-                        <td className="px-6 py-4 text-sm font-semibold text-teal-700">
+                        <td className="px-6 py-4 text-sm font-semibold text-blue-700">
                           {formatCurrency(empresa.mensalidade_valor)}
                         </td>
                         <td className="px-6 py-4 text-sm text-gray-600">

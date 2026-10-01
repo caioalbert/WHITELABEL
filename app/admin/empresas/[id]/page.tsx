@@ -1,10 +1,12 @@
-"use client"
-import { use, useCallback, useEffect, useState } from 'react'
+'use client'
+
+import { AdminPageHeader } from '@/components/admin/page-header'
+import { Button } from '@/components/ui/button'
+import type { AsaasPaymentInfo } from '@/lib/asaas'
+import type { Dependente, Empresa, EmpresaFuncionario } from '@/lib/types'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/button'
-import type { Empresa, EmpresaFuncionario, Dependente } from '@/lib/types'
-import type { AsaasPaymentInfo } from '@/lib/asaas'
+import { use, useCallback, useEffect, useState } from 'react'
 
 type Details = { empresa: Empresa; funcionarios: EmpresaFuncionario[]; cadastros: { id: string; nome: string; cpf: string; status: string }[]; dependentes: Dependente[] }
 type Terms = { mensalidade_valor: string; primeira_parcela_vencimento: string; contrato_meses: number; dia_vencimento: number; parcelas_mesmo_dia: boolean }
@@ -53,7 +55,7 @@ export default function EmpresaDetails({ params }: { params: Promise<{ id: strin
  const field = 'mt-1 w-full rounded-md border border-gray-300 bg-white p-2 disabled:bg-gray-100'
  const card = 'rounded-xl border border-gray-200 bg-white p-6 shadow-sm'
  return <main className="min-h-screen bg-gray-50">
-  <header className="border-b bg-white"><div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 p-4"><div><Link href="/admin/empresas" className="text-sm text-teal-700 hover:underline">← Empresas</Link><h1 className="mt-2 text-2xl font-bold">{e?.nome_fantasia || e?.razao_social || 'Detalhes da empresa'}</h1></div><Button variant="outline" onClick={() => void load()} disabled={busy || loading}>Atualizar</Button></div></header>
+  <AdminPageHeader title={e?.nome_fantasia || e?.razao_social || 'Detalhes da empresa'} description="Colaboradores, cobrança e condições comerciais." backHref="/admin/empresas"><Button variant="outline" onClick={() => void load()} disabled={busy || loading}>Atualizar</Button></AdminPageHeader>
   <div className="mx-auto max-w-6xl space-y-6 p-4 py-8">
    {error && <p role="alert" className="rounded-lg bg-red-50 p-4 text-red-800">{error}</p>}
    {message && <p role="status" className="rounded-lg bg-green-50 p-4 text-green-800">{message}</p>}
@@ -70,18 +72,18 @@ export default function EmpresaDetails({ params }: { params: Promise<{ id: strin
      {!terms.parcelas_mesmo_dia && <label className="block max-w-xs">Dia das demais parcelas<select aria-label="Dia das demais parcelas" className={field} value={terms.dia_vencimento} onChange={ev => setTerms({ ...terms, dia_vencimento: Number(ev.target.value) })}>{Array.from({ length: 31 }, (_, i) => <option key={i} value={i + 1}>{i + 1}</option>)}</select></label>}
      <p className="text-sm text-gray-600">{started ? 'A primeira parcela e o prazo original são preservados após a ativação. Alterações de valor e dia valem para as próximas emissões.' : 'Alterações atualizam também a primeira fatura em aberto.'}</p>
      {started && !e.primeira_parcela_vencimento && <p role="alert" className="text-sm text-amber-800">Contrato anterior sem calendário de parcelas. A edição requer revisão das condições originais.</p>}
-     <Button type="submit" disabled={busy || (started && !e.primeira_parcela_vencimento)} className="bg-teal-700 hover:bg-teal-800">Salvar condições</Button>
+     <Button type="submit" disabled={busy || (started && !e.primeira_parcela_vencimento)} className="bg-blue-600 hover:bg-blue-700">Salvar condições</Button>
     </form></section>
     <section className={card}><h2 className="text-lg font-semibold">Colaboradores ({details.funcionarios.length}) e dependentes ({details.dependentes.length})</h2>
      <div className="mt-4 overflow-x-auto"><table className="w-full text-left text-sm"><thead><tr className="border-b"><th className="p-3">Colaborador</th><th className="p-3">CPF</th><th className="p-3">Contato</th><th className="p-3">Dependentes</th></tr></thead><tbody>{details.funcionarios.map(f => {
       const cadastro = details.cadastros.find(c => c.id === f.cadastro_id || c.cpf.replace(/\D/g, '') === f.cpf.replace(/\D/g, ''))
       const dependents = details.dependentes.filter(d => d.cadastro_id === cadastro?.id)
-      return <tr key={f.id} className="border-b"><td className="p-3">{cadastro ? <Link className="text-teal-700 hover:underline" href={`/admin/cadastro/${cadastro.id}`}>{f.nome}</Link> : f.nome}</td><td className="p-3 font-mono">{f.cpf}</td><td className="p-3">{f.email}<br/>{f.telefone}</td><td className="p-3">{dependents.length ? dependents.map(d => <p key={d.id}>{d.nome} — {d.relacao}</p>) : 'Nenhum dependente'}</td></tr>
+      return <tr key={f.id} className="border-b"><td className="p-3">{cadastro ? <Link className="text-blue-700 hover:underline" href={`/admin/cadastro/${cadastro.id}`}>{f.nome}</Link> : f.nome}</td><td className="p-3 font-mono">{f.cpf}</td><td className="p-3">{f.email}<br/>{f.telefone}</td><td className="p-3">{dependents.length ? dependents.map(d => <p key={d.id}>{d.nome} — {d.relacao}</p>) : 'Nenhum dependente'}</td></tr>
      })}</tbody></table></div>{!details.funcionarios.length && <p className="mt-3 text-gray-600">Nenhum colaborador importado.</p>}
     </section>
-    <section className={card}><h2 className="text-lg font-semibold">Faturas</h2>{paymentError && <p role="alert" className="mt-3 text-red-800">{paymentError}</p>}<div className="mt-4 overflow-x-auto"><table className="w-full text-left text-sm"><thead><tr className="border-b"><th className="p-3">Vencimento</th><th className="p-3">Valor</th><th className="p-3">Status</th><th className="p-3">Ações</th></tr></thead><tbody>{payments.map(p => <tr key={p.id} className="border-b"><td className="p-3">{date(p.dueDate)}</td><td className="p-3">{currency(p.value)}</td><td className="p-3">{paymentStatus[p.status || ''] || p.status}</td><td className="flex flex-wrap gap-3 p-3">{(p.invoiceUrl || p.bankSlipUrl) && <a className="text-teal-700 hover:underline" href={p.invoiceUrl || p.bankSlipUrl} target="_blank" rel="noreferrer">Abrir fatura</a>}{['PENDING', 'OVERDUE'].includes(p.status || '') && <button disabled={busy} className="text-teal-700 hover:underline disabled:opacity-50" onClick={() => setConfirmation({ title: 'Reenviar fatura por e-mail', text: `Enviar esta fatura de ${currency(p.value)}, vencimento ${date(p.dueDate)}, para ${e.email}?`, url: `/api/admin/empresas/${id}/reenviar-fatura`, method: 'POST', body: { paymentId: p.id } })}>Reenviar por e-mail</button>}</td></tr>)}</tbody></table></div>{!paymentError && !payments.length && <p className="mt-3 text-gray-600">Nenhuma fatura emitida.</p>}</section>
+    <section className={card}><h2 className="text-lg font-semibold">Faturas</h2>{paymentError && <p role="alert" className="mt-3 text-red-800">{paymentError}</p>}<div className="mt-4 overflow-x-auto"><table className="w-full text-left text-sm"><thead><tr className="border-b"><th className="p-3">Vencimento</th><th className="p-3">Valor</th><th className="p-3">Status</th><th className="p-3">Ações</th></tr></thead><tbody>{payments.map(p => <tr key={p.id} className="border-b"><td className="p-3">{date(p.dueDate)}</td><td className="p-3">{currency(p.value)}</td><td className="p-3">{paymentStatus[p.status || ''] || p.status}</td><td className="flex flex-wrap gap-3 p-3">{(p.invoiceUrl || p.bankSlipUrl) && <a className="text-blue-700 hover:underline" href={p.invoiceUrl || p.bankSlipUrl} target="_blank" rel="noreferrer">Abrir fatura</a>}{['PENDING', 'OVERDUE'].includes(p.status || '') && <button disabled={busy} className="text-blue-700 hover:underline disabled:opacity-50" onClick={() => setConfirmation({ title: 'Reenviar fatura por e-mail', text: `Enviar esta fatura de ${currency(p.value)}, vencimento ${date(p.dueDate)}, para ${e.email}?`, url: `/api/admin/empresas/${id}/reenviar-fatura`, method: 'POST', body: { paymentId: p.id } })}>Reenviar por e-mail</button>}</td></tr>)}</tbody></table></div>{!paymentError && !payments.length && <p className="mt-3 text-gray-600">Nenhuma fatura emitida.</p>}</section>
    </>}
   </div>
-  {confirmation && <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"><section role="dialog" aria-modal="true" aria-labelledby="confirmation-title" className="w-full max-w-lg rounded-xl bg-white p-6 shadow-xl"><h2 id="confirmation-title" className="text-xl font-semibold">{confirmation.title}</h2><p className="mt-3 text-gray-700">{confirmation.text}</p><div className="mt-6 flex justify-end gap-3"><Button variant="outline" disabled={busy} onClick={() => setConfirmation(null)}>Cancelar</Button><Button disabled={busy} onClick={() => void execute()} className="bg-teal-700 hover:bg-teal-800">{busy ? 'Processando...' : 'Confirmar'}</Button></div></section></div>}
+  {confirmation && <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"><section role="dialog" aria-modal="true" aria-labelledby="confirmation-title" className="w-full max-w-lg rounded-xl bg-white p-6 shadow-xl"><h2 id="confirmation-title" className="text-xl font-semibold">{confirmation.title}</h2><p className="mt-3 text-gray-700">{confirmation.text}</p><div className="mt-6 flex justify-end gap-3"><Button variant="outline" disabled={busy} onClick={() => setConfirmation(null)}>Cancelar</Button><Button disabled={busy} onClick={() => void execute()} className="bg-blue-600 hover:bg-blue-700">{busy ? 'Processando...' : 'Confirmar'}</Button></div></section></div>}
  </main>
 }

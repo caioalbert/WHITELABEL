@@ -1,16 +1,15 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { BrandLogo } from '@/components/brand-logo'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import Link from 'next/link'
-import { BrandLogo } from '@/components/brand-logo'
-import { DEFAULT_BRAND_LOGO_ON_LIGHT_URL } from '@/lib/branding'
-import { HeartPulse, ShieldCheck, Stethoscope, Users } from 'lucide-react'
 import { useOnlineStatus } from '@/hooks/use-online-status'
+import { DEFAULT_BRAND_LOGO_ON_LIGHT_URL } from '@/lib/branding'
 import { trackPwaEvent } from '@/lib/pwa/analytics'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
 export default function AdminLogin() {
   const router = useRouter()
@@ -58,84 +57,15 @@ export default function AdminLogin() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-100">
-      <div className="grid min-h-screen grid-cols-1 lg:grid-cols-2">
-        <section className="relative hidden overflow-hidden lg:flex">
-          <div className="absolute inset-0 bg-gradient-to-br from-teal-900 via-cyan-800 to-emerald-700" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(255,255,255,0.22),transparent_40%),radial-gradient(circle_at_85%_80%,rgba(16,185,129,0.28),transparent_44%)]" />
-
-          <div className="relative z-10 mx-auto flex w-full max-w-2xl flex-col justify-between p-10 text-white xl:p-14">
-            <div className="flex items-center gap-4">
-              <div className="rounded-2xl bg-white/95 px-4 py-3 shadow-lg">
-                <BrandLogo
-                  logoUrl={DEFAULT_BRAND_LOGO_ON_LIGHT_URL}
-                  width={500}
-                  height={500}
-                  className="h-20 w-20 object-contain"
-                />
-              </div>
-            </div>
-
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.16em] text-cyan-100">
-                Parceria Igreja + Saúde
-              </p>
-              <h2 className="mt-4 text-4xl font-bold leading-tight xl:text-5xl">
-                Gestão segura dos clientes com foco em cuidado e proteção de dados.
-              </h2>
-              <p className="mt-4 max-w-xl text-base text-cyan-50/95">
-                Área administrativa para acompanhar adesões, contratos e dependentes com
-                rastreabilidade completa.
-              </p>
-
-              <div className="mt-8 grid grid-cols-2 gap-3 text-sm">
-                <div className="rounded-2xl border border-white/25 bg-white/10 p-4 backdrop-blur-sm">
-                  <HeartPulse className="mb-2 h-5 w-5 text-cyan-100" />
-                  <p className="font-semibold">Telemedicina</p>
-                  <p className="text-cyan-100/90">Acesso rápido aos serviços de saúde.</p>
-                </div>
-                <div className="rounded-2xl border border-white/25 bg-white/10 p-4 backdrop-blur-sm">
-                  <Stethoscope className="mb-2 h-5 w-5 text-cyan-100" />
-                  <p className="font-semibold">Assistência contínua</p>
-                  <p className="text-cyan-100/90">Fluxo digital para atendimento e suporte.</p>
-                </div>
-                <div className="rounded-2xl border border-white/25 bg-white/10 p-4 backdrop-blur-sm">
-                  <Users className="mb-2 h-5 w-5 text-cyan-100" />
-                  <p className="font-semibold">Gestão de famílias</p>
-                  <p className="text-cyan-100/90">Controle de titulares e dependentes.</p>
-                </div>
-                <div className="rounded-2xl border border-white/25 bg-white/10 p-4 backdrop-blur-sm">
-                  <ShieldCheck className="mb-2 h-5 w-5 text-cyan-100" />
-                  <p className="font-semibold">Conformidade LGPD</p>
-                  <p className="text-cyan-100/90">Dados tratados com segurança e privacidade.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="flex items-center justify-center px-4 py-8 sm:px-8 lg:px-12">
-          <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white shadow-xl">
-            <div className="px-6 pb-6 pt-8 sm:px-8">
-              <div className="mb-6 lg:hidden">
-                <div className="flex flex-wrap items-center gap-3">
-                  <BrandLogo
-                    logoUrl={DEFAULT_BRAND_LOGO_ON_LIGHT_URL}
-                    width={500}
-                    height={500}
-                    className="h-16 w-16 object-contain"
-                  />
-                </div>
-              </div>
-
-              <h1 className="text-2xl font-bold text-slate-900">Painel Administrativo</h1>
-              <p className="mt-1 text-sm text-slate-600">
-                Informe email e senha para acessar o ambiente interno.
-              </p>
-
+    <main>
+      <div className="admin-login-card">
+        <BrandLogo logoUrl={DEFAULT_BRAND_LOGO_ON_LIGHT_URL} width={80} height={80} className="mb-8 h-16 w-16" />
+        <p className="mb-2 text-xs font-semibold text-blue-700">ADMINISTRAÇÃO</p>
+        <h1>Bem-vindo ao painel</h1>
+        <p className="login-caption">Entre para gerenciar clientes, empresas e sua operação.</p>
               <form onSubmit={handleSubmit} className="mt-6 space-y-5">
                 {error && (
-                  <div className="rounded-lg border border-red-200 bg-red-50 p-3">
+                  <div className="rounded-lg border border-red-200 bg-red-50 p-3" role="alert">
                     <p className="text-sm font-medium text-red-700">{error}</p>
                   </div>
                 )}
@@ -154,6 +84,7 @@ export default function AdminLogin() {
                   </Label>
                   <Input
                     id="email"
+                    autoComplete="username"
                     name="email"
                     type="email"
                     placeholder="seu@email.com"
@@ -171,6 +102,7 @@ export default function AdminLogin() {
                   </Label>
                   <Input
                     id="password"
+                    autoComplete="current-password"
                     name="password"
                     type="password"
                     placeholder="••••••••"
@@ -185,23 +117,12 @@ export default function AdminLogin() {
                 <Button
                   type="submit"
                   disabled={isLoading || !isOnline}
-                  className="w-full bg-teal-700 py-2 text-base font-semibold hover:bg-teal-800"
+                  className="w-full bg-blue-600 py-2 text-base font-semibold hover:bg-blue-700"
                 >
                   {isLoading ? 'Entrando...' : !isOnline ? 'Sem conexão' : 'Entrar'}
                 </Button>
               </form>
-
-              <div className="mt-6 border-t border-gray-200 pt-6">
-                <p className="text-center text-sm text-gray-600">
-                  Não tem acesso admin?{' '}
-                  <Link href="/" className="font-medium text-teal-700 hover:text-teal-800">
-                    Voltar para adesão
-                  </Link>
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
+        <div className="mt-6 border-t pt-5 text-center text-sm"><Link href="/" className="text-blue-700 hover:underline">Voltar para adesão</Link></div>
       </div>
     </main>
   )
