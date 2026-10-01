@@ -1,9 +1,7 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { Menu } from 'lucide-react'
+import { AdminPageHeader } from '@/components/admin/page-header'
+
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -13,7 +11,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 type Vendedor = {
   id: string
@@ -126,15 +126,6 @@ export default function AdminVendedoresPage() {
     }
   }
 
-  const handleLogout = async () => {
-    try {
-      await fetch('/api/admin/logout', { method: 'POST' })
-      router.push('/admin/login')
-    } catch (err) {
-      console.error('Logout error:', err)
-    }
-  }
-
   const handleToggleStatus = async (vendedor: Vendedor) => {
     const nextAtivo = !vendedor.ativo
     const confirmMessage = nextAtivo
@@ -219,57 +210,7 @@ export default function AdminVendedoresPage() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      <header className="sticky top-0 z-50 border-b border-gray-200 bg-white">
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
-          <div className="min-w-0">
-            <h1 className="truncate text-xl font-bold text-gray-900 sm:text-2xl">Vendedores</h1>
-            <p className="text-xs text-gray-600 sm:text-sm">Crie acessos e links de venda para cada vendedor</p>
-          </div>
-          <div className="hidden items-center gap-2 lg:flex">
-            <Button onClick={() => setIsCreateDialogOpen(true)}>
-              Cadastrar novo vendedor
-            </Button>
-            <Link href="/admin/dashboard">
-              <Button variant="outline">Voltar ao Dashboard</Button>
-            </Link>
-            <Button onClick={handleLogout} variant="outline">
-              Sair
-            </Button>
-          </div>
-
-          <div className="lg:hidden">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon" aria-label="Abrir menu">
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right">
-                <SheetHeader>
-                  <SheetTitle>Menu Vendedores</SheetTitle>
-                </SheetHeader>
-                <div className="flex flex-col gap-2 px-4 pb-4">
-                  <SheetClose asChild>
-                    <Button onClick={() => setIsCreateDialogOpen(true)} className="w-full justify-start">
-                      Cadastrar novo vendedor
-                    </Button>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Button asChild variant="outline" className="w-full justify-start">
-                      <Link href="/admin/dashboard">Voltar ao Dashboard</Link>
-                    </Button>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Button onClick={handleLogout} variant="outline" className="w-full justify-start">
-                      Sair
-                    </Button>
-                  </SheetClose>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </div>
-      </header>
+      <AdminPageHeader title="Vendedores" description="Equipe comercial, links de venda e comissões."><Button onClick={() => setIsCreateDialogOpen(true)}>Cadastrar novo vendedor</Button></AdminPageHeader>
 
       <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-6">
         {error && (

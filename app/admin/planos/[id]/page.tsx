@@ -1,11 +1,11 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { AdminPageHeader } from '@/components/admin/page-header'
+
+import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { useParams, useRouter } from 'next/navigation'
-import { ArrowLeft, Menu } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
+import { useCallback, useEffect, useState } from 'react'
 
 type Plano = {
   id: string
@@ -172,70 +172,9 @@ export default function AdminPlanoDetailPage() {
     }
   }
 
-  const handleLogout = async () => {
-    try {
-      await fetch('/api/admin/logout', { method: 'POST' })
-      router.push('/admin/login')
-    } catch (err) {
-      console.error('Logout error:', err)
-    }
-  }
-
   return (
     <main className="min-h-screen bg-gray-50">
-      <header className="sticky top-0 z-50 border-b border-gray-200 bg-white">
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
-          <div className="flex min-w-0 items-center gap-3">
-            <Link href="/admin/planos">
-              <Button variant="ghost" size="icon" aria-label="Voltar">
-                <ArrowLeft className="h-4 w-4" />
-              </Button>
-            </Link>
-            <div className="min-w-0">
-              <h1 className="truncate text-xl font-bold text-gray-900 sm:text-2xl">
-                {isLoading ? 'Carregando...' : (plano?.nome || 'Plano')}
-              </h1>
-              {plano && (
-                <p className="font-mono text-xs text-gray-500">{plano.codigo}</p>
-              )}
-            </div>
-          </div>
-
-          <div className="hidden items-center gap-2 lg:flex">
-            <Link href="/admin/planos">
-              <Button variant="outline">Voltar aos Planos</Button>
-            </Link>
-            <Button onClick={handleLogout} variant="outline">Sair</Button>
-          </div>
-
-          <div className="lg:hidden">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon" aria-label="Abrir menu">
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right">
-                <SheetHeader>
-                  <SheetTitle>Menu</SheetTitle>
-                </SheetHeader>
-                <div className="flex flex-col gap-2 px-4 pb-4">
-                  <SheetClose asChild>
-                    <Button asChild variant="outline" className="w-full justify-start">
-                      <Link href="/admin/planos">Voltar aos Planos</Link>
-                    </Button>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Button onClick={handleLogout} variant="outline" className="w-full justify-start">
-                      Sair
-                    </Button>
-                  </SheetClose>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </div>
-      </header>
+      <AdminPageHeader title={isLoading ? 'Carregando…' : (plano?.nome || 'Plano')} description={plano?.codigo} backHref="/admin/planos"></AdminPageHeader>
 
       <div className="mx-auto w-full max-w-2xl px-4 py-8 sm:px-6 lg:px-8">
         {isLoading ? (

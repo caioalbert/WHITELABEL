@@ -1,20 +1,39 @@
-"use client"
+'use client'
+
+import { AdminPageHeader } from '@/components/admin/page-header'
 
 import { downloadFuncionariosTemplate } from '@/lib/funcionarios-template'
 
-import { BillingScheduleFields } from "@/components/cadastro/BillingScheduleFields"
-import { billingToday, parseBillingSchedule, type BillingSchedule } from "@/lib/billing-schedule"
-import { useCallback, useRef, useState } from "react"
-import { useRouter } from "next/navigation"
-import Link from "next/link"
+import { BillingScheduleFields } from '@/components/cadastro/BillingScheduleFields'
+import { Button } from '@/components/ui/button'
 import {
-  ArrowLeft, ArrowRight, Building2, Check, DollarSign,
-  FileSpreadsheet, Loader2, Users, X,
-} from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { parseFuncionariosExcel, FUNCIONARIOS_EXCEL_HEADERS } from "@/lib/funcionarios-excel"
-import type { DependenteFormData } from "@/lib/types"
-import { readSpreadsheetMatrix, SpreadsheetSelectionError } from "@/lib/spreadsheet"
+  billingToday,
+  parseBillingSchedule,
+  type BillingSchedule,
+} from '@/lib/billing-schedule'
+import {
+  FUNCIONARIOS_EXCEL_HEADERS,
+  parseFuncionariosExcel,
+} from '@/lib/funcionarios-excel'
+import {
+  readSpreadsheetMatrix,
+  SpreadsheetSelectionError,
+} from '@/lib/spreadsheet'
+import type { DependenteFormData } from '@/lib/types'
+import {
+  ArrowLeft,
+  ArrowRight,
+  Building2,
+  Check,
+  DollarSign,
+  FileSpreadsheet,
+  Loader2,
+  Users,
+  X,
+} from 'lucide-react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useCallback, useRef, useState } from 'react'
 
 type Step = "empresa" | "comercial" | "funcionarios" | "revisao"
 
@@ -77,7 +96,7 @@ function Field({label,required,children}:{label:string;required?:boolean;childre
     </div>
   )
 }
-const inputCls = "w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-600 focus:border-transparent"
+const inputCls = "w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
 
 function StepIndicator({current}:{current:Step}) {
   const idx = STEPS.findIndex((s)=>s.id===current)
@@ -88,10 +107,10 @@ function StepIndicator({current}:{current:Step}) {
         return (
           <div key={step.id} className="flex items-center">
             <div className="flex flex-col items-center gap-1.5">
-              <div className={"flex h-10 w-10 items-center justify-center rounded-full border-2 text-sm font-bold transition-all "+(done?"border-teal-600 bg-teal-600 text-white":active?"border-teal-600 bg-white text-teal-700":"border-gray-300 bg-white text-gray-400")}>
+              <div className={"flex h-10 w-10 items-center justify-center rounded-full border-2 text-sm font-bold transition-all "+(done?"border-teal-600 bg-teal-600 text-white":active?"border-teal-600 bg-white text-blue-700":"border-gray-300 bg-white text-gray-400")}>
                 {done?<Check className="h-5 w-5"/>:<Icon className="h-4 w-4"/>}
               </div>
-              <span className={"hidden text-xs font-medium sm:block "+(active?"text-teal-700":done?"text-teal-600":"text-gray-400")}>{step.label}</span>
+              <span className={"hidden text-xs font-medium sm:block "+(active?"text-blue-700":done?"text-teal-600":"text-gray-400")}>{step.label}</span>
             </div>
             {i<STEPS.length-1&&<div className={"mx-2 h-0.5 w-12 sm:w-20 "+(i<idx?"bg-teal-600":"bg-gray-200")}/>}
           </div>
@@ -214,8 +233,8 @@ export default function AdminNovaEmpresaPage() {
           <h1 className="text-2xl font-bold text-gray-900">Empresa cadastrada!</h1>
           <p className="mt-2 text-gray-600"><strong>{empresa.razao_social}</strong> foi cadastrada com <strong>{funcionarios.length}</strong> colaborador(es) e status <strong>Pendente de pagamento</strong>.</p>
           <div className="mt-6 flex flex-col gap-3">
-            {invoiceUrl && <a href={invoiceUrl} target="_blank" rel="noreferrer" className="font-semibold text-teal-700 underline">Abrir fatura da primeira parcela</a>}
-            <Link href="/admin/empresas"><Button className="w-full bg-teal-700 hover:bg-teal-800">Ver lista de empresas</Button></Link>
+            {invoiceUrl && <a href={invoiceUrl} target="_blank" rel="noreferrer" className="font-semibold text-blue-700 underline">Abrir fatura da primeira parcela</a>}
+            <Link href="/admin/empresas"><Button className="w-full bg-blue-600 hover:bg-blue-700">Ver lista de empresas</Button></Link>
             <Button variant="outline" className="w-full" onClick={()=>{setSuccess(false);setStep("empresa");setEmpresa(EMPTY_EMPRESA);setComercial(emptyComercial());setFuncionarios([]);setFuncErrors([]);setFuncGenericErrors([]);setFileName(null)}}>
               Cadastrar outra empresa
             </Button>
@@ -229,15 +248,7 @@ export default function AdminNovaEmpresaPage() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      <header className="sticky top-0 z-50 border-b border-gray-200 bg-white">
-        <div className="mx-auto flex h-16 w-full max-w-4xl items-center justify-between px-4 sm:px-6">
-          <Link href="/admin/empresas" className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-gray-900">
-            <ArrowLeft className="h-4 w-4"/> Empresas
-          </Link>
-          <h1 className="font-bold text-gray-900">Nova Empresa</h1>
-          <div className="w-24"/>
-        </div>
-      </header>
+      <AdminPageHeader title="Nova empresa" description="Cadastre a empresa, defina as condições e importe os colaboradores." backHref="/admin/empresas"></AdminPageHeader>
 
       <div className="mx-auto w-full max-w-4xl px-4 py-8 sm:px-6">
         <StepIndicator current={step}/>
@@ -282,8 +293,8 @@ export default function AdminNovaEmpresaPage() {
               </div>
               <div className="rounded-xl border border-gray-100 bg-gray-50 p-4 text-sm">
                 <p className="font-semibold text-gray-900 mb-2">Resumo financeiro</p>
-                <div className="flex justify-between"><span className="text-gray-600">Mensalidade</span><span className="font-semibold text-teal-700">{comercial.valor_mensal?"R$ "+comercial.valor_mensal:"—"}</span></div>
-                <div><p className="text-gray-500">Primeira parcela</p><p className="font-semibold text-teal-700">R$ {comercial.valor_mensal} em {comercial.primeira_parcela_vencimento.split("-").reverse().join("/")}</p><p className="text-sm text-gray-600">{comercial.contrato_meses} parcela(s) ao todo.{comercial.contrato_meses > 1 && <> Demais no dia {comercial.parcelas_mesmo_dia ? Number(comercial.primeira_parcela_vencimento.slice(8)) : comercial.dia_vencimento || "a escolher"}.</>}</p></div>
+                <div className="flex justify-between"><span className="text-gray-600">Mensalidade</span><span className="font-semibold text-blue-700">{comercial.valor_mensal?"R$ "+comercial.valor_mensal:"—"}</span></div>
+                <div><p className="text-gray-500">Primeira parcela</p><p className="font-semibold text-blue-700">R$ {comercial.valor_mensal} em {comercial.primeira_parcela_vencimento.split("-").reverse().join("/")}</p><p className="text-sm text-gray-600">{comercial.contrato_meses} parcela(s) ao todo.{comercial.contrato_meses > 1 && <> Demais no dia {comercial.parcelas_mesmo_dia ? Number(comercial.primeira_parcela_vencimento.slice(8)) : comercial.dia_vencimento || "a escolher"}.</>}</p></div>
               </div>
             </div>
           </div>
@@ -314,7 +325,7 @@ export default function AdminNovaEmpresaPage() {
               <FileSpreadsheet className="mb-3 h-10 w-10 text-gray-400 group-hover:text-teal-500"/>
               <p className="font-semibold text-gray-700">Clique para selecionar o arquivo</p>
               <p className="mt-1 text-sm text-gray-500">.xlsx, .xls ou .csv — até 1.000 colaboradores</p>
-              {fileName && <p className="mt-3 rounded-full bg-teal-100 px-3 py-1 text-sm font-medium text-teal-700">{fileName}</p>}
+              {fileName && <p className="mt-3 rounded-full bg-teal-100 px-3 py-1 text-sm font-medium text-blue-700">{fileName}</p>}
               <input id="excel-upload" ref={fileRef} type="file" accept=".xlsx,.xls,.csv" onChange={handleFileChange} className="sr-only"/>
             </label>
             {funcGenericErrors.length>0 && <div className="mt-4 rounded-lg border border-red-200 bg-red-50 p-4">{funcGenericErrors.map((e,i)=><p key={i} className="text-sm text-red-700">{e}</p>)}</div>}
@@ -372,8 +383,8 @@ export default function AdminNovaEmpresaPage() {
             <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
               <h3 className="mb-4 flex items-center gap-2 font-bold text-gray-900"><DollarSign className="h-5 w-5 text-teal-600"/>Condições Comerciais</h3>
               <div className="grid grid-cols-2 gap-y-3 text-sm">
-                <div><p className="text-gray-500">Mensalidade</p><p className="text-2xl font-bold text-teal-700">R$ {comercial.valor_mensal}</p></div>
-                <div><p className="text-gray-500">Primeira parcela</p><p className="font-semibold text-teal-700">R$ {comercial.valor_mensal} em {comercial.primeira_parcela_vencimento.split("-").reverse().join("/")}</p><p className="text-sm text-gray-600">{comercial.contrato_meses} parcela(s) ao todo.{comercial.contrato_meses > 1 && <> Demais no dia {comercial.parcelas_mesmo_dia ? Number(comercial.primeira_parcela_vencimento.slice(8)) : comercial.dia_vencimento || "a escolher"}.</>}</p></div>
+                <div><p className="text-gray-500">Mensalidade</p><p className="text-2xl font-bold text-blue-700">R$ {comercial.valor_mensal}</p></div>
+                <div><p className="text-gray-500">Primeira parcela</p><p className="font-semibold text-blue-700">R$ {comercial.valor_mensal} em {comercial.primeira_parcela_vencimento.split("-").reverse().join("/")}</p><p className="text-sm text-gray-600">{comercial.contrato_meses} parcela(s) ao todo.{comercial.contrato_meses > 1 && <> Demais no dia {comercial.parcelas_mesmo_dia ? Number(comercial.primeira_parcela_vencimento.slice(8)) : comercial.dia_vencimento || "a escolher"}.</>}</p></div>
               </div>
             </div>
             <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
@@ -402,7 +413,7 @@ export default function AdminNovaEmpresaPage() {
             <ArrowLeft className="h-4 w-4"/>{step==="empresa"?"Cancelar":"Voltar"}
           </Button>
           {step!=="revisao"?(
-            <Button onClick={advance} className="gap-2 bg-teal-700 hover:bg-teal-800">
+            <Button onClick={advance} className="gap-2 bg-blue-600 hover:bg-blue-700">
               Próximo <ArrowRight className="h-4 w-4"/>
             </Button>
           ):(

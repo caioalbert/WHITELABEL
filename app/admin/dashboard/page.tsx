@@ -1,8 +1,19 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { AdminPageHeader } from '@/components/admin/page-header'
+
+import { Button } from '@/components/ui/button'
+import { Cadastro } from '@/lib/types'
+import {
+  CalendarClock,
+  Download,
+  RefreshCw,
+  Users,
+  type LucideIcon,
+} from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   Bar,
   BarChart,
@@ -14,18 +25,6 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import {
-  CalendarClock,
-  Download,
-  Menu,
-  RefreshCw,
-  Users,
-  type LucideIcon,
-} from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
-import { usePublicBranding } from '@/hooks/use-public-branding'
-import { Cadastro } from '@/lib/types'
 
 type RankingItem = {
   name: string
@@ -37,9 +36,7 @@ type KpiCardProps = {
   title: string
   value: number
   subtitle: string
-  valueClassName: string
   icon: LucideIcon
-  iconClassName: string
   valueFormatter?: (value: number) => string
 }
 
@@ -51,22 +48,20 @@ function KpiCard({
   title,
   value,
   subtitle,
-  valueClassName,
   icon: Icon,
-  iconClassName,
   valueFormatter,
 }: KpiCardProps) {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-5">
+    <div className="admin-kpi">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="text-xs font-medium text-gray-600 sm:text-sm">{title}</p>
-          <p className={`mt-2 text-2xl font-bold sm:text-3xl ${valueClassName}`}>
+          <p className="admin-kpi-title">{title}</p>
+          <p className="admin-kpi-value">
             {valueFormatter ? valueFormatter(value) : value.toLocaleString('pt-BR')}
           </p>
-          <p className="mt-1 text-[11px] text-gray-500 sm:text-xs">{subtitle}</p>
+          <p className="admin-kpi-note">{subtitle}</p>
         </div>
-        <div className={`rounded-xl p-2.5 ${iconClassName}`}>
+        <div className="admin-kpi-icon">
           <Icon className="h-5 w-5" />
         </div>
       </div>
@@ -110,7 +105,6 @@ function buildRanking(values: Array<string | undefined>, fallbackLabel: string):
 
 export default function AdminDashboard() {
   const router = useRouter()
-  const branding = usePublicBranding()
   const [cadastros, setCadastros] = useState<Cadastro[]>([])
   const [dependentesCount, setDependentesCount] = useState(0)
   const [financeiroResumo, setFinanceiroResumo] = useState({
@@ -152,15 +146,6 @@ export default function AdminDashboard() {
   useEffect(() => {
     fetchCadastros()
   }, [fetchCadastros])
-
-  const handleLogout = async () => {
-    try {
-      await fetch('/api/admin/logout', { method: 'POST' })
-      router.push('/admin/login')
-    } catch (err) {
-      console.error('Logout error:', err)
-    }
-  }
 
   const handleExportAllContracts = async () => {
     try {
@@ -313,104 +298,10 @@ export default function AdminDashboard() {
   const estadoCivilChartData = useMemo(() => estadoCivilRanking.slice(0, 8), [estadoCivilRanking])
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">
-      <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur">
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
-          <div className="min-w-0">
-            <h1 className="truncate text-xl font-bold text-gray-900 sm:text-2xl">{branding.brandName} - Admin</h1>
-            <p className="text-xs text-gray-600 sm:text-sm">Dashboard de Clientes e Indicadores</p>
-          </div>
-          <div className="hidden flex-wrap items-center justify-end gap-2 lg:flex">
-            <Link href="/admin/clientes">
-              <Button variant="outline">Clientes</Button>
-            </Link>
-            <Link href="/admin/empresas">
-              <Button variant="outline">Empresas</Button>
-            </Link>
-            <Link href="/admin/vendedores">
-              <Button variant="outline">Vendedores</Button>
-            </Link>
-            <Link href="/admin/configuracoes">
-              <Button variant="outline">Configurações</Button>
-            </Link>
-            <Button
-              onClick={handleExportAllContracts}
-              disabled={exportLoading || cadastros.length === 0}
-              className="bg-teal-700 hover:bg-teal-800"
-            >
-              {exportLoading ? 'Exportando...' : 'Exportar Contratos (.zip)'}
-            </Button>
-            <Button onClick={handleLogout} variant="outline">
-              Sair
-            </Button>
-          </div>
-
-          <div className="lg:hidden">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon" aria-label="Abrir menu">
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right">
-                <SheetHeader>
-                  <SheetTitle>Menu Administrativo</SheetTitle>
-                </SheetHeader>
-                <div className="flex flex-col gap-2 px-4 pb-4">
-                  <SheetClose asChild>
-                    <Button asChild variant="outline" className="w-full justify-start">
-                      <Link href="/admin/clientes">Clientes</Link>
-                    </Button>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Button asChild variant="outline" className="w-full justify-start">
-                      <Link href="/admin/empresas">Empresas</Link>
-                    </Button>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Button asChild variant="outline" className="w-full justify-start">
-                      <Link href="/admin/vendedores">Vendedores</Link>
-                    </Button>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Button asChild variant="outline" className="w-full justify-start">
-                      <Link href="/admin/configuracoes">Configurações</Link>
-                    </Button>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Button onClick={fetchCadastros} variant="outline" className="w-full justify-start gap-2">
-                      <RefreshCw className="h-4 w-4" />
-                      Atualizar indicadores
-                    </Button>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Button
-                      onClick={handleExportAllContracts}
-                      disabled={exportLoading || cadastros.length === 0}
-                      className="w-full justify-start bg-teal-700 hover:bg-teal-800"
-                    >
-                      {exportLoading ? 'Exportando...' : 'Exportar Contratos (.zip)'}
-                    </Button>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Button onClick={handleLogout} variant="outline" className="w-full justify-start">
-                      Sair
-                    </Button>
-                  </SheetClose>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </div>
-      </header>
+    <main className="min-h-screen bg-gray-50">
+      <AdminPageHeader title="Resumo" description="Clientes, pagamentos e evolução da operação."><Button onClick={fetchCadastros} variant="outline" disabled={isLoading}><RefreshCw className="mr-2 h-4 w-4" />Atualizar</Button><Button onClick={handleExportAllContracts} variant="outline" disabled={exportLoading || cadastros.length === 0}><Download className="mr-2 h-4 w-4" />{exportLoading ? "Exportando…" : "Exportar contratos (.zip)"}</Button></AdminPageHeader>
 
       <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mb-8 flex justify-end">
-          <Button onClick={fetchCadastros} variant="outline" className="gap-2">
-            <RefreshCw className="h-4 w-4" />
-            Atualizar indicadores
-          </Button>
-        </div>
 
         {error && (
           <div className="mb-8 rounded-lg border border-red-200 bg-red-50 p-4">
@@ -424,105 +315,53 @@ export default function AdminDashboard() {
           </div>
         ) : (
           <>
-            <div className="mb-4 grid grid-cols-2 gap-4 xl:grid-cols-4">
-              <KpiCard
+            <div className="admin-quick-actions"><Link href="/admin/cadastros">Consultar clientes</Link><Link href="/admin/empresas/nova">Cadastrar empresa</Link><Link href="/admin/planos">Gerenciar planos</Link></div>
+<div className="admin-primary-metrics mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4"><KpiCard
                 title="Total de Clientes"
                 value={summary.total}
                 subtitle="Base geral de contratantes"
-                valueClassName="text-gray-900"
                 icon={Users}
-                iconClassName="bg-slate-100 text-slate-700"
-              />
-              <KpiCard
-                title="Clientes Hoje"
-                value={summary.today}
-                subtitle="Entradas registradas hoje"
-                valueClassName="text-cyan-700"
-                icon={CalendarClock}
-                iconClassName="bg-cyan-100 text-cyan-700"
-              />
-              <KpiCard
-                title="Últimos 7 Dias"
-                value={summary.last7Days}
-                subtitle="Volume da semana atual"
-                valueClassName="text-blue-700"
-                icon={RefreshCw}
-                iconClassName="bg-blue-100 text-blue-700"
-              />
-              <KpiCard
-                title="Mês Atual"
-                value={summary.currentMonth}
-                subtitle="Clientes no mês corrente"
-                valueClassName="text-indigo-700"
-                icon={Download}
-                iconClassName="bg-indigo-100 text-indigo-700"
-              />
-            </div>
-
-            <div className="mb-8 grid grid-cols-2 gap-4 xl:grid-cols-5">
-              <KpiCard
-                title="Com Dependentes"
-                value={summary.withDependentes}
-                subtitle="Titulares com família vinculada"
-                valueClassName="text-green-700"
-                icon={Users}
-                iconClassName="bg-green-100 text-green-700"
-              />
-              <KpiCard
+              /><KpiCard
                 title="Clientes em Dia"
                 value={summary.clientesEmDia}
                 subtitle="Base ativa adimplente"
-                valueClassName="text-emerald-700"
                 icon={Users}
-                iconClassName="bg-emerald-100 text-emerald-700"
-              />
-              <KpiCard
+              /><KpiCard
                 title="Clientes em Atraso"
                 value={summary.clientesEmAtraso}
                 subtitle="Soma de pendências financeiras"
-                valueClassName="text-rose-700"
                 icon={RefreshCw}
-                iconClassName="bg-rose-100 text-rose-700"
-              />
-              <KpiCard
-                title="Adesões Não Pagas"
-                value={summary.adesoesNaoPagas}
-                subtitle="Cadastros sem pagamento inicial"
-                valueClassName="text-amber-700"
-                icon={CalendarClock}
-                iconClassName="bg-amber-100 text-amber-700"
-              />
-              <KpiCard
-                title="Mensalidades Atrasadas"
-                value={summary.mensalidadesAtrasadas}
-                subtitle="Assinaturas com cobrança vencida"
-                valueClassName="text-red-700"
-                icon={Download}
-                iconClassName="bg-red-100 text-red-700"
-              />
-            </div>
-
-            <div className="mb-8 grid grid-cols-1 gap-4 xl:grid-cols-2">
-              <KpiCard
+              /><KpiCard
                 title="Receitas Mês"
                 value={financeiroResumo.receitaMesAtual}
                 subtitle="Soma das adesões pagas no mês atual"
-                valueClassName="text-teal-700"
                 icon={Download}
-                iconClassName="bg-teal-100 text-teal-700"
                 valueFormatter={formatCurrencyBRL}
-              />
-              <KpiCard
+              /></div>
+<div className="admin-stat-strip">
+              <div><p>Entradas hoje</p><strong>{summary.today.toLocaleString('pt-BR')}</strong></div>
+              <div><p>Últimos 7 dias</p><strong>{summary.last7Days.toLocaleString('pt-BR')}</strong></div>
+              <div><p>Cadastros no mês</p><strong>{summary.currentMonth.toLocaleString('pt-BR')}</strong></div>
+              <div><p>Titulares com dependentes</p><strong>{summary.withDependentes.toLocaleString('pt-BR')}</strong></div>
+            </div>
+            <h2 className="mb-4 text-lg font-semibold">Acompanhamento financeiro</h2>
+            <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3"><KpiCard
+                title="Adesões Não Pagas"
+                value={summary.adesoesNaoPagas}
+                subtitle="Cadastros sem pagamento inicial"
+                icon={CalendarClock}
+              /><KpiCard
+                title="Mensalidades Atrasadas"
+                value={summary.mensalidadesAtrasadas}
+                subtitle="Assinaturas com cobrança vencida"
+                icon={Download}
+              /><KpiCard
                 title="Comissões Pagas Mês"
                 value={financeiroResumo.comissoesPagasMesAtual}
                 subtitle="Pagamentos de comissão registrados no mês"
-                valueClassName="text-fuchsia-700"
                 icon={RefreshCw}
-                iconClassName="bg-fuchsia-100 text-fuchsia-700"
                 valueFormatter={formatCurrencyBRL}
-              />
-            </div>
-
+              /></div>
             <section className="mb-6 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
               <div className="mb-4">
                 <h2 className="text-lg font-semibold text-gray-900">Clientes por Período (6 meses)</h2>
@@ -546,9 +385,9 @@ export default function AdminDashboard() {
                       <Line
                         type="monotone"
                         dataKey="total"
-                        stroke="#0f766e"
+                        stroke="#0066cc"
                         strokeWidth={3}
-                        dot={{ r: 4, strokeWidth: 2, fill: '#0f766e' }}
+                        dot={{ r: 4, strokeWidth: 2, fill: '#0066cc' }}
                         activeDot={{ r: 6 }}
                       />
                     </LineChart>
@@ -624,7 +463,7 @@ export default function AdminDashboard() {
                             return payload[0].payload.name
                           }}
                         />
-                        <Bar dataKey="total" fill="#059669" radius={[0, 8, 8, 0]} />
+                        <Bar dataKey="total" fill="#0066cc" radius={[0, 8, 8, 0]} />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>
