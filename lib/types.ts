@@ -78,6 +78,19 @@ export interface Empresa extends Partial<BillingSchedule> {
   updated_at: string
 }
 
+export interface EmpresaAccessException {
+  id: string
+  empresa_id: string
+  escopo: 'FUNCIONARIOS'
+  motivo: string
+  concedido_por?: string | null
+  concedido_em: string
+  expira_em: string
+  revogado_em?: string | null
+  revogado_por?: string | null
+  observacao?: string | null
+}
+
 export interface EmpresaFuncionario {
   id: string
   empresa_id: string

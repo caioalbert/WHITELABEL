@@ -11,6 +11,7 @@ import {
 } from '@/lib/supabase/empresa-auth'
 import { isValidCNPJ, normalizeCNPJ } from '@/lib/utils'
 import { CADASTRO_FLOW_COOKIE, createCadastroFlowToken } from '@/lib/supabase/cadastro-flow-auth'
+import { getActiveEmpresaAccessException } from '@/lib/empresa-access'
 import { NextRequest, NextResponse } from 'next/server'
 import { SignJWT } from 'jose'
 
@@ -249,7 +250,20 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    if (identity.cadastro.status !== 'ATIVO') {
+    const enterpriseDb = createAdminClient()
+    const { data: membership, error: membershipError } = await enterpriseDb.from('cadastros').select('empresa_id').eq('id', identity.clienteId).maybeSingle()
+    if (membershipError || !membership) throw membershipError || new Error('Cadastro não encontrado.')
+    let companyStatus: string | null = null
+    let hasAccessException = false
+    if (membership.empresa_id) {
+      const { data: company, error: companyError } = await enterpriseDb.from('empresas').select('status').eq('id', membership.empresa_id).maybeSingle()
+      if (companyError) throw companyError
+      companyStatus = company?.status || null
+      if (companyStatus === 'INATIVO') return NextResponse.json({ error: 'Empresa inativa. Entre em contato com o suporte.' }, { status: 403 })
+      hasAccessException = companyStatus !== 'ATIVO' && Boolean(await getActiveEmpresaAccessException(enterpriseDb, membership.empresa_id))
+    }
+
+    if (identity.cadastro.status !== 'ATIVO' && !hasAccessException) {
       const flowToken = await createCadastroFlowToken(identity.clienteId)
       const pendingResponse = NextResponse.json({
         success: true,
@@ -266,13 +280,8 @@ export async function POST(request: NextRequest) {
       return pendingResponse
     }
 
-    const enterpriseDb = createAdminClient()
-    const { data: membership, error: membershipError } = await enterpriseDb.from('cadastros').select('empresa_id').eq('id', identity.clienteId).maybeSingle()
-    if (membershipError || !membership) throw membershipError || new Error('Cadastro não encontrado.')
     if (membership.empresa_id) {
-      const { data: company, error: companyError } = await enterpriseDb.from('empresas').select('status').eq('id', membership.empresa_id).maybeSingle()
-      if (companyError) throw companyError
-      if (company?.status !== 'ATIVO') return NextResponse.json({ error: 'Empresa sem acesso ativo. Entre em contato com o suporte.' }, { status: 403 })
+      if (companyStatus !== 'ATIVO' && !hasAccessException) return NextResponse.json({ error: 'Empresa sem acesso ativo. Entre em contato com o suporte.' }, { status: 403 })
     }
     const jwtPayload: Record<string, string> = {
       clienteId: identity.clienteId,

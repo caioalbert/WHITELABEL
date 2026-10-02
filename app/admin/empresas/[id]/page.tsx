@@ -3,7 +3,7 @@
 import { AdminPageHeader } from '@/components/admin/page-header'
 import { Button } from '@/components/ui/button'
 import type { AsaasPaymentInfo } from '@/lib/asaas'
-import type { Dependente, Empresa, EmpresaFuncionario } from '@/lib/types'
+import type { Dependente, Empresa, EmpresaAccessException, EmpresaFuncionario } from '@/lib/types'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { use, useCallback, useEffect, useState } from 'react'
@@ -21,6 +21,9 @@ export default function EmpresaDetails({ params }: { params: Promise<{ id: strin
  const [error, setError] = useState(''); const [message, setMessage] = useState('')
  const [busy, setBusy] = useState(false); const [loading, setLoading] = useState(true)
  const [terms, setTerms] = useState<Terms | null>(null)
+ const [exception, setException] = useState<EmpresaAccessException | null>(null)
+ const [exceptionReason, setExceptionReason] = useState('')
+ const [exceptionExpiresAt, setExceptionExpiresAt] = useState(() => { const date = new Date(Date.now() + 7 * 86400000); date.setMinutes(date.getMinutes() - date.getTimezoneOffset()); return date.toISOString().slice(0, 16) })
  const [confirmation, setConfirmation] = useState<{ title: string; text: string; url: string; method: string; body: unknown } | null>(null)
  const load = useCallback(async () => {
   setLoading(true); setError('')
@@ -35,6 +38,9 @@ export default function EmpresaDetails({ params }: { params: Promise<{ id: strin
    const invoices = await fetch(`/api/admin/empresas/${id}/pagamentos`)
    const invoiceData = await invoices.json()
    setPaymentError(invoices.ok ? '' : invoiceData.error || 'Erro ao consultar faturas.'); setPayments(invoiceData.pagamentos || [])
+   const exceptionResponse = await fetch(`/api/admin/empresas/${id}/acesso-excepcional`)
+   const exceptionData = await exceptionResponse.json()
+   if (exceptionResponse.ok) setException(exceptionData.acessoExcepcional || null)
   } catch (err) { setError(err instanceof Error ? err.message : 'Erro ao carregar a empresa.') }
   finally { setLoading(false) }
  }, [id, router])
@@ -49,6 +55,9 @@ export default function EmpresaDetails({ params }: { params: Promise<{ id: strin
    setConfirmation(null); await load(); setMessage(result.message || 'Status atualizado.')
   } catch (err) { setConfirmation(null); setError(err instanceof Error ? err.message : 'Erro ao concluir a ação.') }
   finally { setBusy(false) }
+ }
+ function grantException() {
+  setConfirmation({ title: 'Liberar acesso excepcional', text: `Os funcionários poderão acessar o app até ${new Date(exceptionExpiresAt).toLocaleString('pt-BR')}, mas o contrato continuará pendente de pagamento. Confirmar?`, url: `/api/admin/empresas/${id}/acesso-excepcional`, method: 'POST', body: { motivo: exceptionReason, expiraEm: new Date(exceptionExpiresAt).toISOString() } })
  }
  const e = details?.empresa
  const started = Boolean(e?.pagamento_confirmado_em || e?.asaas_subscription_id || ['ATIVO', 'INATIVO'].includes(e?.status || ''))
@@ -74,6 +83,7 @@ export default function EmpresaDetails({ params }: { params: Promise<{ id: strin
      {started && !e.primeira_parcela_vencimento && <p role="alert" className="text-sm text-amber-800">Contrato anterior sem calendário de parcelas. A edição requer revisão das condições originais.</p>}
      <Button type="submit" disabled={busy || (started && !e.primeira_parcela_vencimento)} className="bg-blue-600 hover:bg-blue-700">Salvar condições</Button>
     </form></section>
+    <section className={card}><h2 className="text-lg font-semibold">Acesso excepcional</h2><p className="mt-2 text-sm text-gray-600">Libera o acesso dos funcionários temporariamente sem marcar o contrato como pago ou alterar as condições financeiras.</p>{exception ? <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm"><p className="font-semibold text-amber-900">Ativo até {new Date(exception.expira_em).toLocaleString('pt-BR')}</p><p className="mt-1 text-amber-900">Motivo: {exception.motivo}</p><Button variant="outline" className="mt-4" disabled={busy} onClick={() => setConfirmation({ title: 'Revogar acesso excepcional', text: 'Os funcionários perderão o acesso imediatamente. O histórico da autorização será preservado. Confirmar?', url: `/api/admin/empresas/${id}/acesso-excepcional`, method: 'DELETE', body: {} })}>Revogar acesso</Button></div> : <form className="mt-4 grid gap-4 sm:grid-cols-[1fr_auto]" onSubmit={event => { event.preventDefault(); grantException() }}><label>Motivo<textarea required minLength={10} maxLength={1000} className={field} value={exceptionReason} onChange={event => setExceptionReason(event.target.value)} placeholder="Ex.: Liberação autorizada pela diretoria durante ajuste contratual." /></label><div><label>Expira em<input required type="datetime-local" className={field} value={exceptionExpiresAt} onChange={event => setExceptionExpiresAt(event.target.value)} /></label><Button type="submit" disabled={busy || exceptionReason.trim().length < 10 || e.status === 'INATIVO'} className="mt-4 bg-amber-600 hover:bg-amber-700">Liberar funcionários</Button></div></form>}</section>
     <section className={card}><h2 className="text-lg font-semibold">Colaboradores ({details.funcionarios.length}) e dependentes ({details.dependentes.length})</h2>
      <div className="mt-4 overflow-x-auto"><table className="w-full text-left text-sm"><thead><tr className="border-b"><th className="p-3">Colaborador</th><th className="p-3">CPF</th><th className="p-3">Contato</th><th className="p-3">Dependentes</th></tr></thead><tbody>{details.funcionarios.map(f => {
       const cadastro = details.cadastros.find(c => c.id === f.cadastro_id || c.cpf.replace(/\D/g, '') === f.cpf.replace(/\D/g, ''))

@@ -2,6 +2,7 @@ import { jwtVerify } from 'jose'
 import { cookies } from 'next/headers'
 import { getJwtSecret } from '@/lib/auth-secret'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { getActiveEmpresaAccessException } from '@/lib/empresa-access'
 
 export type ClienteAuth = {
   clienteId: string
@@ -70,12 +71,15 @@ export async function getActiveClienteAuth(request?: Request): Promise<ClienteAu
       .eq('id', auth.clienteId)
       .maybeSingle()
 
-    if (data?.status !== 'ATIVO') return null
-    if (data.empresa_id) {
-      const { data: empresa, error } = await supabase.from('empresas').select('status').eq('id', data.empresa_id).maybeSingle()
-      if (error || empresa?.status !== 'ATIVO') return null
-    }
-    return auth
+    if (!data) return null
+    if (!data.empresa_id) return data.status === 'ATIVO' ? auth : null
+
+    const { data: empresa, error } = await supabase.from('empresas').select('status').eq('id', data.empresa_id).maybeSingle()
+    if (error || !empresa || empresa.status === 'INATIVO') return null
+    if (data.status === 'ATIVO' && empresa.status === 'ATIVO') return auth
+
+    const exception = await getActiveEmpresaAccessException(supabase, data.empresa_id)
+    return exception ? auth : null
   } catch {
     return null
   }
