@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { ArrowLeft } from 'lucide-react'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { ClienteNav } from '@/components/cliente/cliente-nav'
 import { Button } from '@/components/ui/button'
@@ -39,7 +40,7 @@ export default function PharmacyClientPage() {
   const cities = [...new Set(catalog.lojas.filter(s => !uf || s.uf === uf).map(s => s.cidade))].sort()
   const selectClass = 'w-full rounded-xl border bg-white px-3 py-2.5 text-sm'
   return <ClienteNav nomeCliente={profile.nome} usuarioTipo={profile.tipo}><main className="mx-auto max-w-4xl space-y-5 p-5 pb-28">
-    <Link href="/cliente/dashboard" className="text-sm text-blue-700">← Voltar ao início</Link>
+    <Link href="/cliente/dashboard" aria-label="Voltar ao início" title="Voltar ao início" className="inline-flex size-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition-colors hover:bg-slate-100 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"><ArrowLeft className="size-5" aria-hidden="true" /></Link>
     <header><p className="text-sm font-semibold text-red-600">Pague Menos</p><h1 className="text-3xl font-bold tracking-tight">Farmácia Popular</h1><p className="mt-2 text-slate-600">Consulte os medicamentos, itens e lojas participantes.</p></header>
     <div className="flex flex-wrap gap-2">{['medicamentos', 'lojas'].map(value => <Button key={value} variant={tab === value ? 'default' : 'outline'} aria-pressed={tab === value} onClick={() => { setTab(value); setSearch(''); setLimit(30) }}>{value === 'lojas' ? 'Lojas Pague Menos' : 'Medicamentos e itens'}</Button>)}<Button variant="outline" onClick={() => void load()} disabled={loading}>Atualizar lista</Button></div>
     <Input aria-label="Buscar na Farmácia Popular" placeholder={tab === 'lojas' ? 'Buscar endereço, bairro, cidade ou CEP' : 'Buscar nome, substância ou SKU'} value={search} onChange={e => { setSearch(e.target.value); setLimit(30) }} />
