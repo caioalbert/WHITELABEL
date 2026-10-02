@@ -30,7 +30,15 @@
           await new Promise(resolve => setTimeout(resolve, 350));
         }
         if (!position) { reviewed++; progress(); continue; }
-        const marker = new AdvancedMarkerElement({ map, position, title: store.nome });
+        const badge = document.createElement('div');
+        badge.className = 'pharmacy-marker';
+        const logo = document.createElement('img');
+        logo.src = '/pague-menos-logo.svg';
+        logo.alt = 'Pague Menos';
+        logo.width = 78; logo.height = 30;
+        logo.draggable = false;
+        badge.append(logo);
+        const marker = new AdvancedMarkerElement({ map, position, title: `${store.nome} · Farmácia Popular`, content: badge });
         marker.addListener('click', () => {
           const card = document.createElement('div');
           const title = document.createElement('h2'); title.textContent = store.nome; card.append(title);
