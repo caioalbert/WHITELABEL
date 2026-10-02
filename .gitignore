@@ -59,3 +59,4 @@ store_icon.png
 
 # Supabase CLI local cache
 supabase/.temp/
+.vercel

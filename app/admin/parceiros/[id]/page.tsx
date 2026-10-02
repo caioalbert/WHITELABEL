@@ -1,11 +1,11 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
-import Link from 'next/link'
-import { useRouter, useParams } from 'next/navigation'
-import { ArrowLeft, Menu, Pencil, Plus, Trash2, X } from 'lucide-react'
+import { AdminPageHeader } from '@/components/admin/page-header'
+
 import { Button } from '@/components/ui/button'
-import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
+import { Pencil, Plus, Trash2, X } from 'lucide-react'
+import { useParams, useRouter } from 'next/navigation'
+import { useCallback, useEffect, useState } from 'react'
 
 type Parceiro = {
   id: string
@@ -298,48 +298,9 @@ export default function AdminParceiroDetailPage() {
     }
   }
 
-  const handleLogout = async () => {
-    try {
-      await fetch('/api/admin/logout', { method: 'POST' })
-      router.push('/admin/login')
-    } catch { /* ignore */ }
-  }
-
   return (
     <main className="min-h-screen bg-gray-50">
-      <header className="sticky top-0 z-50 border-b border-gray-200 bg-white">
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3 min-w-0">
-            <Link href="/admin/parceiros">
-              <Button variant="ghost" size="icon"><ArrowLeft className="h-5 w-5" /></Button>
-            </Link>
-            <div className="min-w-0">
-              <h1 className="truncate text-xl font-bold text-gray-900 sm:text-2xl">
-                {parceiro ? parceiro.nome : 'Carregando...'}
-              </h1>
-              <p className="text-xs text-gray-600">Configurações do Parceiro/Parceiro</p>
-            </div>
-          </div>
-          <div className="hidden items-center gap-2 lg:flex">
-            <Link href="/admin/parceiros"><Button variant="outline">Voltar à Lista</Button></Link>
-            <Button onClick={handleLogout} variant="outline">Sair</Button>
-          </div>
-          <div className="lg:hidden">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon"><Menu className="h-5 w-5" /></Button>
-              </SheetTrigger>
-              <SheetContent side="right">
-                <SheetHeader><SheetTitle>Menu</SheetTitle></SheetHeader>
-                <div className="flex flex-col gap-2 px-4 pb-4">
-                  <SheetClose asChild><Button asChild variant="outline" className="w-full justify-start"><Link href="/admin/parceiros">Voltar à Lista</Link></Button></SheetClose>
-                  <SheetClose asChild><Button onClick={handleLogout} variant="outline" className="w-full justify-start">Sair</Button></SheetClose>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </div>
-      </header>
+      <AdminPageHeader title={parceiro?.nome || 'Detalhes do parceiro'} description="Cadastro e condições da parceria." backHref="/admin/parceiros"></AdminPageHeader>
 
       <div className="mx-auto w-full max-w-3xl px-4 py-8 sm:px-6 lg:px-8 space-y-6">
         {isLoading && <p className="text-center text-sm text-gray-500">Carregando...</p>}
@@ -653,7 +614,7 @@ export default function AdminParceiroDetailPage() {
                               <p className="text-xs text-gray-500 mt-0.5">{plano.descricao}</p>
                             )}
                             <div className="mt-1 flex flex-wrap gap-3 text-xs text-gray-600">
-                              <span className="font-semibold text-teal-700">
+                              <span className="font-semibold text-blue-700">
                                 R$ {Number(plano.valor).toFixed(2).replace('.', ',')}
                               </span>
                               {plano.permite_dependentes ? (
@@ -671,7 +632,7 @@ export default function AdminParceiroDetailPage() {
                           <div className="flex items-center gap-2 shrink-0">
                             <Button
                               variant="outline" size="icon"
-                              className="h-8 w-8 text-teal-600 hover:bg-teal-50 hover:text-teal-700"
+                              className="h-8 w-8 text-teal-600 hover:bg-teal-50 hover:text-blue-700"
                               onClick={() => handleStartEdit(plano)}
                               title="Editar plano"
                             >

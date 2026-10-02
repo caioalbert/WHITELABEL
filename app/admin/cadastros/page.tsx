@@ -1,9 +1,7 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { Eye, Loader2, Mail, Menu, Pencil, RefreshCw, ShieldCheck, Trash2 } from 'lucide-react'
+import { AdminPageHeader } from '@/components/admin/page-header'
+
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -13,9 +11,20 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
-import { Cadastro, Dependente } from '@/lib/types'
 import { getMissingCadastroFields } from '@/lib/cadastro-completeness'
+import { Cadastro, Dependente } from '@/lib/types'
+import {
+  Eye,
+  Loader2,
+  Mail,
+  Pencil,
+  RefreshCw,
+  ShieldCheck,
+  Trash2,
+} from 'lucide-react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 type FinanceiroFilterOption = 'TODOS' | 'EM_DIA' | 'EM_ATRASO' | 'ADESAO_NAO_CONCLUIDA'
 type DadosFilterOption = 'TODOS' | 'PENDENTES' | 'COMPLETOS'
@@ -111,15 +120,6 @@ export default function AdminCadastrosPage() {
   useEffect(() => {
     fetchCadastros()
   }, [fetchCadastros])
-
-  const handleLogout = async () => {
-    try {
-      await fetch('/api/admin/logout', { method: 'POST' })
-      router.push('/admin/login')
-    } catch (err) {
-      console.error('Logout error:', err)
-    }
-  }
 
   const handleExportAllContracts = async () => {
     try {
@@ -475,87 +475,7 @@ export default function AdminCadastrosPage() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      <header className="sticky top-0 z-50 border-b border-gray-200 bg-white">
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
-          <div className="min-w-0">
-            <h1 className="truncate text-xl font-bold text-gray-900 sm:text-2xl">Clientes</h1>
-            <p className="text-xs text-gray-600 sm:text-sm">Busca e gestão detalhada dos registros</p>
-          </div>
-          <div className="hidden flex-wrap items-center justify-end gap-2 lg:flex">
-            <Link href="/admin/dashboard">
-              <Button variant="outline">Dashboard</Button>
-            </Link>
-            <Link href="/admin/empresas">
-              <Button variant="outline">Empresas</Button>
-            </Link>
-            <Link href="/admin/configuracoes">
-              <Button variant="outline">Configurações</Button>
-            </Link>
-            <Button
-              onClick={handleExportAllContracts}
-              disabled={exportLoading || cadastros.length === 0}
-              className="bg-teal-700 hover:bg-teal-800"
-            >
-              {exportLoading ? 'Exportando...' : 'Exportar Contratos (.zip)'}
-            </Button>
-            <Button onClick={handleLogout} variant="outline">
-              Sair
-            </Button>
-          </div>
-
-          <div className="lg:hidden">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon" aria-label="Abrir menu">
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right">
-                <SheetHeader>
-                  <SheetTitle>Menu Clientes</SheetTitle>
-                </SheetHeader>
-                <div className="flex flex-col gap-2 px-4 pb-4">
-                  <SheetClose asChild>
-                    <Button asChild variant="outline" className="w-full justify-start">
-                      <Link href="/admin/dashboard">Dashboard</Link>
-                    </Button>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Button asChild variant="outline" className="w-full justify-start">
-                      <Link href="/admin/empresas">Empresas</Link>
-                    </Button>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Button asChild variant="outline" className="w-full justify-start">
-                      <Link href="/admin/configuracoes">Configurações</Link>
-                    </Button>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Button onClick={fetchCadastros} variant="outline" className="w-full justify-start gap-2">
-                      <RefreshCw className="h-4 w-4" />
-                      Atualizar lista
-                    </Button>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Button
-                      onClick={handleExportAllContracts}
-                      disabled={exportLoading || cadastros.length === 0}
-                      className="w-full justify-start bg-teal-700 hover:bg-teal-800"
-                    >
-                      {exportLoading ? 'Exportando...' : 'Exportar Contratos (.zip)'}
-                    </Button>
-                  </SheetClose>
-                  <SheetClose asChild>
-                    <Button onClick={handleLogout} variant="outline" className="w-full justify-start">
-                      Sair
-                    </Button>
-                  </SheetClose>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </div>
-      </header>
+      <AdminPageHeader title="Clientes" description="Titulares, dependentes e situação dos cadastros."><Button onClick={handleExportAllContracts} variant="outline" disabled={exportLoading || cadastros.length === 0}>{exportLoading ? "Exportando…" : "Exportar contratos (.zip)"}</Button></AdminPageHeader>
 
       <div className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
@@ -586,12 +506,12 @@ export default function AdminCadastrosPage() {
               placeholder="Pesquisar por nome, email, CPF ou titular..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-teal-600 lg:col-span-2"
+              className="rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-600 lg:col-span-2"
             />
             <select
               value={financeiroFilter}
               onChange={(e) => setFinanceiroFilter(e.target.value as FinanceiroFilterOption)}
-              className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-600"
+              className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
             >
               <option value="TODOS">Financeiro: Todos</option>
               <option value="EM_DIA">Financeiro: Em dias</option>
@@ -601,7 +521,7 @@ export default function AdminCadastrosPage() {
             <select
               value={dadosFilter}
               onChange={(e) => setDadosFilter(e.target.value as DadosFilterOption)}
-              className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-600"
+              className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
             >
               <option value="TODOS">Dados: Todos</option>
               <option value="PENDENTES">Dados: Pendentes</option>
@@ -610,7 +530,7 @@ export default function AdminCadastrosPage() {
             <select
               value={planoFilter}
               onChange={(e) => setPlanoFilter(e.target.value)}
-              className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-600"
+              className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
             >
               <option value="TODOS">Plano: Todos</option>
               {planoOptions.map((plano) => (
@@ -644,7 +564,7 @@ export default function AdminCadastrosPage() {
               <select
                 value={exportScope}
                 onChange={(e) => setExportScope(e.target.value as ExportScopeOption)}
-                className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-600"
+                className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
               >
                 <option value="FILTRADOS">Exportar: Filtros aplicados</option>
                 <option value="TODOS">Exportar: Todos os clientes</option>
@@ -737,7 +657,7 @@ export default function AdminCadastrosPage() {
                       <td className="px-6 py-4 text-sm font-medium text-gray-900">{row.nome}</td>
                       <td className="px-6 py-4 text-sm text-gray-600">
                         {row.tipo === 'TITULAR' ? (
-                          <span className="inline-flex items-center rounded bg-teal-100 px-2 py-1 text-xs font-medium text-teal-700">
+                          <span className="inline-flex items-center rounded bg-teal-100 px-2 py-1 text-xs font-medium text-blue-700">
                             Titular
                           </span>
                         ) : (

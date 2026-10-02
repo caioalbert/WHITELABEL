@@ -1,15 +1,15 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { Menu } from 'lucide-react'
+import { AdminPageHeader } from '@/components/admin/page-header'
+
+import { BrandLogoImage } from '@/components/brand-logo'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
-import { BrandLogoImage } from '@/components/brand-logo'
 import { isSupportedBrandLogoUrl, normalizeBranding } from '@/lib/branding'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 type BillingType = 'BOLETO' | 'CREDIT_CARD'
 
@@ -182,11 +182,6 @@ export default function AdminPlanosPage() {
     () => normalizeBranding({ brandName, brandShortName, brandLogoUrl, brandLogoAlt, appTagline }),
     [brandName, brandShortName, brandLogoUrl, brandLogoAlt, appTagline]
   )
-
-  const handleLogout = async () => {
-    try { await fetch('/api/admin/logout', { method: 'POST' }) } catch {}
-    router.push('/admin/login')
-  }
 
   const handleCreatePlano = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -366,36 +361,7 @@ export default function AdminPlanosPage() {
   return (
     <main className="min-h-screen bg-gray-50">
       {/* ── Header ── */}
-      <header className="sticky top-0 z-50 border-b border-gray-200 bg-white">
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
-          <div className="min-w-0">
-            <h1 className="truncate text-xl font-bold text-gray-900 sm:text-2xl">Planos</h1>
-            <p className="text-xs text-gray-600 sm:text-sm">Gerencie planos, cobrança, comissões e identidade visual</p>
-          </div>
-          <div className="hidden items-center gap-2 lg:flex">
-            <Button onClick={fetchPlanos} variant="outline">Atualizar</Button>
-            <Link href="/admin/configuracoes"><Button variant="outline">Configurações</Button></Link>
-            <Link href="/admin/dashboard"><Button variant="outline">Dashboard</Button></Link>
-            <Button onClick={handleLogout} variant="outline">Sair</Button>
-          </div>
-          <div className="lg:hidden">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon" aria-label="Abrir menu"><Menu className="h-5 w-5" /></Button>
-              </SheetTrigger>
-              <SheetContent side="right">
-                <SheetHeader><SheetTitle>Menu</SheetTitle></SheetHeader>
-                <div className="flex flex-col gap-2 px-4 pb-4">
-                  <SheetClose asChild><Button onClick={fetchPlanos} variant="outline" className="w-full justify-start">Atualizar</Button></SheetClose>
-                  <SheetClose asChild><Button asChild variant="outline" className="w-full justify-start"><Link href="/admin/configuracoes">Configurações</Link></Button></SheetClose>
-                  <SheetClose asChild><Button asChild variant="outline" className="w-full justify-start"><Link href="/admin/dashboard">Dashboard</Link></Button></SheetClose>
-                  <SheetClose asChild><Button onClick={handleLogout} variant="outline" className="w-full justify-start">Sair</Button></SheetClose>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </div>
-      </header>
+      <AdminPageHeader title="Planos" description="Preços, cobrança e benefícios."><Button onClick={fetchPlanos} variant="outline">Atualizar</Button></AdminPageHeader>
 
       <div className="mx-auto w-full max-w-4xl space-y-8 px-4 py-8 sm:px-6 lg:px-8">
 

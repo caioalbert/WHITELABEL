@@ -1072,3 +1072,12 @@ export async function hasAsaasOverdueSubscriptionPayment(subscriptionId: string)
 
   return data.data.length > 0
 }
+
+
+/** Existing invoices are preserved; only future subscription emissions change. */
+export async function updateAsaasSubscriptionTerms(subscriptionId: string, value: number, nextDueDate: string) {
+  await asaasRequest(`subscriptions/${encodeURIComponent(subscriptionId)}`, { method: 'PUT', body: JSON.stringify({ value: normalizeAsaasAmount(value, 'mensalidade'), nextDueDate, updatePendingPayments: false }) }, 'Não foi possível atualizar a assinatura.')
+}
+export async function updateAsaasPaymentTerms(paymentId: string, value: number, dueDate: string) {
+  await asaasRequest(`payments/${encodeURIComponent(paymentId)}`, { method: 'PUT', body: JSON.stringify({ value: normalizeAsaasAmount(value, 'primeira parcela'), dueDate }) }, 'Não foi possível atualizar a primeira fatura.')
+}
