@@ -1,5 +1,6 @@
 'use client'
 
+import { billingToday, parseBillingSchedule } from '@/lib/billing-schedule'
 import { useEffect, useState } from 'react'
 import { CadastroFormData } from '@/lib/types'
 import { getAgeFromIsoDate, isValidCPF, isValidEmail } from '@/lib/utils'
@@ -118,6 +119,10 @@ export function CadastroForm({
     tem_dependentes: false,
     tipo_plano: normalizePlanIdentifier(initialPlanoCode),
     mensalidade_billing_type: 'BOLETO',
+    primeira_parcela_vencimento: billingToday(),
+    parcelas_mesmo_dia: true,
+    dia_vencimento: 0,
+    contrato_meses: 12,
   })
   const vendedorRef = initialVendedorRef.trim().toUpperCase()
 
@@ -575,6 +580,7 @@ export function CadastroForm({
         return 'Selecione o tipo de plano.'
       }
 
+      try { parseBillingSchedule({ ...formData }) } catch (error) { return (error as Error).message }
       if (!formData.mensalidade_billing_type) {
         return 'Selecione a forma de cobrança da mensalidade.'
       }
@@ -734,6 +740,8 @@ export function CadastroForm({
       submitData.append('tem_dependentes', String(selectedPlan.permiteDependentes))
       submitData.append('dependentes', JSON.stringify(formData.dependentes || []))
       submitData.append('tipo_plano', formData.tipo_plano)
+      const schedule = parseBillingSchedule({ ...formData })
+      for (const [key, value] of Object.entries(schedule)) submitData.append(key, String(value))
       submitData.append('mensalidade_billing_type', formData.mensalidade_billing_type)
       if (vendedorRef) {
         submitData.append('vendedor_ref', vendedorRef)
@@ -808,6 +816,7 @@ export function CadastroForm({
             onAceitePrivacidadeChange={setAceitePrivacidade}
             billingConfig={billingConfig}
             isLoadingBillingConfig={isLoadingBillingConfig}
+            onScheduleChange={updateFormData}
             onMensalidadeBillingTypeChange={(value) =>
               updateFormData({ mensalidade_billing_type: value })
             }

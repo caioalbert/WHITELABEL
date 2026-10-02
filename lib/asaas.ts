@@ -984,6 +984,46 @@ export async function updateAsaasSubscriptionValue(
   )
 }
 
+export async function updateAsaasSubscriptionStatus(
+  subscriptionId: string,
+  status: 'ACTIVE' | 'INACTIVE',
+  nextDueDate?: string
+): Promise<void> {
+  const normalizedSubscriptionId = String(subscriptionId || '').trim()
+  if (!normalizedSubscriptionId) {
+    throw new AsaasIntegrationError(
+      'Identificador da assinatura no Asaas é obrigatório.',
+      'configuration',
+      500
+    )
+  }
+
+  if (status === 'ACTIVE' && !nextDueDate) {
+    throw new AsaasIntegrationError(
+      'A próxima data de vencimento é obrigatória para reativar a assinatura no Asaas.',
+      'configuration',
+      500
+    )
+  }
+
+  if (nextDueDate) {
+    assertAsaasDate(nextDueDate, 'nextDueDate')
+  }
+
+  const payload = compactPayload({ status, nextDueDate })
+
+  await asaasRequest(
+    `subscriptions/${encodeURIComponent(normalizedSubscriptionId)}`,
+    {
+      method: 'PUT',
+      body: JSON.stringify(payload),
+    },
+    status === 'INACTIVE'
+      ? 'Não foi possível suspender a assinatura no Asaas.'
+      : 'Não foi possível reativar a assinatura no Asaas.'
+  )
+}
+
 export async function deleteAsaasCustomer(customerId: string): Promise<void> {
   const normalizedCustomerId = String(customerId || '').trim()
   if (!normalizedCustomerId) {

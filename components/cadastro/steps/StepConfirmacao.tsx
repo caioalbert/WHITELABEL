@@ -1,5 +1,7 @@
 'use client'
 
+import { BillingScheduleFields } from '../BillingScheduleFields'
+import type { BillingSchedule } from '@/lib/billing-schedule'
 import { CadastroFormData } from '@/lib/types'
 import { calculatePlanChargeBreakdown } from '@/lib/plan-pricing'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -35,6 +37,7 @@ interface StepConfirmacaoProps {
   onAceiteTermosChange: (value: boolean) => void
   onAceitePrivacidadeChange: (value: boolean) => void
   onMensalidadeBillingTypeChange: (value: BillingType) => void
+  onScheduleChange: (value: Partial<BillingSchedule>) => void
   showValidation?: boolean
 }
 
@@ -47,6 +50,7 @@ export function StepConfirmacao({
   onAceiteTermosChange,
   onAceitePrivacidadeChange,
   onMensalidadeBillingTypeChange,
+  onScheduleChange,
 }: StepConfirmacaoProps) {
   const billingTypeLabels: Record<BillingType, string> = {
     BOLETO: 'BolePIX',
@@ -213,7 +217,7 @@ export function StepConfirmacao({
 
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   <div className="rounded-lg border border-gray-200 bg-gray-50 p-3">
-                    <p className="text-xs text-gray-600">Taxa de adesão</p>
+                    <p className="text-xs text-gray-600">Primeira parcela</p>
                     <p className="text-base font-semibold text-gray-900">
                       {formatCurrency(selectedAdesaoValue)}
                     </p>
@@ -237,9 +241,10 @@ export function StepConfirmacao({
               </div>
             )}
 
+            <BillingScheduleFields value={data} onChange={onScheduleChange} />
             <div className="space-y-2">
               <p className="text-sm font-medium text-gray-800">
-                Forma de pagamento da adesão e mensalidade *
+                Forma de pagamento das parcelas *
               </p>
               <RadioGroup
                 value={selectedBillingType}
@@ -292,7 +297,7 @@ export function StepConfirmacao({
       <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 space-y-2">
         <p className="text-sm font-medium text-amber-900">📌 Informações Importantes</p>
         <ul className="text-xs text-amber-800 space-y-1 list-disc list-inside">
-          <li>Após o cadastro você será redirecionado para a fatura da adesão</li>
+          <li>Após o cadastro você será redirecionado para a fatura da primeira parcela</li>
           <li>Se escolher BolePIX, o pagamento pode ser por boleto ou Pix na fatura</li>
           <li>Se escolher Cartão de Crédito, essa forma será usada também na assinatura mensal</li>
           <li>O termo será enviado para {data.email} após confirmação do pagamento</li>
@@ -301,7 +306,7 @@ export function StepConfirmacao({
       </div>
 
       <p className="text-xs text-gray-500">
-        Ao clicar em "Concluir Cadastro", você será redirecionado para o pagamento da adesão.
+        Ao clicar em "Concluir Cadastro", você será redirecionado para o pagamento da primeira parcela.
       </p>
     </div>
   )

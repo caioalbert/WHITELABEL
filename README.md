@@ -259,11 +259,11 @@ npm i -g @bubblewrap/cli
 ```bash
 mkdir -p android-twa
 cd android-twa
-bubblewrap init --manifest=https://novaaliancasaude.vercel.app/manifest.webmanifest --directory=.
+bubblewrap init --manifest=https://novaaliancasaude.com.br/manifest.webmanifest --directory=.
 ```
 
 3. Durante o `init`, conferir:
-- `Domain`: `novaaliancasaude.vercel.app`
+- `Domain`: `novaaliancasaude.com.br`
 - `URL path`: `/login`
 - `Application ID` (package): use o ID definitivo da Play (ex.: `br.com.novaalianca.saude`)
 - `Display mode`: `standalone`

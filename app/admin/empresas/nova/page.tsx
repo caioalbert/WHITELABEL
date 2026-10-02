@@ -1,5 +1,7 @@
 ﻿"use client"
 
+import { BillingScheduleFields } from "@/components/cadastro/BillingScheduleFields"
+import { billingToday, parseBillingSchedule, type BillingSchedule } from "@/lib/billing-schedule"
 import { useCallback, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
@@ -10,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { parseFuncionariosExcel, FUNCIONARIOS_EXCEL_HEADERS } from "@/lib/funcionarios-excel"
 import type { DependenteFormData } from "@/lib/types"
-import { downloadXlsx, readSpreadsheetMatrix } from "@/lib/spreadsheet"
+import { downloadXlsx, readSpreadsheetMatrix, SpreadsheetSelectionError } from "@/lib/spreadsheet"
 
 type Step = "empresa" | "comercial" | "funcionarios" | "revisao"
 
@@ -26,7 +28,8 @@ type EmpresaForm = {
   telefone: string; responsavel_nome: string; endereco: string; numero: string
   complemento: string; bairro: string; cidade: string; estado: string; cep: string
 }
-type ComercialForm = { cobrar_adesao: boolean; valor_adesao: string; valor_mensal: string }
+type ComercialForm = BillingSchedule & { valor_mensal: string }
+const emptyComercial = (): ComercialForm => ({ valor_mensal: "", primeira_parcela_vencimento: billingToday(), parcelas_mesmo_dia: true, dia_vencimento: 0, contrato_meses: 12 })
 
 const EMPTY_EMPRESA: EmpresaForm = {
   razao_social: "", nome_fantasia: "", cnpj: "", email: "", telefone: "",
@@ -112,8 +115,9 @@ function StepIndicator({current}:{current:Step}) {
   const [submitting, setSubmitting] = useState(false)
   const [globalError, setGlobalError] = useState<string|null>(null)
   const [success, setSuccess] = useState(false)
+  const [invoiceUrl, setInvoiceUrl] = useState<string | null>(null)
   const [empresa, setEmpresa] = useState<EmpresaForm>(EMPTY_EMPRESA)
-  const [comercial, setComercial] = useState<ComercialForm>({cobrar_adesao:false,valor_adesao:"",valor_mensal:""})
+  const [comercial, setComercial] = useState<ComercialForm>(emptyComercial)
   const [funcionarios, setFuncionarios] = useState<DependenteFormData[]>([])
   const [funcErrors, setFuncErrors] = useState<{linha:number;mensagens:string[]}[]>([])
   const [funcGenericErrors, setFuncGenericErrors] = useState<string[]>([])
@@ -127,13 +131,9 @@ function StepIndicator({current}:{current:Step}) {
     setEmpresa((prev)=>({...prev,[field]:v}))
   }
 
-  const setC = (field: keyof ComercialForm) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (field==="cobrar_adesao") {
-      setComercial((prev)=>({...prev,cobrar_adesao:e.target.checked}))
-    } else {
-      const digits = e.target.value.replace(/\D/g,"")
-      setComercial((prev)=>({...prev,[field]:digits?currencyFmt(digits):""}))
-    }
+  const setC = (field: "valor_mensal") => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const digits = e.target.value.replace(/\D/g, "")
+    setComercial((prev) => ({ ...prev, [field]: digits ? currencyFmt(digits) : "" }))
   }
 
   const handleFileChange = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -143,12 +143,14 @@ function StepIndicator({current}:{current:Step}) {
     setFuncErrors([]); setFuncGenericErrors([]); setFuncionarios([])
     try {
       const matrix = await readSpreadsheetMatrix(file)
-      const result = parseFuncionariosExcel(matrix, {})
+      const result = parseFuncionariosExcel(matrix, { permitirEmailCompartilhado: true })
       setFuncionarios(result.funcionarios)
       setFuncErrors(result.erros)
       setFuncGenericErrors(result.errosGerais)
-    } catch {
-      setFuncGenericErrors(["Erro ao ler o arquivo. Verifique se é um arquivo XLSX ou CSV válido."])
+    } catch (error) {
+      setFuncGenericErrors([error instanceof SpreadsheetSelectionError
+        ? error.message
+        : "Erro ao ler o arquivo. Verifique se é um arquivo XLSX ou CSV válido."])
     }
     if (fileRef.current) fileRef.current.value=""
   }, [])
@@ -162,8 +164,8 @@ function StepIndicator({current}:{current:Step}) {
     return null
   }
   const validateComercial = () => {
-    if (!parseCurrency(comercial.valor_mensal)) return "Informe o valor mensal acordado."
-    if (comercial.cobrar_adesao && !parseCurrency(comercial.valor_adesao)) return "Informe o valor da adesão."
+    if (parseCurrency(comercial.valor_mensal) < 5) return "Informe um valor mensal de pelo menos R$ 5,00."
+    try { parseBillingSchedule({ ...comercial }) } catch (error) { return (error as Error).message }
     return null
   }
   const validateFuncionarios = () => {
@@ -196,8 +198,7 @@ function StepIndicator({current}:{current:Step}) {
           ...empresa,
           cnpj:empresa.cnpj.replace(/\D/g,""),
           cep:empresa.cep.replace(/\D/g,""),
-          cobrar_adesao:comercial.cobrar_adesao,
-          valor_adesao:parseCurrency(comercial.valor_adesao),
+          ...parseBillingSchedule({ ...comercial }),
           valor_mensal:parseCurrency(comercial.valor_mensal),
           tipo_plano:"EMPRESARIAL",
           funcionarios,
@@ -205,8 +206,9 @@ function StepIndicator({current}:{current:Step}) {
       })
       const data = await res.json()
       if (!res.ok) { if(res.status===401){router.push("/admin/login");return} setGlobalError(data.error||"Erro ao cadastrar empresa."); return }
+      setInvoiceUrl(data.pagamento?.invoiceUrl || null)
       setSuccess(true)
-    } catch { setGlobalError("Erro de conexão. Tente novamente.") }
+    } catch (error) { setGlobalError(error instanceof Error ? error.message : "Erro de conexão. Tente novamente.") }
     finally { setSubmitting(false) }
   }
 
@@ -218,10 +220,11 @@ function StepIndicator({current}:{current:Step}) {
             <Check className="h-8 w-8 text-emerald-600"/>
           </div>
           <h1 className="text-2xl font-bold text-gray-900">Empresa cadastrada!</h1>
-          <p className="mt-2 text-gray-600"><strong>{empresa.razao_social}</strong> foi cadastrada com <strong>{funcionarios.length}</strong> colaborador(es) e status <strong>Ativo</strong>.</p>
+          <p className="mt-2 text-gray-600"><strong>{empresa.razao_social}</strong> foi cadastrada com <strong>{funcionarios.length}</strong> colaborador(es) e status <strong>Pendente de pagamento</strong>.</p>
           <div className="mt-6 flex flex-col gap-3">
+            {invoiceUrl && <a href={invoiceUrl} target="_blank" rel="noreferrer" className="font-semibold text-teal-700 underline">Abrir fatura da primeira parcela</a>}
             <Link href="/admin/empresas"><Button className="w-full bg-teal-700 hover:bg-teal-800">Ver lista de empresas</Button></Link>
-            <Button variant="outline" className="w-full" onClick={()=>{setSuccess(false);setStep("empresa");setEmpresa(EMPTY_EMPRESA);setComercial({cobrar_adesao:false,valor_adesao:"",valor_mensal:""});setFuncionarios([]);setFuncErrors([]);setFuncGenericErrors([]);setFileName(null)}}>
+            <Button variant="outline" className="w-full" onClick={()=>{setSuccess(false);setStep("empresa");setEmpresa(EMPTY_EMPRESA);setComercial(emptyComercial());setFuncionarios([]);setFuncErrors([]);setFuncGenericErrors([]);setFileName(null)}}>
               Cadastrar outra empresa
             </Button>
           </div>
@@ -283,29 +286,12 @@ function StepIndicator({current}:{current:Step}) {
                 </Field>
               </div>
               <div className="rounded-xl border border-gray-200 p-5">
-                <div className="flex items-center justify-between">
-                  <div><p className="font-semibold text-gray-900">Cobrar taxa de adesão?</p><p className="mt-0.5 text-sm text-gray-500">Taxa única de entrada no convênio</p></div>
-                  <label className="relative inline-flex cursor-pointer items-center">
-                    <input type="checkbox" className="peer sr-only" checked={comercial.cobrar_adesao} onChange={setC("cobrar_adesao")}/>
-                    <div className="peer h-6 w-11 rounded-full bg-gray-300 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:shadow after:transition-all after:content-[''] peer-checked:bg-teal-600 peer-checked:after:translate-x-full"/>
-                  </label>
-                </div>
-                {comercial.cobrar_adesao && (
-                  <div className="mt-4 border-t border-gray-100 pt-4">
-                    <Field label="Valor da adesão (R$)" required>
-                      <div className="relative">
-                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-500">R$</span>
-                        <input className={inputCls+" pl-10"} value={comercial.valor_adesao} onChange={setC("valor_adesao")} placeholder="0,00" inputMode="numeric"/>
-                      </div>
-                    </Field>
-                  </div>
-                )}
-                {!comercial.cobrar_adesao && <p className="mt-3 text-sm font-medium text-emerald-700">✓ Sem cobrança de adesão</p>}
+                <BillingScheduleFields value={comercial} allowContractMonths onChange={(value) => setComercial((prev) => ({ ...prev, ...value }))} />
               </div>
               <div className="rounded-xl border border-gray-100 bg-gray-50 p-4 text-sm">
                 <p className="font-semibold text-gray-900 mb-2">Resumo financeiro</p>
                 <div className="flex justify-between"><span className="text-gray-600">Mensalidade</span><span className="font-semibold text-teal-700">{comercial.valor_mensal?"R$ "+comercial.valor_mensal:"—"}</span></div>
-                <div className="flex justify-between mt-1"><span className="text-gray-600">Adesão</span><span className={"font-semibold "+(comercial.cobrar_adesao?"text-amber-700":"text-emerald-700")}>{comercial.cobrar_adesao?(comercial.valor_adesao?"R$ "+comercial.valor_adesao:"—"):"Isenta"}</span></div>
+                <div><p className="text-gray-500">Primeira parcela</p><p className="font-semibold text-teal-700">R$ {comercial.valor_mensal} em {comercial.primeira_parcela_vencimento.split("-").reverse().join("/")}</p><p className="text-sm text-gray-600">{comercial.contrato_meses} parcela(s) ao todo.{comercial.contrato_meses > 1 && <> Demais no dia {comercial.parcelas_mesmo_dia ? Number(comercial.primeira_parcela_vencimento.slice(8)) : comercial.dia_vencimento || "a escolher"}.</>}</p></div>
               </div>
             </div>
           </div>
@@ -395,7 +381,7 @@ function StepIndicator({current}:{current:Step}) {
               <h3 className="mb-4 flex items-center gap-2 font-bold text-gray-900"><DollarSign className="h-5 w-5 text-teal-600"/>Condições Comerciais</h3>
               <div className="grid grid-cols-2 gap-y-3 text-sm">
                 <div><p className="text-gray-500">Mensalidade</p><p className="text-2xl font-bold text-teal-700">R$ {comercial.valor_mensal}</p></div>
-                <div><p className="text-gray-500">Adesão</p><p className={"text-2xl font-bold "+(comercial.cobrar_adesao?"text-amber-700":"text-emerald-700")}>{comercial.cobrar_adesao?"R$ "+comercial.valor_adesao:"Isenta"}</p></div>
+                <div><p className="text-gray-500">Primeira parcela</p><p className="font-semibold text-teal-700">R$ {comercial.valor_mensal} em {comercial.primeira_parcela_vencimento.split("-").reverse().join("/")}</p><p className="text-sm text-gray-600">{comercial.contrato_meses} parcela(s) ao todo.{comercial.contrato_meses > 1 && <> Demais no dia {comercial.parcelas_mesmo_dia ? Number(comercial.primeira_parcela_vencimento.slice(8)) : comercial.dia_vencimento || "a escolher"}.</>}</p></div>
               </div>
             </div>
             <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
@@ -406,8 +392,8 @@ function StepIndicator({current}:{current:Step}) {
               </div>
             </div>
             <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800">
-              <p className="font-semibold">A empresa será criada com status <strong>ATIVO</strong>.</p>
-              <p className="mt-0.5 text-emerald-700">Os colaboradores serão inseridos diretamente sem nenhuma etapa adicional.</p>
+              <p className="font-semibold">A empresa será criada com status <strong>PENDENTE DE PAGAMENTO</strong>.</p>
+              <p className="mt-0.5 text-emerald-700">A primeira parcela será gerada no valor acordado. A ativação ocorrerá após a confirmação do pagamento.</p>
             </div>
           </div>
         )}

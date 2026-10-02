@@ -19,7 +19,7 @@ const appUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
   ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
   : configuredAppUrl && !configuredAppUrl.includes('localhost')
     ? configuredAppUrl
-    : 'https://novaaliancasaude.vercel.app'
+    : 'https://novaaliancasaude.com.br'
 
 export const metadata: Metadata = {
   metadataBase: new URL(appUrl),

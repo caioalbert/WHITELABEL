@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
     const cadastroResult = auth.tipo === 'dependente'
       ? await supabase
           .from('cadastros')
-          .select('id, status, tipo_plano, empresa_id')
+          .select('id, status, tipo_plano, empresa_id, mensalidade_valor')
           .eq('id', auth.clienteId)
           .single()
       : await supabase
@@ -90,8 +90,15 @@ export async function GET(request: NextRequest) {
       ? {
           id: cadastro.id,
           nome: usuario.nome,
+          cpf: usuario.cpf,
+          email: usuario.email,
+          telefone: usuario.telefone,
+          data_nascimento: usuario.data_nascimento,
+          relacao: usuario.relacao,
+          sexo: usuario.sexo,
           status: cadastro.status,
           tipo_plano: cadastro.tipo_plano,
+          mensalidade_valor: cadastro.mensalidade_valor || null,
           empresa_id: cadastro.empresa_id || null,
           dependentes: [],
         }

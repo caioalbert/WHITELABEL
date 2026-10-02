@@ -43,6 +43,12 @@ const styles = StyleSheet.create({
 })
 
 type CadastroPdfData = {
+  mensalidade_valor?: number | null
+  tipo_plano?: string | null
+  primeira_parcela_vencimento?: string | null
+  dia_vencimento?: number | null
+  contrato_meses?: number | null
+  mensalidade_billing_type?: string | null
   nome: string
   cpf: string
   rg?: string | null
@@ -155,10 +161,15 @@ export function TermoAdesaoPDF({ data, dependentes, termoBodyText }: TermoAdesao
         )}
 
         <Text style={styles.paragraph}>
-          Pela adesão aos serviços da novaalianca Saúde, o(a) CONTRATANTE pagará ao Prestador de Serviços o valor de R$ 19,90 (dezenove reais e noventa centavos), plano individual, sem taxa de adesão.
+          Pelos serviços da novaalianca Saúde, o(a) CONTRATANTE pagará parcelas mensais
+          {data.mensalidade_valor != null ? ` de ${Number(data.mensalidade_valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}` : ' no valor acordado no cadastro'}
+          {data.tipo_plano ? `, plano ${data.tipo_plano}` : ''}.
+          {data.contrato_meses ? ` O contrato possui ${data.contrato_meses} parcelas ao todo, incluindo a primeira parcela.` : ''}
         </Text>
         <Text style={styles.paragraph}>
-          O pagamento pelos serviços contratados será realizado por meio de boleto bancário via e-mail do Responsável Financeiro, com vencimento todo dia 05 (cinco) do mês subsequente ao ato da adesão a este termo.
+          O pagamento será realizado por {data.mensalidade_billing_type === 'CREDIT_CARD' ? 'cartão de crédito' : 'BolePIX (boleto ou Pix)'}.
+          {data.primeira_parcela_vencimento ? ` A primeira parcela vence em ${formatDate(data.primeira_parcela_vencimento)}.` : ''}
+          {data.dia_vencimento && (data.contrato_meses ?? 12) > 1 ? ` As demais vencem no dia ${data.dia_vencimento} de cada mês, a partir do mês seguinte, ou no último dia do mês quando não houver esse dia.` : ''}
         </Text>
 
         {templateBlocks.map((block, index) => (

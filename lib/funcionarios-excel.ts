@@ -38,6 +38,7 @@ type ImportOptions = {
   existentes?: DependenteFormData[]
   emailTitular?: string
   vagasDisponiveis?: number | null
+  permitirEmailCompartilhado?: boolean
 }
 
 const COLUMN_ALIASES: Record<FuncionarioColumn, string[]> = {
@@ -60,7 +61,7 @@ const COLUMN_ALIASES: Record<FuncionarioColumn, string[]> = {
     'data nasc',
     'data de nascimento opcional',
   ],
-  email: ['email', 'e-mail', 'email pessoal', 'e-mail pessoal'],
+  email: ['email', 'e-mail', 'email pessoal', 'e-mail pessoal', 'email address', 'endereco de email', 'endereço de email'],
   telefone_celular: ['telefone celular', 'celular', 'telefone', 'whatsapp'],
   sexo: ['sexo', 'genero', 'gênero'],
 }
@@ -221,6 +222,13 @@ function duplicateKey(value: string) {
   return value.trim().toLowerCase()
 }
 
+export function hasFuncionarioSpreadsheetColumns(matrix: unknown[][]) {
+  const headerIndex = findHeaderRow(matrix)
+  if (headerIndex < 0) return false
+  const columns = mapColumnIndexes(matrix[headerIndex] || [])
+  return REQUIRED_COLUMNS.every((column) => columns.has(column))
+}
+
 export function parseFuncionariosExcel(
   matrix: unknown[][],
   options: ImportOptions = {}
@@ -286,7 +294,12 @@ export function parseFuncionariosExcel(
     const cpf = formatCpf(getCell('cpf'))
     const rawBirthDate = getCell('data_nascimento')
     const dataNascimento = parseExcelDate(rawBirthDate)
-    const email = duplicateKey(cellText(getCell('email')))
+    // Some spreadsheets exported from banking/ERP systems keep the visible
+    // header but shift the cell value or merge empty cells. Prefer the mapped
+    // column, then recover the first email-looking cell from the same row.
+    const mappedEmail = cellText(getCell('email'))
+    const recoveredEmail = mappedEmail || row.map(cellText).find((value) => isValidEmail(value)) || ''
+    const email = duplicateKey(recoveredEmail)
     const telefone = formatPhone(getCell('telefone_celular'))
     const sexo = normalizeSexo(getCell('sexo'))
     const mensagens: string[] = []
@@ -305,7 +318,9 @@ export function parseFuncionariosExcel(
 
     const cpfDigits = normalizeCPF(cpf)
     if (cpfDigits && existingCpfs.has(cpfDigits)) mensagens.push('CPF já adicionado')
-    if (email && existingEmails.has(email)) mensagens.push('e-mail já adicionado')
+    if (email && existingEmails.has(email) && !options.permitirEmailCompartilhado) {
+      mensagens.push('e-mail já adicionado')
+    }
 
     if (email && emailTitular && email === emailTitular) {
       const age = getAgeFromIsoDate(dataNascimento)

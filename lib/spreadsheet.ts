@@ -1,3 +1,5 @@
+import { hasFuncionarioSpreadsheetColumns } from './funcionarios-excel'
+
 type WorksheetInput = {
   name: string
   rows: unknown[][]
@@ -5,6 +7,8 @@ type WorksheetInput = {
 }
 
 export function parseCsvMatrix(text: string) {
+  const firstLine = text.split(/\r?\n/, 1)[0] || ''
+  const delimiter = firstLine.includes('\t') && !firstLine.includes(',') ? '\t' : ','
   const rows: string[][] = []
   let row: string[] = []
   let cell = ''
@@ -19,7 +23,7 @@ export function parseCsvMatrix(text: string) {
       index += 1
     } else if (char === '"') {
       quoted = !quoted
-    } else if (char === ',' && !quoted) {
+    } else if (char === delimiter && !quoted) {
       row.push(cell)
       cell = ''
     } else if ((char === '\n' || char === '\r') && !quoted) {
@@ -41,21 +45,35 @@ export function parseCsvMatrix(text: string) {
   return rows
 }
 
+export class SpreadsheetSelectionError extends Error {}
+
+export function selectSpreadsheetMatrix(sheets: Array<{ name: string; rows: unknown[][] }>) {
+  if (sheets.length === 0) throw new SpreadsheetSelectionError('A planilha não possui nenhuma aba.')
+  if (sheets.length === 1) return sheets[0].rows
+
+  const matchingSheets = sheets.filter((sheet) => hasFuncionarioSpreadsheetColumns(sheet.rows))
+  if (matchingSheets.length === 0) {
+    throw new SpreadsheetSelectionError('Nenhuma aba contém as colunas obrigatórias do modelo de colaboradores.')
+  }
+  if (matchingSheets.length > 1) {
+    throw new SpreadsheetSelectionError('Mais de uma aba contém as colunas do modelo. Envie um arquivo com apenas a aba de colaboradores que deseja importar.')
+  }
+  return matchingSheets[0].rows
+}
+
 export async function readSpreadsheetMatrix(file: File) {
   if (file.name.toLowerCase().endsWith('.csv')) return parseCsvMatrix(await file.text())
 
   const XLSX = await import('xlsx')
   const workbook = XLSX.read(await file.arrayBuffer(), { type: 'array', cellDates: true })
-  const sheetName = workbook.SheetNames.find((name) =>
-    name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().includes('funcion')
-  ) || workbook.SheetNames[0]
-
-  if (!sheetName) throw new Error('A planilha não possui nenhuma aba.')
-  return XLSX.utils.sheet_to_json<unknown[]>(workbook.Sheets[sheetName], {
-    header: 1,
-    defval: '',
-    raw: true,
-  })
+  return selectSpreadsheetMatrix(workbook.SheetNames.map((name) => ({
+    name,
+    rows: XLSX.utils.sheet_to_json<unknown[]>(workbook.Sheets[name], {
+      header: 1,
+      defval: '',
+      raw: true,
+    }),
+  })))
 }
 
 export async function downloadXlsx(fileName: string, sheets: WorksheetInput[]) {
