@@ -90,6 +90,7 @@ const groups = [
   {
     label: 'Configuração',
     items: [
+      { label: 'Farmácia Popular', href: '/admin/farmacia-popular', icon: LayoutGrid, keywords: 'pague menos medicamentos lojas farmácias' },
       {
         label: 'Planos',
         href: '/admin/planos',
