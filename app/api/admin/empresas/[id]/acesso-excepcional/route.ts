@@ -1,5 +1,7 @@
 import { getActiveEmpresaAccessException, EMPRESA_ACCESS_EXCEPTION_SCOPE } from '@/lib/empresa-access'
 import { loadAdminEmpresa, type EmpresaRouteContext } from '@/lib/admin-empresa'
+import { syncEmpresaFuncionariosToRapidoc } from '@/lib/empresa-rapidoc-sync'
+import { provisionEmpresaFuncionarios } from '@/lib/empresa-provision'
 import { NextRequest, NextResponse } from 'next/server'
 
 const MAX_EXCEPTION_DAYS = 90
@@ -51,6 +53,21 @@ export async function POST(request: NextRequest, context: EmpresaRouteContext) {
       .select('id, empresa_id, escopo, motivo, concedido_por, concedido_em, expira_em, revogado_em, revogado_por, observacao')
       .single()
     if (error) throw error
+
+    // Provisiona cadastros dos funcionários (se ainda não existirem) e sincroniza
+    // com a Rapidoc em background — não bloqueia a resposta nem falha o request.
+    provisionEmpresaFuncionarios(loaded.db, loaded.empresa, false)
+      .then((result) => {
+        console.log(
+          `[acesso-excepcional] Provisionamento empresa ${loaded.empresa.id}: ` +
+          `${result.created} criado(s), ${result.existing} já existia(m).`,
+        )
+        return syncEmpresaFuncionariosToRapidoc(loaded.empresa.id)
+      })
+      .catch((err) =>
+        console.error('[acesso-excepcional] Falha ao provisionar/sincronizar funcionários:', err),
+      )
+
     return response({ success: true, acessoExcepcional: data, message: 'Acesso excepcional liberado para os funcionários.' }, { status: 201 })
   } catch (error) {
     console.error('Conceder acesso excepcional:', error)

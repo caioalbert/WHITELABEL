@@ -19,6 +19,7 @@ import {
   getEmpresaExternalReference,
   parseEmpresaExternalReference,
 } from '@/lib/empresa-flow'
+import { provisionEmpresaFuncionarios } from '@/lib/empresa-provision'
 import { NextRequest, NextResponse } from 'next/server'
 import {
   getAsaasWebhookToken,
@@ -269,77 +270,14 @@ async function releaseEmpresaSubscriptionLock(
     .eq('asaas_subscription_id', lockToken)
 }
 
-async function provisionEmpresaFuncionarios(
+async function provisionEmpresaFuncionariosAndSync(
   supabase: ReturnType<typeof createAdminClient>,
   empresa: EmpresaWebhookRecord,
   activatedAt: string
 ) {
-  const { data: funcionarios, error } = await supabase
-    .from('empresa_funcionarios')
-    .select('id, cadastro_id, nome, cpf, rg, email, telefone, data_nascimento, sexo')
-    .eq('empresa_id', empresa.id)
-  if (error) throw error
-  if (!funcionarios?.length) throw new Error('Empresa sem colaboradores para provisionar.')
+  const result = await provisionEmpresaFuncionarios(supabase, empresa, true, activatedAt)
 
-  const cadastroIds: string[] = []
-  for (const funcionario of funcionarios) {
-    let cadastroId = funcionario.cadastro_id as string | null
-
-    if (!cadastroId) {
-      const { data: existing, error: existingError } = await supabase
-        .from('cadastros')
-        .select('id')
-        .eq('empresa_id', empresa.id)
-        .eq('cpf', funcionario.cpf)
-        .maybeSingle()
-      if (existingError) throw existingError
-
-      cadastroId = existing?.id || crypto.randomUUID()
-      if (!existing) {
-        const { error: insertError } = await supabase.from('cadastros').insert({
-          id: cadastroId,
-          empresa_id: empresa.id,
-          nome: funcionario.nome,
-          email: funcionario.email,
-          cpf: funcionario.cpf,
-          rg: funcionario.rg,
-          data_nascimento: funcionario.data_nascimento,
-          telefone: funcionario.telefone,
-          sexo: funcionario.sexo,
-          endereco: empresa.endereco,
-          numero: empresa.numero,
-          bairro: empresa.bairro,
-          cidade: empresa.cidade,
-          estado: empresa.estado,
-          cep: empresa.cep,
-          tem_dependentes: false,
-          status: EMPRESA_STATUSES.pagamento,
-          tipo_plano: empresa.tipo_plano,
-          mensalidade_billing_type: empresa.mensalidade_billing_type,
-        })
-        if (insertError) throw insertError
-      }
-
-      const { error: linkError } = await supabase
-        .from('empresa_funcionarios')
-        .update({ cadastro_id: cadastroId })
-        .eq('id', funcionario.id)
-        .eq('empresa_id', empresa.id)
-      if (linkError) throw linkError
-    }
-
-    if (!cadastroId) throw new Error('Não foi possível vincular o colaborador ao cadastro.')
-    cadastroIds.push(cadastroId)
-  }
-
-  const { error: activationError } = await supabase
-    .from('cadastros')
-    .update({ status: 'ATIVO', adesao_pago_em: activatedAt })
-    .eq('empresa_id', empresa.id)
-    .in('id', cadastroIds)
-  if (activationError) throw activationError
-
-  await Promise.all(cadastroIds.map((id) =>
+  await Promise.all(result.cadastroIds.map((id) =>
     syncCadastroToRapidoc(id).catch((syncError) => {
       console.error('Webhook: falha ao sincronizar colaborador empresarial', {
         empresaId: empresa.id,
@@ -349,7 +287,7 @@ async function provisionEmpresaFuncionarios(
     })
   ))
 
-  return cadastroIds.length
+  return result.cadastroIds.length
 }
 
 async function processEmpresaPayment(
@@ -380,7 +318,7 @@ async function processEmpresaPayment(
   const activatedAt = new Date().toISOString()
   const initialSubscriptionId = normalizeSubscriptionId(empresa.asaas_subscription_id)
   if (empresa.status === EMPRESA_STATUSES.ativo) {
-    const provisioned = await provisionEmpresaFuncionarios(supabase, empresa, activatedAt)
+    const provisioned = await provisionEmpresaFuncionariosAndSync(supabase, empresa, activatedAt)
     return NextResponse.json({
       received: true,
       processed: true,
@@ -482,7 +420,7 @@ async function processEmpresaPayment(
   }
 
   const activeEmpresa = { ...empresa, status: EMPRESA_STATUSES.ativo, asaas_subscription_id: subscriptionId }
-  const provisioned = await provisionEmpresaFuncionarios(supabase, activeEmpresa, activatedAt)
+  const provisioned = await provisionEmpresaFuncionariosAndSync(supabase, activeEmpresa, activatedAt)
   return NextResponse.json({
     received: true,
     processed: true,
