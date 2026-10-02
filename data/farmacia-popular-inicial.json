@@ -1,0 +1,6964 @@
+{
+  "medicamentos": [
+    {
+      "codigo": "75091",
+      "dv": "3",
+      "nome": "DAPAGLIFLOZINA 10MG CPD/30 GN-ASTR",
+      "indicacao": "DIABETES ASSOCIADA A DOENÇA CARDIOVASCULAR",
+      "substancia": "Dapagliflozina 10mg",
+      "ativo": true
+    },
+    {
+      "codigo": "80555",
+      "dv": "1",
+      "nome": "DAPAGLIFLOZINA 10MG CPD/30 GN-MEDQ",
+      "indicacao": "DIABETES ASSOCIADA A DOENÇA CARDIOVASCULAR",
+      "substancia": "Dapagliflozina 10mg",
+      "ativo": true
+    },
+    {
+      "codigo": "80465",
+      "dv": "7",
+      "nome": "DAPAGLIFLOZINA 10MG CPD/30 GN-EURO",
+      "indicacao": "DIABETES ASSOCIADA A DOENÇA CARDIOVASCULAR",
+      "substancia": "Dapagliflozina 10mg",
+      "ativo": true
+    },
+    {
+      "codigo": "81712",
+      "dv": "0",
+      "nome": "DAPAGLIFLOZINA 10MG CPD/30 GN-EMS",
+      "indicacao": "DIABETES ASSOCIADA A DOENÇA CARDIOVASCULAR",
+      "substancia": "Dapagliflozina 10mg",
+      "ativo": true
+    },
+    {
+      "codigo": "63304",
+      "dv": "6",
+      "nome": "EDISTRIDE 10MG CPD/30",
+      "indicacao": "DIABETES ASSOCIADA A DOENÇA CARDIOVASCULAR",
+      "substancia": "Dapagliflozina 10mg",
+      "ativo": true
+    },
+    {
+      "codigo": "42882",
+      "dv": "5",
+      "nome": "FORXIGA 10MG CPD/30",
+      "indicacao": "DIABETES ASSOCIADA A DOENÇA CARDIOVASCULAR",
+      "substancia": "Dapagliflozina 10mg",
+      "ativo": true
+    },
+    {
+      "codigo": "81966",
+      "dv": "2",
+      "nome": "GLIF 10MG CPD/30",
+      "indicacao": "DIABETES ASSOCIADA A DOENÇA CARDIOVASCULAR",
+      "substancia": "Dapagliflozina 10mg",
+      "ativo": true
+    },
+    {
+      "codigo": "82636",
+      "dv": "7",
+      "nome": "DAPLYS 10 MG 30 COM REV B",
+      "indicacao": "DIABETES ASSOCIADA A DOENÇA CARDIOVASCULAR",
+      "substancia": "Dapagliflozina 10mg",
+      "ativo": true
+    },
+    {
+      "codigo": "79813",
+      "dv": "4",
+      "nome": "FD GERIAT BIGFRAL CLASSICA G/28",
+      "indicacao": "INCONTINÊNCIA",
+      "substancia": "Fralda geriátrica",
+      "ativo": true
+    },
+    {
+      "codigo": "79814",
+      "dv": "2",
+      "nome": "FD GERIAT BIGFRAL CLASSICA M/28",
+      "indicacao": "INCONTINÊNCIA",
+      "substancia": "Fralda geriátrica",
+      "ativo": true
+    },
+    {
+      "codigo": "79815",
+      "dv": "0",
+      "nome": "FD GERIAT BIGFRAL CLASSICA G/7",
+      "indicacao": "INCONTINÊNCIA",
+      "substancia": "Fralda geriátrica",
+      "ativo": true
+    },
+    {
+      "codigo": "79816",
+      "dv": "9",
+      "nome": "FD GERIAT BIGFRAL CLASSICA M/7",
+      "indicacao": "INCONTINÊNCIA",
+      "substancia": "Fralda geriátrica",
+      "ativo": true
+    },
+    {
+      "codigo": "79817",
+      "dv": "7",
+      "nome": "FD GERIAT BIGFRAL CLASSICA XG/7",
+      "indicacao": "INCONTINÊNCIA",
+      "substancia": "Fralda geriátrica",
+      "ativo": true
+    },
+    {
+      "codigo": "60567",
+      "dv": "0",
+      "nome": "FD GERIAT CONFORT MASTER EG/26",
+      "indicacao": "INCONTINÊNCIA",
+      "substancia": "Fralda geriátrica",
+      "ativo": true
+    },
+    {
+      "codigo": "82123",
+      "dv": "3",
+      "nome": "FD DAUF BASIC FP EX C/20",
+      "indicacao": "INCONTINÊNCIA",
+      "substancia": "Fralda geriátrica",
+      "ativo": true
+    },
+    {
+      "codigo": "82124",
+      "dv": "1",
+      "nome": "FD DAUF BASIC FP M C/20",
+      "indicacao": "INCONTINÊNCIA",
+      "substancia": "Fralda geriátrica",
+      "ativo": true
+    },
+    {
+      "codigo": "82125",
+      "dv": "0",
+      "nome": "FD DAUF BASIC FP G C/20",
+      "indicacao": "INCONTINÊNCIA",
+      "substancia": "Fralda geriátrica",
+      "ativo": true
+    },
+    {
+      "codigo": "25572",
+      "dv": "6",
+      "nome": "ABS S LIVRE ESP SUAVE S/ABA/8 50303",
+      "indicacao": "ABSORVENTE",
+      "substancia": "Absorvente higiênico",
+      "ativo": true
+    },
+    {
+      "codigo": "25574",
+      "dv": "2",
+      "nome": "ABS S LIVRE ADAPT SV C/ABA/8 50302",
+      "indicacao": "ABSORVENTE",
+      "substancia": "Absorvente higiênico",
+      "ativo": true
+    },
+    {
+      "codigo": "59789",
+      "dv": "9",
+      "nome": "ABS S LIVRE ADAPT C/ABAS C/32",
+      "indicacao": "ABSORVENTE",
+      "substancia": "Absorvente higiênico",
+      "ativo": true
+    },
+    {
+      "codigo": "21074",
+      "dv": "9",
+      "nome": "ABS S LIVRE NOT SUAVE C/ABA/8 70068",
+      "indicacao": "ABSORVENTE",
+      "substancia": "Absorvente higiênico",
+      "ativo": true
+    },
+    {
+      "codigo": "40219",
+      "dv": "9",
+      "nome": "ABS S LIVRE CONF NOT SV C/AB L32PGM",
+      "indicacao": "ABSORVENTE",
+      "substancia": "Absorvente higiênico",
+      "ativo": true
+    },
+    {
+      "codigo": "46489",
+      "dv": "9",
+      "nome": "ABS S LIVRE NOTURNO SECA C/ABA/8",
+      "indicacao": "ABSORVENTE",
+      "substancia": "Absorvente higiênico",
+      "ativo": true
+    },
+    {
+      "codigo": "46896",
+      "dv": "7",
+      "nome": "ABS S LIVRE NOT SECA C/ABA C/32PESP",
+      "indicacao": "ABSORVENTE",
+      "substancia": "Absorvente higiênico",
+      "ativo": true
+    },
+    {
+      "codigo": "41108",
+      "dv": "6",
+      "nome": "ABS INTIMUS GEL TRIP SECA C/ABAC/32",
+      "indicacao": "ABSORVENTE",
+      "substancia": "Absorvente higiênico",
+      "ativo": true
+    },
+    {
+      "codigo": "41109",
+      "dv": "4",
+      "nome": "ABS INTIMUS GEL TRIP SUAV C/ABAC/32",
+      "indicacao": "ABSORVENTE",
+      "substancia": "Absorvente higiênico",
+      "ativo": true
+    },
+    {
+      "codigo": "21099",
+      "dv": "4",
+      "nome": "ABS INTIMUS GEL NORMAL SV C/ABA C/8",
+      "indicacao": "ABSORVENTE",
+      "substancia": "Absorvente higiênico",
+      "ativo": true
+    },
+    {
+      "codigo": "21103",
+      "dv": "6",
+      "nome": "ABS INTIMUS GEL EXT SEC S ABAS 8UN",
+      "indicacao": "ABSORVENTE",
+      "substancia": "Absorvente higiênico",
+      "ativo": true
+    },
+    {
+      "codigo": "82022",
+      "dv": "9",
+      "nome": "ABS ALWAYS SV C/ABA C/10",
+      "indicacao": "ABSORVENTE",
+      "substancia": "Absorvente higiênico",
+      "ativo": true
+    },
+    {
+      "codigo": "80838",
+      "dv": "5",
+      "nome": "ABS DAUF PROT TOTAL SV C/ABA C/8",
+      "indicacao": "ABSORVENTE",
+      "substancia": "Absorvente higiênico",
+      "ativo": true
+    },
+    {
+      "codigo": "80839",
+      "dv": "3",
+      "nome": "ABS DAUF PROT TOTAL SV C/ABA C/32",
+      "indicacao": "ABSORVENTE",
+      "substancia": "Absorvente higiênico",
+      "ativo": true
+    },
+    {
+      "codigo": "80840",
+      "dv": "7",
+      "nome": "ABS DAUF NOT SV C/ABA C/8",
+      "indicacao": "ABSORVENTE",
+      "substancia": "Absorvente higiênico",
+      "ativo": true
+    },
+    {
+      "codigo": "80841",
+      "dv": "5",
+      "nome": "ABS DAUF NOT SV C/ABA C/32",
+      "indicacao": "ABSORVENTE",
+      "substancia": "Absorvente higiênico",
+      "ativo": true
+    },
+    {
+      "codigo": "33111",
+      "dv": "2",
+      "nome": "BROMETO IPRATROPIO SOL 20ML GN-E",
+      "indicacao": "ASMA",
+      "substancia": "Brometo de Ipratrópio 0,25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "3291",
+      "dv": "3",
+      "nome": "ATROVENT SOLUCAO 20ML",
+      "indicacao": "ASMA",
+      "substancia": "Brometo de Ipratrópio 0,25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "74122",
+      "dv": "1",
+      "nome": "DIP BECLOMET 200MCG DOSE/200GN-GLEN",
+      "indicacao": "ASMA",
+      "substancia": "Dipropionato de Beclometasona 200 mcg/dose - Administração pulmonar, inalador doseado",
+      "ativo": true
+    },
+    {
+      "codigo": "44087",
+      "dv": "6",
+      "nome": "CLENIL HFA 200MCG SPRAY DOSE/200",
+      "indicacao": "ASMA",
+      "substancia": "Dipropionato de Beclometasona 200 mcg/dose - Administração pulmonar, inalador doseado",
+      "ativo": true
+    },
+    {
+      "codigo": "36993",
+      "dv": "4",
+      "nome": "CLENIL HFA 250MCG JET DOSE/200",
+      "indicacao": "ASMA",
+      "substancia": "Diproprionato de Beclometasona 250 mcg",
+      "ativo": true
+    },
+    {
+      "codigo": "55026",
+      "dv": "4",
+      "nome": "DIP BECLOMET 250MCG DOSE/200GN-GL",
+      "indicacao": "ASMA",
+      "substancia": "Diproprionato de Beclometasona 250 mcg",
+      "ativo": true
+    },
+    {
+      "codigo": "36988",
+      "dv": "8",
+      "nome": "CLENIL HFA 250MCG SPRAY DOSE/200",
+      "indicacao": "ASMA",
+      "substancia": "Diproprionato de Beclometasona 250 mcg",
+      "ativo": true
+    },
+    {
+      "codigo": "74882",
+      "dv": "0",
+      "nome": "AILUK 250MCG SOL NASAL DOSE/200+TUB",
+      "indicacao": "ASMA",
+      "substancia": "Diproprionato de Beclometasona 250 mcg",
+      "ativo": true
+    },
+    {
+      "codigo": "80612",
+      "dv": "9",
+      "nome": "AILUK 50MCG SOL AEROSOL C/200 DOSES",
+      "indicacao": "ASMA",
+      "substancia": "Diproprionato de Beclometasona 50 mcg",
+      "ativo": true
+    },
+    {
+      "codigo": "80613",
+      "dv": "7",
+      "nome": "AILUK 200MCG SOL AEROSOL C/200DOSES",
+      "indicacao": "ASMA",
+      "substancia": "Diproprionato de Beclometasona 200 mcg",
+      "ativo": true
+    },
+    {
+      "codigo": "74086",
+      "dv": "1",
+      "nome": "DIP BECLOMET 50MCG DOSE/200GN-GLEN",
+      "indicacao": "ASMA",
+      "substancia": "Diproprionato de Beclometasona 50 mcg",
+      "ativo": true
+    },
+    {
+      "codigo": "36990",
+      "dv": "0",
+      "nome": "CLENIL HFA 50MCG SPRAY DOSE/200",
+      "indicacao": "ASMA",
+      "substancia": "Diproprionato de Beclometasona 50 mcg",
+      "ativo": true
+    },
+    {
+      "codigo": "82585",
+      "dv": "9",
+      "nome": "SALBUTAMOL SULFATO_100MCG_DOSE_200",
+      "indicacao": "ASMA",
+      "substancia": "Sulfato de Salbutamol 100 mcg",
+      "ativo": true
+    },
+    {
+      "codigo": "18769",
+      "dv": "0",
+      "nome": "AERODINI 100MCG SPRAY DOSE/200",
+      "indicacao": "ASMA",
+      "substancia": "Sulfato de Salbutamol 100 mcg",
+      "ativo": true
+    },
+    {
+      "codigo": "60627",
+      "dv": "8",
+      "nome": "SULF SALBUT 100MCG/DOSE GN-GLENMARK",
+      "indicacao": "ASMA",
+      "substancia": "Sulfato de Salbutamol 100 mcg",
+      "ativo": true
+    },
+    {
+      "codigo": "1344",
+      "dv": "7",
+      "nome": "AEROLIN SPRAY DOSE/200",
+      "indicacao": "ASMA",
+      "substancia": "Sulfato de Salbutamol 100 mcg",
+      "ativo": true
+    },
+    {
+      "codigo": "10346",
+      "dv": "2",
+      "nome": "AEROLIN SOLUCAO GTS 10ML",
+      "indicacao": "ASMA",
+      "substancia": "Sulfato de Salbutamol 5 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "42669",
+      "dv": "5",
+      "nome": "DEMEDROX 150MG/ML SUSP INJ SERINGA",
+      "indicacao": "CONTRACPTIVO",
+      "substancia": "Acetato de medroxiprogesterona 150 mg, ampola",
+      "ativo": true
+    },
+    {
+      "codigo": "17704",
+      "dv": "0",
+      "nome": "CONTRACEP INJ 150MG C/1 AMP",
+      "indicacao": "CONTRACPTIVO",
+      "substancia": "Acetato de medroxiprogesterona 150 mg, ampola",
+      "ativo": true
+    },
+    {
+      "codigo": "42434",
+      "dv": "0",
+      "nome": "EN NOREST+VAL ESTR AMP/1 1ML G-MA",
+      "indicacao": "CONTRACPTIVO",
+      "substancia": "Enantato de noretisterona50 mg + valerato de estradiol 5 mg, ampola",
+      "ativo": true
+    },
+    {
+      "codigo": "75856",
+      "dv": "6",
+      "nome": "ENAN NOREST+VAL ESTRAD 5MGAMP/1G-EU",
+      "indicacao": "CONTRACPTIVO",
+      "substancia": "Enantato de noretisterona50 mg + valerato de estradiol 5 mg, ampola",
+      "ativo": true
+    },
+    {
+      "codigo": "58752",
+      "dv": "4",
+      "nome": "NOREGYNA 50+5MG IM AMP/1 1ML +SER",
+      "indicacao": "CONTRACPTIVO",
+      "substancia": "Enantato de noretisterona50 mg + valerato de estradiol 5 mg, ampola",
+      "ativo": true
+    },
+    {
+      "codigo": "61100",
+      "dv": "0",
+      "nome": "LEVON+ETINIL0,15+0,03MG CPD/21G-CIF",
+      "indicacao": "CONTRACPTIVO",
+      "substancia": "Etinilestradiol 0,03 mg + levonorgestrel 0,15 mg, comprimido - cartela com 21 comprimidos",
+      "ativo": true
+    },
+    {
+      "codigo": "81232",
+      "dv": "3",
+      "nome": "LEVON+ETINIL 0,15/0,03MGCPD/63GN-CI",
+      "indicacao": "CONTRACPTIVO",
+      "substancia": "Etinilestradiol 0,03 mg + levonorgestrel 0,15 mg, comprimido - cartela com 21 comprimidos",
+      "ativo": true
+    },
+    {
+      "codigo": "61694",
+      "dv": "0",
+      "nome": "LEVON+ETINIL 0,15MG CPD/21 GN-BIO",
+      "indicacao": "CONTRACPTIVO",
+      "substancia": "Etinilestradiol 0,03 mg + levonorgestrel 0,15 mg, comprimido - cartela com 21 comprimidos",
+      "ativo": true
+    },
+    {
+      "codigo": "1329",
+      "dv": "3",
+      "nome": "NORDETTE CPD C/21X3",
+      "indicacao": "CONTRACPTIVO",
+      "substancia": "Etinilestradiol 0,03 mg + levonorgestrel 0,15 mg, comprimido - cartela com 21 comprimidos",
+      "ativo": true
+    },
+    {
+      "codigo": "12877",
+      "dv": "5",
+      "nome": "NOCICLIN CPD C/21",
+      "indicacao": "CONTRACPTIVO",
+      "substancia": "Etinilestradiol 0,03 mg + levonorgestrel 0,15 mg, comprimido - cartela com 21 comprimidos",
+      "ativo": true
+    },
+    {
+      "codigo": "62530",
+      "dv": "2",
+      "nome": "NORDETTE CPD C/21 NV",
+      "indicacao": "CONTRACPTIVO",
+      "substancia": "Etinilestradiol 0,03 mg + levonorgestrel 0,15 mg, comprimido - cartela com 21 comprimidos",
+      "ativo": true
+    },
+    {
+      "codigo": "640",
+      "dv": "8",
+      "nome": "MICROVLAR ENV C/21 CPD",
+      "indicacao": "CONTRACPTIVO",
+      "substancia": "Etinilestradiol 0,03 mg + levonorgestrel 0,15 mg, comprimido - cartela com 21 comprimidos",
+      "ativo": true
+    },
+    {
+      "codigo": "24304",
+      "dv": "3",
+      "nome": "CICLO 21 CPD/21",
+      "indicacao": "CONTRACPTIVO",
+      "substancia": "Etinilestradiol 0,03 mg + levonorgestrel 0,15 mg, comprimido - cartela com 21 comprimidos",
+      "ativo": true
+    },
+    {
+      "codigo": "55036",
+      "dv": "1",
+      "nome": "NORETISTERONA 0,35MG CP/35 GN-BIOL",
+      "indicacao": "CONTRACPTIVO",
+      "substancia": "Noretisterona 0,35 mg, comprimido - cartela com 35 comprimidos",
+      "ativo": true
+    },
+    {
+      "codigo": "16260",
+      "dv": "4",
+      "nome": "NORESTIN 0,35MG CPD C/35",
+      "indicacao": "CONTRACPTIVO",
+      "substancia": "Noretisterona 0,35 mg, comprimido - cartela com 35 comprimidos",
+      "ativo": true
+    },
+    {
+      "codigo": "36426",
+      "dv": "6",
+      "nome": "CL METFORMINA 500MG CPD/30 GN-TEUTO",
+      "indicacao": "DIABETES",
+      "substancia": "Cloridrato de Metformina 500 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "47104",
+      "dv": "6",
+      "nome": "CL METFORMINA 500MG CPD/30 GN-PRATI",
+      "indicacao": "DIABETES",
+      "substancia": "Cloridrato de Metformina 500 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "45050",
+      "dv": "2",
+      "nome": "CL METFORMINA LP 500MG CPD/30GN-PR",
+      "indicacao": "DIABETES",
+      "substancia": "Cloridrato de Metformina 500 mg - Ação Prolongada",
+      "ativo": true
+    },
+    {
+      "codigo": "27454",
+      "dv": "2",
+      "nome": "GLIFAGE XR 500MG CPD/30",
+      "indicacao": "DIABETES",
+      "substancia": "Cloridrato de Metformina 500 mg - Ação Prolongada",
+      "ativo": true
+    },
+    {
+      "codigo": "57755",
+      "dv": "3",
+      "nome": "CL METFORMINA 850MG CPD/60 GN-PRATI",
+      "indicacao": "DIABETES",
+      "substancia": "Cloridrato de Metformina 850 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "62644",
+      "dv": "9",
+      "nome": "CL METFORMINA 850MG CPD/30 GN-NVQ",
+      "indicacao": "DIABETES",
+      "substancia": "Cloridrato de Metformina 850 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "36452",
+      "dv": "5",
+      "nome": "CL METFORMINA 850MG CPD/30 GN-PRATI",
+      "indicacao": "DIABETES",
+      "substancia": "Cloridrato de Metformina 850 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "34246",
+      "dv": "7",
+      "nome": "CL METFORMINA 850MG CPD/30 GN-TE",
+      "indicacao": "DIABETES",
+      "substancia": "Cloridrato de Metformina 850 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "73061",
+      "dv": "0",
+      "nome": "CL METFORMINA 850MG CPD/30 GN-GEOLA",
+      "indicacao": "DIABETES",
+      "substancia": "Cloridrato de Metformina 850 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "58845",
+      "dv": "8",
+      "nome": "GLICONIL 5MG CPD/30",
+      "indicacao": "DIABETES",
+      "substancia": "Glibenclamida 5mg",
+      "ativo": true
+    },
+    {
+      "codigo": "24203",
+      "dv": "9",
+      "nome": "GLIBENCLAMIDA 5MG CPD/30 GN-EMS",
+      "indicacao": "DIABETES",
+      "substancia": "Glibenclamida 5mg",
+      "ativo": true
+    },
+    {
+      "codigo": "36420",
+      "dv": "7",
+      "nome": "GLIBENCLAMIDA 5MG CPD/30 GN-NQ",
+      "indicacao": "DIABETES",
+      "substancia": "Glibenclamida 5mg",
+      "ativo": true
+    },
+    {
+      "codigo": "76104",
+      "dv": "4",
+      "nome": "GLIBENCLAMIDA 5MG CPD/30 GN-MEDQ",
+      "indicacao": "DIABETES",
+      "substancia": "Glibenclamida 5mg",
+      "ativo": true
+    },
+    {
+      "codigo": "63493",
+      "dv": "0",
+      "nome": "GEN GLIBENCLAMIDA 5MG 30CP GEOLAB",
+      "indicacao": "DIABETES",
+      "substancia": "Glibenclamida 5mg",
+      "ativo": true
+    },
+    {
+      "codigo": "2959",
+      "dv": "9",
+      "nome": "INSUL NOVOLIN N 10ML",
+      "indicacao": "DIABETES",
+      "substancia": "Insulina Humana NPH 100 UI/ml - suspensão injetável, frasco-ampola 10 ml",
+      "ativo": true
+    },
+    {
+      "codigo": "13283",
+      "dv": "7",
+      "nome": "INSUL NOVOLIN PENFIL N 5x3,0ML",
+      "indicacao": "DIABETES",
+      "substancia": "Insulina Humana NPH 100 UI/ml - suspensão injetável, refil 3ml (carpule)",
+      "ativo": true
+    },
+    {
+      "codigo": "2958",
+      "dv": "0",
+      "nome": "INSUL NOVOLIN R 10ML",
+      "indicacao": "DIABETES",
+      "substancia": "Insulina Humana Regular 100 UI/ml, solução injetável, frasco-ampola 10 ml",
+      "ativo": true
+    },
+    {
+      "codigo": "81592",
+      "dv": "6",
+      "nome": "SINVASTATINA 10MG CPD/30 GN-PHA",
+      "indicacao": "DISLIPIDEMIA",
+      "substancia": "Sinvastatina 10 mg comprimido",
+      "ativo": true
+    },
+    {
+      "codigo": "9542",
+      "dv": "7",
+      "nome": "SINVASCOR 10MG CPD/30",
+      "indicacao": "DISLIPIDEMIA",
+      "substancia": "Sinvastatina 10 mg comprimido",
+      "ativo": true
+    },
+    {
+      "codigo": "18500",
+      "dv": "0",
+      "nome": "SINVASTATINA 10MG CPD/30 GN-EMS",
+      "indicacao": "DISLIPIDEMIA",
+      "substancia": "Sinvastatina 10 mg comprimido",
+      "ativo": true
+    },
+    {
+      "codigo": "21108",
+      "dv": "7",
+      "nome": "SINVASTACOR 10MG CPD/30",
+      "indicacao": "DISLIPIDEMIA",
+      "substancia": "Sinvastatina 10 mg comprimido",
+      "ativo": true
+    },
+    {
+      "codigo": "22887",
+      "dv": "7",
+      "nome": "SINVASTATINA 10MG CPD/30 GN-SAN",
+      "indicacao": "DISLIPIDEMIA",
+      "substancia": "Sinvastatina 10 mg comprimido",
+      "ativo": true
+    },
+    {
+      "codigo": "55088",
+      "dv": "4",
+      "nome": "SINVASTATINA 20MG CPD/30 GN-PHA",
+      "indicacao": "DISLIPIDEMIA",
+      "substancia": "Sinvastatina 20 mg comprimido",
+      "ativo": true
+    },
+    {
+      "codigo": "14338",
+      "dv": "3",
+      "nome": "SINVASCOR 20MG CPD/30",
+      "indicacao": "DISLIPIDEMIA",
+      "substancia": "Sinvastatina 20 mg comprimido",
+      "ativo": true
+    },
+    {
+      "codigo": "21107",
+      "dv": "9",
+      "nome": "SINVASTACOR 20MG CPD/30",
+      "indicacao": "DISLIPIDEMIA",
+      "substancia": "Sinvastatina 20 mg comprimido",
+      "ativo": true
+    },
+    {
+      "codigo": "50847",
+      "dv": "0",
+      "nome": "SINVASTATINA 20MG CPD/30 GN-CIMED",
+      "indicacao": "DISLIPIDEMIA",
+      "substancia": "Sinvastatina 20 mg comprimido",
+      "ativo": true
+    },
+    {
+      "codigo": "49566",
+      "dv": "2",
+      "nome": "SINVASTATINA 20MG CPD/30 GN-NOV",
+      "indicacao": "DISLIPIDEMIA",
+      "substancia": "Sinvastatina 20 mg comprimido",
+      "ativo": true
+    },
+    {
+      "codigo": "35069",
+      "dv": "9",
+      "nome": "SINVASTATINA 20MG CPD/30 GN EMS",
+      "indicacao": "DISLIPIDEMIA",
+      "substancia": "Sinvastatina 20 mg comprimido",
+      "ativo": true
+    },
+    {
+      "codigo": "73720",
+      "dv": "8",
+      "nome": "GN SINVASTATINA 20MG 30CP GERME",
+      "indicacao": "DISLIPIDEMIA",
+      "substancia": "Sinvastatina 20 mg comprimido",
+      "ativo": true
+    },
+    {
+      "codigo": "79274",
+      "dv": "8",
+      "nome": "SINVASTATINA 20MG CPD/30 GN-GLOBO",
+      "indicacao": "DISLIPIDEMIA",
+      "substancia": "Sinvastatina 20 mg comprimido",
+      "ativo": true
+    },
+    {
+      "codigo": "22506",
+      "dv": "1",
+      "nome": "SINVASCOR 40MG CPD/ 30",
+      "indicacao": "DISLIPIDEMIA",
+      "substancia": "Sinvastatina 40 mg comprimido",
+      "ativo": true
+    },
+    {
+      "codigo": "35068",
+      "dv": "0",
+      "nome": "SINVASTATINA 40MG CPD/30 GN-EMS",
+      "indicacao": "DISLIPIDEMIA",
+      "substancia": "Sinvastatina 40 mg comprimido",
+      "ativo": true
+    },
+    {
+      "codigo": "61462",
+      "dv": "9",
+      "nome": "SINVASTATINA 40MG CPD/30 GN-LEG",
+      "indicacao": "DISLIPIDEMIA",
+      "substancia": "Sinvastatina 40 mg comprimido",
+      "ativo": true
+    },
+    {
+      "codigo": "50846",
+      "dv": "2",
+      "nome": "SINVASTATINA 40MG CPD/30 GN-CIMED",
+      "indicacao": "DISLIPIDEMIA",
+      "substancia": "Sinvastatina 40 mg comprimido",
+      "ativo": true
+    },
+    {
+      "codigo": "49565",
+      "dv": "4",
+      "nome": "SINVASTATINA 40MG CPD/30 GN-NOV",
+      "indicacao": "DISLIPIDEMIA",
+      "substancia": "Sinvastatina 40 mg comprimido",
+      "ativo": true
+    },
+    {
+      "codigo": "32706",
+      "dv": "9",
+      "nome": "SINVASTATINA 40MG CPD/30 GN-SANDOZ",
+      "indicacao": "DISLIPIDEMIA",
+      "substancia": "Sinvastatina 40 mg comprimido",
+      "ativo": true
+    },
+    {
+      "codigo": "79288",
+      "dv": "8",
+      "nome": "SINVASTATINA 40MG CPD/30 GN-GLOBO",
+      "indicacao": "DISLIPIDEMIA",
+      "substancia": "Sinvastatina 40 mg comprimido",
+      "ativo": true
+    },
+    {
+      "codigo": "27368",
+      "dv": "6",
+      "nome": "CARBIDOL 25MG/250MG CPD/30",
+      "indicacao": "DOENÇA DE PARKINSON",
+      "substancia": "Carbidopa 25 mg + Levodopa 250 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "78222",
+      "dv": "0",
+      "nome": "CARBID+LEVOD 25+250MG CPD/30 GN-ZYD",
+      "indicacao": "DOENÇA DE PARKINSON",
+      "substancia": "Carbidopa 25 mg + Levodopa 250 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "54599",
+      "dv": "6",
+      "nome": "EKSON 100MG+25MG CPD/30",
+      "indicacao": "DOENÇA DE PARKINSON",
+      "substancia": "Cloridrato de Benserazida 25 mg + Levodopa 100 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "40439",
+      "dv": "0",
+      "nome": "PROLOPA BD 100/25MG CPD/30",
+      "indicacao": "DOENÇA DE PARKINSON",
+      "substancia": "Cloridrato de Benserazida 25 mg + Levodopa 100 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "23036",
+      "dv": "7",
+      "nome": "MALEATO TIMOLOL 0,25/ 5ML GN-BIOS",
+      "indicacao": "GLAUCOMA",
+      "substancia": "Maleato de Timolol 0,25% - Solução Oftalmológica",
+      "ativo": true
+    },
+    {
+      "codigo": "6671",
+      "dv": "0",
+      "nome": "TIMOPTOL XE 0,5/ COL 5ML D3",
+      "indicacao": "GLAUCOMA",
+      "substancia": "Maleato de Timolol 0,50% - Solução Oftalmológica",
+      "ativo": true
+    },
+    {
+      "codigo": "1835",
+      "dv": "0",
+      "nome": "TIMOPTOL 0,5/ COL 5ML D3",
+      "indicacao": "GLAUCOMA",
+      "substancia": "Maleato de Timolol 0,50% - Solução Oftalmológica",
+      "ativo": true
+    },
+    {
+      "codigo": "22094",
+      "dv": "9",
+      "nome": "GLAUCOTRAT COL 5ML",
+      "indicacao": "GLAUCOMA",
+      "substancia": "Maleato de Timolol 0,50% - Solução Oftalmológica",
+      "ativo": true
+    },
+    {
+      "codigo": "32132",
+      "dv": "0",
+      "nome": "MALEATO TIMOLOL 5ML GN-NEO QUIM",
+      "indicacao": "GLAUCOMA",
+      "substancia": "Maleato de Timolol 0,50% - Solução Oftalmológica",
+      "ativo": true
+    },
+    {
+      "codigo": "27252",
+      "dv": "3",
+      "nome": "MALEATO TIMOLOL 0,5/ SOL 5ML GN-EMS",
+      "indicacao": "GLAUCOMA",
+      "substancia": "Maleato de Timolol 0,50% - Solução Oftalmológica",
+      "ativo": true
+    },
+    {
+      "codigo": "81830",
+      "dv": "5",
+      "nome": "ATENOLOL 25MG CPD/30 GN-BIOLAB",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Atenolol 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "21908",
+      "dv": "8",
+      "nome": "ATENOLOL 25MG CPD/30 GN-EMS",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Atenolol 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "40400",
+      "dv": "4",
+      "nome": "ANGIPRESS 25MG CPD/30",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Atenolol 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "32691",
+      "dv": "7",
+      "nome": "ATENOLOL 25MG CPD/60 GN-SANDOZ",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Atenolol 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "20453",
+      "dv": "6",
+      "nome": "ATENOLOL 25MG CPD/30 GN-MEDLEY",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Atenolol 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "16650",
+      "dv": "2",
+      "nome": "ATENOLOL 25MG CPD/30 GN-BIOSINT",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Atenolol 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "16033",
+      "dv": "4",
+      "nome": "ABLOK 25MG CPD C/30",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Atenolol 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "22932",
+      "dv": "6",
+      "nome": "ATENOLOL 25MG CPD/30 GN-SANDOZ",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Atenolol 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "48074",
+      "dv": "6",
+      "nome": "ATENOLOL 25MG CPD/30 GN-NEO",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Atenolol 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "61427",
+      "dv": "0",
+      "nome": "ANLODIPINO 5MG CPD/30 GN-NQ",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Bensilato de Anlodipino 5 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "19025",
+      "dv": "0",
+      "nome": "BESILATO ANLODIPINO 5MG CPD/30GN-TE",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Bensilato de Anlodipino 5 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "74484",
+      "dv": "0",
+      "nome": "KOPREXX 5MG CPD/30",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Bensilato de Anlodipino 5 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "32912",
+      "dv": "6",
+      "nome": "CORDAREX 5MG CPD/30",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Bensilato de Anlodipino 5 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "17161",
+      "dv": "1",
+      "nome": "PRESSAT 5MG CPD/30",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Bensilato de Anlodipino 5 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "19308",
+      "dv": "9",
+      "nome": "BESILATO ANLODIPINO 5MG CPD/30 GN-E",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Bensilato de Anlodipino 5 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "39969",
+      "dv": "8",
+      "nome": "NORVASC 5MG CPD/60",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Bensilato de Anlodipino 5 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "73783",
+      "dv": "6",
+      "nome": "BESILATO ANLODIPINO 5MG CPD/30 G-VI",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Bensilato de Anlodipino 5 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "54100",
+      "dv": "1",
+      "nome": "BESILATO ANLODIPINO 5MG CPD/60G-SAN",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Bensilato de Anlodipino 5 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "61375",
+      "dv": "4",
+      "nome": "BESILATO ANLODIPINO 5MG CPD/60 G-PR",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Bensilato de Anlodipino 5 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "20015",
+      "dv": "8",
+      "nome": "BESILATO ANLODIPINO 5MG CPD/30GN-ME",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Bensilato de Anlodipino 5 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "50821",
+      "dv": "7",
+      "nome": "BESILATO ANLODIPINO 5MGCPD/30GN-CIM",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Bensilato de Anlodipino 5 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "45680",
+      "dv": "2",
+      "nome": "BESILATO ANLODIPINO 5MG CPD/30G-NEO",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Bensilato de Anlodipino 5 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "40953",
+      "dv": "7",
+      "nome": "TENSALIV 5MG CPD/30",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Bensilato de Anlodipino 5 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "25429",
+      "dv": "0",
+      "nome": "CAPTOPRIL 25MG CPD/30 GN-GERMED",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Captopril 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "36450",
+      "dv": "9",
+      "nome": "CAPTOPRIL 25MG CPD/30 GN-CIMED",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Captopril 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "15624",
+      "dv": "8",
+      "nome": "CAPTOPRIL 25MG CPD/30 GN-MEDLEY",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Captopril 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "19013",
+      "dv": "6",
+      "nome": "CAPTOPRIL 25MG CPD/30 GN-EMS",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Captopril 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "36449",
+      "dv": "5",
+      "nome": "CAPTOPRIL 25MG CPD/30 GN-PRATI",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Captopril 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "60931",
+      "dv": "5",
+      "nome": "PROPALOL 40MG CPD/40",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Cloridrato de Propranolol 40 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "49176",
+      "dv": "4",
+      "nome": "CL PROPRANOLOL 40MG CPD/30GN-PHARLA",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Cloridrato de Propranolol 40 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "27213",
+      "dv": "2",
+      "nome": "CL PROPRANOLOL 40MG CPD/30 GN-NEO",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Cloridrato de Propranolol 40 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "58143",
+      "dv": "7",
+      "nome": "POLOL 40MG CPD/30",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Cloridrato de Propranolol 40 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "79297",
+      "dv": "7",
+      "nome": "CL PROPRANOLOL 40MG CPD/40 GN GLOBO",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Cloridrato de Propranolol 40 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "62491",
+      "dv": "8",
+      "nome": "DIACQUA 25MG CPD/30 NV",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Espironolactona 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "25625",
+      "dv": "0",
+      "nome": "ESPIRONOLACTONA 25MG CPD/30 GN-GERM",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Espironolactona 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "61422",
+      "dv": "0",
+      "nome": "ESPIRONOLACTONA 25MG CPD/30 GN-G",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Espironolactona 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "22233",
+      "dv": "0",
+      "nome": "ESPIRONOLACTONA 25MG CPD/30 GN-EMS",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Espironolactona 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "46588",
+      "dv": "7",
+      "nome": "ESPIRONOLACTONA 25MG CPD/30 GN-EURO",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Espironolactona 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "64419-",
+      "dv": "6",
+      "nome": "FUROSEMIDA 40MG CPD/20 GN-GEOLAB",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Furosemida 40 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "81576",
+      "dv": "4",
+      "nome": "FUROSEMIDA 40MG CPD/30 GN-GEOL",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Furosemida 40 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "81756",
+      "dv": "2",
+      "nome": "FUROSEMIDA 40MG CAPS/30 GN-PRATI",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Furosemida 40 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "56202",
+      "dv": "5",
+      "nome": "FUROSEMIDA 40MG CPD/20 GN-PRA",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Furosemida 40 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "48656",
+      "dv": "6",
+      "nome": "FUROSEMIDA 40MG CPD/20 GN-NQ",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Furosemida 40 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "18441",
+      "dv": "1",
+      "nome": "FUROSEMIDA 40MG CPD C/30 GN-BIOS",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Furosemida 40 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "61557",
+      "dv": "9",
+      "nome": "FUROSEMIDA 40MG CPD/30 GN-NEO",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Furosemida 40 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "27639",
+      "dv": "1",
+      "nome": "HIDROCLOROTIAZIDA 25MG CPD/30GN-EMS",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Hidroclorotiazida 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "36447",
+      "dv": "9",
+      "nome": "HIDROCLOROTIAZIDA 25MG CPD/30GN-CIM",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Hidroclorotiazida 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "29489",
+      "dv": "6",
+      "nome": "HIDROCLOROTIAZIDA 25MG CPD/30 GN-GE",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Hidroclorotiazida 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "33057",
+      "dv": "4",
+      "nome": "HIDROCLOROTIAZIDA 25MG CPD/30 GN-ME",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Hidroclorotiazida 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "49223",
+      "dv": "0",
+      "nome": "HIDROCLOROTIAZIDA 25MG CPD/30G-MEDQ",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Hidroclorotiazida 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "36424",
+      "dv": "0",
+      "nome": "HIDROCLOROTIAZIDA 25MG CPD/30 GN-NQ",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Hidroclorotiazida 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "22124",
+      "dv": "4",
+      "nome": "LOSARTANA POT 50MG CPD/30GN-M",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Losartana Potássica 50 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "34265",
+      "dv": "3",
+      "nome": "LOSARTANA POT 50MG CPD/30GN-T",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Losartana Potássica 50 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "30395",
+      "dv": "0",
+      "nome": "ZART 50MG CPD/30",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Losartana Potássica 50 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "36466",
+      "dv": "5",
+      "nome": "LOSARTANA POT 50MG CPD/30 GN-PRATI",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Losartana Potássica 50 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "41224",
+      "dv": "4",
+      "nome": "CORUS 50MG CPD/30",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Losartana Potássica 50 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "18578",
+      "dv": "7",
+      "nome": "ARADOIS 50MG CPD/30",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Losartana Potássica 50 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "30558",
+      "dv": "8",
+      "nome": "LOSARTANA POT 50MG CPD30GNEMS",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Losartana Potássica 50 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "32232",
+      "dv": "6",
+      "nome": "LOSARTANA POT 50MG CPD/30 GN GE",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Losartana Potássica 50 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "61472",
+      "dv": "6",
+      "nome": "LOSARTANA POT 50MG CPD/60 GN-PRATI",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Losartana Potássica 50 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "36422",
+      "dv": "3",
+      "nome": "LOSARTANA POT 50MG CPD/30 GN-NQ",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Losartana Potássica 50 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "81291",
+      "dv": "9",
+      "nome": "MALEATO ENALAPRIL 10MG CPD/30 GN-BI",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Maleato Enalapril 10 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "19381",
+      "dv": "0",
+      "nome": "RENALAPRIL 10MG CPD/30",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Maleato Enalapril 10 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "33883",
+      "dv": "4",
+      "nome": "VASOPRIL 10MG CPD/60",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Maleato Enalapril 10 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "20041",
+      "dv": "7",
+      "nome": "ANGIOPRIL 10MG CPD/30",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Maleato Enalapril 10 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "25633",
+      "dv": "1",
+      "nome": "MAL ENALAPRIL 10MG CPD/30 GN-GERMED",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Maleato Enalapril 10 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "36445",
+      "dv": "2",
+      "nome": "MALEATO ENALAPRIL 10MG CPD/30GN-CIM",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Maleato Enalapril 10 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "10475",
+      "dv": "2",
+      "nome": "VASOPRIL 10MG CPD/30",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Maleato Enalapril 10 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "16755",
+      "dv": "0",
+      "nome": "MALEATO ENALAPRIL 10MG CPD/30-GN EM",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Maleato Enalapril 10 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "29488",
+      "dv": "8",
+      "nome": "MALEATO ENALAPRIL 10MG CPD/30 GN-NE",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Maleato Enalapril 10 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "81588",
+      "dv": "8",
+      "nome": "SUCCIN METOPROLOL 25MGCP/30GN-CIMED",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Succinato de Metoprolol 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "52139",
+      "dv": "6",
+      "nome": "SUCCIN METOPROLOL 25MG CP/30GN-ACCO",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Succinato de Metoprolol 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "61618",
+      "dv": "4",
+      "nome": "SUCCINATO METOPROLOL 25MG CPD/30G-P",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Succinato de Metoprolol 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "60117",
+      "dv": "9",
+      "nome": "SUCCINATO METOPROLOL 25MG CPD/30GME",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Succinato de Metoprolol 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "54480",
+      "dv": "9",
+      "nome": "EMPROL XR 25MG CPD/30",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Succinato de Metoprolol 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "58660",
+      "dv": "9",
+      "nome": "DOZOITO 25MG CPD/30 LP",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Succinato de Metoprolol 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "60735",
+      "dv": "5",
+      "nome": "QUENZOR 25MG CAPS/30",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Succinato de Metoprolol 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "32955",
+      "dv": "0",
+      "nome": "SELOZOK 25MG CPD/30",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Succinato de Metoprolol 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "56525",
+      "dv": "3",
+      "nome": "SUCCINATO METOPROLOL 25MG CPD/30GBI",
+      "indicacao": "HIPERTENSÃO",
+      "substancia": "Succinato de Metoprolol 25 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "33380",
+      "dv": "8",
+      "nome": "BONAGRAN 70MG CPD/4",
+      "indicacao": "OSTEOPOROSE",
+      "substancia": "Alendronato de Sódio 70 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "45911",
+      "dv": "9",
+      "nome": "ALENDRONATO SOD 70MG CPD/4 GN-NEO",
+      "indicacao": "OSTEOPOROSE",
+      "substancia": "Alendronato de Sódio 70 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "65760",
+      "dv": "3",
+      "nome": "ALENDRONATO SODIO 70MG CP/4 GE CELL",
+      "indicacao": "OSTEOPOROSE",
+      "substancia": "Alendronato de Sódio 70 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "72734",
+      "dv": "2",
+      "nome": "GEN ALENDRONATO SODIO 70MG 4CP EURO",
+      "indicacao": "OSTEOPOROSE",
+      "substancia": "Alendronato de Sódio 70 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "26279",
+      "dv": "0",
+      "nome": "ALENDRONATO SOD 70MG CPD/4 GN-EMS",
+      "indicacao": "OSTEOPOROSE",
+      "substancia": "Alendronato de Sódio 70 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "27601",
+      "dv": "4",
+      "nome": "OSTEOFAR 70MG CPD/4",
+      "indicacao": "OSTEOPOROSE",
+      "substancia": "Alendronato de Sódio 70 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "42645",
+      "dv": "8",
+      "nome": "ALENDRONATO SOD 70MG CPD/4 GN-SANDO",
+      "indicacao": "OSTEOPOROSE",
+      "substancia": "Alendronato de Sódio 70 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "42665",
+      "dv": "2",
+      "nome": "ALENDRONATO SOD 70MG CPD/4 GN-LEG",
+      "indicacao": "OSTEOPOROSE",
+      "substancia": "Alendronato de Sódio 70 mg",
+      "ativo": true
+    },
+    {
+      "codigo": "56575",
+      "dv": "0",
+      "nome": "INALAJET 32MCG DOSE/120",
+      "indicacao": "RINITE",
+      "substancia": "Budesonida 32 mcg/dose - Administração tópica nasal doseada",
+      "ativo": true
+    },
+    {
+      "codigo": "50705",
+      "dv": "9",
+      "nome": "BUDESONIDA 32MG SPR DOSE/120 GN-EMS",
+      "indicacao": "RINITE",
+      "substancia": "Budesonida 32 mcg/dose - Administração tópica nasal doseada",
+      "ativo": true
+    },
+    {
+      "codigo": "24733",
+      "dv": "2",
+      "nome": "NOEX 32MCG SOL NASAL DOSE/120",
+      "indicacao": "RINITE",
+      "substancia": "Budesonida 32 mcg/dose - Administração tópica nasal doseada",
+      "ativo": true
+    },
+    {
+      "codigo": "29677",
+      "dv": "5",
+      "nome": "BUSONID 32MCG SUSP AQUOSO DOSE/120",
+      "indicacao": "RINITE",
+      "substancia": "Budesonida 32 mcg/dose - Administração tópica nasal doseada",
+      "ativo": true
+    },
+    {
+      "codigo": "79396",
+      "dv": "5",
+      "nome": "BUDESONIDA 32MCG SPRDOSE/120GN-ACHE",
+      "indicacao": "RINITE",
+      "substancia": "Budesonida 32 mcg/dose - Administração tópica nasal doseada",
+      "ativo": true
+    },
+    {
+      "codigo": "24838",
+      "dv": "0",
+      "nome": "NOEX 50MCG DOSE/200",
+      "indicacao": "RINITE",
+      "substancia": "Budesonida 50 mcg/dose - Administração tópica nasal doseada",
+      "ativo": true
+    },
+    {
+      "codigo": "20253",
+      "dv": "3",
+      "nome": "BUSONID 50MCG DOSE/120",
+      "indicacao": "RINITE",
+      "substancia": "Budesonida 50 mcg/dose - Administração tópica nasal doseada",
+      "ativo": true
+    },
+    {
+      "codigo": "60628",
+      "dv": "6",
+      "nome": "CLENIL NASAL AQUOSO 30ML",
+      "indicacao": "RINITE",
+      "substancia": "Dipropionato de Beclometasona 50 mcg/dose - Administração tópica nasal doseada",
+      "ativo": true
+    }
+  ],
+  "lojas": [
+    {
+      "codigo": "Loja1",
+      "nome": "Pague Menos Loja1",
+      "endereco": "RUA SENADOR POMPEU , 1520",
+      "bairro": "CENTRO",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60025-001",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja2",
+      "nome": "Pague Menos Loja2",
+      "endereco": "AV BEZERRA DE MENEZES , 2381",
+      "bairro": "SAO GERARDO",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60325-004",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja3",
+      "nome": "Pague Menos Loja3",
+      "endereco": "AV ABOLIÇÃO, 2090",
+      "bairro": "MEIRELES",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60165-130",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja4",
+      "nome": "Pague Menos Loja4",
+      "endereco": "AV BARÃO DE STUART , 2520",
+      "bairro": "JOAQUIM TAVORA",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60120-002",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja5",
+      "nome": "Pague Menos Loja5",
+      "endereco": "RUA TRINTA E UM DE JULHO , 505",
+      "bairro": "CENTRO",
+      "cidade": "TIANGUÁ",
+      "uf": "CE",
+      "cep": "62320-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja6",
+      "nome": "Pague Menos Loja6",
+      "endereco": "AV DOM JOSÉ TUPINAMBÁ, 1383",
+      "bairro": "CENTRO",
+      "cidade": "SOBRAL",
+      "uf": "CE",
+      "cep": "62010-290",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7",
+      "nome": "Pague Menos Loja7",
+      "endereco": "AV BEZERRA DE MENEZES , 358",
+      "bairro": "OTAVIO BONFIM",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60420-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja8",
+      "nome": "Pague Menos Loja8",
+      "endereco": "RUA CONEGO EDUARDO ARARIPE, 1529",
+      "bairro": "CENTRO",
+      "cidade": "PACAJUS",
+      "uf": "CE",
+      "cep": "62870-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja9",
+      "nome": "Pague Menos Loja9",
+      "endereco": "AV DOM LUÍS , 500",
+      "bairro": "ALDEOTA",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60160-230",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja10",
+      "nome": "Pague Menos Loja10",
+      "endereco": "AV CORONEL CARVALHO, 2120",
+      "bairro": "BARRA DO CEARA",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60346-164",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja11",
+      "nome": "Pague Menos Loja11",
+      "endereco": "RUA ALBERTO MAGNO , 1660",
+      "bairro": "MONTESE",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60425-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja12",
+      "nome": "Pague Menos Loja12",
+      "endereco": "RUA JOÃO DE ARAÚJO LIMA , 1150",
+      "bairro": "JOSE WALTER",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60750-130",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja13",
+      "nome": "Pague Menos Loja13",
+      "endereco": "RUA VITAL BRASIL , 2140",
+      "bairro": "GRANJA PORTUGAL",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60541-495",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja15",
+      "nome": "Pague Menos Loja15",
+      "endereco": "AV JOÃO PESSOA, 4547",
+      "bairro": "DAMAS",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60425-681",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja16",
+      "nome": "Pague Menos Loja16",
+      "endereco": "RUA EUCLIDES BARROSO , 565",
+      "bairro": "CENTRO",
+      "cidade": "CANINDÉ",
+      "uf": "CE",
+      "cep": "62700-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja17",
+      "nome": "Pague Menos Loja17",
+      "endereco": "AV JOVITA FEITOSA, 1110",
+      "bairro": "PARQUE ARAXA",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60455-410",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja18",
+      "nome": "Pague Menos Loja18",
+      "endereco": "AV FRANCISCO SÁ , 4475",
+      "bairro": "CARLITO PAMPLONA",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60010-450",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja19",
+      "nome": "Pague Menos Loja19",
+      "endereco": "AV DOM LUIS, 1300",
+      "bairro": "MEIRELES",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60160-240",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja20",
+      "nome": "Pague Menos Loja20",
+      "endereco": "RUA 723, 958",
+      "bairro": "CONJUNTO CEARA",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60333-030",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja22",
+      "nome": "Pague Menos Loja22",
+      "endereco": "AV MISTER HULL, 5047",
+      "bairro": "ANTONIO BEZERRA",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60356-001",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja23",
+      "nome": "Pague Menos Loja23",
+      "endereco": "RUA FLORIANO PEIXOTO, 1021",
+      "bairro": "CENTRO",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60025-130",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja24",
+      "nome": "Pague Menos Loja24",
+      "endereco": "AV BORGES DE MELO, 1581",
+      "bairro": "AEROPORTO",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60415-510",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja26",
+      "nome": "Pague Menos Loja26",
+      "endereco": "RUA GENERAL SAMPAIO, 877",
+      "bairro": "CENTRO",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60020-030",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja28",
+      "nome": "Pague Menos Loja28",
+      "endereco": "AV SARGENTO HERMINIO, 1178",
+      "bairro": "MONTE CASTELO",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60350-550",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja29",
+      "nome": "Pague Menos Loja29",
+      "endereco": "AV MENDEL STEINBRUCH, 3603",
+      "bairro": "PAJUCARA",
+      "cidade": "MARACANAÚ",
+      "uf": "CE",
+      "cep": "61910-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja30",
+      "nome": "Pague Menos Loja30",
+      "endereco": "AV ABOLIÇÃO , 1798",
+      "bairro": "MEIRELES",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60165-080",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja32",
+      "nome": "Pague Menos Loja32",
+      "endereco": "AV ANTÔNIO SALES , 2850",
+      "bairro": "DIONISIO TORRES",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60135-102",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja33",
+      "nome": "Pague Menos Loja33",
+      "endereco": "RUA FRANCISCO RAIMUNDO DE SOUSA , 95",
+      "bairro": "CENTRO",
+      "cidade": "HORIZONTE",
+      "uf": "CE",
+      "cep": "62880-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja34",
+      "nome": "Pague Menos Loja34",
+      "endereco": "RUA ONZE, 656",
+      "bairro": "JEREISATI 1",
+      "cidade": "MARACANAÚ",
+      "uf": "CE",
+      "cep": "61900-090",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja35",
+      "nome": "Pague Menos Loja35",
+      "endereco": "AV CORONEL CORREIA, 2006",
+      "bairro": "CENTRO",
+      "cidade": "CAUCAIA",
+      "uf": "CE",
+      "cep": "60180-550",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja36",
+      "nome": "Pague Menos Loja36",
+      "endereco": "AV TREZE DE MAIO , 836",
+      "bairro": "FATIMA",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60050-040",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja37",
+      "nome": "Pague Menos Loja37",
+      "endereco": "AV SENADOR VIRGÍLIO TÁVORA , 1200",
+      "bairro": "ALDEOTA",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60170-250",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja38",
+      "nome": "Pague Menos Loja38",
+      "endereco": "RUA CORONEL ANTONIO BOTELHO, 3",
+      "bairro": "CENTRO",
+      "cidade": "MARANGUAPE",
+      "uf": "CE",
+      "cep": "61940-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja39",
+      "nome": "Pague Menos Loja39",
+      "endereco": "RUA PEDRO BORGES, 75",
+      "bairro": "CENTRO",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60055-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja40",
+      "nome": "Pague Menos Loja40",
+      "endereco": "RUA CORONEL DIOGO GOMES, 1030",
+      "bairro": "CENTRO",
+      "cidade": "SOBRAL",
+      "uf": "CE",
+      "cep": "62010-150",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja42",
+      "nome": "Pague Menos Loja42",
+      "endereco": "AV PADRE CÍCERO , 2555",
+      "bairro": "TRIANGULO",
+      "cidade": "JUAZEIRO DO NORTE",
+      "uf": "CE",
+      "cep": "63041-145",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja43",
+      "nome": "Pague Menos Loja43",
+      "endereco": "RUA PEREIRA FILGUEIRAS, 1931",
+      "bairro": "MEIRELES",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60160-150",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja44",
+      "nome": "Pague Menos Loja44",
+      "endereco": "AV GUARARAPES , 1870",
+      "bairro": "CENTRO",
+      "cidade": "PETROLINA",
+      "uf": "PE",
+      "cep": "56302-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja45",
+      "nome": "Pague Menos Loja45",
+      "endereco": "AV MONSENHOR TABOSA , 1085",
+      "bairro": "MEIRELES",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60165-011",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja46",
+      "nome": "Pague Menos Loja46",
+      "endereco": "RUA LAURO MAIA, 945",
+      "bairro": "FATIMA",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60055-210",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja47",
+      "nome": "Pague Menos Loja47",
+      "endereco": "AV PONTES VIEIRA , 1214",
+      "bairro": "SAO JOAO DO TAUAPE",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60130-240",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja49",
+      "nome": "Pague Menos Loja49",
+      "endereco": "RUA MONSENHOR JUVINIANO BARRETO , 52 A",
+      "bairro": "CENTRO",
+      "cidade": "TAUÁ",
+      "uf": "CE",
+      "cep": "63660-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja50",
+      "nome": "Pague Menos Loja50",
+      "endereco": "RUA FREI MANSUETO, 303",
+      "bairro": "MEIRELES",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60175-070",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja51",
+      "nome": "Pague Menos Loja51",
+      "endereco": "AV PADRE PEDRO DE ALENCAR, 540",
+      "bairro": "MESSEJANA",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60840-280",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja52",
+      "nome": "Pague Menos Loja52",
+      "endereco": "AV DESEMBARCADOR MOREIRA, 1020",
+      "bairro": "ALDEOTA",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60175-650",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja53",
+      "nome": "Pague Menos Loja53",
+      "endereco": "AV DOM LINO, 1116",
+      "bairro": "CENTRO",
+      "cidade": "RUSSAS",
+      "uf": "CE",
+      "cep": "62900-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja54",
+      "nome": "Pague Menos Loja54",
+      "endereco": "AV DOM ALMEIDA LUSTOSA , 2686",
+      "bairro": "JUREMA",
+      "cidade": "CAUCAIA",
+      "uf": "CE",
+      "cep": "61645-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja55",
+      "nome": "Pague Menos Loja55",
+      "endereco": "RUA DA INDEPENDÊNCIA , 155",
+      "bairro": "CENTRO",
+      "cidade": "CAMOCIM",
+      "uf": "CE",
+      "cep": "62400-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja56",
+      "nome": "Pague Menos Loja56",
+      "endereco": " AV GOMES DE MATOS , 1017",
+      "bairro": "PAREAO",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60410-357",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja57",
+      "nome": "Pague Menos Loja57",
+      "endereco": "AV OSÓRIO DE PAIVA, 1854",
+      "bairro": "PARANGABA",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60720-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja58",
+      "nome": "Pague Menos Loja58",
+      "endereco": "RUA JAIME BENEVIDES, 206",
+      "bairro": "CENTRO",
+      "cidade": "MOMBAÇA",
+      "uf": "CE",
+      "cep": "63610-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja59",
+      "nome": "Pague Menos Loja59",
+      "endereco": "RUA JOÃO CORDEIRO , 1155",
+      "bairro": "CENTRO",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60110-300",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja60",
+      "nome": "Pague Menos Loja60",
+      "endereco": "RUA SÃO PEDRO , 1460",
+      "bairro": "SALESIANOS",
+      "cidade": "JUAZEIRO DO NORTE",
+      "uf": "CE",
+      "cep": "63050-270",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja62",
+      "nome": "Pague Menos Loja62",
+      "endereco": "AV DOM LUÍS , 300",
+      "bairro": "ALDEOTA",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60160-230",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja63",
+      "nome": "Pague Menos Loja63",
+      "endereco": "RUA ALEXANDRE BARAUNA, 747",
+      "bairro": "RODOLFO TEOFILO",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60000-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja64",
+      "nome": "Pague Menos Loja64",
+      "endereco": "AV GODOFREDO MACIEL , 2371",
+      "bairro": "MARAPONGA",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60710-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja65",
+      "nome": "Pague Menos Loja65",
+      "endereco": "AV BARÃO DE STUDART , 1127",
+      "bairro": "ALDEOTA",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60120-001",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja66",
+      "nome": "Pague Menos Loja66",
+      "endereco": "AV JOSEFA NOGUEIRA MONTEIRO, 1607",
+      "bairro": "CENTRO",
+      "cidade": "ICÓ",
+      "uf": "CE",
+      "cep": "63430-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja67",
+      "nome": "Pague Menos Loja67",
+      "endereco": "AV SANTOS DUMONT, 1256",
+      "bairro": "ALDEOTA",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60150-160",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja68",
+      "nome": "Pague Menos Loja68",
+      "endereco": " AV DR SILAS MUNGUBA, 3740",
+      "bairro": "SERRINHA",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60740-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja69",
+      "nome": "Pague Menos Loja69",
+      "endereco": "RUA CÔNEGO DE CASTRO, 3686",
+      "bairro": "PARQUE SAO JOSE",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60730-202",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja70",
+      "nome": "Pague Menos Loja70",
+      "endereco": "RUA MONSENHOR ESMERALDO , 954",
+      "bairro": "CENTRO",
+      "cidade": "CRATO",
+      "uf": "CE",
+      "cep": "63100-310",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja71",
+      "nome": "Pague Menos Loja71",
+      "endereco": "AV SANTOS DUMONT, 6050",
+      "bairro": "PAPICU",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60190-800",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja72",
+      "nome": "Pague Menos Loja72",
+      "endereco": "AV WASHINGTON SOARES, 450",
+      "bairro": "GUARARAPES",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60811-340",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja73",
+      "nome": "Pague Menos Loja73",
+      "endereco": "AV OLIVEIRA PAIVA, 1840",
+      "bairro": "CIDADE DOS FUNCIONARIOS",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60822-131",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja74",
+      "nome": "Pague Menos Loja74",
+      "endereco": "AV ANTÔNIO SALES , 620",
+      "bairro": "JOAQUIM TAVORA",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60135-100",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja75",
+      "nome": "Pague Menos Loja75",
+      "endereco": "RUA EPITÁCIO PESSOA , 66",
+      "bairro": "CENTRO",
+      "cidade": "IGUATU",
+      "uf": "CE",
+      "cep": "63500-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja76",
+      "nome": "Pague Menos Loja76",
+      "endereco": "AV RIO BRANCO, 724",
+      "bairro": "CIDADE ALTA",
+      "cidade": "NATAL",
+      "uf": "RN",
+      "cep": "59025-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja78",
+      "nome": "Pague Menos Loja78",
+      "endereco": "AV BEZERRA DE MENEZES , 2450",
+      "bairro": "SAO GERARDO",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60325-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja79",
+      "nome": "Pague Menos Loja79",
+      "endereco": "AV JERÓNIMO DE ALBUQUERQUE , 60",
+      "bairro": "COHAB",
+      "cidade": "SÃO LUÍS",
+      "uf": "MA",
+      "cep": "65061-210",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja80",
+      "nome": "Pague Menos Loja80",
+      "endereco": "AV COLARES MOREIRA , 19",
+      "bairro": "RENASCENCA",
+      "cidade": "SÃO LUÍS",
+      "uf": "MA",
+      "cep": "65075-440",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja81",
+      "nome": "Pague Menos Loja81",
+      "endereco": "AV DESEMBARGADOR MOREIRA , 333",
+      "bairro": "MEIRELES",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60170-055",
+      "ativo": true
+    },
+    {
+      "codigo": "LOJA82",
+      "nome": "Pague Menos LOJA82",
+      "endereco": "AV PRUDENTE DE MORAIS, 6454",
+      "bairro": "CANDELARIA",
+      "cidade": "NATAL",
+      "uf": "RN",
+      "cep": "59020-400",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja83",
+      "nome": "Pague Menos Loja83",
+      "endereco": "AV BACHAREL TOMAZ LANDIM , 2490",
+      "bairro": "IGAPO",
+      "cidade": "NATAL",
+      "uf": "RN",
+      "cep": "59104-212",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja84",
+      "nome": "Pague Menos Loja84",
+      "endereco": "AV SANTOS DUMONT , 278",
+      "bairro": "CENTRO",
+      "cidade": "MOSSORÓ",
+      "uf": "RN",
+      "cep": "59600-170",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja85",
+      "nome": "Pague Menos Loja85",
+      "endereco": "RUA DESEMBARGADOR PIRES DE CASTRO , 290",
+      "bairro": "CENTRO",
+      "cidade": "TERESINA",
+      "uf": "PI",
+      "cep": "64001-390",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja86",
+      "nome": "Pague Menos Loja86",
+      "endereco": "AV NILO PEÇANHA , 350",
+      "bairro": "PETROPOLIS",
+      "cidade": "NATAL",
+      "uf": "RN",
+      "cep": "59012-300",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja87",
+      "nome": "Pague Menos Loja87",
+      "endereco": "AV NOSSA SENHORA DE FÁTIMA, 1217",
+      "bairro": "FATIMA",
+      "cidade": "TERESINA",
+      "uf": "PI",
+      "cep": "64048-180",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja88",
+      "nome": "Pague Menos Loja88",
+      "endereco": "AV ARGEMIRO DE FIGUEREIDO, 13",
+      "bairro": "JARDIM OCEANIA",
+      "cidade": "JOÃO PESSOA",
+      "uf": "PB",
+      "cep": "58037-030",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja89",
+      "nome": "Pague Menos Loja89",
+      "endereco": "RUA CAZUZINHA MARQUES , 297",
+      "bairro": "CENTRO",
+      "cidade": "ACOPIARA",
+      "uf": "CE",
+      "cep": "63560-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja90",
+      "nome": "Pague Menos Loja90",
+      "endereco": "AV FREI SERAFIM , 2816",
+      "bairro": "ILHOTAS",
+      "cidade": "TERESINA",
+      "uf": "PI",
+      "cep": "64001-050",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja91",
+      "nome": "Pague Menos Loja91",
+      "endereco": " AV MARECHAL JUAREZ TAVORA QUADRA 61 CASA 6/7, 61",
+      "bairro": "PARQUE-PIAUI",
+      "cidade": "TERESINA",
+      "uf": "PI",
+      "cep": "64001-060",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja92",
+      "nome": "Pague Menos Loja92",
+      "endereco": "AV CLÁUDIO SANDERS , 80",
+      "bairro": "CENTRO",
+      "cidade": "ANANINDEUA",
+      "uf": "PA",
+      "cep": "67030-160",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja93",
+      "nome": "Pague Menos Loja93",
+      "endereco": "AV VISCONDE DE SOUZA FRANCO , 1185",
+      "bairro": "UMARIZAL",
+      "cidade": "BELEM",
+      "uf": "PA",
+      "cep": "66053-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja94",
+      "nome": "Pague Menos Loja94",
+      "endereco": "AV ENGENHEIRO  ROBERTO FREIRE , 1508",
+      "bairro": "CAPIM MACIO",
+      "cidade": "NATAL",
+      "uf": "RN",
+      "cep": "59080-400",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja95",
+      "nome": "Pague Menos Loja95",
+      "endereco": "RUA TEODORO PACHECO , 1018",
+      "bairro": "CENTRO",
+      "cidade": "TERESINA",
+      "uf": "PI",
+      "cep": "64001-060",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja96",
+      "nome": "Pague Menos Loja96",
+      "endereco": "AV BARÃO DE GURGUÉIA , 1982",
+      "bairro": "SAO PEDRO",
+      "cidade": "TERESINA",
+      "uf": "PI",
+      "cep": "64018-290",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja98",
+      "nome": "Pague Menos Loja98",
+      "endereco": "AV GETÚLIO VARGAS , 18",
+      "bairro": "MONTE CASTELO",
+      "cidade": "SÃO LUÍS",
+      "uf": "MA",
+      "cep": "65035-320",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja99",
+      "nome": "Pague Menos Loja99",
+      "endereco": "RUA PRAÇA FELIPE GUERRA , 12",
+      "bairro": "CENTRO",
+      "cidade": "MOSSORÓ",
+      "uf": "RN",
+      "cep": "59600-192",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja100",
+      "nome": "Pague Menos Loja100",
+      "endereco": "AV CEL ESTEVAM , 555",
+      "bairro": "ALECRIM",
+      "cidade": "NATAL",
+      "uf": "RN",
+      "cep": "59031-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja102",
+      "nome": "Pague Menos Loja102",
+      "endereco": "RUA MUNDURUCUS, 1826",
+      "bairro": "BATISTA CAMPOS",
+      "cidade": "BELEM",
+      "uf": "PA",
+      "cep": "66025-660",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja103",
+      "nome": "Pague Menos Loja103",
+      "endereco": "AV RAUL LOPES , 1000",
+      "bairro": "NOIVOS",
+      "cidade": "TERESINA",
+      "uf": "PI",
+      "cep": "64046-010",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja105",
+      "nome": "Pague Menos Loja105",
+      "endereco": "AV CONSELHEIRO AGUIAR , 4635",
+      "bairro": "BOA VIAGEM",
+      "cidade": "RECIFE",
+      "uf": "PE",
+      "cep": "51021-020",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja106",
+      "nome": "Pague Menos Loja106",
+      "endereco": "AV HERCULANO BANDEIRA, 687",
+      "bairro": "PINA",
+      "cidade": "RECIFE",
+      "uf": "PE",
+      "cep": "51110-131",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja113",
+      "nome": "Pague Menos Loja113",
+      "endereco": "RUA PRAÇA 1817, 58",
+      "bairro": "CENTRO",
+      "cidade": "JOÃO PESSOA",
+      "uf": "PB",
+      "cep": "58013-010",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja115",
+      "nome": "Pague Menos Loja115",
+      "endereco": "RUA PADRE LEMOS , 66",
+      "bairro": "CASA AMARELA",
+      "cidade": "RECIFE",
+      "uf": "PE",
+      "cep": "52070-200",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja116",
+      "nome": "Pague Menos Loja116",
+      "endereco": "AV BARRETO DE MENEZES , 419",
+      "bairro": "PRAZERES",
+      "cidade": "JABOATÃO DOS GUARARAPES",
+      "uf": "PE",
+      "cep": "54330-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja118",
+      "nome": "Pague Menos Loja118",
+      "endereco": " RUA QUARENTA E OITO , 569",
+      "bairro": "ESPINHEIRO",
+      "cidade": "RECIFE",
+      "uf": "PE",
+      "cep": "52020-060",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja119",
+      "nome": "Pague Menos Loja119",
+      "endereco": "AV JOSEFA TAVEIRA, 932",
+      "bairro": "MANGABEIRA",
+      "cidade": "JOÃO PESSOA",
+      "uf": "PB",
+      "cep": "58055-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja120",
+      "nome": "Pague Menos Loja120",
+      "endereco": "AV DUARTE DA SILVEIRA , 620",
+      "bairro": "CENTRO",
+      "cidade": "JOÃO PESSOA",
+      "uf": "PB",
+      "cep": "58013-280",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja121",
+      "nome": "Pague Menos Loja121",
+      "endereco": "AV DANIEL DE LA TOUCHE, 104",
+      "bairro": "COHAMA",
+      "cidade": "SÃO LUÍS",
+      "uf": "MA",
+      "cep": "65061-050",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja122",
+      "nome": "Pague Menos Loja122",
+      "endereco": "AV DEZESSETE DE AGOSTO , 979",
+      "bairro": "CASA FORTE",
+      "cidade": "RECIFE",
+      "uf": "PE",
+      "cep": "52061-540",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja123",
+      "nome": "Pague Menos Loja123",
+      "endereco": " AV ANICETO VAREJÃO , 100",
+      "bairro": "PIEDADE",
+      "cidade": "JABOATÃO DOS GUARARAPES",
+      "uf": "PE",
+      "cep": "54420-310",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja125",
+      "nome": "Pague Menos Loja125",
+      "endereco": "RUA SENADOR POMPEU , 251",
+      "bairro": "CENTRO",
+      "cidade": "CRATO",
+      "uf": "CE",
+      "cep": "63100-080",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja126",
+      "nome": "Pague Menos Loja126",
+      "endereco": " AV EPITÁCIO PESSOA , 468",
+      "bairro": "TORRE",
+      "cidade": "JOÃO PESSOA",
+      "uf": "PB",
+      "cep": "58040-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja127",
+      "nome": "Pague Menos Loja127",
+      "endereco": "RUA SÃO PEDRO, 568",
+      "bairro": "CENTRO",
+      "cidade": "JUAZEIRO DO NORTE",
+      "uf": "CE",
+      "cep": "63010-010",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja128",
+      "nome": "Pague Menos Loja128",
+      "endereco": "RUA Q, QUADRA 10, Nº1",
+      "bairro": "COHATRAC",
+      "cidade": "SÃO LUÍS",
+      "uf": "MA",
+      "cep": "65053-720",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja130",
+      "nome": "Pague Menos Loja130",
+      "endereco": "RUA JULIO DE SOUZA COUSSEIOR , 135",
+      "bairro": "MIRAMAR",
+      "cidade": "JOÃO PESSOA",
+      "uf": "PB",
+      "cep": "58032-030",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja131",
+      "nome": "Pague Menos Loja131",
+      "endereco": " AV SÃO LUIS REI DE FRANÇA , 1",
+      "bairro": "TURU",
+      "cidade": "SÃO LUÍS",
+      "uf": "MA",
+      "cep": "65065-470",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja132",
+      "nome": "Pague Menos Loja132",
+      "endereco": "AV FLÁVIO RIBEIRO COUTINHO , 1179",
+      "bairro": "MANAIRA",
+      "cidade": "JOÃO PESSOA",
+      "uf": "PB",
+      "cep": "58037-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja133",
+      "nome": "Pague Menos Loja133",
+      "endereco": " AV MANOEL DIAS DA SILVA, 1313",
+      "bairro": "PITUBA",
+      "cidade": "SALVADOR",
+      "uf": "BA",
+      "cep": "41830-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja134",
+      "nome": "Pague Menos Loja134",
+      "endereco": "AV CONSELHEIRO AGUIAR , 2964",
+      "bairro": "BOA VIAGEM",
+      "cidade": "RECIFE",
+      "uf": "PE",
+      "cep": "51020-020",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja135",
+      "nome": "Pague Menos Loja135",
+      "endereco": "AV BARÃO DE SOUZA LEÃO , 653",
+      "bairro": "BOA VIAGEM",
+      "cidade": "RECIFE",
+      "uf": "PE",
+      "cep": "51030-300",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja136",
+      "nome": "Pague Menos Loja136",
+      "endereco": " AV PROFESSOR CARLOS CUNHA, 1000",
+      "bairro": "JARACATY",
+      "cidade": "SÃO LUÍS",
+      "uf": "MA",
+      "cep": "65076-820",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja138",
+      "nome": "Pague Menos Loja138",
+      "endereco": "RUA DOUTOR ALFREDO OITICICA , 20",
+      "bairro": "PITANGUINHA",
+      "cidade": "MACEIÓ",
+      "uf": "AL",
+      "cep": "57055-230",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja139",
+      "nome": "Pague Menos Loja139",
+      "endereco": "AV HERMES FONTES , 318",
+      "bairro": "SUISSA",
+      "cidade": "ARACAJU",
+      "uf": "SE",
+      "cep": "49020-490",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja141",
+      "nome": "Pague Menos Loja141",
+      "endereco": "AV CONSELHEIRO ROSA E SILVA, 1997",
+      "bairro": "TAMARINEIRA",
+      "cidade": "RECIFE",
+      "uf": "PE",
+      "cep": "52050-020",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja144",
+      "nome": "Pague Menos Loja144",
+      "endereco": "RUA MARQUÊS DE CARAVELAS , 386",
+      "bairro": "BARRA",
+      "cidade": "SALVADOR",
+      "uf": "BA",
+      "cep": "40140-300",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja146",
+      "nome": "Pague Menos Loja146",
+      "endereco": "RUA VILA NOVA DA RAINHA , 301",
+      "bairro": "CENTRO",
+      "cidade": "CAMPINA GRANDE",
+      "uf": "PB",
+      "cep": "58100-690",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja147",
+      "nome": "Pague Menos Loja147",
+      "endereco": "AV JEAN EMILE FAVRE , 830",
+      "bairro": "IPSEP",
+      "cidade": "RECIFE",
+      "uf": "PE",
+      "cep": "51190-450",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja148",
+      "nome": "Pague Menos Loja148",
+      "endereco": "RUA THOMAZ GONZAGA , 224",
+      "bairro": "PERNAMBUES",
+      "cidade": "SALVADOR",
+      "uf": "BA",
+      "cep": "41110-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja149",
+      "nome": "Pague Menos Loja149",
+      "endereco": "AV CRUZ DA ARMAS , 3002",
+      "bairro": "OITIZEIRO",
+      "cidade": "JOÃO PESSOA",
+      "uf": "PB",
+      "cep": "58085-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja151",
+      "nome": "Pague Menos Loja151",
+      "endereco": "RUA JANGADEIROS ALAGOANOS , 1173",
+      "bairro": "PAJUCARA",
+      "cidade": "MACEIÓ",
+      "uf": "AL",
+      "cep": "57030-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja152",
+      "nome": "Pague Menos Loja152",
+      "endereco": "AV DEPUTADA CECI CUNHA, 23",
+      "bairro": "ALTO DO CRUZEIRO",
+      "cidade": "ARAPIRACA",
+      "uf": "AL",
+      "cep": "57312-485",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja154",
+      "nome": "Pague Menos Loja154",
+      "endereco": "CALÇADAO JOÃO PESSOA, 225",
+      "bairro": "CENTRO",
+      "cidade": "ARACAJU",
+      "uf": "SE",
+      "cep": "49010-130",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja157",
+      "nome": "Pague Menos Loja157",
+      "endereco": "AV MARECHAL CASTELO BRANCO, 655",
+      "bairro": "CENTRO",
+      "cidade": "TEIXEIRA DE FREITAS",
+      "uf": "BA",
+      "cep": "45995-042",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja158",
+      "nome": "Pague Menos Loja158",
+      "endereco": "AV FRANCISCO PORTO , 490",
+      "bairro": "SALGADO FILHO",
+      "cidade": "ARACAJU",
+      "uf": "SE",
+      "cep": "49020-120",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja159",
+      "nome": "Pague Menos Loja159",
+      "endereco": "AV TRÊS CORAÇÕES , 1",
+      "bairro": "COQUEIRO",
+      "cidade": "ANANINDEUA",
+      "uf": "PA",
+      "cep": "67110-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja160",
+      "nome": "Pague Menos Loja160",
+      "endereco": "AV SANTOS DUMONT , 5753",
+      "bairro": "PAPICU",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60000-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja161",
+      "nome": "Pague Menos Loja161",
+      "endereco": "AV ARAÚJO PINHO , 37",
+      "bairro": "CANELA",
+      "cidade": "SALVADOR",
+      "uf": "BA",
+      "cep": "40110-150",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja162",
+      "nome": "Pague Menos Loja162",
+      "endereco": "RUA PRAIA DE AREMBEPE , 40",
+      "bairro": "VILAS DO ATLANTICO",
+      "cidade": "LAURO DE FREITAS",
+      "uf": "BA",
+      "cep": "42700-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja163",
+      "nome": "Pague Menos Loja163",
+      "endereco": "AV FERNANDES LIMA, 315",
+      "bairro": "FAROL",
+      "cidade": "MACEIÓ",
+      "uf": "AL",
+      "cep": "57055-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja164",
+      "nome": "Pague Menos Loja164",
+      "endereco": "RUA JOSÉ BONIFÁCIO , 404",
+      "bairro": "TORRE",
+      "cidade": "RECIFE",
+      "uf": "PE",
+      "cep": "50710-001",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja165",
+      "nome": "Pague Menos Loja165",
+      "endereco": "RUA SIQUEIRA CAMPOS, 551",
+      "bairro": "CENTRO",
+      "cidade": "PAULISTA",
+      "uf": "PE",
+      "cep": "53401-320",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja166",
+      "nome": "Pague Menos Loja166",
+      "endereco": "AV FRANKLIN DE C SOBRAL, 2255",
+      "bairro": "GRAGERU",
+      "cidade": "ARACAJU",
+      "uf": "SE",
+      "cep": "49020-120",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja170",
+      "nome": "Pague Menos Loja170",
+      "endereco": "AV CARLOS DE LIMA CAVALCANTI , 1748",
+      "bairro": "CASA CAIADA",
+      "cidade": "OLINDA",
+      "uf": "PE",
+      "cep": "53040-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja171",
+      "nome": "Pague Menos Loja171",
+      "endereco": "PRAÇA FÉLIX GASPAR , 18",
+      "bairro": "CENTRO",
+      "cidade": "SANTO ANTÔNIO DE JESUS",
+      "uf": "BA",
+      "cep": "44572-055",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja172",
+      "nome": "Pague Menos Loja172",
+      "endereco": "RUA BARROS FALCÃO , 34",
+      "bairro": "MATATU DE BROTAS",
+      "cidade": "SALVADOR",
+      "uf": "BA",
+      "cep": "40255-370",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja173",
+      "nome": "Pague Menos Loja173",
+      "endereco": "AV JOÃO DAVINO , 266",
+      "bairro": "MANGABEIRAS",
+      "cidade": "MACEIÓ",
+      "uf": "AL",
+      "cep": "57037-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja174",
+      "nome": "Pague Menos Loja174",
+      "endereco": "AV AGAMENON MAGALHÃES , 1020",
+      "bairro": "AGAMENON",
+      "cidade": "CARUARU",
+      "uf": "PE",
+      "cep": "55014-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja175",
+      "nome": "Pague Menos Loja175",
+      "endereco": "AV RUA CONSELHEIRO DANTAS, 57",
+      "bairro": "COMERCIO",
+      "cidade": "SALVADOR",
+      "uf": "BA",
+      "cep": "40015-070",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja177",
+      "nome": "Pague Menos Loja177",
+      "endereco": "AV GETÚLIO VARGAS , 562",
+      "bairro": "CENTRO",
+      "cidade": "FEIRA DE SANTANA",
+      "uf": "BA",
+      "cep": "44010-100",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja179",
+      "nome": "Pague Menos Loja179",
+      "endereco": "AV SENHOR DOS PASSOS , 1176",
+      "bairro": "CENTRO",
+      "cidade": "FEIRA DE SANTANA",
+      "uf": "BA",
+      "cep": "44010-231",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja181",
+      "nome": "Pague Menos Loja181",
+      "endereco": "AV LAURO DE FREITAS , 166",
+      "bairro": "CENTRO",
+      "cidade": "VITÓRIA DA CONQUISTA",
+      "uf": "BA",
+      "cep": "45015-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja182",
+      "nome": "Pague Menos Loja182",
+      "endereco": "AV MOREIRA LIMA , 263",
+      "bairro": "CENTRO",
+      "cidade": "MACEIÓ",
+      "uf": "AL",
+      "cep": "57020-220",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja183",
+      "nome": "Pague Menos Loja183",
+      "endereco": "AV AYRTON SENNA DA SILVA, 2674",
+      "bairro": "PIEDADE",
+      "cidade": "JABOATÃO DOS GUARARAPES",
+      "uf": "PE",
+      "cep": "54410-240",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja184",
+      "nome": "Pague Menos Loja184",
+      "endereco": "RUA OSVALDO GORDILHO , 50",
+      "bairro": "SAO CRISTOVAO",
+      "cidade": "SALVADOR",
+      "uf": "BA",
+      "cep": "41510-010",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja185",
+      "nome": "Pague Menos Loja185",
+      "endereco": "AV PEDRO MIRANDA , 1139",
+      "bairro": "PEDREIRA",
+      "cidade": "BELEM",
+      "uf": "PA",
+      "cep": "66080-660",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja186",
+      "nome": "Pague Menos Loja186",
+      "endereco": "AV PRESIDENTE GETULIO VARGAS , 4500",
+      "bairro": "SERRARIA",
+      "cidade": "MACEIÓ",
+      "uf": "AL",
+      "cep": "57045-140",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja187",
+      "nome": "Pague Menos Loja187",
+      "endereco": "AV DEZESSETE DE AGOSTO, 358",
+      "bairro": "PANAMIRIM",
+      "cidade": "RECIFE",
+      "uf": "PE",
+      "cep": "52060-590",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja188",
+      "nome": "Pague Menos Loja188",
+      "endereco": "AV JOAQUIM SOEIRO DE CARVALHO , 730",
+      "bairro": "CENTRO",
+      "cidade": "BARREIRINHAS",
+      "uf": "MA",
+      "cep": "65071-380",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja189",
+      "nome": "Pague Menos Loja189",
+      "endereco": "AV  MIGUEL ROSA , 6196",
+      "bairro": "VERMELHA",
+      "cidade": "TERESINA",
+      "uf": "PI",
+      "cep": "64016-820",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja190",
+      "nome": "Pague Menos Loja190",
+      "endereco": "AV PRESIDENTE KENNEDY , 8",
+      "bairro": "SAO CRISTOVAO",
+      "cidade": "TERESINA",
+      "uf": "PI",
+      "cep": "64052-800",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja191",
+      "nome": "Pague Menos Loja191",
+      "endereco": "AV AYRTON SENA, 3022",
+      "bairro": "NEOPOLIS",
+      "cidade": "NATAL",
+      "uf": "RN",
+      "cep": "59080-100",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja192",
+      "nome": "Pague Menos Loja192",
+      "endereco": "AV RECIFE, 868",
+      "bairro": "AREIAS",
+      "cidade": "RECIFE",
+      "uf": "PE",
+      "cep": "51190-730",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja193",
+      "nome": "Pague Menos Loja193",
+      "endereco": "AV CINQUENTENÁRIO , 668",
+      "bairro": "CENTRO",
+      "cidade": "ITABUNA",
+      "uf": "BA",
+      "cep": "45600-004",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja195",
+      "nome": "Pague Menos Loja195",
+      "endereco": "AV MANOEL DIAS DA SILVA , 2031",
+      "bairro": "PITUBA",
+      "cidade": "SALVADOR",
+      "uf": "BA",
+      "cep": "41830-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja196",
+      "nome": "Pague Menos Loja196",
+      "endereco": "RUA TRAVESSA ANGUSTURA, 2658",
+      "bairro": "MARCO",
+      "cidade": "BELEM",
+      "uf": "PA",
+      "cep": "66087-710",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja197",
+      "nome": "Pague Menos Loja197",
+      "endereco": "AV PRESIDENTE GETULIO VARGAS, 658",
+      "bairro": "CENTRO",
+      "cidade": "CABO DE SANTO AGOSTINHO",
+      "uf": "PE",
+      "cep": "54500-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja198",
+      "nome": "Pague Menos Loja198",
+      "endereco": "AV JOANA ANGELICA, 924",
+      "bairro": "NAZARE",
+      "cidade": "SALVADOR",
+      "uf": "BA",
+      "cep": "40050-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja199",
+      "nome": "Pague Menos Loja199",
+      "endereco": "RUA TITO SILVA, 23",
+      "bairro": "MIRAMAR",
+      "cidade": "JOÃO PESSOA",
+      "uf": "PB",
+      "cep": "58043-090",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja200",
+      "nome": "Pague Menos Loja200",
+      "endereco": "AV MUIRAQUITA, 1780",
+      "bairro": "INTERVENTORIA",
+      "cidade": "SANTARÉM",
+      "uf": "PA",
+      "cep": "68010-680",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja201",
+      "nome": "Pague Menos Loja201",
+      "endereco": "AV NAZARÉ , 1034",
+      "bairro": "NAZARE",
+      "cidade": "BELEM",
+      "uf": "PA",
+      "cep": "66035-170",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja202",
+      "nome": "Pague Menos Loja202",
+      "endereco": "RUA JONALDO BONFIM , 668",
+      "bairro": "SANTOS DUMONT",
+      "cidade": "ARACAJU",
+      "uf": "SE",
+      "cep": "49087-350",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja204",
+      "nome": "Pague Menos Loja204",
+      "endereco": "AV CONSELHEIRO CARRÃO , 2041",
+      "bairro": "VILA CARRAO",
+      "cidade": "SÃO PAULO",
+      "uf": "SP",
+      "cep": "34030-001",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja206",
+      "nome": "Pague Menos Loja206",
+      "endereco": "AV ANGÉLICA , 1774",
+      "bairro": "HIGIENOPOLIS",
+      "cidade": "SÃO PAULO",
+      "uf": "SP",
+      "cep": "12282-200",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja207",
+      "nome": "Pague Menos Loja207",
+      "endereco": "AV LAVANDISCA, 607",
+      "bairro": "MOEMA",
+      "cidade": "SÃO PAULO",
+      "uf": "SP",
+      "cep": "45150-011",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja208",
+      "nome": "Pague Menos Loja208",
+      "endereco": "RUA EMPRESÁRIO JOÃO RODRIGUES ALVES , 704",
+      "bairro": "JARDIM SAO PAULO",
+      "cidade": "JOÃO PESSOA",
+      "uf": "PB",
+      "cep": "58051-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja209",
+      "nome": "Pague Menos Loja209",
+      "endereco": "RUA DOZE DE OUTUBRO, 387",
+      "bairro": "LAPA",
+      "cidade": "SÃO PAULO",
+      "uf": "SP",
+      "cep": "50730-001",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja210",
+      "nome": "Pague Menos Loja210",
+      "endereco": "AV DR VITAL BRASIL, 602",
+      "bairro": "BUTANTA",
+      "cidade": "SÃO PAULO",
+      "uf": "SP",
+      "cep": "55030-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja211",
+      "nome": "Pague Menos Loja211",
+      "endereco": "AV SAPOPEMBA, 10920",
+      "bairro": "JARDIM ADUTORA",
+      "cidade": "SÃO PAULO",
+      "uf": "SP",
+      "cep": "03988-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja212",
+      "nome": "Pague Menos Loja212",
+      "endereco": "RUA AMAZONAS, 247",
+      "bairro": "CENTRO",
+      "cidade": "CATANDUVA",
+      "uf": "SP",
+      "cep": "15800-050",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja214",
+      "nome": "Pague Menos Loja214",
+      "endereco": "RUA CARDOSO DE ALMEIDA, 328",
+      "bairro": "PERDIZES",
+      "cidade": "SÃO PAULO",
+      "uf": "SP",
+      "cep": "50130-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja215",
+      "nome": "Pague Menos Loja215",
+      "endereco": "AV SALGADO FILHO, 2086",
+      "bairro": "LAGOA NOVA",
+      "cidade": "NATAL",
+      "uf": "RN",
+      "cep": "59075-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja216",
+      "nome": "Pague Menos Loja216",
+      "endereco": "PRAÇA PADRE DAMIÃO , 116",
+      "bairro": "VILA PRUDENTE",
+      "cidade": "SÃO PAULO",
+      "uf": "SP",
+      "cep": "31260-050",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja217",
+      "nome": "Pague Menos Loja217",
+      "endereco": "RUA DOUTOR JOÃO RIBEIRO , 262",
+      "bairro": "PENHA DE FRANCA",
+      "cidade": "SÃO PAULO",
+      "uf": "SP",
+      "cep": "36340-010",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja218",
+      "nome": "Pague Menos Loja218",
+      "endereco": "AV VIEIRA DE MORAES, 777",
+      "bairro": "CAMPO BELO",
+      "cidade": "SÃO PAULO",
+      "uf": "SP",
+      "cep": "46170-012",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja219",
+      "nome": "Pague Menos Loja219",
+      "endereco": "AV AFONSO PENA, 657",
+      "bairro": "TIROL",
+      "cidade": "NATAL",
+      "uf": "RN",
+      "cep": "59020-100",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja220",
+      "nome": "Pague Menos Loja220",
+      "endereco": "RUA CEL ERNESTO DEOCLECIANO, 562 ",
+      "bairro": "CENTRO",
+      "cidade": "SOBRAL",
+      "uf": "CE",
+      "cep": "62011-050",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja221",
+      "nome": "Pague Menos Loja221",
+      "endereco": "RUA PRAÇA TIRADENTES , 465",
+      "bairro": "CENTRO",
+      "cidade": "CURITIBA",
+      "uf": "PR",
+      "cep": "80020-050",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja222",
+      "nome": "Pague Menos Loja222",
+      "endereco": "AV MUNHOZ DA ROCHA , 974",
+      "bairro": "CABRAL",
+      "cidade": "CURITIBA",
+      "uf": "PR",
+      "cep": "80035-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja223",
+      "nome": "Pague Menos Loja223",
+      "endereco": "RUA GOMES TABORDA, 1365",
+      "bairro": "PRADO",
+      "cidade": "RECIFE",
+      "uf": "PE",
+      "cep": "50720-158",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja224",
+      "nome": "Pague Menos Loja224",
+      "endereco": "AV ESTRADA DE CAMPINAS, 696",
+      "bairro": "SAO CAETANO",
+      "cidade": "SALVADOR",
+      "uf": "BA",
+      "cep": "40391-161",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja225",
+      "nome": "Pague Menos Loja225",
+      "endereco": "AV PORTUGAL, 526",
+      "bairro": "BRIOKLIN",
+      "cidade": "SÃO PAULO",
+      "uf": "SP",
+      "cep": "45590-001",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja226",
+      "nome": "Pague Menos Loja226",
+      "endereco": "AV REPUBLICA ARGENTINA, 2080",
+      "bairro": "PORTAO",
+      "cidade": "CURITIBA",
+      "uf": "PR",
+      "cep": "80620-010",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja227",
+      "nome": "Pague Menos Loja227",
+      "endereco": "RUA CORONEL XAVIER DE TOLEDO, 147",
+      "bairro": "REPUBLICA",
+      "cidade": "SÃO PAULO",
+      "uf": "SP",
+      "cep": "10481-100",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja228",
+      "nome": "Pague Menos Loja228",
+      "endereco": "AV DJALMA BATISTA , 280",
+      "bairro": "NOSSA SENHORA DAS GRACAS",
+      "cidade": "MANAUS",
+      "uf": "AM",
+      "cep": "69053-140",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja229",
+      "nome": "Pague Menos Loja229",
+      "endereco": "RUA PADRE ANCHIETA, 1856",
+      "bairro": "BIGORRILHO",
+      "cidade": "CURITIBA",
+      "uf": "PR",
+      "cep": "80730-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja230",
+      "nome": "Pague Menos Loja230",
+      "endereco": "AV SENADOR CARLOS JEREISSATI, 100",
+      "bairro": "JEREISSATE 1",
+      "cidade": "MARACANAÚ",
+      "uf": "CE",
+      "cep": "61901-012",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja231",
+      "nome": "Pague Menos Loja231",
+      "endereco": "AV CASTELO DE CASTRO , 674",
+      "bairro": "JANGURUSSU",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60866-681",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja232",
+      "nome": "Pague Menos Loja232",
+      "endereco": "AV DOMINGOS FERREIRA , 1935",
+      "bairro": "BOA VIAGEM",
+      "cidade": "RECIFE",
+      "uf": "PE",
+      "cep": "51011-050",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja233",
+      "nome": "Pague Menos Loja233",
+      "endereco": "RUA PEDRO BORGES, 209",
+      "bairro": "CENTRO",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60055-110",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja234",
+      "nome": "Pague Menos Loja234",
+      "endereco": "AV WHASHINGTON SOARES, 85 - LJ  236",
+      "bairro": "EDSON QUEIROZ",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60811-340",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja235",
+      "nome": "Pague Menos Loja235",
+      "endereco": "AV TRISTÃO GONÇALVES , 588",
+      "bairro": "CENTRO",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60015-001",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja236",
+      "nome": "Pague Menos Loja236",
+      "endereco": "AV ENGENHEIRO ALBERTO DE SÁ , 1111",
+      "bairro": "PAPICU",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60175-395",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja237",
+      "nome": "Pague Menos Loja237",
+      "endereco": "RUA EMÍLIO DE MENEZES , 663",
+      "bairro": "BONSUCESSO",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60541-664",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja238",
+      "nome": "Pague Menos Loja238",
+      "endereco": "AV ANTÔNIO SALES , 3700",
+      "bairro": "COCO",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60135-102",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja239",
+      "nome": "Pague Menos Loja239",
+      "endereco": "RUA CONEGO BESSA , 2473",
+      "bairro": "CENTRO",
+      "cidade": "LIMOEIRO DO NORTE",
+      "uf": "CE",
+      "cep": "62930-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja240",
+      "nome": "Pague Menos Loja240",
+      "endereco": "AV CORONEL ALEXANDRINO, 564",
+      "bairro": "CENTRO",
+      "cidade": "ARACATI",
+      "uf": "CE",
+      "cep": "62800-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja241",
+      "nome": "Pague Menos Loja241",
+      "endereco": "AV BARÃO DE MARUIM , 552",
+      "bairro": "CENTRO",
+      "cidade": "ARACAJU",
+      "uf": "SE",
+      "cep": "49010-340",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja242",
+      "nome": "Pague Menos Loja242",
+      "endereco": "AV PLÁCIDO CASTELO , 1773",
+      "bairro": "CENTRO",
+      "cidade": "QUIXADÁ",
+      "uf": "CE",
+      "cep": "63900-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja243",
+      "nome": "Pague Menos Loja243",
+      "endereco": "AV ANASTÁCIO BRAGA , 680",
+      "bairro": "CENTRO",
+      "cidade": "ITAPIPOCA",
+      "uf": "CE",
+      "cep": "62500-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja245",
+      "nome": "Pague Menos Loja245",
+      "endereco": "AV JOSE CARLOS SILVA, 4977",
+      "bairro": "SAO CONRADO",
+      "cidade": "ARACAJU",
+      "uf": "SE",
+      "cep": "49042-190",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja250",
+      "nome": "Pague Menos Loja250",
+      "endereco": "AV LARGO DO CAFÉ, 11",
+      "bairro": "CENTRO",
+      "cidade": "SÃO PAULO",
+      "uf": "SP",
+      "cep": "10120-030",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja251",
+      "nome": "Pague Menos Loja251",
+      "endereco": "AV PREFEITO ERASTO GETNEAR , 280",
+      "bairro": "BACACHERI",
+      "cidade": "CURITIBA",
+      "uf": "PR",
+      "cep": "82510-160",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja252",
+      "nome": "Pague Menos Loja252",
+      "endereco": "AV WINSTON CHURCHILL , 2225",
+      "bairro": "CAPAO RASO",
+      "cidade": "CURITIBA",
+      "uf": "PR",
+      "cep": "81150-050",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja254",
+      "nome": "Pague Menos Loja254",
+      "endereco": "AV AB PRESIDENTE DUTRA, 1405",
+      "bairro": "ALTO DE SAO MANOEL",
+      "cidade": "MOSSORÓ",
+      "uf": "RN",
+      "cep": "59631-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja255",
+      "nome": "Pague Menos Loja255",
+      "endereco": "AV LIBERDADE , 3489",
+      "bairro": "SESI",
+      "cidade": "BAYEUX",
+      "uf": "PB",
+      "cep": "58306-001",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja256",
+      "nome": "Pague Menos Loja256",
+      "endereco": "AV NOSSA SENHORA DE COPACABANA , 479",
+      "bairro": "CENTRO",
+      "cidade": "RIO DE JANEIRO",
+      "uf": "RJ",
+      "cep": "22031-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja257",
+      "nome": "Pague Menos Loja257",
+      "endereco": "AV MARECHAL DEODORO, 433",
+      "bairro": "CENTRO",
+      "cidade": "SÃO BERNARDO DO CAMPO",
+      "uf": "SP",
+      "cep": "97100-010",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja258",
+      "nome": "Pague Menos Loja258",
+      "endereco": "AV GUILHERME COTHING , 1427",
+      "bairro": "VILA MARIA",
+      "cidade": "SÃO PAULO",
+      "uf": "SP",
+      "cep": "21130-015",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja259",
+      "nome": "Pague Menos Loja259",
+      "endereco": "RUA VEREADOR JOSÉ SEVERIANO DA CÂMARA, 162",
+      "bairro": "CENTRO",
+      "cidade": "JOÃO CÂMARA",
+      "uf": "RN",
+      "cep": "59550-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja260",
+      "nome": "Pague Menos Loja260",
+      "endereco": "AV PRESIDENTE AFONSO PENA , 769",
+      "bairro": "BESSA",
+      "cidade": "JOÃO PESSOA",
+      "uf": "PB",
+      "cep": "58035-200",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja261",
+      "nome": "Pague Menos Loja261",
+      "endereco": "AV ROGACIANO LEITE , 230",
+      "bairro": "SALINAS",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60810-786",
+      "ativo": true
+    },
+    {
+      "codigo": "LOJA262",
+      "nome": "Pague Menos LOJA262",
+      "endereco": "RUA JAGUARARI , 1900",
+      "bairro": "LAGOA NOVA",
+      "cidade": "NATAL",
+      "uf": "RN",
+      "cep": "59054-500",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja264",
+      "nome": "Pague Menos Loja264",
+      "endereco": "RUA MANOEL ALVES DE MOURA , 128",
+      "bairro": "CENTRO",
+      "cidade": "BREJO SANTO",
+      "uf": "CE",
+      "cep": "63260-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja265",
+      "nome": "Pague Menos Loja265",
+      "endereco": "AV CASEMIRO JUNIOR, 115",
+      "bairro": "ANIL",
+      "cidade": "SÃO LUÍS",
+      "uf": "MA",
+      "cep": "65045-180",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja266",
+      "nome": "Pague Menos Loja266",
+      "endereco": "AV BACHAREL TOMAZ LANDIM , 194",
+      "bairro": "IGAPO",
+      "cidade": "NATAL",
+      "uf": "RN",
+      "cep": "59104-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja268",
+      "nome": "Pague Menos Loja268",
+      "endereco": "AV ALCINDO CACELA, 2426",
+      "bairro": "CREMACAO",
+      "cidade": "BELEM",
+      "uf": "PA",
+      "cep": "66060-020",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja269",
+      "nome": "Pague Menos Loja269",
+      "endereco": "AV ANA JANSEN SÃO FRANCISCO , 1",
+      "bairro": "SAO FRANCISCO",
+      "cidade": "SÃO LUÍS",
+      "uf": "MA",
+      "cep": "65076-730",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja270",
+      "nome": "Pague Menos Loja270",
+      "endereco": "AV NEVALDO ROCHA, 1061",
+      "bairro": "QUINTAS",
+      "cidade": "NATAL",
+      "uf": "RN",
+      "cep": "59035-015",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja271",
+      "nome": "Pague Menos Loja271",
+      "endereco": "PRAÇA 10 DE SETEMBRO - LARGO DO TANQUE, 108",
+      "bairro": "LIBERDADE",
+      "cidade": "SALVADOR",
+      "uf": "BA",
+      "cep": "40349-250",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja272",
+      "nome": "Pague Menos Loja272",
+      "endereco": "RUA MARQUES DO HERVAL , 114",
+      "bairro": "CENTRO",
+      "cidade": "CAMPINA GRANDE",
+      "uf": "PB",
+      "cep": "58400-085",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja273",
+      "nome": "Pague Menos Loja273",
+      "endereco": "RUA DIAS DA CRUZ , 47",
+      "bairro": "MEIER",
+      "cidade": "RIO DE JANEIRO",
+      "uf": "RJ",
+      "cep": "20720-010",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja275",
+      "nome": "Pague Menos Loja275",
+      "endereco": "RUA OSCAR FREIRE, 299",
+      "bairro": "CERQUEIRA CESAR",
+      "cidade": "SÃO PAULO",
+      "uf": "SP",
+      "cep": "14260-001",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja276",
+      "nome": "Pague Menos Loja276",
+      "endereco": "AV DEPUTADO JOSÉ LAJES , 627",
+      "bairro": "PONTA VERDE",
+      "cidade": "MACEIÓ",
+      "uf": "AL",
+      "cep": "57035-330",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja277",
+      "nome": "Pague Menos Loja277",
+      "endereco": "LARGO NOSSA SENHORA DO BOM PARTO, 195",
+      "bairro": "VILA GOMES CARDIM",
+      "cidade": "SÃO PAULO",
+      "uf": "SP",
+      "cep": "33090-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja278",
+      "nome": "Pague Menos Loja278",
+      "endereco": "RUA AV DAS AMÉRICAS , 14821",
+      "bairro": "RECREIO",
+      "cidade": "RIO DE JANEIRO",
+      "uf": "RJ",
+      "cep": "22785-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja280",
+      "nome": "Pague Menos Loja280",
+      "endereco": "RUA BENEDITO LEITE, 0",
+      "bairro": "CENTRO",
+      "cidade": "COELHO NETO",
+      "uf": "MA",
+      "cep": "65620-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja281",
+      "nome": "Pague Menos Loja281",
+      "endereco": "AV MAURO RAMOS, 1096",
+      "bairro": "CENTRO",
+      "cidade": "FLORIANÓPOLIS",
+      "uf": "SC",
+      "cep": "88020-302",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja282",
+      "nome": "Pague Menos Loja282",
+      "endereco": "AV BRIGADEIRO EVERALDO BREVES, 88",
+      "bairro": "CENTRO",
+      "cidade": "PARNAMIRIM",
+      "uf": "RN",
+      "cep": "59140-200",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja283",
+      "nome": "Pague Menos Loja283",
+      "endereco": "AV MISTER HULL , 5506",
+      "bairro": "ANTONIO BEZERRA",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60356-682",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja284",
+      "nome": "Pague Menos Loja284",
+      "endereco": "RUA 15 DE JULHO , 8",
+      "bairro": "CENTRO",
+      "cidade": "JUAZEIRO",
+      "uf": "BA",
+      "cep": "48903-400",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja285",
+      "nome": "Pague Menos Loja285",
+      "endereco": "AV BEZERRA DE MENEZES , 2450",
+      "bairro": "ALAGADICO",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60000-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja286",
+      "nome": "Pague Menos Loja286",
+      "endereco": "RUA DO URUGUAY, 153",
+      "bairro": "URUGUAY",
+      "cidade": "SALVADOR",
+      "uf": "BA",
+      "cep": "40450-211",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja288",
+      "nome": "Pague Menos Loja288",
+      "endereco": "AV LEDIO MARTINS , 549",
+      "bairro": "KOBRASOL",
+      "cidade": "SÃO JOSÉ",
+      "uf": "SC",
+      "cep": "88102-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja290",
+      "nome": "Pague Menos Loja290",
+      "endereco": "AV 85, 594",
+      "bairro": "SETOR OESTE",
+      "cidade": "GOIÂNIA",
+      "uf": "GO",
+      "cep": "74120-090",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja291",
+      "nome": "Pague Menos Loja291",
+      "endereco": "AV PRESIDENTE MEDICE , 270",
+      "bairro": "PARQUE PIAUI",
+      "cidade": "TIMON",
+      "uf": "MA",
+      "cep": "65631-390",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja292",
+      "nome": "Pague Menos Loja292",
+      "endereco": "RUA DR JOÃO COLIN , 642",
+      "bairro": "CENTRO",
+      "cidade": "JOINVILLE",
+      "uf": "SC",
+      "cep": "89201-300",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja293",
+      "nome": "Pague Menos Loja293",
+      "endereco": "RUA PRAÇA DR JOSÉ GONÇALVES , 312",
+      "bairro": "CENTRO",
+      "cidade": "SENHOR DO BONFIM",
+      "uf": "BA",
+      "cep": "48970-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja294",
+      "nome": "Pague Menos Loja294",
+      "endereco": "RUA DR LUIZ BELEGARD, 68",
+      "bairro": "CENTRO",
+      "cidade": "MACAÉ",
+      "uf": "RJ",
+      "cep": "27913-260",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja296",
+      "nome": "Pague Menos Loja296",
+      "endereco": "AV HUGO MUSSO, 1534",
+      "bairro": "PRAIA DA COSTA",
+      "cidade": "VILA VELHA",
+      "uf": "ES",
+      "cep": "29101-280",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja297",
+      "nome": "Pague Menos Loja297",
+      "endereco": "AV DEPUTADO PINHEIRO MACHADO, 710",
+      "bairro": "PINDORAMA",
+      "cidade": "PARNAÍBA",
+      "uf": "PI",
+      "cep": "64212-045",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja299",
+      "nome": "Pague Menos Loja299",
+      "endereco": "RUA SOLON PINHEIRO, 246",
+      "bairro": "CENTRO",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60050-040",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja300",
+      "nome": "Pague Menos Loja300",
+      "endereco": "AV AUTAZ MIRIM, 5981",
+      "bairro": "SAO JOSE OPERARIO",
+      "cidade": "MANAUS",
+      "uf": "AM",
+      "cep": "69000-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja302",
+      "nome": "Pague Menos Loja302",
+      "endereco": "AV HISTORIADOR RUBENS DE MENDONCA, 881",
+      "bairro": "BAU",
+      "cidade": "CUIABÁ",
+      "uf": "MT",
+      "cep": "78008-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja304",
+      "nome": "Pague Menos Loja304",
+      "endereco": "AV GOIAS , 415",
+      "bairro": "CENTRO",
+      "cidade": "GOIÂNIA",
+      "uf": "GO",
+      "cep": "74005-010",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja305",
+      "nome": "Pague Menos Loja305",
+      "endereco": "SHCS CL QD 309 BLOCO D LOJA 01, 1",
+      "bairro": "ASA SUL",
+      "cidade": "BRASÍLIA",
+      "uf": "DF",
+      "cep": "70362-540",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja306",
+      "nome": "Pague Menos Loja306",
+      "endereco": "AV JERÓNIMO JOSÉ ALVES , 41",
+      "bairro": "MORUMBI",
+      "cidade": "UBERLÂNDIA",
+      "uf": "MG",
+      "cep": "38407-285",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja307",
+      "nome": "Pague Menos Loja307",
+      "endereco": "AV SETE DE SETEMBRO , 1409",
+      "bairro": "CENTRO",
+      "cidade": "PORTO VELHO",
+      "uf": "RO",
+      "cep": "76804-103",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja308",
+      "nome": "Pague Menos Loja308",
+      "endereco": "AV QUADRA 104 SUL AV LO1, 2",
+      "bairro": "PLANO DIRETOR SUL",
+      "cidade": "PALMAS",
+      "uf": "TO",
+      "cep": "77020-020",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja309",
+      "nome": "Pague Menos Loja309",
+      "endereco": "AV BARÃO DO RIO BRANCO, 3016",
+      "bairro": "CENTRO",
+      "cidade": "JUIZ DE FORA",
+      "uf": "MG",
+      "cep": "36010-012",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja310",
+      "nome": "Pague Menos Loja310",
+      "endereco": "AV SETE DE SETEMBRO , 1989",
+      "bairro": "CENTRO",
+      "cidade": "ARARANGUÁ",
+      "uf": "SC",
+      "cep": "88900-049",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja311",
+      "nome": "Pague Menos Loja311",
+      "endereco": "AV AFONSO PENA , 766",
+      "bairro": "CENTRO",
+      "cidade": "UBERLÂNDIA",
+      "uf": "MG",
+      "cep": "38400-130",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja312",
+      "nome": "Pague Menos Loja312",
+      "endereco": "AV BERNARDO SAYÃO , S/N - QUADRA 01 - LOTE 12A",
+      "bairro": "VILA FLORESTA",
+      "cidade": "INHUMAS",
+      "uf": "GO",
+      "cep": "75402-020",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja313",
+      "nome": "Pague Menos Loja313",
+      "endereco": "AV LEOPOLDINO DE OLIVEIRA, 3770",
+      "bairro": "CENTRO",
+      "cidade": "UBERABA",
+      "uf": "MG",
+      "cep": "38010-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja315",
+      "nome": "Pague Menos Loja315",
+      "endereco": "AV DURVAL DE GOES MONTEIRO , 32",
+      "bairro": "TABULEIRO DOS MARTINS",
+      "cidade": "MACEIÓ",
+      "uf": "AL",
+      "cep": "57061-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja317",
+      "nome": "Pague Menos Loja317",
+      "endereco": "AV EXPEDITO GARCIA, 208",
+      "bairro": "CAMPO GRANDE",
+      "cidade": "CARIACICA",
+      "uf": "ES",
+      "cep": "29146-200",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja318",
+      "nome": "Pague Menos Loja318",
+      "endereco": "RUA LARGO SANTO ANTÔNIO , 51",
+      "bairro": "CENTRO",
+      "cidade": "ITABAIANA",
+      "uf": "SE",
+      "cep": "49500-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja319",
+      "nome": "Pague Menos Loja319",
+      "endereco": "AV JÚLIO DE MESQUITA, 741",
+      "bairro": "CAMBUI",
+      "cidade": "CAMPINAS",
+      "uf": "SP",
+      "cep": "13025-063",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja320",
+      "nome": "Pague Menos Loja320",
+      "endereco": "RUA FRANCISCO GLICÉRIO, 910",
+      "bairro": "CENTRO",
+      "cidade": "SUZANO",
+      "uf": "SP",
+      "cep": "86740-003",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja321",
+      "nome": "Pague Menos Loja321",
+      "endereco": "AV HIGIENOPOLIS , 906",
+      "bairro": "CENTRO",
+      "cidade": "LONDRINA",
+      "uf": "PR",
+      "cep": "86020-080",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja322",
+      "nome": "Pague Menos Loja322",
+      "endereco": "AV DOUTOR NELSON DÁVILA, 202",
+      "bairro": "CENTRO",
+      "cidade": "SÃO JOSÉ DOS CAMPOS",
+      "uf": "SP",
+      "cep": "12245-031",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja325",
+      "nome": "Pague Menos Loja325",
+      "endereco": "AV T 63, 956",
+      "bairro": "SETOR BUENO",
+      "cidade": "GOIÂNIA",
+      "uf": "GO",
+      "cep": "74230-105",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja326",
+      "nome": "Pague Menos Loja326",
+      "endereco": "AV RIO GRANDE, 1125",
+      "bairro": "CENTRO",
+      "cidade": "ITURAMA",
+      "uf": "MG",
+      "cep": "38280-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja328",
+      "nome": "Pague Menos Loja328",
+      "endereco": "AV GETÚLIO VARGAS, 6078",
+      "bairro": "CENTRO",
+      "cidade": "BOA VISTA",
+      "uf": "RR",
+      "cep": "69301-030",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja329",
+      "nome": "Pague Menos Loja329",
+      "endereco": "AV CENTRAL, 529",
+      "bairro": "PQ RES LARANJEIRAS",
+      "cidade": "SERRA",
+      "uf": "ES",
+      "cep": "29165-130",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja330",
+      "nome": "Pague Menos Loja330",
+      "endereco": "AV BRASIL , 1961",
+      "bairro": "CENTRO",
+      "cidade": "BALNEÁRIO CAMBORIÚ",
+      "uf": "SC",
+      "cep": "88330-050",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja331",
+      "nome": "Pague Menos Loja331",
+      "endereco": "RUA NAZARE, SN",
+      "bairro": "CENTRO",
+      "cidade": "TUTÓIA",
+      "uf": "MA",
+      "cep": "65580-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja332",
+      "nome": "Pague Menos Loja332",
+      "endereco": "AV LEOBERTO LEAL, 560",
+      "bairro": "BARREIROS",
+      "cidade": "SÃO JOSÉ",
+      "uf": "SC",
+      "cep": "88117-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja333",
+      "nome": "Pague Menos Loja333",
+      "endereco": "AV CÔNEGO JOÃO LIMA , 2254",
+      "bairro": "CENTRO",
+      "cidade": "ARAGUAÍNA",
+      "uf": "TO",
+      "cep": "77839-400",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja335",
+      "nome": "Pague Menos Loja335",
+      "endereco": "AV OSVALDO ARANHA , 1272",
+      "bairro": "BOM FIM",
+      "cidade": "PORTO ALEGRE",
+      "uf": "RS",
+      "cep": "90035-191",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja336",
+      "nome": "Pague Menos Loja336",
+      "endereco": "AV HERMES DA FONSECA, 846",
+      "bairro": "TIROL",
+      "cidade": "NATAL",
+      "uf": "RN",
+      "cep": "59020-145",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja337",
+      "nome": "Pague Menos Loja337",
+      "endereco": "SHC NORTE CL 311 BLOCO A LOJA 72, 72",
+      "bairro": "ASA NORTE",
+      "cidade": "BRASÍLIA",
+      "uf": "DF",
+      "cep": "70800-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja338",
+      "nome": "Pague Menos Loja338",
+      "endereco": "AV FRANCISCO GLICERIO, 1253",
+      "bairro": "CENTRO",
+      "cidade": "CAMPINAS",
+      "uf": "SP",
+      "cep": "13012-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja339",
+      "nome": "Pague Menos Loja339",
+      "endereco": "RUA ELIEZER LEVY, 1902",
+      "bairro": "CENTRO",
+      "cidade": "MACAPÁ",
+      "uf": "AP",
+      "cep": "68900-083",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja340",
+      "nome": "Pague Menos Loja340",
+      "endereco": "AV GETÚLIO VARGAS , 445",
+      "bairro": "CENTRO",
+      "cidade": "PICOS",
+      "uf": "PI",
+      "cep": "64000-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja341",
+      "nome": "Pague Menos Loja341",
+      "endereco": "AV DO CONTORNO, 351",
+      "bairro": "JD DAS HORTENCIAS",
+      "cidade": "GOIÂNIA",
+      "uf": "GO",
+      "cep": "74473-888",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja342",
+      "nome": "Pague Menos Loja342",
+      "endereco": "AV PRAÇA CORONEL BORGES, 147",
+      "bairro": "CENTRO",
+      "cidade": "FLORIANO",
+      "uf": "PI",
+      "cep": "64800-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja343",
+      "nome": "Pague Menos Loja343",
+      "endereco": "RUA REPÚBLICA ARABE DA SIRIA, 445",
+      "bairro": "JARDIM GUANABARA",
+      "cidade": "RIO DE JANEIRO",
+      "uf": "RJ",
+      "cep": "21931-370",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja344",
+      "nome": "Pague Menos Loja344",
+      "endereco": "RUA TRAVESSA HENRIQUE DIAS, S/N",
+      "bairro": "CENTRO",
+      "cidade": "BOM CONSELHO",
+      "uf": "PE",
+      "cep": "55330-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja345",
+      "nome": "Pague Menos Loja345",
+      "endereco": "AV JUSCELINO KUBITSCHEK, 99",
+      "bairro": "PLANO DIRETOR NORTE",
+      "cidade": "PALMAS",
+      "uf": "TO",
+      "cep": "77006-014",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja346",
+      "nome": "Pague Menos Loja346",
+      "endereco": "RUA RODOLFO CHERMONT, 860",
+      "bairro": "MARAMBAIA",
+      "cidade": "BELEM",
+      "uf": "PA",
+      "cep": "66620-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja348",
+      "nome": "Pague Menos Loja348",
+      "endereco": "RUA CLODOMIRO AMAZONAS, 1102",
+      "bairro": "VILA NOVA CONCEICAO",
+      "cidade": "SÃO PAULO",
+      "uf": "SP",
+      "cep": "45370-002",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja349",
+      "nome": "Pague Menos Loja349",
+      "endereco": "PRAÇA RUY BARBOSA, 160",
+      "bairro": "CENTRO",
+      "cidade": "ALAGOINHAS",
+      "uf": "BA",
+      "cep": "48010-040",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja350",
+      "nome": "Pague Menos Loja350",
+      "endereco": "AV MATO GROSSO, 1462",
+      "bairro": "VILA CIDADE",
+      "cidade": "CAMPO GRANDE",
+      "uf": "MS",
+      "cep": "79002-232",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja351",
+      "nome": "Pague Menos Loja351",
+      "endereco": "AV GETULIO VARGAS, 261",
+      "bairro": "CENTRO",
+      "cidade": "COLATINA",
+      "uf": "ES",
+      "cep": "29700-011",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja352",
+      "nome": "Pague Menos Loja352",
+      "endereco": "AV PELINCA , 196",
+      "bairro": "PQ TAMANDARE",
+      "cidade": "CAMPOS DOS GOYTACAZES",
+      "uf": "RJ",
+      "cep": "28035-053",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja353",
+      "nome": "Pague Menos Loja353",
+      "endereco": "RUA LAURENTINO DE BARROS , 56",
+      "bairro": "CENTRO",
+      "cidade": "LAJEDO",
+      "uf": "PE",
+      "cep": "55385-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja354",
+      "nome": "Pague Menos Loja354",
+      "endereco": "AV IPIRANGA, 3950",
+      "bairro": "ZONA 1",
+      "cidade": "UMUARAMA",
+      "uf": "PR",
+      "cep": "87501-310",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja355",
+      "nome": "Pague Menos Loja355",
+      "endereco": "AV JOÃO CÉSAR DE OLIVEIRA , 1144",
+      "bairro": "ELDORADO",
+      "cidade": "CONTAGEM",
+      "uf": "MG",
+      "cep": "32310-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja356",
+      "nome": "Pague Menos Loja356",
+      "endereco": "AV PRIMEIRO DE JUNHO, 534",
+      "bairro": "CENTRO",
+      "cidade": "DIVINÓPOLIS",
+      "uf": "MG",
+      "cep": "35500-002",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja357",
+      "nome": "Pague Menos Loja357",
+      "endereco": "RUA JOSÉ DE ALENCAR 640, 640",
+      "bairro": "MENINO DEUS",
+      "cidade": "PORTO ALEGRE",
+      "uf": "RS",
+      "cep": "90880-480",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja359",
+      "nome": "Pague Menos Loja359",
+      "endereco": "AV EPITÁCIO PESSOA, 39",
+      "bairro": "BOQUEIRAO",
+      "cidade": "SANTOS",
+      "uf": "SP",
+      "cep": "11045-301",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja361",
+      "nome": "Pague Menos Loja361",
+      "endereco": "RUA DA ITALIA, 32",
+      "bairro": "CENTRO",
+      "cidade": "JEQUIÉ",
+      "uf": "BA",
+      "cep": "45200-190",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja363",
+      "nome": "Pague Menos Loja363",
+      "endereco": "AV CARVALHO LEAL , 1259",
+      "bairro": "CACHOEIRINHA",
+      "cidade": "MANAUS",
+      "uf": "AM",
+      "cep": "69065-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja364",
+      "nome": "Pague Menos Loja364",
+      "endereco": "AV SIMAO DIAS, 438",
+      "bairro": "TAICOCA",
+      "cidade": "NOSSA SENHORA DO SOCORRO",
+      "uf": "SE",
+      "cep": "49160-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja365",
+      "nome": "Pague Menos Loja365",
+      "endereco": "AV NOSSA SENHORA DE FÁTIMA, 2016",
+      "bairro": "CENTRO",
+      "cidade": "ALTOS",
+      "uf": "PI",
+      "cep": "64290-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja366",
+      "nome": "Pague Menos Loja366",
+      "endereco": "RUA DO COMÉRCIO , 100",
+      "bairro": "CENTRO",
+      "cidade": "SANTA INÊS",
+      "uf": "MA",
+      "cep": "65300-972",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja367",
+      "nome": "Pague Menos Loja367",
+      "endereco": "AV FRANCISCO GAETANI, 872",
+      "bairro": "MAJOR PRATES",
+      "cidade": "MONTES CLAROS",
+      "uf": "MG",
+      "cep": "39403-202",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja368",
+      "nome": "Pague Menos Loja368",
+      "endereco": "AV TIRADENTES , 343",
+      "bairro": "CENTRO",
+      "cidade": "ARAGUARI",
+      "uf": "MG",
+      "cep": "38440-238",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja369",
+      "nome": "Pague Menos Loja369",
+      "endereco": "RUA PARA DE MINAS, 270",
+      "bairro": "PADRE EUSTAQUIO",
+      "cidade": "BELO HORIZONTE",
+      "uf": "MG",
+      "cep": "30730-440",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja370",
+      "nome": "Pague Menos Loja370",
+      "endereco": "RUA RENATO DANTAS , 617",
+      "bairro": "CENTRO",
+      "cidade": "CAICÓ",
+      "uf": "RN",
+      "cep": "59300-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja372",
+      "nome": "Pague Menos Loja372",
+      "endereco": "AV JURACY MAGALHÃES , 3340",
+      "bairro": "FELICIA",
+      "cidade": "VITÓRIA DA CONQUISTA",
+      "uf": "BA",
+      "cep": "45055-900",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja373",
+      "nome": "Pague Menos Loja373",
+      "endereco": "RUA DOUTOR CARLOS CHAGAS , 72",
+      "bairro": "SANTO AMARO",
+      "cidade": "RECIFE",
+      "uf": "PE",
+      "cep": "50100-080",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja374",
+      "nome": "Pague Menos Loja374",
+      "endereco": "RUA CORONEL PEDRO BOGEA , 237",
+      "bairro": "CENTRO",
+      "cidade": "LAGO DA PEDRA",
+      "uf": "MA",
+      "cep": "65715-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja375",
+      "nome": "Pague Menos Loja375",
+      "endereco": "AV MARINGÁ , 585",
+      "bairro": "VITORIA",
+      "cidade": "LONDRINA",
+      "uf": "PR",
+      "cep": "86060-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja376",
+      "nome": "Pague Menos Loja376",
+      "endereco": "AV ENGENHEIRO ROBERTO FREIRE, 3091",
+      "bairro": "PONTA NEGRA",
+      "cidade": "NATAL",
+      "uf": "RN",
+      "cep": "59090-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja377",
+      "nome": "Pague Menos Loja377",
+      "endereco": "AV BELARMINO COTTA PACHECO , 672",
+      "bairro": "SANTA MONICA",
+      "cidade": "UBERLÂNDIA",
+      "uf": "MG",
+      "cep": "38408-168",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja378",
+      "nome": "Pague Menos Loja378",
+      "endereco": "RUA GENERAL JOAQUIM INÁCIO , 483",
+      "bairro": "ILHA DO LEITE",
+      "cidade": "RECIFE",
+      "uf": "PE",
+      "cep": "50070-270",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja379",
+      "nome": "Pague Menos Loja379",
+      "endereco": "AV ALAMEDA PARNAÍBA , 2021",
+      "bairro": "MARQUES",
+      "cidade": "TERESINA",
+      "uf": "PI",
+      "cep": "64003-200",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja380",
+      "nome": "Pague Menos Loja380",
+      "endereco": "RUA DOM PEDRO II, 658",
+      "bairro": "CENTRO",
+      "cidade": "CRATEÚS",
+      "uf": "CE",
+      "cep": "63700-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja381",
+      "nome": "Pague Menos Loja381",
+      "endereco": " TRAVESSA S/N-24, 302",
+      "bairro": "CIDADE NOVA",
+      "cidade": "ANANINDEUA",
+      "uf": "PA",
+      "cep": "67140-550",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja382",
+      "nome": "Pague Menos Loja382",
+      "endereco": "AV ATAIDE TEIVE , 5300",
+      "bairro": "TANCREDO NEVES",
+      "cidade": "BOA VISTA",
+      "uf": "RR",
+      "cep": "69313-520",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja383",
+      "nome": "Pague Menos Loja383",
+      "endereco": "SCL/N QD 106 BL C LJ 10 - S/N",
+      "bairro": "ASA NORTE",
+      "cidade": "BRASÍLIA",
+      "uf": "DF",
+      "cep": "70742-530",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja385",
+      "nome": "Pague Menos Loja385",
+      "endereco": "RUA AMARAL PEIXOTO, 4911",
+      "bairro": "CENTRO",
+      "cidade": "RIO DAS OSTRAS",
+      "uf": "RJ",
+      "cep": "28890-970",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja386",
+      "nome": "Pague Menos Loja386",
+      "endereco": "AV ARISTIDES DE MELO, 870",
+      "bairro": "JK",
+      "cidade": "CARMO DO PARANAÍBA",
+      "uf": "MG",
+      "cep": "38840-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja387",
+      "nome": "Pague Menos Loja387",
+      "endereco": "AV PRUDENTE DE MORAIS , 139",
+      "bairro": "NOSSA SENHORA DA ABADIA",
+      "cidade": "UBERABA",
+      "uf": "MG",
+      "cep": "38026-250",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja388",
+      "nome": "Pague Menos Loja388",
+      "endereco": "AV JATUARANA , 4469",
+      "bairro": "NOVA FLORESTA",
+      "cidade": "PORTO VELHO",
+      "uf": "RO",
+      "cep": "76807-313",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja390",
+      "nome": "Pague Menos Loja390",
+      "endereco": "AV BARAO DE TATUI, 286",
+      "bairro": "JARDIM VERGUEIRO",
+      "cidade": "SOROCABA",
+      "uf": "SP",
+      "cep": "18030-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja391",
+      "nome": "Pague Menos Loja391",
+      "endereco": "RUA QUINZE DE NOVEMBRO , 40",
+      "bairro": "CENTRO",
+      "cidade": "SOROCABA",
+      "uf": "SP",
+      "cep": "18010-080",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja392",
+      "nome": "Pague Menos Loja392",
+      "endereco": "RUA NAGIB MUTRAN, 356",
+      "bairro": "CIDADE NOVA",
+      "cidade": "MARABÁ",
+      "uf": "PA",
+      "cep": "68501-570",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja393",
+      "nome": "Pague Menos Loja393",
+      "endereco": "AV JOÃO DA ESCOSSIA , 1528",
+      "bairro": "NOVA BETANIA",
+      "cidade": "MOSSORÓ",
+      "uf": "RN",
+      "cep": "59607-330",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja394",
+      "nome": "Pague Menos Loja394",
+      "endereco": "RUA PROFESSOR SABINO SILVA , 674",
+      "bairro": "JARDIM APIPEMA",
+      "cidade": "SALVADOR",
+      "uf": "BA",
+      "cep": "40155-250",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja395",
+      "nome": "Pague Menos Loja395",
+      "endereco": "RUA CORONEL PEDRO BENEDET , 446",
+      "bairro": "PIO CORREA",
+      "cidade": "CRICIÚMA",
+      "uf": "SC",
+      "cep": "88801-250",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja396",
+      "nome": "Pague Menos Loja396",
+      "endereco": "RUA TREZE DE NOVEMBRO , 1",
+      "bairro": "CENTRO",
+      "cidade": "CABO FRIO",
+      "uf": "RJ",
+      "cep": "28907-080",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja399",
+      "nome": "Pague Menos Loja399",
+      "endereco": "AV CARLOS LINDENBERG, 710",
+      "bairro": "GLORIA",
+      "cidade": "VILA VELHA",
+      "uf": "ES",
+      "cep": "29122-036",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja401",
+      "nome": "Pague Menos Loja401",
+      "endereco": "AV NAÇÕES UNIDAS , 2890",
+      "bairro": "ESTACAO EXPERIMENTAL",
+      "cidade": "RIO BRANCO",
+      "uf": "AC",
+      "cep": "69912-600",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja404",
+      "nome": "Pague Menos Loja404",
+      "endereco": "RUA DR NELSON DE ARAUJO, 575",
+      "bairro": "JD AMERICA",
+      "cidade": "DOURADOS",
+      "uf": "MS",
+      "cep": "79804-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja405",
+      "nome": "Pague Menos Loja405",
+      "endereco": "PRAÇA ISAI LEINER , 108",
+      "bairro": "BONFIGLIOLI",
+      "cidade": "SÃO PAULO",
+      "uf": "SP",
+      "cep": "55921-140",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja408",
+      "nome": "Pague Menos Loja408",
+      "endereco": "AV QUINTA AV , 1101",
+      "bairro": "LESTE VILA NOVA",
+      "cidade": "GOIÂNIA",
+      "uf": "GO",
+      "cep": "74645-025",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja409",
+      "nome": "Pague Menos Loja409",
+      "endereco": "RUA PADRE ROLIM, 698",
+      "bairro": "SANTA EFIGENIA",
+      "cidade": "BELO HORIZONTE",
+      "uf": "MG",
+      "cep": "30130-090",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja411",
+      "nome": "Pague Menos Loja411",
+      "endereco": "AV BARÃO DE CASTELO BRANCO, 1843",
+      "bairro": "CRISTO REI",
+      "cidade": "TERESINA",
+      "uf": "PI",
+      "cep": "64014-325",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja412",
+      "nome": "Pague Menos Loja412",
+      "endereco": "AV VILLE ROY, 45",
+      "bairro": "SAO FRANCISCO",
+      "cidade": "BOA VISTA",
+      "uf": "RR",
+      "cep": "69300-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja413",
+      "nome": "Pague Menos Loja413",
+      "endereco": "AV DOS HOLANDESES, 3",
+      "bairro": "CALHAU",
+      "cidade": "SÃO LUÍS",
+      "uf": "MA",
+      "cep": "65071-380",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja414",
+      "nome": "Pague Menos Loja414",
+      "endereco": "AV PUGLISI , 310",
+      "bairro": "CENTRO",
+      "cidade": "GUARUJÁ",
+      "uf": "SP",
+      "cep": "11410-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja415",
+      "nome": "Pague Menos Loja415",
+      "endereco": "AV DOM SEVERINO, 4346",
+      "bairro": "MORADA DO SOL",
+      "cidade": "TERESINA",
+      "uf": "PI",
+      "cep": "64055-305",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja418",
+      "nome": "Pague Menos Loja418",
+      "endereco": "RUA GREGORIO RAMALHO , 114",
+      "bairro": "ITAQUERA",
+      "cidade": "SÃO PAULO",
+      "uf": "SP",
+      "cep": "82104-430",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja419",
+      "nome": "Pague Menos Loja419",
+      "endereco": "RUA SHCS CR 516 BLOCO B , 25",
+      "bairro": "ASA SUL",
+      "cidade": "BRASÍLIA",
+      "uf": "DF",
+      "cep": "70381-525",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja420",
+      "nome": "Pague Menos Loja420",
+      "endereco": "AV THIAGO FERREIRA , 645",
+      "bairro": "VILA ALICE",
+      "cidade": "GUARUJÁ",
+      "uf": "SP",
+      "cep": "11450-001",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja421",
+      "nome": "Pague Menos Loja421",
+      "endereco": "RUA FERNANDO CORREA DA COSTA, 645",
+      "bairro": "CENTRO",
+      "cidade": "RONDONÓPOLIS",
+      "uf": "MT",
+      "cep": "78700-100",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja422",
+      "nome": "Pague Menos Loja422",
+      "endereco": "PRAÇA NABY SALEM, 204",
+      "bairro": "CENTRO",
+      "cidade": "CODÓ",
+      "uf": "MA",
+      "cep": "65400-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja423",
+      "nome": "Pague Menos Loja423",
+      "endereco": "AV PRESIDENTE VARGAS, 1220",
+      "bairro": "SETOR CENTRAL",
+      "cidade": "RIO VERDE",
+      "uf": "GO",
+      "cep": "75901-040",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja424",
+      "nome": "Pague Menos Loja424",
+      "endereco": "RUA BARAO DO RIO BRANCO, 1516",
+      "bairro": "ABAETETUBA",
+      "cidade": "ABAETETUBA",
+      "uf": "PA",
+      "cep": "68440-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja425",
+      "nome": "Pague Menos Loja425",
+      "endereco": "AV JUCA SAMPAIO , 2179",
+      "bairro": "FEITOSA",
+      "cidade": "MACEIÓ",
+      "uf": "AL",
+      "cep": "57042-530",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja426",
+      "nome": "Pague Menos Loja426",
+      "endereco": "RUA MAJOR GOTE , 608",
+      "bairro": "CENTRO",
+      "cidade": "PATOS DE MINAS",
+      "uf": "MG",
+      "cep": "38700-107",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja428",
+      "nome": "Pague Menos Loja428",
+      "endereco": "RUA MARECHAL HERMES , 190",
+      "bairro": "PRIMAVERA",
+      "cidade": "BARREIRAS",
+      "uf": "BA",
+      "cep": "47803-080",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja429",
+      "nome": "Pague Menos Loja429",
+      "endereco": "AV MAR VERMELHO, 104",
+      "bairro": "INTERMARES",
+      "cidade": "CABEDELO",
+      "uf": "PB",
+      "cep": "58310-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja430",
+      "nome": "Pague Menos Loja430",
+      "endereco": "RUA WALFREDO MACEDO BRANDÃO , 850",
+      "bairro": "JARDIM CIDADE UNIVERSITARIA",
+      "cidade": "JOÃO PESSOA",
+      "uf": "PB",
+      "cep": "58052-200",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja431",
+      "nome": "Pague Menos Loja431",
+      "endereco": "RUA 22 , 504",
+      "bairro": "CENTRO",
+      "cidade": "ITUIUTABA",
+      "uf": "MG",
+      "cep": "38300-076",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja432",
+      "nome": "Pague Menos Loja432",
+      "endereco": "RUA PRESIDENTE OLEGÁRIO MACIEL , 275",
+      "bairro": "CENTRO",
+      "cidade": "ARAXÁ",
+      "uf": "MG",
+      "cep": "38183-186",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja433",
+      "nome": "Pague Menos Loja433",
+      "endereco": "AV SANTA LEOPOLDINA, 1875",
+      "bairro": "COQUEIR DE ITAPARICA",
+      "cidade": "VILA VELHA",
+      "uf": "ES",
+      "cep": "29102-385",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja435",
+      "nome": "Pague Menos Loja435",
+      "endereco": "AV ANTÔNIO PATERSON , 91",
+      "bairro": "TRIANGULO",
+      "cidade": "CANDEIAS",
+      "uf": "BA",
+      "cep": "43815-970",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja437",
+      "nome": "Pague Menos Loja437",
+      "endereco": "AV LINS DE VASCONCELOS, 1711",
+      "bairro": "CAMBUCI",
+      "cidade": "SÃO PAULO",
+      "uf": "SP",
+      "cep": "15370-001",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja438",
+      "nome": "Pague Menos Loja438",
+      "endereco": "RUA CEARA, 1826",
+      "bairro": "CENTRO",
+      "cidade": "CAMPO GRANDE",
+      "uf": "MS",
+      "cep": "79020-360",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja439",
+      "nome": "Pague Menos Loja439",
+      "endereco": "AV MARIANA AMÁLIA , 231",
+      "bairro": "CENTRO",
+      "cidade": "VITÓRIA DE SANTO ANTÃO",
+      "uf": "PE",
+      "cep": "55602-010",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja441",
+      "nome": "Pague Menos Loja441",
+      "endereco": "AV BOULEVARD PEDRO RATES DE OLIVEIRA , 693",
+      "bairro": "CENTRO",
+      "cidade": "MANACAPURU",
+      "uf": "AM",
+      "cep": "69400-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja442",
+      "nome": "Pague Menos Loja442",
+      "endereco": "RUA PRIMEIRO DE AGOSTO , 8",
+      "bairro": "CENTRO",
+      "cidade": "BAURU",
+      "uf": "SP",
+      "cep": "17010-010",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja443",
+      "nome": "Pague Menos Loja443",
+      "endereco": "RUA ARTHUR DE AZEVEDO MACHADO, 856",
+      "bairro": "COSTA AZUL",
+      "cidade": "SALVADOR",
+      "uf": "BA",
+      "cep": "41760-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja444",
+      "nome": "Pague Menos Loja444",
+      "endereco": "RUA SANTA TERESINHA, 219",
+      "bairro": "CENTRO",
+      "cidade": "PARAGOMINAS",
+      "uf": "PA",
+      "cep": "68625-080",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja445",
+      "nome": "Pague Menos Loja445",
+      "endereco": "RUA TIRADENTES , 844",
+      "bairro": "CENTRO",
+      "cidade": "MACAPÁ",
+      "uf": "AP",
+      "cep": "68900-098",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja446",
+      "nome": "Pague Menos Loja446",
+      "endereco": "AV ABÍLIO MACHADO , 1569",
+      "bairro": "GLORIA",
+      "cidade": "BELO HORIZONTE",
+      "uf": "MG",
+      "cep": "30830-233",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja447",
+      "nome": "Pague Menos Loja447",
+      "endereco": "RUA TREZE DE MAIO, 3278",
+      "bairro": "CENTRO",
+      "cidade": "CAMPO GRANDE",
+      "uf": "MS",
+      "cep": "79002-355",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja448",
+      "nome": "Pague Menos Loja448",
+      "endereco": "AV EDILSON BRASIL SOARES, 1720",
+      "bairro": "EDSON QUEIROZ",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60834-012",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja449",
+      "nome": "Pague Menos Loja449",
+      "endereco": "RUA JOSE ERNESTOS DOS SANTOS, 413",
+      "bairro": "CENTRO",
+      "cidade": "LAURO DE FREITAS",
+      "uf": "BA",
+      "cep": "42700-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja450",
+      "nome": "Pague Menos Loja450",
+      "endereco": "AV MARIA QUITÉRIA , 2093",
+      "bairro": "SAO JOAO",
+      "cidade": "FEIRA DE SANTANA",
+      "uf": "BA",
+      "cep": "44051-682",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja452",
+      "nome": "Pague Menos Loja452",
+      "endereco": "AV ENGENHEIRO LUÍS CARLOS BERRINI , 1185",
+      "bairro": "CIDADE MONCOES",
+      "cidade": "SÃO PAULO",
+      "uf": "SP",
+      "cep": "45710-010",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja453",
+      "nome": "Pague Menos Loja453",
+      "endereco": "AV SENADOR RUI CARNEIRO , 198",
+      "bairro": "MANAIRA",
+      "cidade": "JOÃO PESSOA",
+      "uf": "PB",
+      "cep": "58039-181",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja454",
+      "nome": "Pague Menos Loja454",
+      "endereco": "AV SANTA CATARINA , 1100",
+      "bairro": "BAIRRO DOS ESTADOS",
+      "cidade": "JOÃO PESSOA",
+      "uf": "PB",
+      "cep": "58030-071",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja455",
+      "nome": "Pague Menos Loja455",
+      "endereco": "RUA SEBASTIÃO FERREIRA SANTOS , 119",
+      "bairro": "CENTRO",
+      "cidade": "ITAQUAQUECETUBA",
+      "uf": "SP",
+      "cep": "85700-060",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja456",
+      "nome": "Pague Menos Loja456",
+      "endereco": "AV DOUTOR MANOEL MARINHO MONTE, 801",
+      "bairro": "BOTEQUINS",
+      "cidade": "BRASILÉIA",
+      "uf": "AC",
+      "cep": "69932-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja457",
+      "nome": "Pague Menos Loja457",
+      "endereco": "AV RIO VERDE , S/N",
+      "bairro": "VILA SAO TOMAZ",
+      "cidade": "APARECIDA DE GOIÂNIA",
+      "uf": "GO",
+      "cep": "74915-515",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja458",
+      "nome": "Pague Menos Loja458",
+      "endereco": "AV 136, 41",
+      "bairro": "SETOR MARISTA",
+      "cidade": "GOIÂNIA",
+      "uf": "GO",
+      "cep": "74180-040",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja459",
+      "nome": "Pague Menos Loja459",
+      "endereco": "AV TREZE DE MAIO, 516",
+      "bairro": "JARDIM PAULISTA",
+      "cidade": "RIBEIRÃO PRETO",
+      "uf": "SP",
+      "cep": "14090-260",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja460",
+      "nome": "Pague Menos Loja460",
+      "endereco": "AV MANOEL NOVAES , 630",
+      "bairro": "CENTRO",
+      "cidade": "SERRINHA",
+      "uf": "BA",
+      "cep": "48700-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja461",
+      "nome": "Pague Menos Loja461",
+      "endereco": "PRAÇA SETE DE SETEMBRO , 52",
+      "bairro": "CENTRO",
+      "cidade": "SANTO ESTÊVÃO",
+      "uf": "BA",
+      "cep": "44190-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja462",
+      "nome": "Pague Menos Loja462",
+      "endereco": "PRAÇA BOM JESUS DE PIRAPORINHA , 357",
+      "bairro": "PIRAPORINHA",
+      "cidade": "DIADEMA",
+      "uf": "SP",
+      "cep": "99515-550",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja463",
+      "nome": "Pague Menos Loja463",
+      "endereco": "AL DOUTOR CARLOS DE CARVALHO, 768",
+      "bairro": "CENTRO",
+      "cidade": "CURITIBA",
+      "uf": "PR",
+      "cep": "80430-180",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja465",
+      "nome": "Pague Menos Loja465",
+      "endereco": "RUA ARTHUR DE AZEVEDO MACHADO ,  521",
+      "bairro": "COSTA AZUL",
+      "cidade": "SALVADOR",
+      "uf": "BA",
+      "cep": "41760-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja466",
+      "nome": "Pague Menos Loja466",
+      "endereco": "AV LEÃO SAMPAIO , 20",
+      "bairro": "TRIANGULO",
+      "cidade": "JUAZEIRO DO NORTE",
+      "uf": "CE",
+      "cep": "63041-082",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja467",
+      "nome": "Pague Menos Loja467",
+      "endereco": "RUA DORIVAL CAYMI, 48",
+      "bairro": "ITAPUA",
+      "cidade": "SALVADOR",
+      "uf": "BA",
+      "cep": "41635-152",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja468",
+      "nome": "Pague Menos Loja468",
+      "endereco": "AV JERÔNIMO  DE ALBUQUERQUE  VINHAIS , 1",
+      "bairro": "VINHAIS",
+      "cidade": "SÃO LUÍS",
+      "uf": "MA",
+      "cep": "65074-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja469",
+      "nome": "Pague Menos Loja469",
+      "endereco": "RUA MATERLÂNDIA , 458",
+      "bairro": "SANTA INES",
+      "cidade": "BELO HORIZONTE",
+      "uf": "MG",
+      "cep": "31080-330",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja470",
+      "nome": "Pague Menos Loja470",
+      "endereco": "AV CARDOSO MOREIRA , 820",
+      "bairro": "CENTRO",
+      "cidade": "ITAPERUNA",
+      "uf": "RJ",
+      "cep": "28300-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja473",
+      "nome": "Pague Menos Loja473",
+      "endereco": "AV JOHN SANFORD, 1486",
+      "bairro": "JUNCO",
+      "cidade": "SOBRAL",
+      "uf": "CE",
+      "cep": "62030-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja474",
+      "nome": "Pague Menos Loja474",
+      "endereco": "AV MARECHAL TITO, 2788 ",
+      "bairro": "SÃO MIGUEL PAULISTA",
+      "cidade": "SÃO PAULO",
+      "uf": "SP",
+      "cep": "08022-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja475",
+      "nome": "Pague Menos Loja475",
+      "endereco": "AV BRIGADEIRO FARIA LIMA, 1116",
+      "bairro": "PINHEIROS",
+      "cidade": "SÃO PAULO",
+      "uf": "SP",
+      "cep": "14510-001",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja476",
+      "nome": "Pague Menos Loja476",
+      "endereco": "RUA GENERAL OSÓRIO , 1153",
+      "bairro": "CENTRO",
+      "cidade": "CACOAL",
+      "uf": "RO",
+      "cep": "76963-890",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja477",
+      "nome": "Pague Menos Loja477",
+      "endereco": "AV SANTO ANTÔNIO , 129",
+      "bairro": "SANTO ANTONIO",
+      "cidade": "GARANHUNS",
+      "uf": "PE",
+      "cep": "55293-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja478",
+      "nome": "Pague Menos Loja478",
+      "endereco": "AV BARAO DO RIO BRANCO, 116",
+      "bairro": "CENTRO",
+      "cidade": "PALHOÇA",
+      "uf": "SC",
+      "cep": "88130-100",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja479",
+      "nome": "Pague Menos Loja479",
+      "endereco": "AV CEL JOSÉ SOARES MARCONDES , 2810",
+      "bairro": "VILA EUCLIDES",
+      "cidade": "PRESIDENTE PRUDENTE",
+      "uf": "SP",
+      "cep": "19013-050",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja480",
+      "nome": "Pague Menos Loja480",
+      "endereco": "AV MARIA LACERDA MONTENEGRO , 2864",
+      "bairro": "NOVA PARNAMIRIM",
+      "cidade": "PARNAMIRIM",
+      "uf": "RN",
+      "cep": "59152-600",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja481",
+      "nome": "Pague Menos Loja481",
+      "endereco": "AV MAJOR AMARANTES, 3473",
+      "bairro": "CENTRO",
+      "cidade": "VILHENA",
+      "uf": "RO",
+      "cep": "76980-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja482",
+      "nome": "Pague Menos Loja482",
+      "endereco": "RUA GUANABARA , 126",
+      "bairro": "PACOVAL",
+      "cidade": "MACAPÁ",
+      "uf": "AP",
+      "cep": "68908-360",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja484",
+      "nome": "Pague Menos Loja484",
+      "endereco": "AV BELÉM DO SÃO FRANCISCO, 28",
+      "bairro": "BOA VISTA",
+      "cidade": "CARUARU",
+      "uf": "PE",
+      "cep": "55038-275",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja485",
+      "nome": "Pague Menos Loja485",
+      "endereco": "AV RUI BARBOSA, 921",
+      "bairro": "CENTRO",
+      "cidade": "SANTARÉM",
+      "uf": "PA",
+      "cep": "68005-080",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja487",
+      "nome": "Pague Menos Loja487",
+      "endereco": "RUA QUINTINO BOCAIUVA, 21",
+      "bairro": "CENTRO",
+      "cidade": "SOUSA",
+      "uf": "PB",
+      "cep": "58800-060",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja489",
+      "nome": "Pague Menos Loja489",
+      "endereco": "AV VINTE E DOIS DE ABRIL, 296",
+      "bairro": "CENTRO",
+      "cidade": "PORTO SEGURO",
+      "uf": "BA",
+      "cep": "45810-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja490",
+      "nome": "Pague Menos Loja490",
+      "endereco": "AV OLIVEIRA FREIRE , 607",
+      "bairro": "PARQUE PAULISTANO",
+      "cidade": "SÃO PAULO",
+      "uf": "SP",
+      "cep": "80805-570",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja491",
+      "nome": "Pague Menos Loja491",
+      "endereco": "RUA CHICO LEMOS, 40",
+      "bairro": "CIDADE DOS FUNCIONARIOS",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60822-780",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja492",
+      "nome": "Pague Menos Loja492",
+      "endereco": "AV CORONEL ANTÔNIO JAPIASSU, 811",
+      "bairro": "CENTRO",
+      "cidade": "ARCOVERDE",
+      "uf": "PE",
+      "cep": "56506-100",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja494",
+      "nome": "Pague Menos Loja494",
+      "endereco": "AV ISAAC POVOAS, 807",
+      "bairro": "CENTRO SUL",
+      "cidade": "CUIABÁ",
+      "uf": "MT",
+      "cep": "78005-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja496",
+      "nome": "Pague Menos Loja496",
+      "endereco": "RUA BARAO DE JEQUIRICA, 21",
+      "bairro": "CENTRO",
+      "cidade": "VALENÇA",
+      "uf": "BA",
+      "cep": "45400-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja498",
+      "nome": "Pague Menos Loja498",
+      "endereco": "PRAÇA DA REVOLUÇÃO , 2 ",
+      "bairro": "PERIPERI",
+      "cidade": "SALVADOR",
+      "uf": "BA",
+      "cep": "40725-580",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja499",
+      "nome": "Pague Menos Loja499",
+      "endereco": "AV REPÚBLICA ARGENTINA , 1610",
+      "bairro": "AGUA VERDE",
+      "cidade": "CURITIBA",
+      "uf": "PR",
+      "cep": "80620-010",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja500",
+      "nome": "Pague Menos Loja500",
+      "endereco": "AV 10 , 180",
+      "bairro": "SETOR SUL",
+      "cidade": "GOIÂNIA",
+      "uf": "GO",
+      "cep": "74080-420",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja501",
+      "nome": "Pague Menos Loja501",
+      "endereco": "RUA JOAQUIM DA SILVA LIMA, 393",
+      "bairro": "CENTRO",
+      "cidade": "GUARAPARI",
+      "uf": "ES",
+      "cep": "29200-260",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja502",
+      "nome": "Pague Menos Loja502",
+      "endereco": "ESTRADA DO CAMPO LIMPO , 4460",
+      "bairro": "PIRAJUSSARA",
+      "cidade": "SÃO PAULO",
+      "uf": "SP",
+      "cep": "57870-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja504",
+      "nome": "Pague Menos Loja504",
+      "endereco": "UNIDADE 203, 6",
+      "bairro": "CIDADE OPERARIA",
+      "cidade": "SÃO LUÍS",
+      "uf": "MA",
+      "cep": "65058-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja505",
+      "nome": "Pague Menos Loja505",
+      "endereco": "AV PREFEITO JOÃO DE SOUZA LIMA , 791",
+      "bairro": "SAO JOAO",
+      "cidade": "ARAGUAÍNA",
+      "uf": "TO",
+      "cep": "77840-040",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja506",
+      "nome": "Pague Menos Loja506",
+      "endereco": "AV ANDRÉ ARAÚJO, 72",
+      "bairro": "ADRIANOPOLIS",
+      "cidade": "MANAUS",
+      "uf": "AM",
+      "cep": "69057-025",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja508",
+      "nome": "Pague Menos Loja508",
+      "endereco": "RUA QUINZE NOVEMBRO , 364",
+      "bairro": "FUNDINHO",
+      "cidade": "UBERLÂNDIA",
+      "uf": "MG",
+      "cep": "38400-214",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja509",
+      "nome": "Pague Menos Loja509",
+      "endereco": "AV DESEMBARGADOR TÁCITO DE CALDAS, 122",
+      "bairro": "CENTRO",
+      "cidade": "AÇAILÂNDIA",
+      "uf": "MA",
+      "cep": "65930-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja510",
+      "nome": "Pague Menos Loja510",
+      "endereco": "AV MARCOLINO MARTINS CABRAL , 2078",
+      "bairro": "VILA MOEMA",
+      "cidade": "TUBARÃO",
+      "uf": "SC",
+      "cep": "88705-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja511",
+      "nome": "Pague Menos Loja511",
+      "endereco": "RUA SÃO JOSE, 2150",
+      "bairro": "LAGOA NOVA",
+      "cidade": "NATAL",
+      "uf": "RN",
+      "cep": "59054-630",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja512",
+      "nome": "Pague Menos Loja512",
+      "endereco": "AV WHASHINGTON LUIS , 223",
+      "bairro": "CENTRO",
+      "cidade": "SIMÕES FILHO",
+      "uf": "BA",
+      "cep": "43700-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja513",
+      "nome": "Pague Menos Loja513",
+      "endereco": "AV EDUARDO ELIAS ZAHRAN, 1663",
+      "bairro": "VILA SANTA DOROTHEIA",
+      "cidade": "CAMPO GRANDE",
+      "uf": "MS",
+      "cep": "79004-001",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja515",
+      "nome": "Pague Menos Loja515",
+      "endereco": "AV MINAS GERAIS , 827",
+      "bairro": "CENTRO",
+      "cidade": "GOVERNADOR VALADARES",
+      "uf": "MG",
+      "cep": "35010-150",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja516",
+      "nome": "Pague Menos Loja516",
+      "endereco": "AV BERNARDO MANUEL, 9978",
+      "bairro": "ITAPERY",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60761-282",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja517",
+      "nome": "Pague Menos Loja517",
+      "endereco": "RUA GENERAL LIMA E SILVA , 767",
+      "bairro": "CIDADE BAIXA",
+      "cidade": "PORTO ALEGRE",
+      "uf": "RS",
+      "cep": "90050-101",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja518",
+      "nome": "Pague Menos Loja518",
+      "endereco": "RUA LARANJEIRAS , 238",
+      "bairro": "CENTRO",
+      "cidade": "ARACAJU",
+      "uf": "SE",
+      "cep": "49010-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja519",
+      "nome": "Pague Menos Loja519",
+      "endereco": "AV COUTO MAGALHAES, 1098",
+      "bairro": "CENTRO",
+      "cidade": "VÁRZEA GRANDE",
+      "uf": "MT",
+      "cep": "78110-400",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja520",
+      "nome": "Pague Menos Loja520",
+      "endereco": "AV CARLOS ROBERTO COSTA, 952",
+      "bairro": "VENEZA",
+      "cidade": "IGUATU",
+      "uf": "CE",
+      "cep": "63500-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja521",
+      "nome": "Pague Menos Loja521",
+      "endereco": "AV MARECHAL RONDON , 2142",
+      "bairro": "CENTRO",
+      "cidade": "JI-PARANÁ",
+      "uf": "RO",
+      "cep": "76900-827",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja522",
+      "nome": "Pague Menos Loja522",
+      "endereco": "AV CORONEL MANCIO LIMA , 421",
+      "bairro": "BAIXA",
+      "cidade": "CRUZEIRO DO SUL",
+      "uf": "AC",
+      "cep": "69980-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja523",
+      "nome": "Pague Menos Loja523",
+      "endereco": "AV LANDULFO ALVES , 324",
+      "bairro": "CENTRO",
+      "cidade": "PAULO AFONSO",
+      "uf": "BA",
+      "cep": "48602-490",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja524",
+      "nome": "Pague Menos Loja524",
+      "endereco": "RUA VOLUNTÁRIOS DE SÃO PAULO , 2813",
+      "bairro": "CENTRO",
+      "cidade": "SÃO JOSÉ DO RIO PRETO",
+      "uf": "SP",
+      "cep": "15015-200",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja526",
+      "nome": "Pague Menos Loja526",
+      "endereco": "RODOVIA ARMANDO CALIL BULOS , 6278",
+      "bairro": "INGLESES DO RIO VERMELHO",
+      "cidade": "FLORIANÓPOLIS",
+      "uf": "SC",
+      "cep": "88058-001",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja527",
+      "nome": "Pague Menos Loja527",
+      "endereco": "AV ANTÔNIO PEREIRA ARAGÃO  , 988",
+      "bairro": "CENTRO",
+      "cidade": "SÃO MATEUS DO MARANHÃO",
+      "uf": "MA",
+      "cep": "65470-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja528",
+      "nome": "Pague Menos Loja528",
+      "endereco": "RUA CORONEL LUCENA MARANHÃO , 220",
+      "bairro": "MONUMENTO",
+      "cidade": "SANTANA DO IPANEMA",
+      "uf": "AL",
+      "cep": "57500-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja530",
+      "nome": "Pague Menos Loja530",
+      "endereco": "AV DR CRISTIANO GUIMARÃES , 1832",
+      "bairro": "PLANALTO",
+      "cidade": "BELO HORIZONTE",
+      "uf": "MG",
+      "cep": "31720-300",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja531",
+      "nome": "Pague Menos Loja531",
+      "endereco": "PRAÇA LIMA REBELO , 998",
+      "bairro": "CENTRO",
+      "cidade": "PARNAÍBA",
+      "uf": "PI",
+      "cep": "64200-230",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja537",
+      "nome": "Pague Menos Loja537",
+      "endereco": "CLS CLS QUADRA 407 BLOCO D LOJAS 12, 16, S/N",
+      "bairro": "ASA SUL",
+      "cidade": "BRASÍLIA",
+      "uf": "DF",
+      "cep": "70256-540",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja538",
+      "nome": "Pague Menos Loja538",
+      "endereco": "AV JOSÉ FONSECA E SILVA , 1040",
+      "bairro": "JARDIM PATRICIA",
+      "cidade": "UBERLÂNDIA",
+      "uf": "MG",
+      "cep": "38414-073",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja539",
+      "nome": "Pague Menos Loja539",
+      "endereco": "AV CAXANGÁ , 171",
+      "bairro": "MADALENA",
+      "cidade": "RECIFE",
+      "uf": "PE",
+      "cep": "50720-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja540",
+      "nome": "Pague Menos Loja540",
+      "endereco": "RUA MARIA MATOS , 429",
+      "bairro": "CENTRO",
+      "cidade": "CORONEL FABRICIANO",
+      "uf": "MG",
+      "cep": "35170-111",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja542",
+      "nome": "Pague Menos Loja542",
+      "endereco": "RUA CÔNEGO PINTO , 78",
+      "bairro": "CENTRO",
+      "cidade": "QUIXERAMOBIM",
+      "uf": "CE",
+      "cep": "63800-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja543",
+      "nome": "Pague Menos Loja543",
+      "endereco": "RUA SILVA BUENO , 1906",
+      "bairro": "IPIRANGA",
+      "cidade": "SÃO PAULO",
+      "uf": "SP",
+      "cep": "42080-001",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja544",
+      "nome": "Pague Menos Loja544",
+      "endereco": "AV DR CLAUDIO JOSE GUEIROS LEITE , 2855",
+      "bairro": "JANGA",
+      "cidade": "PAULISTA",
+      "uf": "PE",
+      "cep": "53437-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja547",
+      "nome": "Pague Menos Loja547",
+      "endereco": "AV MAHIBA AZAR, 0",
+      "bairro": "OLHO D'AGUA",
+      "cidade": "SÃO LUÍS",
+      "uf": "MA",
+      "cep": "65065-250",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja548",
+      "nome": "Pague Menos Loja548",
+      "endereco": "AV NICOMEDES ALVES DOS SANTOS , 1814",
+      "bairro": "MORADA DA COLINA",
+      "cidade": "UBERLÂNDIA",
+      "uf": "MG",
+      "cep": "38411-106",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja549",
+      "nome": "Pague Menos Loja549",
+      "endereco": "AV JOAO FELIPE CALMON, 805",
+      "bairro": "CENTRO",
+      "cidade": "LINHARES",
+      "uf": "ES",
+      "cep": "29900-023",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja551",
+      "nome": "Pague Menos Loja551",
+      "endereco": "RUA MARTINS BARBOSA, 251",
+      "bairro": "BENFICA",
+      "cidade": "JUIZ DE FORA",
+      "uf": "MG",
+      "cep": "36090-300",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja553",
+      "nome": "Pague Menos Loja553",
+      "endereco": "RUA DOUTOR JOSÉ BEZERRA, 1541",
+      "bairro": "CENTRO",
+      "cidade": "RIBEIRÃO",
+      "uf": "PE",
+      "cep": "55520-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja554",
+      "nome": "Pague Menos Loja554",
+      "endereco": "ESTRADA DOS BANDEIRANTES, 4990",
+      "bairro": "CURICICA",
+      "cidade": "RIO DE JANEIRO",
+      "uf": "RJ",
+      "cep": "22775-114",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja555",
+      "nome": "Pague Menos Loja555",
+      "endereco": "AV UBALDO FIGUEIRA , 632",
+      "bairro": "CENTRO",
+      "cidade": "SANTANA",
+      "uf": "AP",
+      "cep": "68925-001",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja556",
+      "nome": "Pague Menos Loja556",
+      "endereco": "AV GETULIO VARGAS , 1354",
+      "bairro": "ANITA GARIBALDI",
+      "cidade": "JOINVILLE",
+      "uf": "SC",
+      "cep": "89202-002",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja559",
+      "nome": "Pague Menos Loja559",
+      "endereco": "AV JOSÉ MARCELINO DA SILVA, 171",
+      "bairro": "CENTRO",
+      "cidade": "CATALÃO",
+      "uf": "GO",
+      "cep": "75700-001",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja560",
+      "nome": "Pague Menos Loja560",
+      "endereco": "AV DELMIRO GOUVEIA , 17",
+      "bairro": "TANCREDO NEVES II",
+      "cidade": "PAULO AFONSO",
+      "uf": "BA",
+      "cep": "48609-124",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja562",
+      "nome": "Pague Menos Loja562",
+      "endereco": "AV BADY BASSIT, 3300",
+      "bairro": "CENTRO",
+      "cidade": "SÃO JOSÉ DO RIO PRETO",
+      "uf": "SP",
+      "cep": "15025-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja563",
+      "nome": "Pague Menos Loja563",
+      "endereco": "AV FERNANDES LIMA, 3500",
+      "bairro": "FAROL",
+      "cidade": "MACEIÓ",
+      "uf": "AL",
+      "cep": "57052-403",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja565",
+      "nome": "Pague Menos Loja565",
+      "endereco": "AV DOMINGO FERREIRA , 2284",
+      "bairro": "BOA VIAGEM",
+      "cidade": "RECIFE",
+      "uf": "PE",
+      "cep": "51011-050",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja566",
+      "nome": "Pague Menos Loja566",
+      "endereco": "AV MAESTRO LISBOA, 2068",
+      "bairro": "LAGOA REDONDA",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60832-402",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja567",
+      "nome": "Pague Menos Loja567",
+      "endereco": "AV EXPEDICIONARIOS, 3254",
+      "bairro": "BENFICA",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60411-135",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja568",
+      "nome": "Pague Menos Loja568",
+      "endereco": "AV CATULO , 174",
+      "bairro": "CENTRO",
+      "cidade": "BALSAS",
+      "uf": "MA",
+      "cep": "65800-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja570",
+      "nome": "Pague Menos Loja570",
+      "endereco": "AV BRASIL, 2395",
+      "bairro": "COMPENSA",
+      "cidade": "MANAUS",
+      "uf": "AM",
+      "cep": "69036-110",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja572",
+      "nome": "Pague Menos Loja572",
+      "endereco": "AV ENG EURICO VIANA, 214",
+      "bairro": "VILA SAO JOAO",
+      "cidade": "GOIÂNIA",
+      "uf": "GO",
+      "cep": "74815-435",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja574",
+      "nome": "Pague Menos Loja574",
+      "endereco": "QD 8, 3",
+      "bairro": "VALPARAISO I ETAPA A",
+      "cidade": "VALPARAÍSO DE GOIÁS",
+      "uf": "GO",
+      "cep": "72876-024",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja580",
+      "nome": "Pague Menos Loja580",
+      "endereco": "AV BERNARDO VIEIRA DE MELO, 3000",
+      "bairro": "PIEDADE",
+      "cidade": "JABOATÃO DOS GUARARAPES",
+      "uf": "PE",
+      "cep": "54410-010",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja582",
+      "nome": "Pague Menos Loja582",
+      "endereco": "RUA CONSELHEIRO ANTÔNIO PRADO , 11",
+      "bairro": "CENTRO",
+      "cidade": "BIRIGUI",
+      "uf": "SP",
+      "cep": "16200-052",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja583",
+      "nome": "Pague Menos Loja583",
+      "endereco": "AV ARTHUR BERNARDES, 253",
+      "bairro": "CENTRO",
+      "cidade": "MONTES CLAROS",
+      "uf": "MG",
+      "cep": "39400-018",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja584",
+      "nome": "Pague Menos Loja584",
+      "endereco": "RUA JAYME SAPOLNIK, 2",
+      "bairro": "BOCA DO RIO",
+      "cidade": "SALVADOR",
+      "uf": "BA",
+      "cep": "41710-045",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja586",
+      "nome": "Pague Menos Loja586",
+      "endereco": "AV WEIMAR GONCALVES TORRES, 2596",
+      "bairro": "CENTRO",
+      "cidade": "DOURADOS",
+      "uf": "MS",
+      "cep": "79800-011",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja587",
+      "nome": "Pague Menos Loja587",
+      "endereco": "AV HENRIQUE MOSCOSO, 340",
+      "bairro": "CENTRO",
+      "cidade": "VILA VELHA",
+      "uf": "ES",
+      "cep": "29100-020",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja589",
+      "nome": "Pague Menos Loja589",
+      "endereco": "RUA CONSELHEIRO PEDRO LUIZ , 91",
+      "bairro": "RIO VERMELHO",
+      "cidade": "SALVADOR",
+      "uf": "BA",
+      "cep": "41950-610",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja591",
+      "nome": "Pague Menos Loja591",
+      "endereco": "AV 04 AVN ISABEL CAFETEIRA , 22",
+      "bairro": "JARDIM AMERICA",
+      "cidade": "SÃO LUÍS",
+      "uf": "MA",
+      "cep": "65058-324",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja592",
+      "nome": "Pague Menos Loja592",
+      "endereco": "AV 9 DE JULHO, 184",
+      "bairro": "VILA ADYANNA",
+      "cidade": "SÃO JOSÉ DOS CAMPOS",
+      "uf": "SP",
+      "cep": "12243-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja593",
+      "nome": "Pague Menos Loja593",
+      "endereco": "AV SÃO CARLOS , 1587",
+      "bairro": "CENTRO",
+      "cidade": "SÃO CARLOS",
+      "uf": "SP",
+      "cep": "13560-010",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja595",
+      "nome": "Pague Menos Loja595",
+      "endereco": "AV T2 C T9, 1174",
+      "bairro": "BUENO",
+      "cidade": "GOIÂNIA",
+      "uf": "GO",
+      "cep": "74215-020",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja596",
+      "nome": "Pague Menos Loja596",
+      "endereco": "AV JOÃO DE BARROS , 1546",
+      "bairro": "ESPINHEIRO",
+      "cidade": "RECIFE",
+      "uf": "PE",
+      "cep": "52021-180",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja597",
+      "nome": "Pague Menos Loja597",
+      "endereco": "RUA SILVEIRA LOBO , 20",
+      "bairro": "POCO",
+      "cidade": "RECIFE",
+      "uf": "PE",
+      "cep": "52061-030",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja598",
+      "nome": "Pague Menos Loja598",
+      "endereco": "AV CONTORNO BR, 316",
+      "bairro": "CENTRO",
+      "cidade": "LAGARTO",
+      "uf": "SE",
+      "cep": "49400-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja599",
+      "nome": "Pague Menos Loja599",
+      "endereco": "RUA SANTA CATARINA, 309",
+      "bairro": "COMERCIARIO",
+      "cidade": "CRICIÚMA",
+      "uf": "SC",
+      "cep": "88802-260",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja600",
+      "nome": "Pague Menos Loja600",
+      "endereco": "AV GETÚLIO VARGAS, 583",
+      "bairro": "CENTRO",
+      "cidade": "PINHEIRO",
+      "uf": "MA",
+      "cep": "65200-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja603",
+      "nome": "Pague Menos Loja603",
+      "endereco": "AV DONATO QUINTINO, 8",
+      "bairro": "CIDADE NOVA",
+      "cidade": "MONTES CLAROS",
+      "uf": "MG",
+      "cep": "39400-546",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja604",
+      "nome": "Pague Menos Loja604",
+      "endereco": "AV ASSIS CHATEAUBRIAND , 1086",
+      "bairro": "SETOR OESTE",
+      "cidade": "GOIÂNIA",
+      "uf": "GO",
+      "cep": "74130-011",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja606",
+      "nome": "Pague Menos Loja606",
+      "endereco": "AV BARAO DE CAPANEMA, 1098",
+      "bairro": "CENTRO",
+      "cidade": "CAPANEMA",
+      "uf": "PA",
+      "cep": "68700-005",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja607",
+      "nome": "Pague Menos Loja607",
+      "endereco": "AV LO 1, 11",
+      "bairro": "PLANO DIRETOR SUL",
+      "cidade": "PALMAS",
+      "uf": "TO",
+      "cep": "77015-006",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja608",
+      "nome": "Pague Menos Loja608",
+      "endereco": "PRAÇA SÃO JANUÁRIO , 275",
+      "bairro": "CENTRO",
+      "cidade": "UBÁ",
+      "uf": "MG",
+      "cep": "36500-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja609",
+      "nome": "Pague Menos Loja609",
+      "endereco": "ESTRADA DO COQUEIRO GRANDE , 18",
+      "bairro": "FAZENDA GRANDE 2",
+      "cidade": "SALVADOR",
+      "uf": "BA",
+      "cep": "41343-855",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja610",
+      "nome": "Pague Menos Loja610",
+      "endereco": "RUA NEVES ARMOND, 74",
+      "bairro": "PRAIA DO SUA",
+      "cidade": "VITÓRIA",
+      "uf": "ES",
+      "cep": "29052-280",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja611",
+      "nome": "Pague Menos Loja611",
+      "endereco": "AV HUMBERTO MONTE, 1235",
+      "bairro": "BELA VISTA",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60442-611",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja612",
+      "nome": "Pague Menos Loja612",
+      "endereco": "AV JULIO PRESTES, 241",
+      "bairro": "TAQUARAL",
+      "cidade": "CAMPINAS",
+      "uf": "SP",
+      "cep": "13076-001",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja613",
+      "nome": "Pague Menos Loja613",
+      "endereco": "RUA DR JOÃO DE AZEVEDO, 517",
+      "bairro": "CENTRO",
+      "cidade": "ITAJUBÁ",
+      "uf": "MG",
+      "cep": "37500-017",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja615",
+      "nome": "Pague Menos Loja615",
+      "endereco": "RUA DOS CARIRIS, 23",
+      "bairro": "CENTRO",
+      "cidade": "BARBALHA",
+      "uf": "CE",
+      "cep": "63180-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja616",
+      "nome": "Pague Menos Loja616",
+      "endereco": "AV SILAS MUNGUBA , 5571",
+      "bairro": "PASSARE",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60861-093",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja620",
+      "nome": "Pague Menos Loja620",
+      "endereco": "PRAÇA NOSSA SENHORA DA CONCEIÇÃO, 58",
+      "bairro": "CENTRO",
+      "cidade": "BELO JARDIM",
+      "uf": "PE",
+      "cep": "55150-370",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja621",
+      "nome": "Pague Menos Loja621",
+      "endereco": "AV ESTRADA DO ARRAIAL , 3359",
+      "bairro": "CASA AMARELA",
+      "cidade": "RECIFE",
+      "uf": "PE",
+      "cep": "52051-380",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja624",
+      "nome": "Pague Menos Loja624",
+      "endereco": "RUA PROFESSOR JOÃO FALARZ, 1694",
+      "bairro": "MOSSUNGUE",
+      "cidade": "CURITIBA",
+      "uf": "PR",
+      "cep": "81280-270",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja625",
+      "nome": "Pague Menos Loja625",
+      "endereco": "AV VENANCIO FLORES, 1197",
+      "bairro": "CENTRO",
+      "cidade": "ARACRUZ",
+      "uf": "ES",
+      "cep": "29190-105",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja631",
+      "nome": "Pague Menos Loja631",
+      "endereco": "AV DIA HOLANDESES , 10",
+      "bairro": "OLHO DAGUA",
+      "cidade": "SÃO LUÍS",
+      "uf": "MA",
+      "cep": "65065-180",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja632",
+      "nome": "Pague Menos Loja632",
+      "endereco": "AV GONÇALVES DIAS, 660",
+      "bairro": "CENTRO",
+      "cidade": "SÃO JOSÉ DE RIBAMAR",
+      "uf": "MA",
+      "cep": "65110-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja635",
+      "nome": "Pague Menos Loja635",
+      "endereco": "RUA JOSEFA TAVEIRA , 438",
+      "bairro": "MANGABEIRA 1",
+      "cidade": "JOÃO PESSOA",
+      "uf": "PB",
+      "cep": "58055-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja639",
+      "nome": "Pague Menos Loja639",
+      "endereco": "AV GETÚLIO VARGAS , 1301",
+      "bairro": "BAIRRO NOVO",
+      "cidade": "OLINDA",
+      "uf": "PE",
+      "cep": "53030-010",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja641",
+      "nome": "Pague Menos Loja641",
+      "endereco": "ESTRADA DO GALEÃO , 2041",
+      "bairro": "JARDIM GUANABARA",
+      "cidade": "RIO DE JANEIRO",
+      "uf": "RJ",
+      "cep": "21931-385",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja643",
+      "nome": "Pague Menos Loja643",
+      "endereco": "RUA JURANDYR LADEIRA, 1",
+      "bairro": "MARY DOTTA",
+      "cidade": "BAURU",
+      "uf": "SP",
+      "cep": "17026-570",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja646",
+      "nome": "Pague Menos Loja646",
+      "endereco": "AV DR. ISMAEL ALONSO Y ALONSO , 2490",
+      "bairro": "SAO JOSE",
+      "cidade": "FRANCA",
+      "uf": "SP",
+      "cep": "14403-430",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja650",
+      "nome": "Pague Menos Loja650",
+      "endereco": "AV DUQUE DE CAXIAS , 7",
+      "bairro": "SANTA TEREZA",
+      "cidade": "BAURU",
+      "uf": "SP",
+      "cep": "17012-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja657",
+      "nome": "Pague Menos Loja657",
+      "endereco": "PRAÇA GOVERNADOR VALADARES , 189",
+      "bairro": "CENTRO",
+      "cidade": "CATAGUASES",
+      "uf": "MG",
+      "cep": "36770-071",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja669",
+      "nome": "Pague Menos Loja669",
+      "endereco": "RUA BENJAMIN CONSTANT , 75",
+      "bairro": "CENTRO",
+      "cidade": "GOIANA",
+      "uf": "PE",
+      "cep": "55900-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja687",
+      "nome": "Pague Menos Loja687",
+      "endereco": "AV DOS PORTUGUESES , 100",
+      "bairro": "ANJO DA GUARDA",
+      "cidade": "SÃO LUÍS",
+      "uf": "MA",
+      "cep": "65085-581",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja692",
+      "nome": "Pague Menos Loja692",
+      "endereco": "AV ALCÂNTARA MACHADO , 18",
+      "bairro": "MARANHAO NOVO",
+      "cidade": "SÃO LUÍS",
+      "uf": "MA",
+      "cep": "65061-240",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7012",
+      "nome": "Pague Menos Loja7012",
+      "endereco": "AV SN 21 - QUADRA 129, 19",
+      "bairro": "COQUEIRO",
+      "cidade": "ANANINDEUA",
+      "uf": "PA",
+      "cep": "67033-009",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7013",
+      "nome": "Pague Menos Loja7013",
+      "endereco": "RODOVIA BR 316, 14-A",
+      "bairro": "ATALAIA",
+      "cidade": "BELEM",
+      "uf": "PA",
+      "cep": "66000-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7030",
+      "nome": "Pague Menos Loja7030",
+      "endereco": "AV PRESIDENTE VARGAS, 404",
+      "bairro": "COMERCIO",
+      "cidade": "BELEM",
+      "uf": "PA",
+      "cep": "66015-020",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7040",
+      "nome": "Pague Menos Loja7040",
+      "endereco": "AV SÃO LUIS REI DE FRANÇA, 11",
+      "bairro": "TURU",
+      "cidade": "SÃO LUÍS",
+      "uf": "MA",
+      "cep": "65065-470",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7049",
+      "nome": "Pague Menos Loja7049",
+      "endereco": "AV SETE DE SETEMBRO, 624 - LOJA 01",
+      "bairro": "BARRIS",
+      "cidade": "SALVADOR",
+      "uf": "BA",
+      "cep": "40060-001",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7053",
+      "nome": "Pague Menos Loja7053",
+      "endereco": "AV CLODOMIR CARDOSO, 1136",
+      "bairro": "CENTRO",
+      "cidade": "SÃO JOSÉ DE RIBAMAR",
+      "uf": "MA",
+      "cep": "65110-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7055",
+      "nome": "Pague Menos Loja7055",
+      "endereco": "AV JERÔNIMO DE ALBUQUERQUE - PRAÇA 9, 36",
+      "bairro": "COHAB ANIL 3",
+      "cidade": "SÃO LUÍS",
+      "uf": "MA",
+      "cep": "65050-520",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7057",
+      "nome": "Pague Menos Loja7057",
+      "endereco": "AV SANTOS DUMONT, 5615",
+      "bairro": "PAPICU",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60175-047",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7058",
+      "nome": "Pague Menos Loja7058",
+      "endereco": "AV BEZERRA DE MENEZES, 782",
+      "bairro": "SAO GERARDO",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60325-005",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7059",
+      "nome": "Pague Menos Loja7059",
+      "endereco": "RUA SILVA PAULET 2074, 2074",
+      "bairro": "DIONISIO TORRES",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60135-101",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7060",
+      "nome": "Pague Menos Loja7060",
+      "endereco": "AV DOS EXPEDICIONÁRIOS, 4880",
+      "bairro": "BENFICA",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60411-135",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7061",
+      "nome": "Pague Menos Loja7061",
+      "endereco": "AV VP 8 - FOLHA 32 - QUADRA 19 - LOTE ESPECIAL, 376",
+      "bairro": "NOVA MARABA",
+      "cidade": "MARABÁ",
+      "uf": "PA",
+      "cep": "68508-180",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7078",
+      "nome": "Pague Menos Loja7078",
+      "endereco": "AV SÃO LUIS REI DE FRANÇA, 14",
+      "bairro": "TURU",
+      "cidade": "SÃO LUÍS",
+      "uf": "MA",
+      "cep": "65065-470",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7084",
+      "nome": "Pague Menos Loja7084",
+      "endereco": "AV CELSO MALCHER, 764",
+      "bairro": "TERRA FIRME",
+      "cidade": "BELEM",
+      "uf": "PA",
+      "cep": "66077-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7085",
+      "nome": "Pague Menos Loja7085",
+      "endereco": "RUA ALBERTO MAGNO, 513",
+      "bairro": "MONTESE",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60425-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7087",
+      "nome": "Pague Menos Loja7087",
+      "endereco": "RUA NAGIB MUTRAN, 193",
+      "bairro": "CIDADE NOVA",
+      "cidade": "MARABÁ",
+      "uf": "PA",
+      "cep": "68501-570",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7092",
+      "nome": "Pague Menos Loja7092",
+      "endereco": "AV SENADOR LEMOS, 4316",
+      "bairro": "SACRAMENTA",
+      "cidade": "BELEM",
+      "uf": "PA",
+      "cep": "66120-000",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7096",
+      "nome": "Pague Menos Loja7096",
+      "endereco": "RUA GRANDE/RUA OSVALDO CRUZ, 598",
+      "bairro": "CENTRO",
+      "cidade": "SÃO LUÍS",
+      "uf": "MA",
+      "cep": "65020-250",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7103",
+      "nome": "Pague Menos Loja7103",
+      "endereco": "RUA PAULA NEY, 498",
+      "bairro": "ALDEOTA",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60140-200",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7107",
+      "nome": "Pague Menos Loja7107",
+      "endereco": "AV JERÔNIMO DE ALBUQUERQUE, 110",
+      "bairro": "STA. EULALIA",
+      "cidade": "SÃO LUÍS",
+      "uf": "MA",
+      "cep": "65074-220",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7109",
+      "nome": "Pague Menos Loja7109",
+      "endereco": "RUA CONSELHEIRO JOÃO ALFREDO, 10",
+      "bairro": "COMERCIO",
+      "cidade": "BELEM",
+      "uf": "PA",
+      "cep": "66013-060",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7112",
+      "nome": "Pague Menos Loja7112",
+      "endereco": "AV DUQUE DE CAXIAS, 808",
+      "bairro": "CENTRO",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60035-110",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7114",
+      "nome": "Pague Menos Loja7114",
+      "endereco": "RUA BETÂNIA, 152",
+      "bairro": "BENGUI",
+      "cidade": "BELEM",
+      "uf": "PA",
+      "cep": "66630-140",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7126",
+      "nome": "Pague Menos Loja7126",
+      "endereco": "AV PRINCIPAL, 28",
+      "bairro": "COHAB ANIL 3",
+      "cidade": "SÃO LUÍS",
+      "uf": "MA",
+      "cep": "65053-150",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7129",
+      "nome": "Pague Menos Loja7129",
+      "endereco": "RUA DO ARAME - Q-52, 14",
+      "bairro": "VINHAIS",
+      "cidade": "SÃO LUÍS",
+      "uf": "MA",
+      "cep": "65074-380",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7132",
+      "nome": "Pague Menos Loja7132",
+      "endereco": "RUA MITRA - QUADRA 9, 16",
+      "bairro": "RENASCENCA",
+      "cidade": "SÃO LUÍS",
+      "uf": "MA",
+      "cep": "65075-770",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7134",
+      "nome": "Pague Menos Loja7134",
+      "endereco": "ESTRADA DE RIBAMAR, 2",
+      "bairro": "PLANALTO ANIL",
+      "cidade": "SÃO LUÍS",
+      "uf": "MA",
+      "cep": "65060-540",
+      "ativo": true
+    },
+    {
+      "codigo": "Loja7143",
+      "nome": "Pague Menos Loja7143",
+      "endereco": "AV PROFESSOR GOMES DE MATOS, 1869",
+      "bairro": "MONTESE",
+      "cidade": "FORTALEZA",
+      "uf": "CE",
+      "cep": "60420-431",
+      "ativo": true
+    }
+  ],
+  "fonte_medicamentos": "Lista_SKUs_FarmaciaPopular.pdf — 03/08/2026",
+  "fonte_lojas": "BASE DE LOJAS COM FARMACIA POPULAR.xlsx — BASE_LOJAS"
+}
