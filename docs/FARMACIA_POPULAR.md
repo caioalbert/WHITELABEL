@@ -28,4 +28,4 @@ O SQL combinado de migração e carga é entregue separadamente para execução 
 
 Teste de interface usa Next.js otimizado, APIs do catálogo e SQL PostgreSQL reais em banco temporário. Autenticação/provedor Supabase são simulados localmente; o SDK Google também é simulado. Esse teste não valida coordenadas reais, faturamento, chave/referrers ou renderização do fornecedor Google em produção.
 
-A migração não foi executada em produção: o conector Supabase disponível negou acesso ao projeto. A publicação e validação dos mapas reais ficam pendentes dessa configuração.
+Em 02/10/2026 a migração e carga foram executadas no SQL Editor de produção após autorização explícita. Conferência confirmou 207 produtos, 530 lojas, RLS ativo nas duas tabelas, sem SELECT para anon/authenticated e com SELECT para service_role. O conector ainda não tem permissão para esse projeto. Aplicação via SQL Editor não registra automaticamente a migração no histórico do CLI; não reaplicar este DDL. Publicação e validação dos mapas reais continuam pendentes da configuração Google e do deploy.
