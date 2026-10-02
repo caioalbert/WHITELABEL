@@ -90,7 +90,7 @@ export function ClienteNav({ nomeCliente, usuarioTipo = 'titular', appearance = 
             logoUrl={logoUrl}
             width={200}
             height={200}
-            className="h-10 w-10 object-contain"
+            className="h-20 w-20 shrink-0 object-contain"
           />
         )}
         {nomeCliente && (
@@ -211,7 +211,7 @@ export function ClienteNav({ nomeCliente, usuarioTipo = 'titular', appearance = 
               logoUrl={logoUrl}
               width={200}
               height={200}
-              className="h-10 w-10 object-contain"
+              className="h-20 w-20 shrink-0 object-contain"
             />
           )}
 

@@ -14,8 +14,8 @@
       const geocoder = new google.maps.Geocoder();
       const bounds = new LatLngBounds();
       const popup = new InfoWindow();
-      let located = 0, reviewed = 0;
-      const progress = () => notice(`${located} de ${config.stores.length} lojas no mapa${reviewed ? ` · ${reviewed} endereços precisam de revisão` : ''}`);
+      let located = 0;
+      const progress = () => notice(`${located} de ${config.stores.length} lojas no mapa`);
       for (const store of config.stores) {
         let position = typeof store.latitude === 'number' && typeof store.longitude === 'number' ? { lat: store.latitude, lng: store.longitude } : null;
         if (!position) {
@@ -29,7 +29,7 @@
           // Geocoding is sequential, only on map opening. Results stay in this view's memory.
           await new Promise(resolve => setTimeout(resolve, 350));
         }
-        if (!position) { reviewed++; progress(); continue; }
+        if (!position) { progress(); continue; }
         const badge = document.createElement('div');
         badge.className = 'pharmacy-marker';
         const logo = document.createElement('img');
