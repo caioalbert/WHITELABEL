@@ -1,335 +1,93 @@
-import {
-  formatCpfForDb,
-  verifyCpfPrefix,
-} from '@/lib/cliente-login-verify'
-import { getJwtSecret } from '@/lib/auth-secret'
-import { createAdminClient } from '@/lib/supabase/admin'
-import {
-  EMPRESA_APP_COOKIE,
-  EMPRESA_FLOW_COOKIE,
-  createEmpresaToken,
-} from '@/lib/supabase/empresa-auth'
-import { isValidCNPJ, normalizeCNPJ } from '@/lib/utils'
-import { CADASTRO_FLOW_COOKIE, createCadastroFlowToken } from '@/lib/supabase/cadastro-flow-auth'
-import { getActiveEmpresaAccessException } from '@/lib/empresa-access'
+import { randomUUID } from 'node:crypto'
 import { NextRequest, NextResponse } from 'next/server'
-import { SignJWT } from 'jose'
+import { createAdminClient } from '@/lib/supabase/admin'
+import { getActiveEmpresaAccessException } from '@/lib/empresa-access'
+import { CADASTRO_FLOW_COOKIE, createCadastroFlowToken } from '@/lib/supabase/cadastro-flow-auth'
+import { EMPRESA_APP_COOKIE, EMPRESA_FLOW_COOKIE, createEmpresaToken } from '@/lib/supabase/empresa-auth'
+import { authKey, codeHash, emailDeliveryConfig, loginInput, newChallenge, requestIpKey, resolveIdentity, rpc, sendLoginCode, signEmailSession, SESSION_SECONDS, type LoginSession } from '@/lib/customer-email-auth'
 
-type CadastroLoginRow = {
-  id: string
-  nome: string
-  email: string | null
-  cpf: string | null
-  status: string | null
-}
-
-type DependenteLoginRow = {
-  id: string
-  cadastro_id: string
-  nome: string
-  email: string | null
-  cpf: string | null
-}
-
-type ClienteLoginIdentity = {
-  tipo: 'titular' | 'dependente'
-  clienteId: string
-  dependenteId?: string
-  nome: string
-  email: string | null
-  cpf: string
-  cadastro: CadastroLoginRow
-}
-
-type ClienteLoginResolveResult =
-  | { ok: true; identity: ClienteLoginIdentity }
-  | { ok: false; error: string; status: 401 | 409 }
-
-type SupabaseServerClient = ReturnType<typeof createAdminClient>
-
-const INVALID_CREDENTIALS_ERROR = 'CPF ou dígitos de confirmação incorretos.'
-
-function buildCpfCandidates(cpfClean: string) {
-  return Array.from(new Set([formatCpfForDb(cpfClean), cpfClean]))
-}
-
-async function findCadastroByCpf(
-  supabase: SupabaseServerClient,
-  cpfCandidates: string[]
-): Promise<CadastroLoginRow | null> {
-  const { data, error } = await supabase
-    .from('cadastros')
-    .select('id, nome, email, cpf, status')
-    .in('cpf', cpfCandidates)
-    .limit(1)
-    .maybeSingle()
-
-  if (error) {
-    throw error
-  }
-
-  return data
-}
-
-async function resolveClienteLogin(
-  supabase: SupabaseServerClient,
-  cpfClean: string
-): Promise<ClienteLoginResolveResult> {
-  const cpfCandidates = buildCpfCandidates(cpfClean)
-  const cadastro = await findCadastroByCpf(supabase, cpfCandidates)
-
-  if (cadastro) {
-    return {
-      ok: true,
-      identity: {
-        tipo: 'titular',
-        clienteId: cadastro.id,
-        nome: cadastro.nome,
-        email: cadastro.email,
-        cpf: String(cadastro.cpf || cpfClean),
-        cadastro,
-      },
-    }
-  }
-
-  const { data: dependentes, error: dependenteError } = await supabase
-    .from('dependentes')
-    .select('id, cadastro_id, nome, email, cpf')
-    .in('cpf', cpfCandidates)
-    .limit(2)
-
-  if (dependenteError) {
-    throw dependenteError
-  }
-
-  if (!dependentes || dependentes.length === 0) {
-    return { ok: false, error: INVALID_CREDENTIALS_ERROR, status: 401 }
-  }
-
-  if (dependentes.length > 1) {
-    return {
-      ok: false,
-      error: 'CPF cadastrado em mais de um dependente. Procure o suporte.',
-      status: 409,
-    }
-  }
-
-  const dependente = dependentes[0] as DependenteLoginRow
-  const { data: cadastroTitular, error: cadastroTitularError } = await supabase
-    .from('cadastros')
-    .select('id, nome, email, cpf, status')
-    .eq('id', dependente.cadastro_id)
-    .maybeSingle()
-
-  if (cadastroTitularError) {
-    throw cadastroTitularError
-  }
-
-  if (!cadastroTitular) {
-    return { ok: false, error: INVALID_CREDENTIALS_ERROR, status: 401 }
-  }
-
-  return {
-    ok: true,
-    identity: {
-      tipo: 'dependente',
-      clienteId: cadastroTitular.id,
-      dependenteId: dependente.id,
-      nome: dependente.nome,
-      email: dependente.email || cadastroTitular.email,
-      cpf: String(dependente.cpf || cpfClean),
-      cadastro: cadastroTitular,
-    },
-  }
-}
+export const runtime = 'nodejs'
+const invalid = () => NextResponse.json({ error: 'Código inválido ou expirado. Solicite um novo código.' }, { status: 401 })
+const options = { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'lax' as const, maxAge: SESSION_SECONDS, path: '/' }
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
-    const { cpf, cpf_prefix, cnpj, cnpj_prefix } = body
-
-    if (cnpj !== undefined) {
-      const cnpjClean = normalizeCNPJ(String(cnpj || ''))
-      const prefixClean = String(cnpj_prefix || '').replace(/\D/g, '')
-
-      if (!isValidCNPJ(cnpjClean)) {
-        return NextResponse.json({ error: 'CNPJ inválido.' }, { status: 400 })
-      }
-      if (prefixClean.length !== 4 || cnpjClean.slice(0, 4) !== prefixClean) {
-        return NextResponse.json({ error: 'CNPJ ou dígitos de confirmação incorretos.' }, { status: 401 })
-      }
-
-      const supabase = createAdminClient()
-      const { data: empresa, error } = await supabase
-        .from('empresas')
-        .select('id, cnpj, razao_social, nome_fantasia, email, status')
-        .eq('cnpj', cnpjClean)
-        .maybeSingle()
-
-      if (error) throw error
-      if (!empresa) {
-        return NextResponse.json({ error: 'CNPJ ou dígitos de confirmação incorretos.' }, { status: 401 })
-      }
-
-      if (empresa.status === 'INATIVO') return NextResponse.json({ error: 'Empresa inativa. Entre em contato com o suporte.' }, { status: 403 })
-      const isActive = empresa.status === 'ATIVO'
-      const purpose = isActive ? 'empresa-app' : 'empresa-flow'
-      const token = await createEmpresaToken(empresa, purpose)
-      const response = NextResponse.json({
-        success: true,
-        nextPath: isActive ? '/empresa/dashboard' : '/empresa/cadastro',
-        empresa: {
-          id: empresa.id,
-          nome: empresa.nome_fantasia || empresa.razao_social,
-          email: empresa.email,
-          status: empresa.status,
-        },
+    const body = await request.json().catch(() => null)
+    if (body && typeof body === 'object' && ('cpf_prefix' in body || 'cnpj_prefix' in body)) return NextResponse.json({ error: 'Atualize o aplicativo e entre usando o código enviado ao seu e-mail.' }, { status: 426 })
+    const parsed = loginInput.safeParse(body)
+    if (!parsed.success) return NextResponse.json({ error: 'Informe um documento válido. O código deve ter 6 dígitos.' }, { status: 400 })
+    const input = parsed.data, doc = input.cnpj || input.cpf!, kind = input.cnpj ? 'empresa' : 'cliente'
+    const db = createAdminClient(), documentKey = authKey('document', doc)
+    const identity = await resolveIdentity(db, kind, doc)
+    const emailKey = authKey('email', identity?.email || `no-contact:${doc}`)
+    if (input.action === 'request') {
+      emailDeliveryConfig()
+      const challenge = newChallenge()
+      const reserved = await rpc<boolean>(db, 'customer_login_reserve', {
+        p_id: challenge.id, p_kind: identity?.tipo || (kind === 'empresa' ? 'empresa' : 'titular'),
+        p_identity_id: identity?.identityId || null, p_cadastro_id: identity?.clienteId || null,
+        p_document_key: documentKey, p_email_key: emailKey, p_ip_key: requestIpKey(request), p_code_hash: codeHash(challenge.id, challenge.code),
       })
-      response.cookies.set(isActive ? EMPRESA_APP_COOKIE : EMPRESA_FLOW_COOKIE, token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        maxAge: 60 * 60 * (isActive ? 24 * 7 : 24),
-        path: '/',
-      })
-      response.cookies.delete(isActive ? EMPRESA_FLOW_COOKIE : EMPRESA_APP_COOKIE)
+      if (!reserved) return NextResponse.json({ error: 'Aguarde um minuto antes de tentar novamente. Se necessário, procure o suporte.' }, { status: 429 })
+      if (identity) {
+        try {
+          await sendLoginCode(identity.email, challenge.id, challenge.code, identity.nome)
+          const { error } = await db.from('customer_login_challenges').update({ delivered: true }).eq('id', challenge.id).is('consumed_at', null)
+          if (error) throw error
+        } catch {
+          await db.from('customer_login_challenges').update({ consumed_at: new Date().toISOString() }).eq('id', challenge.id)
+          throw new Error('Envio de código indisponível.')
+        }
+      }
+      return NextResponse.json({ success: true, challengeId: challenge.id, retryAfter: 60,
+        message: 'Se houver um cadastro com e-mail válido, enviaremos um código. Se o contato for da empresa, solicite o código ao responsável. Confira também o spam.' })
+    }
+    const allowed = await rpc<boolean>(db, 'customer_login_take_limit', { p_key: `verify-ip:${requestIpKey(request)}`, p_limit: 600, p_window: 3600, p_cooldown: 0 })
+    if (!allowed) return NextResponse.json({ error: 'Muitas tentativas. Tente novamente mais tarde.' }, { status: 429 })
+    let purpose = kind === 'empresa' ? 'empresa-flow' : 'cadastro-flow'
+    let dependentPending = false
+    if (identity?.tipo === 'empresa') purpose = identity.status === 'ATIVO' ? 'empresa-app' : 'empresa-flow'
+    else if (identity) {
+      const active = identity.empresaId
+        ? (identity.status === 'ATIVO' && identity.companyStatus === 'ATIVO') || Boolean(await getActiveEmpresaAccessException(db, identity.empresaId))
+        : identity.status === 'ATIVO'
+      if (active) purpose = 'cliente'
+      else if (identity.tipo === 'dependente') { purpose = 'cliente'; dependentPending = true }
+    }
+    const session = await rpc<LoginSession | null>(db, 'customer_login_consume', {
+      p_id: input.challengeId, p_code_hash: codeHash(input.challengeId, input.code), p_document_key: documentKey, p_email_key: emailKey,
+      p_identity_kind: identity?.tipo || null, p_identity_id: identity?.identityId || null, p_cadastro_id: identity?.clienteId || null,
+      p_purpose: purpose, p_session_id: randomUUID(),
+    })
+    if (!identity || !session) return invalid()
+    if (dependentPending) {
+      await db.from('customer_login_sessions').update({ revoked_at: new Date().toISOString() }).eq('id', session.id)
+      return NextResponse.json({ error: 'A ativação deste cadastro precisa ser acompanhada pelo titular.' }, { status: 403 })
+    }
+    if (identity.tipo === 'empresa') {
+      const token = await createEmpresaToken({ id: identity.identityId, cnpj: doc, razao_social: identity.razaoSocial! }, purpose as 'empresa-app' | 'empresa-flow', { session, email: identity.email })
+      const response = NextResponse.json({ success: true, nextPath: purpose === 'empresa-app' ? '/empresa/dashboard' : '/empresa/cadastro' })
+      response.cookies.set(purpose === 'empresa-app' ? EMPRESA_APP_COOKIE : EMPRESA_FLOW_COOKIE, token, options)
+      response.cookies.delete(purpose === 'empresa-app' ? EMPRESA_FLOW_COOKIE : EMPRESA_APP_COOKIE)
       return response
     }
-
-    if (!cpf) {
-      return NextResponse.json({ error: 'CPF é obrigatório.' }, { status: 400 })
+    if (purpose === 'cadastro-flow') {
+      const token = await createCadastroFlowToken(identity.clienteId!, { session, email: identity.email, cpf: doc })
+      const response = NextResponse.json({ success: true, nextPath: '/cadastro/status', status: identity.status })
+      response.cookies.set(CADASTRO_FLOW_COOKIE, token, options)
+      response.cookies.delete('cliente_token')
+      return response
     }
-
-    const hasPrefix =
-      cpf_prefix !== undefined && cpf_prefix !== null && String(cpf_prefix).trim() !== ''
-    if (!hasPrefix) {
-      return NextResponse.json(
-        {
-          error: 'Informe os 4 primeiros dígitos do CPF.',
-        },
-        { status: 400 }
-      )
-    }
-
-    const cpfClean = String(cpf).replace(/\D/g, '')
-    if (cpfClean.length !== 11) {
-      return NextResponse.json({ error: 'CPF inválido.' }, { status: 400 })
-    }
-
-    const prefixClean = String(cpf_prefix).replace(/\D/g, '')
-    if (prefixClean.length !== 4) {
-      return NextResponse.json(
-        { error: 'Informe exatamente os 4 primeiros dígitos do CPF.' },
-        { status: 400 }
-      )
-    }
-    if (cpfClean.slice(0, 4) !== prefixClean) {
-      return NextResponse.json(
-        { error: INVALID_CREDENTIALS_ERROR },
-        { status: 401 }
-      )
-    }
-
-    const supabase = createAdminClient()
-    const loginResult = await resolveClienteLogin(supabase, cpfClean)
-
-    if (!loginResult.ok) {
-      return NextResponse.json(
-        { error: loginResult.error },
-        { status: loginResult.status }
-      )
-    }
-
-    const { identity } = loginResult
-    const secondFactorOk = verifyCpfPrefix(identity, String(cpf_prefix))
-
-    if (!secondFactorOk) {
-      return NextResponse.json(
-        { error: INVALID_CREDENTIALS_ERROR },
-        { status: 401 }
-      )
-    }
-
-    const enterpriseDb = createAdminClient()
-    const { data: membership, error: membershipError } = await enterpriseDb.from('cadastros').select('empresa_id').eq('id', identity.clienteId).maybeSingle()
-    if (membershipError || !membership) throw membershipError || new Error('Cadastro não encontrado.')
-    let companyStatus: string | null = null
-    let hasAccessException = false
-    if (membership.empresa_id) {
-      const { data: company, error: companyError } = await enterpriseDb.from('empresas').select('status').eq('id', membership.empresa_id).maybeSingle()
-      if (companyError) throw companyError
-      companyStatus = company?.status || null
-      if (companyStatus === 'INATIVO') return NextResponse.json({ error: 'Empresa inativa. Entre em contato com o suporte.' }, { status: 403 })
-      hasAccessException = companyStatus !== 'ATIVO' && Boolean(await getActiveEmpresaAccessException(enterpriseDb, membership.empresa_id))
-    }
-
-    if (identity.cadastro.status !== 'ATIVO' && !hasAccessException) {
-      const flowToken = await createCadastroFlowToken(identity.clienteId)
-      const pendingResponse = NextResponse.json({
-        success: true,
-        nextPath: '/cadastro/status',
-        status: identity.cadastro.status || 'PENDENTE_PAGAMENTO',
-      })
-      pendingResponse.cookies.set(CADASTRO_FLOW_COOKIE, flowToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        maxAge: 60 * 60 * 24,
-        path: '/',
-      })
-      return pendingResponse
-    }
-
-    if (membership.empresa_id) {
-      if (companyStatus !== 'ATIVO' && !hasAccessException) return NextResponse.json({ error: 'Empresa sem acesso ativo. Entre em contato com o suporte.' }, { status: 403 })
-    }
-    const jwtPayload: Record<string, string> = {
-      clienteId: identity.clienteId,
-      cpf: identity.cpf,
-      nome: identity.nome,
-      tipo: identity.tipo,
-    }
-
-    if (identity.email) {
-      jwtPayload.email = identity.email
-    }
-
-    if (identity.dependenteId) {
-      jwtPayload.dependenteId = identity.dependenteId
-    }
-
-    const token = await new SignJWT({
-      ...jwtPayload,
-    })
-      .setProtectedHeader({ alg: 'HS256' })
-      .setIssuedAt()
-      .setExpirationTime('7d')
-      .sign(getJwtSecret())
-
-    const response = NextResponse.json({
-      success: true,
-      nextPath: '/cliente/dashboard',
-      token,
-      cliente: {
-        id: identity.clienteId,
-        dependenteId: identity.dependenteId,
-        tipo: identity.tipo,
-        nome: identity.nome,
-        email: identity.email,
-      },
-    })
-
-    response.cookies.set('cliente_token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 7,
-      path: '/',
-    })
-
+    const token = await signEmailSession({ purpose: 'cliente', clienteId: identity.clienteId, cpf: doc, nome: identity.nome,
+      email: identity.email, tipo: identity.tipo, ...(identity.tipo === 'dependente' ? { dependenteId: identity.identityId } : {}) }, session)
+    const response = NextResponse.json({ success: true, nextPath: '/cliente/dashboard', token,
+      cliente: { id: identity.clienteId, dependenteId: identity.tipo === 'dependente' ? identity.identityId : undefined,
+        tipo: identity.tipo, nome: identity.nome, email: identity.email } })
+    response.cookies.set('cliente_token', token, options)
+    response.cookies.delete(CADASTRO_FLOW_COOKIE)
     return response
-  } catch (error) {
-    console.error('Erro no login do cliente:', error)
-    return NextResponse.json({ error: 'Erro ao processar login.' }, { status: 500 })
+  } catch {
+    // Neither provider errors nor auth material belong in application logs.
+    return NextResponse.json({ error: 'Não foi possível concluir o acesso. Tente novamente em alguns minutos.' }, { status: 503 })
   }
 }

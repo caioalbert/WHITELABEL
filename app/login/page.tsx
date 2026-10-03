@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, Suspense } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -12,7 +12,6 @@ import { DEFAULT_BRAND_LOGO_ON_LIGHT_URL } from '@/lib/branding'
 import { trackPwaEvent } from '@/lib/pwa/analytics'
 import { clienteColors, clienteRadius } from '@/lib/cliente-ui'
 
-const CPF_PASSWORD_LENGTH = 4
 
 function formatCPF(value: string) {
   const n = value.replace(/\D/g, '').slice(0, 11)
@@ -39,7 +38,17 @@ function LoginForm() {
   const isOnline = useOnlineStatus()
   const branding = usePublicBranding()
   const [doc, setDoc] = useState('')
-  const [docPrefix, setDocPrefix] = useState('')
+  const [code, setCode] = useState('')
+  const [challengeId, setChallengeId] = useState<string | null>(null)
+  const [retryAt, setRetryAt] = useState(0)
+  const [remaining, setRemaining] = useState(0)
+  useEffect(() => {
+    const update = () => setRemaining(Math.max(0, Math.ceil((retryAt - Date.now()) / 1000)))
+    update()
+    const timer = setInterval(update, 1000)
+    return () => clearInterval(timer)
+  }, [retryAt])
+  useEffect(() => { setChallengeId(null); setCode(''); setError('') }, [isEmpresa])
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
@@ -65,13 +74,8 @@ function LoginForm() {
       return
     }
 
-    if (docPrefix.length !== CPF_PASSWORD_LENGTH) {
-      setError(`Informe os ${CPF_PASSWORD_LENGTH} primeiros dígitos do ${docLabel}.`)
-      return
-    }
-
-    if (docClean.slice(0, CPF_PASSWORD_LENGTH) !== docPrefix) {
-      setError(`Os ${CPF_PASSWORD_LENGTH} primeiros dígitos não conferem com o ${docLabel} informado.`)
+    if (challengeId && !/^\d{6}$/.test(code)) {
+      setError('Informe o código de 6 dígitos.')
       return
     }
 
@@ -84,9 +88,8 @@ function LoginForm() {
     setIsLoading(true)
 
     try {
-      const body = isEmpresa
-        ? { cnpj: docClean, cnpj_prefix: docPrefix }
-        : { cpf: docClean, cpf_prefix: docPrefix }
+      const body = { ...(isEmpresa ? { cnpj: docClean } : { cpf: docClean }),
+        ...(challengeId ? { action: 'verify', challengeId, code } : { action: 'request' }) }
 
       const response = await fetch('/api/cliente/login', {
         method: 'POST',
@@ -101,6 +104,11 @@ function LoginForm() {
         return
       }
 
+      if (!challengeId) {
+        setChallengeId(data.challengeId)
+        setRetryAt(Date.now() + 60_000)
+        return
+      }
       router.push(data.nextPath || (isEmpresa ? '/empresa/dashboard' : '/cliente/dashboard'))
     } catch {
       if (!navigator.onLine) {
@@ -185,41 +193,25 @@ function LoginForm() {
               placeholder={docPlaceholder}
               maxLength={docMaxLen}
               required
-              disabled={isLoading}
+              disabled={isLoading || Boolean(challengeId)}
               autoComplete="off"
               className="h-12 text-base"
               style={{ borderColor: clienteColors.border, borderRadius: clienteRadius.md }}
             />
           </div>
 
-          <div>
-            <label
-              htmlFor="doc_prefix"
-              className="mb-1.5 block text-sm font-medium"
-              style={{ color: clienteColors.text }}
-            >
-              Senha
-            </label>
-            <Input
-              id="doc_prefix"
-              type="password"
-              inputMode="numeric"
-              value={docPrefix}
-              onChange={(e) =>
-                setDocPrefix(e.target.value.replace(/\D/g, '').slice(0, CPF_PASSWORD_LENGTH))
-              }
-              placeholder={'0'.repeat(CPF_PASSWORD_LENGTH)}
-              maxLength={CPF_PASSWORD_LENGTH}
-              required
-              disabled={isLoading}
-              autoComplete="off"
-              className="h-12 text-center text-2xl font-semibold tracking-[0.35em]"
-              style={{ borderColor: clienteColors.border, borderRadius: clienteRadius.md }}
-            />
-            <p className="mt-2 text-xs" style={{ color: clienteColors.textMuted }}>
-              Os {CPF_PASSWORD_LENGTH} primeiros dígitos do seu {docLabel} (somente números).
-            </p>
-          </div>
+          {challengeId && <div>
+            <p className="mb-4 text-sm" style={{ color: clienteColors.textMuted }}>Se houver um cadastro com e-mail válido, enviaremos um código. Se o contato for da empresa, solicite o código ao responsável.</p>
+            <label htmlFor="code" className="mb-1.5 block text-sm font-medium">Código de acesso</label>
+            <Input id="code" type="text" inputMode="numeric" autoComplete="one-time-code" value={code}
+              onChange={e => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))} maxLength={6} required disabled={isLoading}
+              className="h-12 text-center text-2xl tracking-[0.35em]" />
+            <p className="mt-2 text-xs" style={{ color: clienteColors.textMuted }}>Válido por 10 minutos. Não compartilhe o código.</p>
+            <button type="button" className="mt-3 text-sm underline" disabled={isLoading || remaining > 0}
+              onClick={() => { setChallengeId(null); setCode(''); setError('') }}>
+              {remaining ? `Solicitar outro código em ${remaining}s` : 'Alterar dados ou solicitar outro código'}
+            </button>
+          </div>}
 
           {error ? (
             <div
@@ -257,11 +249,11 @@ function LoginForm() {
               borderRadius: clienteRadius.full,
             }}
           >
-            {isLoading ? 'Entrando...' : 'Entrar'}
+            {isLoading ? 'Aguarde...' : challengeId ? 'Entrar' : 'Receber código no e-mail'}
           </Button>
 
           <p className="text-center text-sm leading-relaxed" style={{ color: clienteColors.textMuted }}>
-            {docLabel} completo + senha com os {CPF_PASSWORD_LENGTH} primeiros dígitos do {docLabel}.
+            Informe seu documento para receber o código no e-mail cadastrado. Para corrigir o contato, procure o suporte.
           </p>
         </form>
 

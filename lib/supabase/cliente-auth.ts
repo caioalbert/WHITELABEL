@@ -1,68 +1,27 @@
-import { jwtVerify } from 'jose'
 import { cookies } from 'next/headers'
-import { getJwtSecret } from '@/lib/auth-secret'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { getActiveEmpresaAccessException } from '@/lib/empresa-access'
-
-export type ClienteAuth = {
-  clienteId: string
-  cpf: string
-  nome: string
-  email?: string
-  tipo: 'titular' | 'dependente'
-  dependenteId?: string
-}
-
+import { readAuthToken, validateEmailSession } from '@/lib/customer-email-auth'
+export type ClienteAuth = { clienteId: string; cpf: string; nome: string; email?: string; tipo: 'titular' | 'dependente'; dependenteId?: string }
 async function authFromToken(token: string): Promise<ClienteAuth | null> {
-  try {
-    const { payload } = await jwtVerify(token, getJwtSecret(), { algorithms: ['HS256'] })
-    const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
-    if (typeof payload.clienteId !== 'string' || !uuid.test(payload.clienteId) ||
-        typeof payload.cpf !== 'string' || !/^\d{11}$/.test(payload.cpf) ||
-        typeof payload.nome !== 'string' || !payload.nome.trim() ||
-        typeof payload.exp !== 'number' || (payload.tipo !== 'titular' && payload.tipo !== 'dependente')) return null
-    const tipo = payload.tipo
-    if (tipo === 'dependente' && (typeof payload.dependenteId !== 'string' || !uuid.test(payload.dependenteId))) return null
-
-    return {
-      clienteId: payload.clienteId as string,
-      cpf: payload.cpf as string,
-      nome: payload.nome as string,
-      email: payload.email as string | undefined,
-      tipo,
-      dependenteId: tipo === 'dependente' ? (payload.dependenteId as string | undefined) : undefined,
-    }
-  } catch {
-    return null
-  }
+  const payload = await readAuthToken(token)
+  if (!payload || typeof payload.clienteId !== 'string' || typeof payload.cpf !== 'string' || !/^\d{11}$/.test(payload.cpf) ||
+      typeof payload.nome !== 'string' || !payload.nome.trim() || (payload.tipo !== 'titular' && payload.tipo !== 'dependente')) return null
+  const id = payload.tipo === 'dependente' ? payload.dependenteId : payload.clienteId
+  if (typeof id !== 'string') return null
+  const identity = await validateEmailSession(payload, 'cliente', payload.tipo, id, payload.clienteId, payload.cpf)
+  if (!identity) return null
+  return { clienteId: payload.clienteId, cpf: payload.cpf, nome: identity.nome, email: identity.email,
+    tipo: payload.tipo, dependenteId: payload.tipo === 'dependente' ? id : undefined }
 }
-
 export async function getClienteAuth(): Promise<ClienteAuth | null> {
-  try {
-    const cookieStore = await cookies()
-    const token = cookieStore.get('cliente_token')?.value
-
-    if (!token) {
-      return null
-    }
-
-    return authFromToken(token)
-  } catch {
-    return null
-  }
+  const token = (await cookies()).get('cliente_token')?.value
+  return token ? authFromToken(token) : null
 }
-
-export async function getClienteAuthFromRequest(
-  request: Request
-): Promise<ClienteAuth | null> {
-  const authHeader = request.headers.get('Authorization')
-  if (authHeader?.startsWith('Bearer ')) {
-    return authFromToken(authHeader.slice(7))
-  }
-
-  return getClienteAuth()
+export async function getClienteAuthFromRequest(request: Request): Promise<ClienteAuth | null> {
+  const header = request.headers.get('Authorization')
+  return header?.startsWith('Bearer ') ? authFromToken(header.slice(7)) : getClienteAuth()
 }
-
 export async function getActiveClienteAuth(request?: Request): Promise<ClienteAuth | null> {
   const auth = request ? await getClienteAuthFromRequest(request) : await getClienteAuth()
   if (!auth) return null
