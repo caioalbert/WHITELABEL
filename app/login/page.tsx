@@ -38,8 +38,11 @@ function LoginForm() {
   const isOnline = useOnlineStatus()
   const branding = usePublicBranding()
   const [doc, setDoc] = useState('')
-  const [code, setCode] = useState('')
-  const [challengeId, setChallengeId] = useState<string | null>(null)
+  const [password, setPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmation, setConfirmation] = useState('')
+  const [setupToken, setSetupToken] = useState<string | null>(null)
+  const [message, setMessage] = useState('')
   const [retryAt, setRetryAt] = useState(0)
   const [remaining, setRemaining] = useState(0)
   useEffect(() => {
@@ -48,7 +51,7 @@ function LoginForm() {
     const timer = setInterval(update, 1000)
     return () => clearInterval(timer)
   }, [retryAt])
-  useEffect(() => { setChallengeId(null); setCode(''); setError('') }, [isEmpresa])
+  useEffect(() => { setSetupToken(null); setPassword(''); setNewPassword(''); setConfirmation(''); setMessage(''); setError('') }, [isEmpresa])
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
@@ -64,63 +67,35 @@ function LoginForm() {
     setDoc(formatted)
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const submit = async (action: 'password' | 'request' | 'set') => {
     setError('')
-
     const docClean = doc.replace(/\D/g, '')
-    if (docClean.length !== docLength) {
-      setError(`Informe um ${docLabel} válido com ${docLength} dígitos.`)
-      return
-    }
-
-    if (challengeId && !/^\d{6}$/.test(code)) {
-      setError('Informe o código de 6 dígitos.')
-      return
-    }
-
-    if (!isOnline) {
-      trackPwaEvent('pwa_login_blocked_offline', { area: 'cliente' })
-      setError('Sem conexão. Conecte-se à internet para entrar.')
-      return
-    }
-
+    if (docClean.length !== docLength) { setError(`Informe um ${docLabel} válido com ${docLength} dígitos.`); return }
+    if (!isOnline) { trackPwaEvent('pwa_login_blocked_offline', { area: 'cliente' }); setError('Sem conexão. Conecte-se à internet para entrar.'); return }
+    if (action === 'set' && newPassword.normalize('NFC') !== confirmation.normalize('NFC')) { setError('As senhas não coincidem.'); return }
     setIsLoading(true)
-
     try {
-      const body = { ...(isEmpresa ? { cnpj: docClean } : { cpf: docClean }),
-        ...(challengeId ? { action: 'verify', challengeId, code } : { action: 'request' }) }
-
-      const response = await fetch('/api/cliente/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
+      const response = await fetch(action === 'set' ? '/api/cliente/password' : '/api/cliente/login', {
+        method: 'POST', headers: { 'Content-Type': 'application/json', ...(action === 'set' ? { Authorization: `Bearer ${setupToken}` } : {}) },
+        body: JSON.stringify(action === 'set' ? { password: newPassword, confirmation }
+          : { ...(isEmpresa ? { cnpj: docClean } : { cpf: docClean }), action, ...(action === 'password' ? { password } : {}) }),
       })
-
       const data = await response.json()
-
       if (!response.ok) {
-        setError(data.error || 'Erro ao fazer login')
-        return
+        if (action === 'set' && (response.status === 401 || data.passwordUpdated)) { setSetupToken(null); setNewPassword(''); setConfirmation('') }
+        setError(data.error || 'Não foi possível concluir o acesso'); return
       }
-
-      if (!challengeId) {
-        setChallengeId(data.challengeId)
-        setRetryAt(Date.now() + 60_000)
-        return
+      if (action === 'request') { setMessage(data.message); setRetryAt(Date.now() + 60_000); return }
+      if (data.requiresPasswordChange) {
+        setSetupToken(data.setupToken); setPassword(''); setMessage(''); return
       }
+      setSetupToken(null); setNewPassword(''); setConfirmation('')
       router.push(data.nextPath || (isEmpresa ? '/empresa/dashboard' : '/cliente/dashboard'))
     } catch {
-      if (!navigator.onLine) {
-        trackPwaEvent('pwa_login_blocked_offline', { area: 'cliente' })
-        setError('Sem conexão. Conecte-se à internet para entrar.')
-      } else {
-        setError('Erro ao conectar com o servidor')
-      }
-    } finally {
-      setIsLoading(false)
-    }
+      setError(navigator.onLine ? 'Erro ao conectar com o servidor' : 'Sem conexão. Conecte-se à internet para entrar.')
+    } finally { setIsLoading(false) }
   }
+  const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); void submit(setupToken ? 'set' : 'password') }
 
   return (
     <div
@@ -150,8 +125,8 @@ function LoginForm() {
           </p>
         </div>
 
-        {/* Tipo toggle */}
-        <div className="mt-6 flex overflow-hidden rounded-xl border" style={{ borderColor: clienteColors.borderMint }}>
+        {/* Tipo de acesso */}
+        <div hidden={Boolean(setupToken)} className="mt-6 flex overflow-hidden rounded-xl border" style={{ borderColor: clienteColors.borderMint }}>
           <Link
             href="/login"
             className="flex flex-1 items-center justify-center py-2.5 text-sm font-semibold transition-colors"
@@ -176,42 +151,30 @@ function LoginForm() {
         </div>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-5">
-          <div>
-            <label
-              htmlFor="doc"
-              className="mb-1.5 block text-sm font-medium"
-              style={{ color: clienteColors.text }}
-            >
-              {docLabel}
-            </label>
-            <Input
-              id="doc"
-              type="text"
-              inputMode="numeric"
-              value={doc}
-              onChange={handleDocChange}
-              placeholder={docPlaceholder}
-              maxLength={docMaxLen}
-              required
-              disabled={isLoading || Boolean(challengeId)}
-              autoComplete="off"
-              className="h-12 text-base"
-              style={{ borderColor: clienteColors.border, borderRadius: clienteRadius.md }}
-            />
-          </div>
-
-          {challengeId && <div>
-            <p className="mb-4 text-sm" style={{ color: clienteColors.textMuted }}>Se houver um cadastro com e-mail válido, enviaremos um código. Se o contato for da empresa, solicite o código ao responsável.</p>
-            <label htmlFor="code" className="mb-1.5 block text-sm font-medium">Código de acesso</label>
-            <Input id="code" type="text" inputMode="numeric" autoComplete="one-time-code" value={code}
-              onChange={e => setCode(e.target.value.replace(/\D/g, '').slice(0, 6))} maxLength={6} required disabled={isLoading}
-              className="h-12 text-center text-2xl tracking-[0.35em]" />
-            <p className="mt-2 text-xs" style={{ color: clienteColors.textMuted }}>Válido por 10 minutos. Não compartilhe o código.</p>
-            <button type="button" className="mt-3 text-sm underline" disabled={isLoading || remaining > 0}
-              onClick={() => { setChallengeId(null); setCode(''); setError('') }}>
-              {remaining ? `Solicitar outro código em ${remaining}s` : 'Alterar dados ou solicitar outro código'}
-            </button>
-          </div>}
+          {setupToken ? <>
+            <div>
+              <h1 className="text-2xl font-semibold" style={{ color: clienteColors.text }}>Crie sua senha pessoal</h1>
+              <p className="mt-2 text-sm leading-relaxed" style={{ color: clienteColors.textMuted }}>Sua senha temporária já foi utilizada. Para acessar sua conta, crie uma senha pessoal diferente. Uma frase com pelo menos 15 caracteres é uma boa opção.</p>
+            </div>
+            <div>
+              <label htmlFor="new-password" className="mb-1.5 block text-sm font-medium">Nova senha</label>
+              <Input id="new-password" type="password" autoComplete="new-password" autoFocus value={newPassword} onChange={e => setNewPassword(e.target.value)} minLength={15} maxLength={512} required disabled={isLoading} className="h-12 text-base" />
+            </div>
+            <div>
+              <label htmlFor="confirmation" className="mb-1.5 block text-sm font-medium">Confirmar nova senha</label>
+              <Input id="confirmation" type="password" autoComplete="new-password" value={confirmation} onChange={e => setConfirmation(e.target.value)} minLength={15} maxLength={512} required disabled={isLoading} className="h-12 text-base" />
+            </div>
+          </> : <>
+            <div>
+              <label htmlFor="doc" className="mb-1.5 block text-sm font-medium" style={{ color: clienteColors.text }}>{docLabel}</label>
+              <Input id="doc" type="text" inputMode="numeric" value={doc} onChange={handleDocChange} placeholder={docPlaceholder} maxLength={docMaxLen} required disabled={isLoading} autoComplete="username" className="h-12 text-base" style={{ borderColor: clienteColors.border, borderRadius: clienteRadius.md }} />
+            </div>
+            <div>
+              <label htmlFor="password" className="mb-1.5 block text-sm font-medium">Senha</label>
+              <Input id="password" type="password" autoComplete="current-password" value={password} onChange={e => setPassword(e.target.value)} maxLength={512} required disabled={isLoading} className="h-12 text-base" />
+            </div>
+            {message && <p role="status" className="rounded-xl border p-3 text-sm leading-relaxed" style={{ color: clienteColors.textMuted }}>{message} A senha temporária é válida até o primeiro uso.</p>}
+          </>}
 
           {error ? (
             <div
@@ -249,12 +212,16 @@ function LoginForm() {
               borderRadius: clienteRadius.full,
             }}
           >
-            {isLoading ? 'Aguarde...' : challengeId ? 'Entrar' : 'Receber código no e-mail'}
+            {isLoading ? 'Aguarde...' : setupToken ? 'Salvar senha e continuar' : 'Entrar'}
           </Button>
 
+          {!setupToken && <button type="button" className="w-full text-center text-sm underline" disabled={isLoading || !isOnline || remaining > 0} onClick={() => void submit('request')}>
+            {remaining ? `Solicitar outra senha em ${remaining}s` : 'Primeiro acesso ou esqueci minha senha'}
+          </button>}
           <p className="text-center text-sm leading-relaxed" style={{ color: clienteColors.textMuted }}>
-            Informe seu documento para receber o código no e-mail cadastrado. Para corrigir o contato, procure o suporte.
+            {setupToken ? 'Se esta etapa expirar, solicite uma nova senha temporária na tela de acesso.' : 'Entre com seu documento e sua senha. No primeiro acesso, use a senha temporária enviada ao e-mail cadastrado.'}
           </p>
+
         </form>
 
         <div
