@@ -1060,9 +1060,9 @@ export default function Home() {
                   </a>
                 </li>
                 <li>
-                  <a href="mailto:suporte@novaalianca.com.br" className="flex items-center gap-2 transition-colors hover:text-white">
+                  <a href="mailto:suporte@novaaliancasaude.com.br" className="flex items-center gap-2 transition-colors hover:text-white">
                     <Phone className="h-4 w-4 text-teal-400" />
-                    suporte@novaalianca.com.br
+                    suporte@novaaliancasaude.com.br
                   </a>
                 </li>
               </ul>
