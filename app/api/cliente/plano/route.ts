@@ -7,12 +7,13 @@ export async function GET(request: NextRequest) {
     const auth = await requireActiveClienteAuth(request)
 
     const supabase = createAdminClient()
-    const { data: cadastro } = await supabase
+    const { data: cadastro, error: cadastroError } = await supabase
       .from('cadastros')
       .select('tipo_plano')
       .eq('id', auth.clienteId)
       .single()
 
+    if (cadastroError) throw new Error('Consulta de cadastro indisponível')
     if (!cadastro) {
       return NextResponse.json(
         { error: 'Cadastro não encontrado.' },
@@ -21,7 +22,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Buscar plano na tabela planos
-    const { data: plano } = await supabase
+    const { data: plano, error: planoError } = await supabase
       .from('planos')
       .select('*')
       .eq('codigo', cadastro.tipo_plano)
@@ -32,20 +33,8 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ plano })
     }
 
-    // Fallback: planos legados (INDIVIDUAL, FAMILIAR)
-    if (cadastro.tipo_plano === 'INDIVIDUAL' || cadastro.tipo_plano === 'FAMILIAR') {
-      const planoLegado = {
-        codigo: cadastro.tipo_plano,
-        nome: cadastro.tipo_plano === 'INDIVIDUAL' ? 'Plano Individual' : 'Plano Familiar',
-        permite_dependentes: cadastro.tipo_plano !== 'INDIVIDUAL',
-        min_dependentes: cadastro.tipo_plano === 'INDIVIDUAL' ? 0 : 2,
-        max_dependentes: cadastro.tipo_plano === 'INDIVIDUAL' ? 0 : null,
-      }
-      return NextResponse.json({ plano: planoLegado })
-    }
-
-    // Plano não identificado
-    return NextResponse.json({ plano: null })
+    if (planoError) throw new Error('Consulta de plano indisponível')
+    return NextResponse.json({ error: 'Plano não disponível. Entre em contato com o suporte.' }, { status: 503 })
   } catch (error) {
     if (error instanceof Error && error.message === 'Não autenticado') {
       return NextResponse.json(
@@ -55,6 +44,6 @@ export async function GET(request: NextRequest) {
     }
 
     console.error('Erro ao buscar plano:', error)
-    return NextResponse.json({ plano: null })
+    return NextResponse.json({ error: 'Não foi possível consultar o plano.' }, { status: 503 })
   }
 }

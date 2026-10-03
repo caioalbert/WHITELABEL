@@ -15,8 +15,14 @@ export type ClienteAuth = {
 
 async function authFromToken(token: string): Promise<ClienteAuth | null> {
   try {
-    const { payload } = await jwtVerify(token, getJwtSecret())
-    const tipo = payload.tipo === 'dependente' ? 'dependente' : 'titular'
+    const { payload } = await jwtVerify(token, getJwtSecret(), { algorithms: ['HS256'] })
+    const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+    if (typeof payload.clienteId !== 'string' || !uuid.test(payload.clienteId) ||
+        typeof payload.cpf !== 'string' || !/^\d{11}$/.test(payload.cpf) ||
+        typeof payload.nome !== 'string' || !payload.nome.trim() ||
+        typeof payload.exp !== 'number' || (payload.tipo !== 'titular' && payload.tipo !== 'dependente')) return null
+    const tipo = payload.tipo
+    if (tipo === 'dependente' && (typeof payload.dependenteId !== 'string' || !uuid.test(payload.dependenteId))) return null
 
     return {
       clienteId: payload.clienteId as string,
@@ -58,31 +64,26 @@ export async function getClienteAuthFromRequest(
 }
 
 export async function getActiveClienteAuth(request?: Request): Promise<ClienteAuth | null> {
-  try {
-    const auth = request
-      ? await getClienteAuthFromRequest(request)
-      : await getClienteAuth()
-    if (!auth) return null
-
-    const supabase = createAdminClient()
-    const { data } = await supabase
-      .from('cadastros')
-      .select('status, empresa_id')
-      .eq('id', auth.clienteId)
-      .maybeSingle()
-
-    if (!data) return null
-    if (!data.empresa_id) return data.status === 'ATIVO' ? auth : null
-
-    const { data: empresa, error } = await supabase.from('empresas').select('status').eq('id', data.empresa_id).maybeSingle()
-    if (error || !empresa || empresa.status === 'INATIVO') return null
-    if (data.status === 'ATIVO' && empresa.status === 'ATIVO') return auth
-
-    const exception = await getActiveEmpresaAccessException(supabase, data.empresa_id)
-    return exception ? auth : null
-  } catch {
-    return null
+  const auth = request ? await getClienteAuthFromRequest(request) : await getClienteAuth()
+  if (!auth) return null
+  const supabase = createAdminClient()
+  const { data, error: cadastroError } = await supabase.from('cadastros').select('status, empresa_id').eq('id', auth.clienteId).maybeSingle()
+  // Distinguish a revoked membership from an unavailable database. The latter must not cause logout.
+  if (cadastroError) throw new Error('Não foi possível verificar seu acesso. Tente novamente.')
+  if (!data) return null
+  if (auth.tipo === 'dependente') {
+    const { data: dependent, error } = await supabase.from('dependentes').select('id')
+      .eq('id', auth.dependenteId!).eq('cadastro_id', auth.clienteId).maybeSingle()
+    if (error) throw new Error('Não foi possível verificar seu acesso. Tente novamente.')
+    if (!dependent) return null
   }
+  if (!data.empresa_id) return data.status === 'ATIVO' ? auth : null
+  const { data: empresa, error } = await supabase.from('empresas').select('status').eq('id', data.empresa_id).maybeSingle()
+  if (error) throw new Error('Não foi possível verificar seu acesso. Tente novamente.')
+  if (!empresa || empresa.status === 'INATIVO') return null
+  if (data.status === 'ATIVO' && empresa.status === 'ATIVO') return auth
+  const exception = await getActiveEmpresaAccessException(supabase, data.empresa_id)
+  return exception ? auth : null
 }
 
 export async function requireActiveClienteAuth(request?: Request): Promise<ClienteAuth> {

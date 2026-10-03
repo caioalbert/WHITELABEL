@@ -3,6 +3,24 @@
   const root = document.getElementById('pharmacy-map');
   const status = document.getElementById('map-status');
   const config = JSON.parse(decodeURIComponent(root.dataset.config));
+  let userPoint = null;
+  const positions = [];
+  const distance = (a, b) => {
+    const rad = n => n * Math.PI / 180;
+    const dlat = rad(b.lat - a.lat), dlng = rad(b.lng - a.lng);
+    const h = Math.sin(dlat / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dlng / 2) ** 2;
+    return 6371 * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
+  };
+  const publishDistances = () => {
+    if (userPoint && window.parent !== window) window.parent.postMessage({ type: 'PHARMACY_MAP_DISTANCES', distances: positions.map(p => ({ id: p.id, km: distance(userPoint, p) })) }, location.origin);
+  };
+  window.addEventListener('message', event => {
+    const point = event.data?.point;
+    if (event.origin !== location.origin || event.source !== window.parent || event.data?.type !== 'PHARMACY_USER_LOCATION' || !point || !Number.isFinite(point.lat) || !Number.isFinite(point.lng) || Math.abs(point.lat) > 90 || Math.abs(point.lng) > 180) return;
+    userPoint = point;
+    publishDistances();
+  });
+  if (window.parent !== window) window.parent.postMessage({ type: 'PHARMACY_MAP_READY' }, location.origin);
   function notice(text) { status.textContent = text; }
   window.gm_authFailure = () => notice('Mapa indisponível no momento. Consulte a lista ou tente novamente.');
   window.initPharmacyMap = async () => {
@@ -33,16 +51,19 @@
         const badge = document.createElement('div');
         badge.className = 'pharmacy-marker';
         const logo = document.createElement('img');
-        logo.src = '/pague-menos-logo.svg';
+        logo.src = `/pague-menos-logo.svg?v=${encodeURIComponent(config.assetVersion || 'nearby-v1')}`;
         logo.alt = 'Pague Menos';
         logo.width = 78; logo.height = 30;
         logo.draggable = false;
         badge.append(logo);
         const marker = new AdvancedMarkerElement({ map, position, title: `${store.nome} · Farmácia Popular`, content: badge });
+        const point = { id: store.id, lat: typeof position.lat === 'function' ? position.lat() : position.lat, lng: typeof position.lng === 'function' ? position.lng() : position.lng };
+        positions.push(point); publishDistances();
         marker.addListener('click', () => {
           const card = document.createElement('div');
           const title = document.createElement('h2'); title.textContent = store.nome; card.append(title);
           const address = document.createElement('p'); address.textContent = [store.endereco, store.bairro, `${store.cidade}/${store.uf}`, store.cep].filter(Boolean).join(' · '); card.append(address);
+          if (userPoint) { const proximity = document.createElement('p'); proximity.textContent = `${distance(userPoint, point).toLocaleString('pt-BR', { maximumFractionDigits: 1 })} km de você`; card.append(proximity); }
           const route = document.createElement('a'); route.textContent = 'Como chegar'; route.target = '_blank'; route.rel = 'noopener noreferrer';
           route.href = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent([store.endereco, store.cidade, store.uf, store.cep].join(', '))}`;
           card.append(route); popup.setContent(card); popup.open({ map, anchor: marker });
@@ -54,6 +75,7 @@
       else map.fitBounds(bounds, 40);
     } catch { notice('Mapa indisponível no momento. Consulte a lista ou tente novamente.'); }
   };
+  if (!config.stores.length) return notice('Selecione um estado e uma cidade para consultar as lojas no mapa.');
   if (!config.browserKey || !config.mapId) return notice('Mapa indisponível no momento. Consulte a lista ou tente novamente.');
   notice('Localizando endereços das lojas…');
   const script = document.createElement('script');
