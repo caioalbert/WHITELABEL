@@ -1,4 +1,4 @@
-const CACHE_NAME = 'whitelabel-pwa-v6'
+const CACHE_NAME = 'whitelabel-pwa-v7'
 const LOGIN_FALLBACK_URL = '/login'
 
 const PRECACHE_URLS = [
@@ -31,7 +31,7 @@ self.addEventListener('activate', (event) => {
       .then((cacheNames) =>
         Promise.all(
           cacheNames
-            .filter((cacheName) => cacheName !== CACHE_NAME)
+            .filter((cacheName) => cacheName.startsWith('whitelabel-pwa-') && cacheName !== CACHE_NAME)
             .map((cacheName) => caches.delete(cacheName))
         )
       )
@@ -86,6 +86,18 @@ self.addEventListener('fetch', (event) => {
     return
   }
 
+  // Mutable public assets must be revalidated. Only Next's content-hashed assets are cache-first.
+  if (['style', 'script', 'image', 'font'].includes(event.request.destination) && !requestUrl.pathname.startsWith('/_next/static/')) {
+    event.respondWith(fetch(new Request(event.request, { cache: 'no-cache' })).then(async (response) => {
+      if (response.ok && !/no-store/i.test(response.headers.get('Cache-Control') || '')) {
+        const cache = await caches.open(CACHE_NAME);
+        event.waitUntil(cache.put(event.request, response.clone()));
+      }
+      return response;
+    }).catch(async () => (await caches.match(event.request)) || Response.error()));
+    return;
+  }
+
   if (['style', 'script', 'image', 'font'].includes(event.request.destination)) {
     event.respondWith(
       caches.match(event.request).then((cachedResponse) => {
@@ -95,7 +107,7 @@ self.addEventListener('fetch', (event) => {
 
         return fetch(event.request).then((networkResponse) => {
           const clonedResponse = networkResponse.clone()
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clonedResponse))
+          if (networkResponse.ok) event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clonedResponse)))
           return networkResponse
         })
       })

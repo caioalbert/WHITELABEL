@@ -6,9 +6,10 @@
  * - Protegido por `CRON_SECRET` (header Authorization: Bearer <secret>)
  *
  * Configurar no vercel.json:
- *   { "path": "/api/cron/empresa-acesso-excepcional", "schedule": "0 * * * *" }
+ *   { "path": "/api/cron/empresa-acesso-excepcional", "schedule": "0 3 * * *" }
  */
 
+import { getActiveEmpresaAccessException } from '@/lib/empresa-access'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { hasValidCronAuthorization } from '@/lib/rapidoc-sync-auth'
 import { removeEmpresaFuncionariosFromRapidoc } from '@/lib/empresa-rapidoc-sync'
@@ -50,8 +51,11 @@ export async function GET(request: NextRequest) {
 
   for (const exc of expired) {
     try {
-      // 1. Tenta remover funcionários da Rapidoc
-      await removeEmpresaFuncionariosFromRapidoc(exc.empresa_id)
+      // An old expired exception must not revoke paid or newly renewed access.
+      const { data: company, error: companyError } = await db.from('empresas').select('status').eq('id', exc.empresa_id).maybeSingle()
+      if (companyError || !company) throw new Error('Não foi possível confirmar a situação da empresa.')
+      const currentException = company.status === 'INATIVO' ? null : await getActiveEmpresaAccessException(db, exc.empresa_id, now)
+      if (company.status !== 'ATIVO' && !currentException) await removeEmpresaFuncionariosFromRapidoc(exc.empresa_id)
 
       // 2. Registra revogação automática por expiração
       const { error: updateError } = await db
@@ -86,5 +90,5 @@ export async function GET(request: NextRequest) {
     succeeded,
     failed,
     results,
-  })
+  }, { status: failed > 0 ? 503 : 200 })
 }

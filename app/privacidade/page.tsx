@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: 'Como a Nova Aliança Saúde coleta, usa, protege e compartilha dados pessoais.',
 }
 
-const updatedAt = '21 de setembro de 2026'
+const updatedAt = '2 de outubro de 2026'
 
 export default function PrivacyPolicyPage() {
   return (
@@ -40,6 +40,7 @@ export default function PrivacyPolicyPage() {
               <li>Conta e segurança: identificadores de cadastro, credenciais, tokens de sessão e registros de acesso.</li>
               <li>Plano e pagamentos: plano contratado, situação financeira, valores, vencimentos, faturas e identificadores de cobrança.</li>
               <li>Serviços de saúde: dados necessários para habilitar benefícios e encaminhar o acesso à telemedicina.</li>
+              <li>Localização opcional: usada, mediante sua permissão, para identificar a região e consultar farmácias. Ela não é salva no cadastro. A consulta de mapas pode transmitir a localização ao Google Maps ou ao serviço de localização do dispositivo.</li>
               <li>Dados técnicos: endereço IP, navegador, dispositivo e registros necessários à segurança e ao funcionamento dos serviços.</li>
             </ul>
             <p className="mt-3">
@@ -65,6 +66,7 @@ export default function PrivacyPolicyPage() {
             <p className="mt-3">Os dados podem ser compartilhados, na medida necessária, com:</p>
             <ul className="mt-3 list-disc space-y-2 pl-6">
               <li>provedores de hospedagem, banco de dados e segurança, incluindo Supabase e Vercel;</li>
+              <li>Google Maps, para mapas e identificação de regiões quando você usa esse recurso; consulte a <a className="text-emerald-300 underline" href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Política de Privacidade do Google</a> e os <a className="text-emerald-300 underline" href="https://maps.google.com/help/terms_maps/" target="_blank" rel="noopener noreferrer">Termos do Google Maps</a>;</li>
               <li>Asaas, para cobrança, faturas e conciliação de pagamentos;</li>
               <li>Rapidoc, para identificação do beneficiário e acesso à telemedicina;</li>
               <li>parceiros de benefícios acionados voluntariamente pelo usuário, como WhatsApp, LARP Saúde e Grupo Zelo;</li>
