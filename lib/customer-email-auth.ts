@@ -1,4 +1,7 @@
-import { createHmac, randomInt, randomUUID } from 'node:crypto'
+import { createHmac } from 'node:crypto'
+import { readFile } from 'node:fs/promises'
+import { join } from 'node:path'
+import { buildCustomerAccessEmail } from '@/lib/customer-access-email'
 import { isIP } from 'node:net'
 import { z } from 'zod'
 import { SignJWT, jwtVerify, type JWTPayload } from 'jose'
@@ -6,15 +9,15 @@ import { getJwtSecret } from '@/lib/auth-secret'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { isValidCPF, isValidCNPJ } from '@/lib/utils'
 
-export const AUTH_VERSION = 2
-export const EMAIL_AUTH_METHOD = 'email-otp-v1'
+export const AUTH_VERSION = 3
+export const EMAIL_AUTH_METHOD = 'customer-password-v1'
 export const SESSION_SECONDS = 24 * 60 * 60
 const uuid = z.string().uuid()
 const document = z.string().max(18).regex(/^[\d.\-/]+$/).transform(v => v.replace(/\D/g, ''))
 const base = { cpf: document.optional(), cnpj: document.optional() }
 export const loginInput = z.discriminatedUnion('action', [
   z.object({ ...base, action: z.literal('request') }).strict(),
-  z.object({ ...base, action: z.literal('verify'), challengeId: uuid, code: z.string().regex(/^\d{6}$/) }).strict(),
+  z.object({ ...base, action: z.literal('password'), password: z.string().min(1).max(512) }).strict(),
 ]).refine(v => Boolean(v.cpf) !== Boolean(v.cnpj) && (v.cnpj ? isValidCNPJ(v.cnpj) : isValidCPF(v.cpf!)))
 
 export type LoginIdentity = {
@@ -29,7 +32,6 @@ export function authKey(domain: string, value: string) {
   return createHmac('sha256', getJwtSecret()).update(JSON.stringify([EMAIL_AUTH_METHOD, domain, value])).digest('hex')
 }
 export function codeHash(id: string, code: string) { return authKey('code', `${id}:${code}`) }
-export function newChallenge() { return { id: randomUUID(), code: String(randomInt(0, 1_000_000)).padStart(6, '0') } }
 export function requestIpKey(request: Request) {
   // Only the deployment platform's overwritten header is trusted. Other origins share a conservative bucket.
   const value = process.env.VERCEL === '1' ? request.headers.get('x-vercel-forwarded-for')?.split(',')[0].trim() : undefined
@@ -49,15 +51,18 @@ export function emailDeliveryConfig() {
   if (!apiKey || !from) throw new Error('Envio de código indisponível.')
   return { apiKey, from }
 }
-export async function sendLoginCode(email: string, id: string, code: string, nome: string) {
+export async function sendInitialPassword(email: string, id: string, password: string, nome: string, documentLabel: 'CPF' | 'CNPJ', reset = false) {
   const { apiKey, from } = emailDeliveryConfig()
+  const message = buildCustomerAccessEmail({ nome, password, documentLabel, reset })
+  const logo = await readFile(join(process.cwd(), 'public', 'logo-nova-alianca-azul.png'))
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST', signal: AbortSignal.timeout(15_000),
-    headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json', 'Idempotency-Key': `login-challenge-${id}` },
-    body: JSON.stringify({ from, to: [email], subject: 'Seu código de acesso — Nova Aliança Saúde',
-      text: `Olá, ${nome.trim()}.\n\nSeu código de acesso é ${code}. Ele é válido por 10 minutos e pode ser usado uma única vez. Não compartilhe este código. Se você não pediu acesso, ignore esta mensagem.` }),
+    headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json', 'Idempotency-Key': `initial-password-${id}` },
+    body: JSON.stringify({ from, to: [email], reply_to: 'suporte@novaaliancasaude.com.br', ...message,
+      html: message.html.replace('https://novaaliancasaude.com.br/logo-nova-alianca-azul.png', 'cid:nova-alianca-logo'),
+      attachments: [{ filename: 'nova-alianca-logo.png', content: logo.toString('base64'), content_id: 'nova-alianca-logo' }] }),
   })
-  if (!response.ok) throw new Error('Envio de código indisponível.')
+  if (!response.ok) throw new Error('Envio de senha indisponível.')
 }
 
 export async function signEmailSession(claims: Record<string, unknown>, session: LoginSession) {
