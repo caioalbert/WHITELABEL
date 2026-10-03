@@ -1,32 +1,21 @@
 import { getJwtSecret } from '@/lib/auth-secret'
-import { jwtVerify, SignJWT } from 'jose'
+import { SignJWT } from 'jose'
 import { cookies } from 'next/headers'
+import { AUTH_VERSION, readAuthToken, signEmailSession, validateEmailSession, type LoginSession } from '@/lib/customer-email-auth'
 
-const COOKIE_NAME = 'cadastro_fluxo_token'
-
-export async function createCadastroFlowToken(cadastroId: string) {
-  return new SignJWT({ cadastroId, purpose: 'cadastro-flow' })
-    .setProtectedHeader({ alg: 'HS256' })
-    .setIssuedAt()
-    .setExpirationTime('24h')
-    .sign(getJwtSecret())
+export const CADASTRO_FLOW_COOKIE = 'cadastro_fluxo_token'
+export async function createCadastroFlowToken(cadastroId: string, verified?: { session: LoginSession; email: string; cpf: string }) {
+  const claims = { cadastroId, purpose: 'cadastro-flow' }
+  if (verified) return signEmailSession({ ...claims, email: verified.email, cpf: verified.cpf }, verified.session)
+  return new SignJWT({ ...claims, authVersion: AUTH_VERSION, authMethod: 'registration' })
+    .setProtectedHeader({ alg: 'HS256' }).setIssuedAt().setExpirationTime('24h').sign(getJwtSecret())
 }
-
 export async function getCadastroFlowId() {
-  try {
-    const cookieStore = await cookies()
-    const token = cookieStore.get(COOKIE_NAME)?.value
-    if (!token) return null
-
-    const { payload } = await jwtVerify(token, getJwtSecret())
-    if (payload.purpose !== 'cadastro-flow' || typeof payload.cadastroId !== 'string') {
-      return null
-    }
-
-    return payload.cadastroId
-  } catch {
-    return null
-  }
+  const token = (await cookies()).get(CADASTRO_FLOW_COOKIE)?.value
+  if (!token) return null
+  const payload = await readAuthToken(token)
+  if (!payload || payload.purpose !== 'cadastro-flow' || typeof payload.cadastroId !== 'string') return null
+  if (payload.authMethod === 'registration') return payload.cadastroId
+  if (typeof payload.cpf !== 'string' || !await validateEmailSession(payload, 'cadastro-flow', 'titular', payload.cadastroId, payload.cadastroId, payload.cpf)) return null
+  return payload.cadastroId
 }
-
-export const CADASTRO_FLOW_COOKIE = COOKIE_NAME

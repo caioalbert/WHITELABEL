@@ -638,7 +638,7 @@ export async function POST(request: NextRequest) {
     const { data: cadastroByCpf, error: cadastroByCpfError } = await supabase
       .from('cadastros')
       .select('id')
-      .eq('cpf', cpfValue)
+      .in('cpf', [cpfValue.replace(/\D/g, ''), cpfValue.replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')])
       .limit(1)
 
     if (cadastroByCpfError) {
@@ -666,6 +666,12 @@ export async function POST(request: NextRequest) {
         { status: 409 }
       )
     }
+
+    const { data: existingDependent, error: dependentCheckError } = await supabase
+      .from('dependentes').select('id')
+      .in('cpf', [cpfValue.replace(/\D/g, ''), cpfValue.replace(/\D/g, '').replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')]).limit(1)
+    if (dependentCheckError) return NextResponse.json({ error: 'Não foi possível validar o cadastro.' }, { status: 503 })
+    if (existingDependent?.length) return NextResponse.json({ error: 'CPF já identificado na nossa base de cadastrados.' }, { status: 409 })
 
     // Evita criar cliente no Asaas para email já cadastrado no sistema.
     const { data: cadastroByEmail, error: cadastroByEmailError } = await supabase

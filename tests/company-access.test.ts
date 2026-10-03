@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+vi.mock('../lib/customer-email-auth', () => ({ readAuthToken: async (token: string) => (await mocks.verify(token)).payload, validateEmailSession: async () => ({ nome: 'Pessoa local', email: 'local@example.test' }) }))
 const mocks = vi.hoisted(() => ({ verify: vi.fn(), db: vi.fn(), cookies: vi.fn() }))
 vi.mock('jose', () => ({ jwtVerify: mocks.verify }))
 vi.mock('next/headers', () => ({ cookies: mocks.cookies }))

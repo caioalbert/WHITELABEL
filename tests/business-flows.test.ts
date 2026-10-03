@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest'
 import { isAsaasPaidStatus } from '../lib/asaas'
-import { verifyCpfPrefix } from '../lib/cliente-login-verify'
 import {
   EMPRESA_STATUSES,
   empresaNextStep,
@@ -139,11 +138,6 @@ describe('ativação e acesso PF/PJ', () => {
     expect(canAccessClienteFinanceiro('titular')).toBe(true)
     expect(canAccessClienteFinanceiro('dependente')).toBe(false)
     expect(canAccessClienteFinanceiro(null)).toBe(false)
-  })
-
-  it('valida o segundo fator do cliente pelo prefixo do CPF', () => {
-    expect(verifyCpfPrefix({ cpf: '123.456.789-09' }, '1234')).toBe(true)
-    expect(verifyCpfPrefix({ cpf: '123.456.789-09' }, '9999')).toBe(false)
   })
 
   it('mantém a sequência do fluxo empresarial até ativação', () => {
